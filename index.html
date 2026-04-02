@@ -1,26 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Indonesia Weapon Systems Database — LAB45</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fafafa; }
-  #root { min-height: 100vh; }
-</style>
-</head>
-<body>
-<div id="root"></div>
-
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Helvetica Neue',Arial,sans-serif;background:#fafafa;-webkit-overflow-scrolling:touch}#root{min-height:100vh}</style></head><body><div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-
 <script type="text/babel">
 const { useState, useMemo } = React;
-
 
 
 
@@ -571,6 +558,25 @@ const COMBAT_RADIUS = {
   "ANKAS": { radius: 200, label: "Anka-S link range", color: "#10b981" },
   "CH4": { radius: 250, label: "CH-4 link range", color: "#10b981" },
   "TB2": { radius: 150, label: "TB2 link range", color: "#10b981" },
+  // Submarines - realistic patrol radius (transit + 2-3 week station + return, no fleet oiler support)
+  "CAKRA": { radius: 2200, label: "Cakra patrol radius", color: "#6366f1" },
+  "NAGAPASA": { radius: 2800, label: "Nagapasa patrol radius", color: "#818cf8" },
+  // Frigates/Destroyers - 14-21 day patrol cycle, no underway replenishment
+  "MARTADINATA": { radius: 1800, label: "Martadinata patrol radius", color: "#64748b" },
+  "BRAWIJAYA": { radius: 2000, label: "Brawijaya patrol radius", color: "#64748b" },
+  "AHMADYANI": { radius: 1500, label: "Ahmad Yani patrol radius", color: "#94a3b8" },
+  // Corvettes - EEZ patrol, shorter endurance
+  "DIPONEGORO": { radius: 1200, label: "Diponegoro patrol radius", color: "#64748b" },
+  "USMANHARUN": { radius: 1400, label: "Usman Harun patrol radius", color: "#64748b" },
+  "FATAHILLAH": { radius: 1100, label: "Fatahillah patrol radius", color: "#94a3b8" },
+  "BUNGTOMO": { radius: 1400, label: "Bung Tomo patrol radius", color: "#64748b" },
+  "BUNGKARNO": { radius: 1200, label: "Bung Karno patrol radius", color: "#64748b" },
+  "PATTIMURA": { radius: 700, label: "Pattimura patrol radius", color: "#94a3b8" },
+  // FAC - short sprint sorties, 2-3 day deployments
+  "KCR60": { radius: 550, label: "KCR-60 sortie radius", color: "#475569" },
+  "KCR40": { radius: 400, label: "KCR-40 sortie radius", color: "#475569" },
+  // LPD - slow but long range, amphibious ops
+  "MAKASSAR": { radius: 2000, label: "Makassar LPD deployment radius", color: "#64748b" },
 };
 
 function BaseMap() {
@@ -582,6 +588,7 @@ function BaseMap() {
   const [panOffset, setPanOffset] = useState([0, 0]);
   const [showRadius, setShowRadius] = useState(null); // null = off, or category string
   const [radiusCategory, setRadiusCategory] = useState("Fighters");
+  const [selectedWeapon, setSelectedWeapon] = useState(null); // weapon ID clicked in detail panel
 
   const mapW = 960, mapH = 540;
 
@@ -666,6 +673,9 @@ function BaseMap() {
     "Radar": ["MASTERT","TRS2215","AR325","GM200"],
     "UAVs": ["ANKAS","CH4","TB2"],
     "Artillery": ["CAESAR","M109","KH179","RM70"],
+    "Submarines": ["CAKRA","NAGAPASA"],
+    "Combatants": ["MARTADINATA","BRAWIJAYA","AHMADYANI","DIPONEGORO","USMANHARUN","FATAHILLAH","BUNGTOMO","BUNGKARNO","MAKASSAR"],
+    "Patrol Ships": ["PATTIMURA","KCR60","KCR40"],
   };
 
   // Compute radius circles for the selected category
@@ -680,25 +690,65 @@ function BaseMap() {
       bases.forEach(baseName => {
         const coord = BASE_COORDS[baseName];
         if (!coord) return;
-        // Convert km radius to pixel radius using projection
-        // At equator, 1 degree ≈ 111 km. Use mercator scale factor
         const latRad = coord[0] * Math.PI / 180;
         const kmPerDeg = 111.32 * Math.cos(latRad);
         const degRadius = cr.radius / kmPerDeg;
         const center = projection([coord[1], coord[0]]);
         const edge = projection([coord[1] + degRadius, coord[0]]);
         if (!center || !edge) return;
-        const pxRadius = Math.max(Math.abs(edge[0] - center[0]), 18); // min 18px so short-range systems are visible
+        const pxRadius = Math.max(Math.abs(edge[0] - center[0]), 18);
         const isMinClamped = Math.abs(edge[0] - center[0]) < 18;
-        rings.push({
-          cx: center[0], cy: center[1], r: pxRadius,
-          color: cr.color, label: cr.label, baseName, sysId,
-          radiusKm: cr.radius, clamped: isMinClamped,
-        });
+        rings.push({ cx: center[0], cy: center[1], r: pxRadius, color: cr.color, label: cr.label, baseName, sysId, radiusKm: cr.radius, clamped: isMinClamped });
       });
     });
     return rings;
   }, [showRadius, projection]);
+
+  // Single weapon radius ring (when clicking a weapon in the detail panel)
+  const weaponRing = useMemo(() => {
+    if (!selectedWeapon || !selectedBase) return null;
+    const cr = COMBAT_RADIUS[selectedWeapon];
+    if (!cr) return null;
+    const coord = [selectedBase.lat, selectedBase.lng];
+    const latRad = coord[0] * Math.PI / 180;
+    const kmPerDeg = 111.32 * Math.cos(latRad);
+    const degRadius = cr.radius / kmPerDeg;
+    const center = projection([coord[1], coord[0]]);
+    const edge = projection([coord[1] + degRadius, coord[0]]);
+    if (!center || !edge) return null;
+    const pxRadius = Math.max(Math.abs(edge[0] - center[0]), 18);
+    return { cx: center[0], cy: center[1], r: pxRadius, color: cr.color, label: cr.label, radiusKm: cr.radius, clamped: Math.abs(edge[0] - center[0]) < 18 };
+  }, [selectedWeapon, selectedBase, projection]);
+
+  // Command groupings for connection lines
+  const COMMAND_GROUPS = {
+    "Koarmada I": ["Koarmada I, Tanjungpinang", "Lanal Ranai, Natuna"],
+    "Koarmada II": ["Koarmada II, Surabaya", "PT PAL, Surabaya", "Puspenerbal, Juanda", "Brigif Marinir 1, Surabaya", "Lantamal V, Surabaya"],
+    "Koarmada III": ["Koarmada III, Sorong"],
+    "Koopsau I": ["Lanud Halim Perdanakusuma, Jakarta", "Lanud Roesmin Nurjadin, Pekanbaru", "Lanud Supadio, Pontianak", "Lanud Atang Sendjaja, Bogor", "Lanud Husein Sastranegara, Bandung"],
+    "Koopsau II": ["Lanud Iswahjudi, Madiun", "Lanud Sultan Hasanuddin, Makassar", "Lanud Abdulrachman Saleh, Malang", "Lanud El Tari, Kupang", "Lanud Sam Ratulangi, Manado"],
+    "Puspenerbad": ["Puspenerbad, Semarang", "Puspenerbad, Pondok Cabe", "Skadron 12 Penerbad, Lampung"],
+  };
+
+  // Get sibling bases under same command
+  const commandSiblings = useMemo(() => {
+    if (!selectedBase) return [];
+    const siblings = [];
+    Object.entries(COMMAND_GROUPS).forEach(([cmd, bases]) => {
+      if (bases.includes(selectedBase.name)) {
+        bases.forEach(bn => {
+          if (bn !== selectedBase.name) {
+            const coord = BASE_COORDS[bn];
+            if (coord) {
+              const p = projection([coord[1], coord[0]]);
+              if (p) siblings.push({ name: bn, x: p[0], y: p[1], command: cmd });
+            }
+          }
+        });
+      }
+    });
+    return siblings;
+  }, [selectedBase, projection]);
 
   const unlocatedSystems = useMemo(() => {
     return WEAPON_SYSTEMS.filter(w => {
@@ -740,34 +790,45 @@ function BaseMap() {
       </div>
 
       {/* Radius overlay controls */}
-      <div style={{ display: "flex", gap: 6, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
-        <span style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600, marginRight: 4 }}>Range Rings:</span>
-        {Object.keys(radiusCategories).map(cat => (
-          <button key={cat} onClick={() => setShowRadius(showRadius === cat ? null : cat)}
-            style={{
-              padding: "4px 10px", borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: "pointer",
-              border: showRadius === cat ? "none" : "1px solid #e5e7eb",
-              background: showRadius === cat ? "#1e3a5f" : "#fff",
-              color: showRadius === cat ? "#e2e8f0" : "#6b7280",
-              letterSpacing: ".3px", transition: "all .15s",
-            }}>{cat}</button>
-        ))}
-        {showRadius && <span style={{ fontSize: 10, color: "#C8A951", marginLeft: 8 }}>
-          Showing {radiusRings.length} range ring{radiusRings.length !== 1 ? "s" : ""} — theoretical max from basing{radiusRings.some(r => r.clamped) ? " (short-range rings enlarged for visibility)" : ""}
-        </span>}
+      <div style={{ background: "linear-gradient(135deg, #111827 0%, #0f172a 100%)", borderRadius: 10, padding: "12px 16px", marginBottom: 12, border: "1px solid #C8A95130", boxShadow: "0 2px 12px rgba(200,169,81,0.08)" }}>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+          <span style={{ fontSize: 11, color: "#C8A951", fontWeight: 700, marginRight: 8, letterSpacing: "1px", textTransform: "uppercase", borderRight: "2px solid #C8A95140", paddingRight: 12 }}>{"⊕"} Range Rings</span>
+          {Object.keys(radiusCategories).map(cat => (
+            <button key={cat} onClick={() => { setShowRadius(showRadius === cat ? null : cat); setSelectedWeapon(null); }}
+              style={{
+                padding: "6px 14px", borderRadius: 20, fontSize: 10, fontWeight: 700, cursor: "pointer",
+                border: showRadius === cat ? "1px solid #C8A951" : "1px solid #374151",
+                background: showRadius === cat ? "#C8A95120" : "#1f2937",
+                color: showRadius === cat ? "#C8A951" : "#9ca3af",
+                letterSpacing: ".4px", transition: "all .2s",
+                boxShadow: showRadius === cat ? "0 0 8px rgba(200,169,81,0.2)" : "none",
+              }}>{cat}</button>
+          ))}
+        </div>
+        {showRadius && <div style={{ fontSize: 10, color: "#6b8bb5", marginTop: 8, paddingTop: 8, borderTop: "1px solid #1e3a5f" }}>
+          Showing {radiusRings.length} range ring{radiusRings.length !== 1 ? "s" : ""} — theoretical max from basing{radiusRings.some(r => r.clamped) ? " (short-range enlarged for visibility)" : ""}
+        </div>}
+        {!showRadius && <div style={{ fontSize: 10, color: "#4a5568", marginTop: 6, fontStyle: "italic" }}>
+          Select a category to overlay range circles on the map. Or click a weapon in a base detail panel.
+        </div>}
       </div>
 
       <div style={{ background: "#0a1628", borderRadius: 12, overflow: "hidden", position: "relative", border: "1px solid #1e3a5f" }}>
         {/* Zoom controls */}
         <div style={{ position: "absolute", top: 12, left: 12, zIndex: 10, display: "flex", flexDirection: "column", gap: 4 }}>
-          <button onClick={() => setZoomLevel(z => Math.min(z * 1.4, 5))} style={{ width: 32, height: 32, borderRadius: 6, border: "1px solid #2a5080", background: "#0d1f3c", color: "#8ba4c4", fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+          <button onClick={() => setZoomLevel(z => Math.min(z * 1.4, 15))} style={{ width: 32, height: 32, borderRadius: 6, border: "1px solid #2a5080", background: "#0d1f3c", color: "#8ba4c4", fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
           <button onClick={() => setZoomLevel(z => Math.max(z / 1.4, 0.5))} style={{ width: 32, height: 32, borderRadius: 6, border: "1px solid #2a5080", background: "#0d1f3c", color: "#8ba4c4", fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
           <button onClick={() => { setZoomLevel(1); setPanOffset([0,0]); }} style={{ width: 32, height: 32, borderRadius: 6, border: "1px solid #2a5080", background: "#0d1f3c", color: "#8ba4c4", fontSize: 9, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>FIT</button>
         </div>
         <svg viewBox={`${(mapW - mapW/zoomLevel)/2 - panOffset[0]} ${(mapH - mapH/zoomLevel)/2 - panOffset[1]} ${mapW/zoomLevel} ${mapH/zoomLevel}`}
-          style={{ width: "100%", height: "auto", display: "block", cursor: zoomLevel > 1 ? "grab" : "default" }}
-          onMouseDown={zoomLevel > 1 ? (e => {
-            const svg = e.currentTarget;
+          style={{ width: "100%", height: "auto", display: "block", cursor: zoomLevel > 1 ? "grab" : "default", touchAction: "none" }}
+          onWheel={(e) => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 0.85 : 1.18;
+            setZoomLevel(z => Math.min(Math.max(z * delta, 0.5), 15));
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
             const startX = e.clientX, startY = e.clientY;
             const startPan = [...panOffset];
             const onMove = (ev) => {
@@ -778,7 +839,35 @@ function BaseMap() {
             const onUp = () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
             window.addEventListener("mousemove", onMove);
             window.addEventListener("mouseup", onUp);
-          }) : undefined}>
+          }}
+          onTouchStart={(e) => {
+            if (e.touches.length === 1) {
+              const t = e.touches[0];
+              const startX = t.clientX, startY = t.clientY;
+              const startPan = [...panOffset];
+              const onMove = (ev) => {
+                ev.preventDefault();
+                const dx = (ev.touches[0].clientX - startX) / zoomLevel * 0.8;
+                const dy = (ev.touches[0].clientY - startY) / zoomLevel * 0.8;
+                setPanOffset([startPan[0] + dx, startPan[1] + dy]);
+              };
+              const onEnd = () => { window.removeEventListener("touchmove", onMove); window.removeEventListener("touchend", onEnd); };
+              window.addEventListener("touchmove", onMove, { passive: false });
+              window.addEventListener("touchend", onEnd);
+            } else if (e.touches.length === 2) {
+              const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+              const startZoom = zoomLevel;
+              const onMove = (ev) => {
+                ev.preventDefault();
+                if (ev.touches.length < 2) return;
+                const newDist = Math.hypot(ev.touches[0].clientX - ev.touches[1].clientX, ev.touches[0].clientY - ev.touches[1].clientY);
+                setZoomLevel(Math.min(Math.max(startZoom * (newDist / dist), 0.5), 15));
+              };
+              const onEnd = () => { window.removeEventListener("touchmove", onMove); window.removeEventListener("touchend", onEnd); };
+              window.addEventListener("touchmove", onMove, { passive: false });
+              window.addEventListener("touchend", onEnd);
+            }
+          }}>
           {/* Ocean */}
           <defs>
             <radialGradient id="ocean" cx="50%" cy="50%" r="70%">
@@ -814,7 +903,7 @@ function BaseMap() {
           {/* Radius rings overlay */}
           {radiusRings.map((ring, i) => (
             <g key={`ring-${i}`}>
-              <circle cx={ring.cx} cy={ring.cy} r={ring.r} fill={ring.color} fillOpacity="0.08" stroke={ring.color} strokeWidth={ring.clamped ? "1.5" : "1"} strokeDasharray={ring.clamped ? "2,2" : "4,3"} opacity="0.7" />
+              <circle cx={ring.cx} cy={ring.cy} r={ring.r} fill={ring.color} fillOpacity="0.12" stroke={ring.color} strokeWidth={ring.clamped ? "1.5" : "1.2"} strokeDasharray={ring.clamped ? "2,2" : "4,3"} opacity="0.8" />
               {!ring.clamped && <circle cx={ring.cx} cy={ring.cy} r={ring.r * 0.5} fill="none" stroke={ring.color} strokeWidth="0.4" strokeDasharray="2,4" opacity="0.3" />}
               {ring.r > 30 && <text x={ring.cx} y={ring.cy - ring.r - 4} textAnchor="middle" fill={ring.color} fontSize="7" fontWeight="600" opacity="0.8">{ring.label}</text>}
               {ring.r > 30 && <text x={ring.cx + ring.r + 3} y={ring.cy + 3} fill={ring.color} fontSize="6" opacity="0.6">{ring.radiusKm} km</text>}
@@ -822,45 +911,49 @@ function BaseMap() {
             </g>
           ))}
 
-          {/* Connection lines from selected base */}
-          {sel && sel.systems.map((w, i) => {
-            const otherBases = (SYSTEM_BASES[w.id] || []).filter(bn => bn !== sel.name);
-            return otherBases.map(bn => {
-              const coord = BASE_COORDS[bn];
-              if (!coord) return null;
-              const p = projection([coord[1], coord[0]]);
-              if (!p) return null;
-              return <line key={`${i}-${bn}`} x1={sel.x} y1={sel.y} x2={p[0]} y2={p[1]} stroke="#C8A951" strokeWidth="0.8" strokeDasharray="4,3" opacity="0.5" />;
-            });
-          })}
+          {/* Command group connection lines */}
+          {sel && commandSiblings.map((sib, i) => (
+            <line key={`cmd-${i}`} x1={sel.x} y1={sel.y} x2={sib.x} y2={sib.y} stroke="#C8A951" strokeWidth="0.6" strokeDasharray="6,4" opacity="0.35" />
+          ))}
+
+          {/* Single weapon radius ring (from detail panel click) */}
+          {weaponRing && (
+            <g>
+              <circle cx={weaponRing.cx} cy={weaponRing.cy} r={weaponRing.r} fill={weaponRing.color} fillOpacity="0.1" stroke={weaponRing.color} strokeWidth="1.5" strokeDasharray="6,3" opacity="0.9" />
+              {weaponRing.r > 20 && <circle cx={weaponRing.cx} cy={weaponRing.cy} r={weaponRing.r * 0.5} fill="none" stroke={weaponRing.color} strokeWidth="0.5" strokeDasharray="2,4" opacity="0.4" />}
+              <text x={weaponRing.cx} y={weaponRing.cy - weaponRing.r - 6} textAnchor="middle" fill={weaponRing.color} fontSize="8" fontWeight="700" opacity="0.95">{weaponRing.label}</text>
+              <text x={weaponRing.cx + weaponRing.r + 4} y={weaponRing.cy + 3} fill={weaponRing.color} fontSize="7" opacity="0.7">{weaponRing.radiusKm} km</text>
+            </g>
+          )}
 
           {/* Base markers */}
           {filteredMarkers.map((b, i) => {
             const isSelected = sel && sel.name === b.name;
             const isHovered = hov === i;
             const c = BCo[b.primaryBranch] || "#64748b";
-            const r = isSelected ? 8 : isHovered ? 7 : Math.min(4 + b.systems.length * 0.5, 8);
+            const baseR = isSelected ? 8 : isHovered ? 7 : Math.min(4 + b.systems.length * 0.5, 8);
+            const r = baseR / Math.sqrt(zoomLevel); // shrink dots when zoomed in
             return (
               <g key={b.name}
                 onMouseEnter={() => setHoveredBase(i)}
                 onMouseLeave={() => setHoveredBase(null)}
-                onClick={(e) => { e.stopPropagation(); setSelectedBase(isSelected ? null : b); }}
+                onClick={(e) => { e.stopPropagation(); setSelectedBase(isSelected ? null : b); setSelectedWeapon(null); }}
                 style={{ cursor: "pointer" }}>
                 {/* Pulse ring for selected */}
-                {isSelected && <circle cx={b.x} cy={b.y} r={14} fill="none" stroke="#C8A951" strokeWidth="1.5" opacity="0.6">
-                  <animate attributeName="r" from="10" to="20" dur="1.5s" repeatCount="indefinite" />
+                {isSelected && <circle cx={b.x} cy={b.y} r={14 / Math.sqrt(zoomLevel)} fill="none" stroke="#C8A951" strokeWidth={1.5 / Math.sqrt(zoomLevel)} opacity="0.6">
+                  <animate attributeName="r" from={10 / Math.sqrt(zoomLevel)} to={20 / Math.sqrt(zoomLevel)} dur="1.5s" repeatCount="indefinite" />
                   <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" repeatCount="indefinite" />
                 </circle>}
                 {/* Outer glow */}
-                <circle cx={b.x} cy={b.y} r={r + 3} fill={c} opacity="0.15" filter="url(#dotGlow)" />
+                <circle cx={b.x} cy={b.y} r={r + 2 / Math.sqrt(zoomLevel)} fill={c} opacity="0.15" filter="url(#dotGlow)" />
                 {/* Main dot */}
-                <circle cx={b.x} cy={b.y} r={r} fill={c} stroke={isSelected ? "#C8A951" : "#fff"} strokeWidth={isSelected ? 2.5 : 1.5}
+                <circle cx={b.x} cy={b.y} r={r} fill={c} stroke={isSelected ? "#C8A951" : "#fff"} strokeWidth={(isSelected ? 2.5 : 1.5) / Math.sqrt(zoomLevel)}
                   opacity={isSelected ? 1 : isHovered ? 1 : 0.85}
                   style={{ transition: "r 0.2s, opacity 0.2s" }} />
                 {/* System count label */}
                 {(isHovered || isSelected) && b.systems.length > 1 && (
                   <text x={b.x} y={b.y + 1} textAnchor="middle" dominantBaseline="middle"
-                    fill="#fff" fontSize="8" fontWeight="700" style={{ pointerEvents: "none" }}>
+                    fill="#fff" fontSize={8 / Math.sqrt(zoomLevel)} fontWeight="700" style={{ pointerEvents: "none" }}>
                     {b.systems.length}
                   </text>
                 )}
@@ -895,49 +988,78 @@ function BaseMap() {
         {/* Selected base detail panel */}
         {sel && (
           <div style={{
-            position: "absolute", top: 12, right: 12, width: 320, maxHeight: "calc(100% - 24px)",
+            position: "absolute", top: 12, right: 12, width: selectedWeapon ? 280 : 320, maxHeight: selectedWeapon ? "auto" : "calc(100% - 24px)",
             background: "linear-gradient(135deg, #0d1f3c 0%, #0a1628 100%)",
             border: "1px solid #2a5080", borderRadius: 10, overflow: "auto",
             boxShadow: "0 8px 32px rgba(0,0,0,.5)",
+            transition: "width 0.2s",
           }}>
-            <div style={{ padding: "16px 18px 12px", borderBottom: "1px solid #1e3a5f" }}>
+            <div style={{ padding: "12px 14px 10px", borderBottom: selectedWeapon ? "none" : "1px solid #1e3a5f" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
-                  <div style={{ fontSize: 9, color: "#C8A951", fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 4 }}>Installation</div>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: "#e2e8f0", lineHeight: 1.2 }}>{sel.name.split(",")[0]}</div>
-                  <div style={{ fontSize: 11, color: "#6b8bb5", marginTop: 2 }}>{sel.name.split(",").slice(1).join(",").trim()}</div>
+                  <div style={{ fontSize: 8, color: "#C8A951", fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 2 }}>Installation</div>
+                  <div style={{ fontSize: selectedWeapon ? 12 : 15, fontWeight: 800, color: "#e2e8f0", lineHeight: 1.2 }}>{sel.name.split(",")[0]}</div>
+                  <div style={{ fontSize: 10, color: "#6b8bb5", marginTop: 1 }}>{sel.name.split(",").slice(1).join(",").trim()}</div>
                 </div>
-                <button onClick={() => setSelectedBase(null)}
-                  style={{ background: "#1e3a5f", border: "none", color: "#8ba4c4", width: 28, height: 28, borderRadius: 14, cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
+                <button onClick={() => { setSelectedBase(null); setSelectedWeapon(null); }}
+                  style={{ background: "#1e3a5f", border: "none", color: "#8ba4c4", width: 24, height: 24, borderRadius: 12, cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}>{"×"}</button>
               </div>
-              <div style={{ display: "flex", gap: 6, marginTop: 10, flexWrap: "wrap" }}>
+              {!selectedWeapon && <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
                 {sel.branchArr.map(br => (
                   <span key={br} style={{ padding: "2px 8px", borderRadius: 10, fontSize: 9, fontWeight: 600, background: (BCo[br] || "#64748b") + "22", color: BCo[br] || "#64748b", border: "1px solid " + (BCo[br] || "#64748b") + "44", letterSpacing: ".3px" }}>{br}</span>
                 ))}
                 <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: 9, fontWeight: 600, background: "#C8A95122", color: "#C8A951", border: "1px solid #C8A95144" }}>{sel.systems.length} SYSTEMS</span>
-              </div>
+              </div>}
             </div>
-            <div style={{ padding: "10px 18px 16px" }}>
+
+            {/* Compact mode: show only selected weapon */}
+            {selectedWeapon && (() => {
+              const w = sel.systems.find(s => s.id === selectedWeapon);
+              if (!w) return null;
+              const cr = COMBAT_RADIUS[w.id];
+              return (
+                <div style={{ padding: "8px 14px 12px" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "#C8A951", marginBottom: 2 }}>{w.name}</div>
+                  <div style={{ fontSize: 10, color: "#6b8bb5" }}>{w.category} — {w.subcategory}</div>
+                  {cr && <div style={{ fontSize: 12, color: "#C8A951", fontWeight: 700, marginTop: 6 }}>{cr.radius} km range</div>}
+                  <div style={{ display: "flex", gap: 8, marginTop: 4, fontSize: 10, color: "#4a7099" }}>
+                    <span>{w.origin}</span><span>Qty: {w.quantity}</span>
+                  </div>
+                  <button onClick={() => setSelectedWeapon(null)}
+                    style={{ marginTop: 8, padding: "4px 10px", borderRadius: 5, fontSize: 10, fontWeight: 600, cursor: "pointer", border: "1px solid #2a5080", background: "#1e3a5f", color: "#8ba4c4" }}>
+                    {"← Back to all systems"}
+                  </button>
+                </div>
+              );
+            })()}
+
+            {/* Full list mode */}
+            {!selectedWeapon && <div style={{ padding: "10px 14px 14px" }}>
               {sel.systems.map(w => {
                 const sc = BCo[w.branch] || "#64748b";
                 const stc = SC[w.status] || "#64748b";
+                const hasRange = !!COMBAT_RADIUS[w.id];
                 return (
-                  <div key={w.id} style={{ padding: "8px 0", borderBottom: "1px solid #1a2d4a" }}>
+                  <div key={w.id} style={{ padding: "6px 6px", borderBottom: "1px solid #1a2d4a", cursor: hasRange ? "pointer" : "default", borderRadius: 6, margin: "0 -6px" }}
+                    onClick={() => hasRange && setSelectedWeapon(w.id)}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0" }}>{w.name}</div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0", display: "flex", alignItems: "center", gap: 6 }}>
+                          {w.name}
+                          {hasRange && <span style={{ fontSize: 8, color: "#4a7099", fontWeight: 500 }}>{"▶ range"}</span>}
+                        </div>
                         <div style={{ fontSize: 10, color: "#6b8bb5", marginTop: 1 }}>{w.category} — {w.subcategory}</div>
                       </div>
                       <span style={{ padding: "1px 6px", borderRadius: 8, fontSize: 8, fontWeight: 600, background: stc + "22", color: stc, border: "1px solid " + stc + "44", whiteSpace: "nowrap", marginLeft: 8 }}>{w.status}</span>
                     </div>
-                    <div style={{ display: "flex", gap: 12, marginTop: 4, fontSize: 10, color: "#4a7099" }}>
+                    <div style={{ display: "flex", gap: 12, marginTop: 3, fontSize: 10, color: "#4a7099" }}>
                       <span>{w.origin}</span>
                       <span>Qty: {w.quantity}</span>
                     </div>
                   </div>
                 );
               })}
-            </div>
+            </div>}
           </div>
         )}
       </div>
@@ -1098,9 +1220,6 @@ function App(){
   );
 }
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
-</script>
-</body>
-</html>
+</script></body></html>
