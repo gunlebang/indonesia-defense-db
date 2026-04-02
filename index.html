@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indonesia Weapon Systems Database — Laboratorium Indonesia 2045</title>
+<meta name="description" content="Interactive database of Indonesian TNI weapon systems, alutsista inventory, procurement data and deployment information. By Laboratorium Indonesia 2045.">
+<meta property="og:title" content="Indonesia Weapon Systems Database">
+<meta property="og:description" content="TNI Alutsista Inventory — Active, On Order & In Development — Open-source intelligence">
+<meta property="og:type" content="website">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fafafa; }
+  #root { min-height: 100vh; }
+  select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px !important; }
+  table { border-spacing: 0; }
+  input::placeholder { color: #9ca3af; }
+  button { font-family: inherit; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #f3f4f6; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script type="text/babel">
+const { useState, useMemo } = React;
+
+const WEAPON_SYSTEMS = [
+  // ===== TNI AU - AIR FORCE =====
+  // Fighters / Multirole
+  { id: "F16AM", name: "F-16A/B Fighting Falcon (Block 15 OCU eMLU)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 10, status: "Active", era: "4th Gen", specs: { crew: 1, maxSpeed: "Mach 2.0", range: "3,200 km", armament: "AIM-9, AIM-120, Mk-80 series bombs", engine: "1× P&W F100-PW-220", introduced: 1989, note: "Ex-USAF, upgraded under STAR eMLU program" }},
+  { id: "F16CD", name: "F-16C/D Fighting Falcon (Block 25/32+)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 23, status: "Active", era: "4th Gen", specs: { crew: "1 (C) / 2 (D)", maxSpeed: "Mach 2.0", range: "3,200 km", armament: "AIM-9, AIM-120 AMRAAM, AGM-65 Maverick, JDAM", engine: "1× P&W F100-PW-220E", introduced: 2014, note: "Ex-USAF Excess Defense Articles (EDA)" }},
+  { id: "SU27", name: "Su-27SKM Flanker", category: "Fighter", subcategory: "Air Superiority", branch: "TNI AU", origin: "Russia", manufacturer: "Sukhoi", quantity: 5, status: "Active", era: "4th Gen", specs: { crew: 1, maxSpeed: "Mach 2.35", range: "3,530 km", armament: "R-27, R-73, GSh-30-1 cannon", engine: "2× Saturn AL-31F", introduced: 2003, note: "Upgraded to SKM standard" }},
+  { id: "SU30", name: "Su-30MK2 Flanker-G", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "Russia", manufacturer: "Sukhoi", quantity: 11, status: "Active", era: "4th Gen", specs: { crew: 2, maxSpeed: "Mach 2.0", range: "3,000 km", armament: "R-27, R-73, R-77, Kh-31, KAB-500 PGM", engine: "2× Saturn AL-31FP", introduced: 2009, note: "Maritime strike capable, 2 upgraded from MK to MK2" }},
+  { id: "RAFALE", name: "Dassault Rafale F4", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "France", manufacturer: "Dassault Aviation", quantity: 42, status: "On Order", era: "4.5 Gen", specs: { crew: "1 (C) / 2 (B)", maxSpeed: "Mach 1.8", range: "3,700 km", armament: "MICA, METEOR, SCALP, Exocet AM39, AASM, 30mm GIAT cannon", engine: "2× Snecma M88-2", introduced: "2026 (expected)", note: "$8.1B deal (2022). 16 twin-seat + 26 single-seat. First delivery Feb 2026. Additional 12-24 under LoI (May 2025)" }},
+  { id: "KAAN", name: "TAI KAAN (TF-X)", category: "Fighter", subcategory: "Stealth Multirole", branch: "TNI AU", origin: "Türkiye", manufacturer: "Turkish Aerospace Industries", quantity: 48, status: "On Order", era: "5th Gen", specs: { crew: 1, maxSpeed: "Mach 1.8+", range: "~1,100 km combat", armament: "Internal weapons bay, SDB, SOM-J (planned)", engine: "2× GE F110 (initial) / TEI TF-10000 (planned)", introduced: "TBD", note: "Contract signed July 2024. Program in development phase" }},
+  { id: "KF21", name: "KAI KF-21 Boramae (IFX)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "South Korea / Indonesia", manufacturer: "Korea Aerospace Industries", quantity: "TBD (50 planned)", status: "In Development", era: "4.5 Gen", specs: { crew: "1-2", maxSpeed: "Mach 1.81", range: "2,900 km", armament: "AIM-9X, IRIS-T, Meteor, KEPD 350 (planned)", engine: "2× GE F414-GE-400K", introduced: "TBD", note: "Joint development program. Indonesia holds 20% stake (revised 2025). Formerly KF-X/IF-X" }},
+  { id: "HAWK200", name: "BAE Hawk 200", category: "Fighter", subcategory: "Light Attack", branch: "TNI AU", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 21, status: "Active", era: "Light Combat", specs: { crew: 1, maxSpeed: "1,065 km/h", range: "2,520 km", armament: "AIM-9, Mk-80 bombs, ADEN 30mm cannon", engine: "1× Rolls-Royce Adour Mk 871", introduced: 1996, note: "Single-seat light attack variant" }},
+  { id: "HAWK109", name: "BAE Hawk Mk 109/209", category: "Trainer", subcategory: "Lead-In Fighter Trainer", branch: "TNI AU", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 18, status: "Active", era: "Trainer", specs: { crew: 2, maxSpeed: "1,028 km/h", range: "2,500 km", armament: "Practice bomb carriers, 30mm cannon pod", engine: "1× Rolls-Royce Adour Mk 861", introduced: 1993, note: "Two-seat advanced trainer variant" }},
+  { id: "T50I", name: "KAI T-50i Golden Eagle", category: "Trainer", subcategory: "Advanced Jet Trainer / LIFT", branch: "TNI AU", origin: "South Korea", manufacturer: "Korea Aerospace Industries", quantity: 16, status: "Active", era: "Trainer", specs: { crew: 2, maxSpeed: "Mach 1.5", range: "1,851 km", armament: "AIM-9, practice ordnance, 20mm M197 cannon (optional)", engine: "1× GE F404-GE-102", introduced: 2013, note: "6 initial + 6 ordered (2021, $240M). Light combat capable" }},
+  // Transport
+  { id: "C130H", name: "Lockheed C-130H/H-30 Hercules", category: "Transport", subcategory: "Tactical Airlift", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 15, status: "Active", era: "Legacy", specs: { crew: 5, maxSpeed: "592 km/h", range: "3,800 km", armament: "None", engine: "4× Allison T56-A-15", introduced: 1960, note: "Various sub-variants, some upgraded by PT DI" }},
+  { id: "C130J", name: "Lockheed C-130J-30 Super Hercules", category: "Transport", subcategory: "Tactical Airlift", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 5, status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "671 km/h", range: "5,250 km", armament: "None", engine: "4× Rolls-Royce AE 2100D3", introduced: 2019, note: "All 5 delivered" }},
+  { id: "A400M", name: "Airbus A400M Atlas", category: "Transport", subcategory: "Strategic/Tactical Airlift", branch: "TNI AU", origin: "Europe (Airbus)", manufacturer: "Airbus Defence & Space", quantity: 5, status: "Delivering", era: "Modern", specs: { crew: 3, maxSpeed: "780 km/h", range: "8,700 km", armament: "None", engine: "4× Europrop TP400-D6", introduced: 2025, note: "$2B contract (2017). 2 delivered as of late 2025, remaining in delivery" }},
+  { id: "CN295", name: "Airbus CN-295", category: "Transport", subcategory: "Medium Tactical", branch: "TNI AU", origin: "Spain / Indonesia", manufacturer: "Airbus / PT DI", quantity: 9, status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "481 km/h", range: "3,700 km", armament: "None (MPA variant has ASW options)", engine: "2× GE CT7-9C3", introduced: 2012, note: "Assembled by PT DI. MPA variant also in service" }},
+  // Helicopters (AU)
+  { id: "H225M", name: "Airbus H225M Caracal", category: "Helicopter", subcategory: "Medium Transport / CSAR", branch: "TNI AU", origin: "France", manufacturer: "Airbus Helicopters / PT DI", quantity: 8, status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "324 km/h", range: "857 km", armament: "Door guns, rocket pods (optional)", engine: "2× Turbomeca Makila 2A1", introduced: 2014, note: "CSAR role. 2 VIP variants ordered (2025). Some assembled locally by PT DI" }},
+  // UAVs
+  { id: "ANKAS", name: "TAI Anka-S", category: "UAV", subcategory: "MALE UCAV", branch: "TNI AU", origin: "Türkiye", manufacturer: "Turkish Aerospace Industries", quantity: 12, status: "Active", era: "Modern", specs: { crew: "0 (Remote)", maxSpeed: "135 kn", range: "200+ km link range", armament: "SATCOM, EO/IR, SAR (350 kg payload)", engine: "1× Thielert Centurion 2.0S", introduced: 2025, note: "First unit inducted Sep 2025. 30hr endurance. BVLOS capable" }},
+  { id: "CH4", name: "CASC CH-4 Rainbow", category: "UAV", subcategory: "MALE UCAV", branch: "TNI AU", origin: "China", manufacturer: "CASC", quantity: 6, status: "Active", era: "Modern", specs: { crew: "0 (Remote)", maxSpeed: "235 km/h", range: "250 km data link", armament: "AR-1 missiles, FT-9 PGMs (optional)", engine: "1× Deutz diesel", introduced: 2019, note: "Showcased at HUT TNI 2019 parade" }},
+  // Air Defense (AU operated)
+  { id: "SKYSHIELD", name: "Rheinmetall Oerlikon Skyshield", category: "Air Defense", subcategory: "SHORAD / C-RAM", branch: "TNI AU", origin: "Switzerland / Germany", manufacturer: "Rheinmetall Air Defence", quantity: "Multiple batteries", status: "Active", era: "Modern", specs: { crew: "3-5", maxSpeed: "N/A", range: "4 km effective", armament: "2× 35mm Oerlikon GDF guns, AHEAD ammo", engine: "N/A", introduced: 2012, note: "Base air defense. Second batch ordered 2018" }},
+  { id: "NASAMS", name: "NASAMS II", category: "Air Defense", subcategory: "MRSAM", branch: "TNI AU", origin: "Norway / USA", manufacturer: "Kongsberg / Raytheon", quantity: "On Order", status: "On Order", era: "Modern", specs: { crew: "Multi", maxSpeed: "N/A", range: "25-40 km", armament: "AIM-120 AMRAAM (surface launched)", engine: "N/A", introduced: "TBD", note: "Medium-range SAM acquisition program" }},
+  { id: "MISTRAL", name: "MBDA Mistral Atlas", category: "Air Defense", subcategory: "VSHORAD / MANPADS", branch: "TNI AD", origin: "France", manufacturer: "MBDA", quantity: "Multiple systems", status: "Active", era: "Modern", specs: { crew: "1-2", maxSpeed: "N/A", range: "6.5 km", armament: "Mistral IR-homing missile", engine: "N/A", introduced: 2010, note: "Vehicle-mounted (Atlas) and man-portable variants. Used by Arhanud units" }},
+  { id: "QW3", name: "QW-3 Vanguard MANPADS", category: "Air Defense", subcategory: "MANPADS", branch: "TNI AU", origin: "China", manufacturer: "CASIC", quantity: "Multiple", status: "Active", era: "Modern", specs: { crew: 1, maxSpeed: "N/A", range: "6 km", armament: "IR-homing SAM", engine: "N/A", introduced: "~2015", note: "Shoulder-launched. Used for base / point defense" }},
+  { id: "GM400", name: "Thales Ground Master 400α", category: "Radar", subcategory: "Long-Range Air Surveillance", branch: "TNI AU", origin: "France", manufacturer: "Thales / PT Len", quantity: 13, status: "On Order", era: "Modern", specs: { crew: "N/A", maxSpeed: "N/A", range: "400+ km detection", armament: "N/A (sensor)", engine: "N/A", introduced: "2024+ (delivery)", note: "AESA radar. Contract signed 2023. Produced with PT Len" }},
+
+  // ===== TNI AD - ARMY =====
+  // Tanks
+  { id: "LEO2", name: "Leopard 2A4+", category: "Armor", subcategory: "Main Battle Tank", branch: "TNI AD", origin: "Germany", manufacturer: "Krauss-Maffei Wegmann", quantity: 42, status: "Active", era: "Cold War / Upgraded", specs: { crew: 4, maxSpeed: "68 km/h", range: "550 km", armament: "120mm L/44 smoothbore, 2× MG3", engine: "MTU MB 873 Ka-501 (1,479 hp)", introduced: 2014, note: "Ex-Dutch Army. Some upgraded to 2A4+ (Revolution) standard" }},
+  { id: "LEO2RI", name: "Leopard 2 Revolution (2RI)", category: "Armor", subcategory: "Main Battle Tank", branch: "TNI AD", origin: "Germany", manufacturer: "Rheinmetall", quantity: 61, status: "Active", era: "Modern Upgrade", specs: { crew: 4, maxSpeed: "68 km/h", range: "550 km", armament: "120mm L/44, add-on armor package", engine: "MTU MB 873 Ka-501 (1,479 hp)", introduced: 2014, note: "Revolution urban warfare upgrade package. Ex-Dutch stock" }},
+  { id: "HARIMAU", name: "Harimau (MMWT)", category: "Armor", subcategory: "Medium Tank", branch: "TNI AD", origin: "Indonesia / Türkiye", manufacturer: "PT Pindad / FNSS", quantity: "44+", status: "Active / Producing", era: "Modern", specs: { crew: 3, maxSpeed: "70 km/h", range: "450 km", armament: "105mm CMI Cockerill CT-CV, coax MG", engine: "Caterpillar C13 (711 hp)", introduced: 2019, note: "Joint development. Modern Medium Weight Tank. 10 delivered Feb 2024 batch. Continuing production" }},
+  { id: "MARDER", name: "Marder 1A3", category: "Armor", subcategory: "Infantry Fighting Vehicle", branch: "TNI AD", origin: "Germany", manufacturer: "Rheinmetall", quantity: 50, status: "Active", era: "Cold War", specs: { crew: 3, maxSpeed: "65 km/h", range: "520 km", armament: "20mm Rh 202 autocannon, MILAN ATGM", engine: "MTU MB 833 (591 hp)", introduced: 2014, note: "Ex-Dutch Army. Tracked IFV" }},
+  { id: "ANOA", name: "Pindad Anoa 6×6", category: "Armor", subcategory: "Armored Personnel Carrier", branch: "TNI AD", origin: "Indonesia", manufacturer: "PT Pindad", quantity: "400+", status: "Active / Producing", era: "Modern", specs: { crew: 3, maxSpeed: "90 km/h", range: "600 km", armament: "12.7mm HMG or 20mm turret (variants)", engine: "Renault dCi 6 (320 hp)", introduced: 2009, note: "Indigenous APC. Multiple variants: command, ambulance, mortar carrier, amphibious (Anoa 2). STANAG Level 3" }},
+  { id: "BADAK", name: "Pindad Badak 6×6", category: "Armor", subcategory: "Fire Support Vehicle", branch: "TNI AD", origin: "Indonesia", manufacturer: "PT Pindad", quantity: "20+", status: "Active / Producing", era: "Modern", specs: { crew: 3, maxSpeed: "90 km/h", range: "600 km", armament: "90mm CMI Cockerill Mk 8 turret", engine: "Renault dCi 6 (320 hp)", introduced: 2014, note: "Based on Anoa chassis. Direct fire support role" }},
+  { id: "PANDUR", name: "Pandur II 8×8", category: "Armor", subcategory: "Infantry Fighting Vehicle", branch: "TNI AD", origin: "Austria / Indonesia", manufacturer: "General Dynamics / PT Pindad", quantity: "30+", status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "105 km/h", range: "700 km", armament: "30mm cannon turret (variant)", engine: "Cummins ISLe (340 hp)", introduced: 2015, note: "Licensed production by PT Pindad" }},
+  { id: "KOMODO", name: "Pindad Komodo 4×4", category: "Armor", subcategory: "Light Tactical Vehicle", branch: "TNI AD", origin: "Indonesia", manufacturer: "PT Pindad", quantity: "130+", status: "Active / Producing", era: "Modern", specs: { crew: 2, maxSpeed: "120 km/h", range: "500 km", armament: "12.7mm HMG or 7.62mm MG (turret mount)", engine: "Toyota 1VD-FTV (4.5L diesel)", introduced: 2012, note: "Indigenous design. Used by Kopassus. Variants: APC, recon, tactical" }},
+  { id: "MAUNG", name: "Pindad Maung 4×4", category: "Armor", subcategory: "Light Tactical Vehicle", branch: "TNI AD", origin: "Indonesia", manufacturer: "PT Pindad", quantity: "100+", status: "Active / Producing", era: "Modern", specs: { crew: 2, maxSpeed: "120 km/h", range: "~400 km", armament: "Optional MG mount", engine: "Diesel turbo (2.8L)", introduced: 2020, note: "Light utility / tactical vehicle. Indonesian-made alternative to Land Cruiser" }},
+  // Artillery
+  { id: "CAESAR", name: "Nexter CAESAR 155mm", category: "Artillery", subcategory: "Self-Propelled Howitzer", branch: "TNI AD", origin: "France", manufacturer: "Nexter (KNDS)", quantity: 55, status: "Active", era: "Modern", specs: { crew: 5, maxSpeed: "100 km/h (road)", range: "42 km (ERFB-BB)", armament: "155mm/52 cal gun", engine: "Renault DXi7 (6×6 truck)", introduced: 2012, note: "Truck-mounted SPH. NATO-compatible. Additional units under LoI (2025)" }},
+  { id: "ASTROS", name: "Avibras ASTROS II Mk 6", category: "Artillery", subcategory: "Multiple Launch Rocket System", branch: "TNI AD", origin: "Brazil", manufacturer: "Avibras", quantity: "36 launchers", status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "80 km/h", range: "9-300 km (ammunition dependent)", armament: "SS-30/40/60/80 rockets, AV-TM 300 cruise missile", engine: "Tector 6x6 truck", introduced: 2014, note: "Multi-caliber system (127mm to 300mm). GPS/INS guided variants available" }},
+  { id: "RM70", name: "RM-70 Grad", category: "Artillery", subcategory: "Multiple Launch Rocket System", branch: "Korps Marinir", origin: "Czechoslovakia", manufacturer: "ZTS", quantity: "~24", status: "Active", era: "Cold War", specs: { crew: 4, maxSpeed: "80 km/h", range: "20 km", armament: "40× 122mm rockets", engine: "Tatra V12 diesel", introduced: 1990, note: "Marine Corps MLRS. Mounted on Tatra 813 chassis" }},
+  // Helicopters (AD)
+  { id: "APACHE", name: "Boeing AH-64E Apache Guardian", category: "Helicopter", subcategory: "Attack Helicopter", branch: "TNI AD", origin: "United States", manufacturer: "Boeing", quantity: 8, status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "293 km/h", range: "476 km", armament: "AGM-114 Hellfire, Hydra 70 rockets, M230 30mm chain gun", engine: "2× GE T700-GE-701D", introduced: 2018, note: "$1.4B FMS deal. Longbow radar equipped" }},
+  { id: "MI35", name: "Mil Mi-35P Hind", category: "Helicopter", subcategory: "Attack Helicopter", branch: "TNI AD", origin: "Russia", manufacturer: "Rostvertol", quantity: 5, status: "Active", era: "Cold War / Modern", specs: { crew: 3, maxSpeed: "310 km/h", range: "460 km", armament: "9M114 Shturm ATGMs, S-8 rockets, GSh-23L 23mm cannon", engine: "2× Klimov TV3-117VMA", introduced: 2003, note: "Attack/transport. 2 delivered 2003, 3 in 2010" }},
+  { id: "BELL412", name: "Bell 412EP/EPI", category: "Helicopter", subcategory: "Utility / Transport", branch: "TNI AD", origin: "United States / Canada", manufacturer: "Bell Helicopter / PT DI", quantity: "30+", status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "259 km/h", range: "672 km", armament: "Door guns, rocket pods (optional)", engine: "2× P&WC PT6T-3DF", introduced: 1982, note: "Workhorse utility helicopter. Some assembled by PT DI" }},
+  { id: "MI17", name: "Mil Mi-17V5 Hip", category: "Helicopter", subcategory: "Medium Transport", branch: "TNI AD", origin: "Russia", manufacturer: "Kazan Helicopters", quantity: 6, status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "250 km/h", range: "580 km", armament: "Door guns, rockets (optional)", engine: "2× Klimov TV3-117VM", introduced: 2010, note: "Heavy-lift transport" }},
+  { id: "FENNEC", name: "Airbus AS550 Fennec", category: "Helicopter", subcategory: "Light Utility / Scout", branch: "TNI AD", origin: "France", manufacturer: "Airbus Helicopters", quantity: 6, status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "278 km/h", range: "660 km", armament: "20mm cannon, rockets (optional)", engine: "1× Turbomeca Arriel 2B", introduced: 2012, note: "Light observation / armed reconnaissance" }},
+  // Anti-Tank
+  { id: "JAVELIN", name: "FGM-148 Javelin", category: "Anti-Tank", subcategory: "ATGM (Man-Portable)", branch: "TNI AD", origin: "United States", manufacturer: "Raytheon / Lockheed Martin", quantity: "25 CLUs + 180 missiles", status: "Active", era: "Modern", specs: { crew: 1, maxSpeed: "N/A", range: "2,500 m", armament: "Tandem HEAT warhead (top-attack)", engine: "N/A", introduced: 2012, note: "Fire-and-forget. IR imaging seeker. Pen >750mm RHA" }},
+  // Missiles
+  { id: "KHAN", name: "Khan SRBM", category: "Missile", subcategory: "Short-Range Ballistic Missile", branch: "TNI AD", origin: "Türkiye / Indonesia", manufacturer: "Roketsan / PT Pindad", quantity: "Classified", status: "Active", era: "Modern", specs: { crew: "Multi", maxSpeed: "N/A", range: "~280 km", armament: "HE / penetrator warhead", engine: "Solid rocket motor", introduced: "~2024", note: "Indonesia's first SRBM capability. ToT with Türkiye" }},
+
+  // ===== TNI AL - NAVY =====
+  // Submarines
+  { id: "CAKRA", name: "KRI Cakra (Type 209/1300)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "Germany", manufacturer: "Howaldtswerke-Deutsche Werft", quantity: 1, status: "Active (aging)", era: "Cold War", specs: { crew: 33, maxSpeed: "21.5 kn (submerged)", range: "8,200 nm (snorkel)", armament: "8× 533mm torpedo tubes (14 torpedoes)", engine: "Diesel-electric", introduced: 1981, note: "KRI Cakra-401. KRI Nanggala-402 lost April 2021" }},
+  { id: "NAGAPASA", name: "Nagapasa-class (DSME 209/1400)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "South Korea", manufacturer: "Daewoo (DSME)", quantity: 3, status: "Active", era: "Modern", specs: { crew: 40, maxSpeed: "21 kn (submerged)", range: "10,000 nm (snorkel)", armament: "8× 533mm torpedo tubes, SUT Mod 4 torpedoes", engine: "Diesel-electric", introduced: 2017, note: "3rd unit (KRI Alugoro-405) built locally at PT PAL" }},
+  { id: "SCORPENE", name: "Scorpène Evolved (Li-ion)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "France", manufacturer: "Naval Group / PT PAL", quantity: 2, status: "On Order", era: "Modern", specs: { crew: 31, maxSpeed: "~20 kn (submerged)", range: "Extended (Li-ion battery)", armament: "6× 533mm torpedo tubes, SM39 Exocet (optional)", engine: "Diesel-electric with Li-ion", introduced: "~2028 (est.)", note: "$2.16B contract (March 2024). Built locally at PT PAL. Lithium-ion batteries for extended range" }},
+  // Frigates / Destroyers
+  { id: "MARTADINATA", name: "Martadinata-class (SIGMA 10514)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Netherlands", manufacturer: "Damen Schelde", quantity: 2, status: "Active", era: "Modern", specs: { crew: 122, maxSpeed: "28 kn", range: "5,000 nm", armament: "Exocet MM40 Block 3, VL MICA, Oto Melara 76mm, 2× Oerlikon 20mm, torpedo tubes", engine: "CODOE", introduced: 2017, note: "Classified as destroyers by TNI AL (PKR). Designated KRI Raden Eddy Martadinata-331 & KRI I Gusti Ngurah Rai-332" }},
+  { id: "BRAWIJAYA", name: "Brawijaya-class (Fincantieri PPA Light+)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Italy", manufacturer: "Fincantieri", quantity: 2, status: "Delivering", era: "Modern", specs: { crew: "~170", maxSpeed: "31 kn", range: "6,500 nm", armament: "127mm gun, VLS for SAM, 76mm Super Rapid guns, torpedo tubes", engine: "CODLAG", introduced: 2025, note: "$1.39B (2024). KRI Brawijaya-320 commissioned Jul 2025. KRI Prabu Siliwangi-321 expected 2026. 4,912 tons — largest surface combatants" }},
+  { id: "RWFRIGATE", name: "Red White Frigate (Merah Putih)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Indonesia / Türkiye", manufacturer: "PT PAL / STM", quantity: 2, status: "Under Construction", era: "Modern", specs: { crew: "~200", maxSpeed: "29+ kn", range: "TBD", armament: "Roketsan MİDLAS VLS (64 cells), Atmaca AShM, 2× 76mm Leonardo, Rheinmetall Millennium CIWS, torpedo tubes", engine: "CODAD", introduced: "~2027", note: "Built at PT PAL Surabaya. Keel laid Aug 2023 (Ship 1), Nov 2024 (Ship 2). Turkish combat suite (Aselsan/Havelsan)" }},
+  { id: "AHMADYANI", name: "Ahmad Yani-class (ex-Van Speijk)", category: "Surface Combatant", subcategory: "Frigate", branch: "TNI AL", origin: "Netherlands", manufacturer: "Royal Schelde", quantity: 5, status: "Active (aging)", era: "Cold War", specs: { crew: 170, maxSpeed: "28.5 kn", range: "4,500 nm", armament: "Harpoon SSM, Sea Cat SAM, 76mm OTO Melara, torpedo tubes", engine: "Steam turbine", introduced: 1986, note: "Commissioned 1965-67 (Dutch), transferred 1986-89. Modernized 2010s-2020s" }},
+  // Corvettes
+  { id: "DIPONEGORO", name: "Diponegoro-class (SIGMA 9113)", category: "Surface Combatant", subcategory: "Corvette", branch: "TNI AL", origin: "Netherlands", manufacturer: "Damen Schelde", quantity: 4, status: "Active", era: "Modern", specs: { crew: 80, maxSpeed: "28 kn", range: "3,600 nm", armament: "Exocet MM40 Block 2, Mistral SAM, Oto Melara 76mm, torpedo tubes", engine: "CODOE", introduced: 2007, note: "Multi-role corvettes. Primary surface combatants" }},
+  { id: "USMANHARUN", name: "Usman Harun-class (SIGMA 10514 Mod)", category: "Surface Combatant", subcategory: "Corvette", branch: "TNI AL", origin: "Netherlands / Indonesia", manufacturer: "Damen Schelde / PT PAL", quantity: 2, status: "Active", era: "Modern", specs: { crew: 122, maxSpeed: "28 kn", range: "5,000 nm", armament: "Exocet MM40 Block 3, VL MICA (upgrade), 76mm, torpedo tubes", engine: "CODOE", introduced: 2014, note: "KRI Usman Harun-359 being upgraded with Thales TACTICOS CMS, SMART-S Mk2 radar" }},
+  { id: "FATAHILLAH", name: "Fatahillah-class", category: "Surface Combatant", subcategory: "Corvette", branch: "TNI AL", origin: "Netherlands", manufacturer: "Wilton-Fijenoord", quantity: 3, status: "Active (aging)", era: "Cold War", specs: { crew: 82, maxSpeed: "30 kn", range: "4,100 nm", armament: "Exocet MM38, Bofors 120mm, 40mm AA, torpedo tubes", engine: "CODOG", introduced: 1979, note: "KRI Fatahillah-361, Malahayati-362, Nala-363" }},
+  // Fast Attack
+  { id: "KCR60", name: "KCR-60 class (Clurit/Sampari)", category: "Surface Combatant", subcategory: "Fast Attack Craft - Missile", branch: "TNI AL", origin: "Indonesia", manufacturer: "PT PAL", quantity: 4, status: "Active", era: "Modern", specs: { crew: 35, maxSpeed: "28 kn", range: "2,500 nm", armament: "C-705 AShM, 1× 40mm gun, 2× 20mm", engine: "Diesel", introduced: 2014, note: "Domestically-built missile boats. Chinese C-705 missiles" }},
+  { id: "KCR40", name: "KCR-40 class", category: "Surface Combatant", subcategory: "Fast Attack Craft - Missile", branch: "TNI AL", origin: "Indonesia", manufacturer: "PT PAL", quantity: 8, status: "Active", era: "Modern", specs: { crew: 27, maxSpeed: "28 kn", range: "1,800 nm", armament: "C-705 AShM, 1× 30mm gun, 1× 20mm", engine: "Diesel", introduced: 2018, note: "Smaller FAC variant. Indigenous production" }},
+  // Amphibious
+  { id: "MAKASSAR", name: "Makassar-class (LPD)", category: "Amphibious", subcategory: "Landing Platform Dock", branch: "TNI AL", origin: "Indonesia / South Korea", manufacturer: "PT PAL / DSME", quantity: 5, status: "Active", era: "Modern", specs: { crew: 120, maxSpeed: "16 kn", range: "6,500 nm", armament: "1× 40mm, 2× 20mm guns", engine: "2× MAN diesel", introduced: 2007, note: "Built by PT PAL. Can carry 2 landing craft, 500 troops, 15 MBTs. Hospital facilities" }},
+  // Missiles (Navy)
+  { id: "ATMACA", name: "Roketsan Atmaca AShM", category: "Missile", subcategory: "Anti-Ship Cruise Missile", branch: "TNI AL", origin: "Türkiye", manufacturer: "Roketsan", quantity: "45 rounds (initial)", status: "Active", era: "Modern", specs: { crew: "N/A", maxSpeed: "Subsonic (high)", range: "250+ km", armament: "Penetration / blast-frag warhead", engine: "Turbojet", introduced: 2024, note: "Contract with PT Republik Defensindo (Jan 2024). For R41 KRI refurbishment program. Also fitted on Red White Frigates" }},
+  // Marine Corps key equipment
+  { id: "BMP3F", name: "BMP-3F", category: "Armor", subcategory: "Amphibious IFV", branch: "Korps Marinir", origin: "Russia", manufacturer: "Kurganmashzavod", quantity: 54, status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "72 km/h (land) / 10 km/h (water)", range: "600 km", armament: "100mm gun/launcher, 30mm autocannon, 3× MG", engine: "UTD-29M (500 hp)", introduced: 2010, note: "Amphibious variant. Primary Marine Corps IFV. Can fire 9M117 ATGMs through main gun" }},
+  { id: "BVP2", name: "BVP-2 (BMP-2 variant)", category: "Armor", subcategory: "Infantry Fighting Vehicle", branch: "Korps Marinir", origin: "Czech Republic", manufacturer: "VOP 026 Šternberk", quantity: "~30", status: "Active", era: "Cold War", specs: { crew: 3, maxSpeed: "65 km/h", range: "600 km", armament: "30mm 2A42 autocannon, AT-5 Spandrel ATGM, MG", engine: "UTD-20S1 (300 hp)", introduced: "~2010", note: "Czech-built BMP-2 variant for Marine Corps" }},
+  // Autonomous systems (Navy)
+  { id: "PTPAL_AUV", name: "PT PAL Autonomous Submarine", category: "UAV", subcategory: "Autonomous Underwater Vehicle", branch: "TNI AL", origin: "Indonesia", manufacturer: "PT PAL", quantity: "8 prototypes", status: "In Development", era: "Modern", specs: { crew: "0 (Autonomous)", maxSpeed: "TBD", range: "TBD", armament: "324mm torpedo (tested Oct 2025), kamikaze variant planned", engine: "Electric", introduced: "In development", note: "2nd prototype fired drill torpedo Oct 2025. 8th prototype shown at HUT TNI 80. Torpedo and kamikaze variants planned" }},
+];
+
+const CATS=[...new Set(WEAPON_SYSTEMS.map(w=>w.category))].sort();
+const BRS=[...new Set(WEAPON_SYSTEMS.map(w=>w.branch))].sort();
+const ORS=[...new Set(WEAPON_SYSTEMS.map(w=>w.origin))].sort();
+const STS=[...new Set(WEAPON_SYSTEMS.map(w=>w.status))].sort();
+
+const SC={"Active":"#16a34a","Active (aging)":"#ca8a04","Delivering":"#2563eb","On Order":"#ea580c","Under Construction":"#9333ea","In Development":"#64748b"};
+const BCo={"TNI AU":"#2563eb","TNI AD":"#16a34a","TNI AL":"#7c3aed","Korps Marinir":"#db2777"};
+const GOLD="#C8A951";
+
+const Badge=({t,c})=><span style={{display:"inline-block",padding:"3px 10px",borderRadius:20,fontSize:10,fontWeight:600,letterSpacing:".3px",textTransform:"uppercase",background:c+"14",color:c,border:"1px solid "+c+"30"}}>{t}</span>;
+
+function Detail({s,onClose}){
+  const sp=s.specs;
+  return(
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={onClose}>
+      <div style={{background:"#fff",borderRadius:12,maxWidth:700,width:"100%",maxHeight:"88vh",overflow:"auto",boxShadow:"0 25px 50px rgba(0,0,0,.15)"}} onClick={e=>e.stopPropagation()}>
+        <div style={{padding:"28px 32px 22px",borderBottom:"1px solid #e5e7eb"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+            <div>
+              <div style={{fontSize:11,color:GOLD,fontWeight:700,letterSpacing:1.2,marginBottom:6,textTransform:"uppercase"}}>{s.category} — {s.subcategory}</div>
+              <div style={{fontSize:24,fontWeight:800,color:"#111",letterSpacing:"-.3px",lineHeight:1.2}}>{s.name}</div>
+            </div>
+            <button onClick={onClose} style={{background:"#f3f4f6",border:"none",color:"#666",width:36,height:36,borderRadius:18,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}>\u00d7</button>
+          </div>
+          <div style={{marginTop:14,display:"flex",gap:8,flexWrap:"wrap"}}>
+            <Badge t={s.branch} c={BCo[s.branch]||"#64748b"}/>
+            <Badge t={s.status} c={SC[s.status]||"#64748b"}/>
+            <Badge t={s.manufacturer} c="#475569"/>
+          </div>
+        </div>
+        <div style={{padding:"24px 32px"}}>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:12}}>
+            {[["Origin",s.origin],["Quantity",s.quantity],["Era",s.era],["Crew",sp.crew],["Max Speed",sp.maxSpeed],["Range",sp.range],["Engine",sp.engine],["Introduced",sp.introduced]].filter(([,v])=>v).map(([l,v])=>(
+              <div key={l} style={{background:"#f9fafb",borderRadius:8,padding:"12px 14px"}}>
+                <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase",marginBottom:3}}>{l}</div>
+                <div style={{fontSize:14,color:"#111",fontWeight:600}}>{String(v)}</div>
+              </div>
+            ))}
+          </div>
+          {sp.armament&&<div style={{marginTop:20}}><div style={{fontSize:10,color:GOLD,fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Armament</div><div style={{background:"#f9fafb",borderRadius:8,padding:14,fontSize:13,color:"#374151",lineHeight:1.7}}>{sp.armament}</div></div>}
+          {s.base&&<div style={{marginTop:16}}><div style={{fontSize:10,color:"#2563eb",fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Stationed / Home Base</div><div style={{background:"#eff6ff",borderRadius:8,padding:14,fontSize:13,color:"#1e40af",lineHeight:1.7,borderLeft:"3px solid #3b82f6"}}>{s.base}</div></div>}
+          {s.deploy&&<div style={{marginTop:16}}><div style={{fontSize:10,color:"#ea580c",fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Deployments / Exercises</div><div style={{background:"#fff7ed",borderRadius:8,padding:14,fontSize:13,color:"#9a3412",lineHeight:1.7,borderLeft:"3px solid #f97316"}}>{s.deploy}</div></div>}
+          {sp.note&&<div style={{marginTop:16}}><div style={{fontSize:10,color:"#64748b",fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Notes</div><div style={{background:"#f9fafb",borderRadius:8,padding:14,fontSize:13,color:"#6b7280",lineHeight:1.7}}>{sp.note}</div></div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OriginChart(){
+  const origins=useMemo(()=>{
+    const map={};
+    WEAPON_SYSTEMS.forEach(w=>{
+      const o=w.origin;
+      if(!map[o])map[o]={count:0,systems:[]};
+      map[o].count++;
+      map[o].systems.push(w.name);
+    });
+    return Object.entries(map).sort((a,b)=>b[1].count-a[1].count);
+  },[]);
+  const max=origins[0]?origins[0][1].count:1;
+  return(
+    <div style={{marginTop:32}}>
+      <h2 style={{fontSize:18,fontWeight:800,color:"#111",marginBottom:4}}>Country of Origin</h2>
+      <p style={{fontSize:12,color:"#9ca3af",marginBottom:16}}>Number of weapon system types by supplier nation</p>
+      <div style={{display:"flex",flexDirection:"column",gap:6}}>
+        {origins.map(([name,{count}])=>(
+          <div key={name} style={{display:"flex",alignItems:"center",gap:12}}>
+            <div style={{width:140,fontSize:12,color:"#374151",fontWeight:600,textAlign:"right",flexShrink:0}}>{name}</div>
+            <div style={{flex:1,background:"#f3f4f6",borderRadius:4,height:24,position:"relative",overflow:"hidden"}}>
+              <div style={{height:"100%",width:`${(count/max)*100}%`,background:`linear-gradient(90deg,${GOLD},${GOLD}cc)`,borderRadius:4,transition:"width .5s"}}/>
+            </div>
+            <div style={{width:30,fontSize:13,fontWeight:700,color:"#111",textAlign:"right"}}>{count}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Timeline(){
+  const items=useMemo(()=>{
+    return WEAPON_SYSTEMS.filter(w=>w.specs.introduced&&String(w.specs.introduced).match(/\d{4}/)).map(w=>({
+      ...w,
+      year:parseInt(String(w.specs.introduced).match(/\d{4}/)[0])
+    })).sort((a,b)=>a.year-b.year);
+  },[]);
+  const decades=[1970,1980,1990,2000,2010,2020,2030];
+  return(
+    <div style={{marginTop:32}}>
+      <h2 style={{fontSize:18,fontWeight:800,color:"#111",marginBottom:4}}>Procurement Timeline</h2>
+      <p style={{fontSize:12,color:"#9ca3af",marginBottom:16}}>Year of introduction / first delivery by branch</p>
+      <div style={{overflowX:"auto",paddingBottom:8}}>
+        <div style={{position:"relative",minWidth:800,height:Math.max(items.length*28+60,200)}}>
+          {decades.map(d=>{
+            const minY=items.length?items[0].year:1970;
+            const maxY=items.length?Math.max(items[items.length-1].year,2030):2030;
+            const pct=((d-minY)/(maxY-minY))*100;
+            return <div key={d} style={{position:"absolute",left:`${pct}%`,top:0,bottom:0,borderLeft:"1px dashed #e5e7eb",zIndex:0}}>
+              <span style={{position:"absolute",top:0,left:4,fontSize:10,color:"#9ca3af",fontWeight:600}}>{d}</span>
+            </div>;
+          })}
+          {items.map((w,i)=>{
+            const minY=items[0].year;
+            const maxY=Math.max(items[items.length-1].year,2030);
+            const pct=((w.year-minY)/(maxY-minY))*100;
+            const c=BCo[w.branch]||"#64748b";
+            return <div key={w.id} style={{position:"absolute",left:`${pct}%`,top:24+i*28,display:"flex",alignItems:"center",gap:6,zIndex:1}}>
+              <div style={{width:10,height:10,borderRadius:5,background:c,flexShrink:0,border:"2px solid #fff",boxShadow:"0 1px 3px rgba(0,0,0,.15)"}}/>
+              <span style={{fontSize:11,color:"#374151",fontWeight:500,whiteSpace:"nowrap"}}>{w.name}</span>
+              <span style={{fontSize:10,color:"#9ca3af"}}>({w.year})</span>
+            </div>;
+          })}
+        </div>
+      </div>
+      <div style={{display:"flex",gap:16,marginTop:12,flexWrap:"wrap"}}>
+        {Object.entries(BCo).map(([b,c])=><div key={b} style={{display:"flex",alignItems:"center",gap:6}}><div style={{width:10,height:10,borderRadius:5,background:c}}/><span style={{fontSize:11,color:"#6b7280"}}>{b}</span></div>)}
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const[q,setQ]=useState("");
+  const[fc,setFc]=useState("All");
+  const[fb,setFb]=useState("All");
+  const[fo,setFo]=useState("All");
+  const[fs,setFs]=useState("All");
+  const[sel,setSel]=useState(null);
+  const[sf,setSf]=useState("name");
+  const[sd,setSd]=useState("asc");
+  const[tab,setTab]=useState("inventory");
+
+  const fl=useMemo(()=>{
+    let d=WEAPON_SYSTEMS.filter(w=>{
+      if(fc!=="All"&&w.category!==fc)return false;
+      if(fb!=="All"&&w.branch!==fb)return false;
+      if(fo!=="All"&&w.origin!==fo)return false;
+      if(fs!=="All"&&w.status!==fs)return false;
+      if(q){const s=q.toLowerCase();return w.name.toLowerCase().includes(s)||w.category.toLowerCase().includes(s)||w.subcategory.toLowerCase().includes(s)||w.manufacturer.toLowerCase().includes(s)||w.origin.toLowerCase().includes(s)||(w.specs.note&&w.specs.note.toLowerCase().includes(s))||(w.base&&w.base.toLowerCase().includes(s))||(w.deploy&&w.deploy.toLowerCase().includes(s));}
+      return true;
+    });
+    d.sort((a,b)=>{let va=a[sf]||"",vb=b[sf]||"";if(typeof va==="string")va=va.toLowerCase();if(typeof vb==="string")vb=vb.toLowerCase();return va<vb?(sd==="asc"?-1:1):va>vb?(sd==="asc"?1:-1):0;});
+    return d;
+  },[q,fc,fb,fo,fs,sf,sd]);
+
+  const st=useMemo(()=>({t:WEAPON_SYSTEMS.length,a:WEAPON_SYSTEMS.filter(w=>w.status.includes("Active")).length,o:WEAPON_SYSTEMS.filter(w=>["On Order","Under Construction","Delivering"].includes(w.status)).length,d:WEAPON_SYSTEMS.filter(w=>w.origin.includes("Indonesia")).length}),[]);
+
+  const ts=(f)=>{if(sf===f)setSd(x=>x==="asc"?"desc":"asc");else{setSf(f);setSd("asc");}};
+
+  const ss={background:"#fff",border:"1px solid #e5e7eb",borderRadius:8,padding:"9px 14px",color:"#374151",fontSize:12,outline:"none",cursor:"pointer",flex:"1 1 140px",minWidth:120};
+
+  return(
+    <div style={{fontFamily:"'Helvetica Neue',Arial,sans-serif",background:"#fafafa",color:"#374151",minHeight:"100vh"}}>
+      {/* Header */}
+      <div style={{background:"#fff",borderBottom:"1px solid #e5e7eb",padding:"24px 32px 20px"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
+          <div>
+            <div style={{fontSize:12,letterSpacing:2,color:GOLD,fontWeight:800,textTransform:"uppercase",marginBottom:4}}>Laboratorium Indonesia 2045</div>
+            <h1 style={{fontSize:26,fontWeight:900,color:"#111",margin:0,letterSpacing:"-.5px",lineHeight:1.2}}>Indonesia Weapon Systems Database</h1>
+            <p style={{fontSize:12,color:"#9ca3af",margin:"4px 0 0"}}>TNI Alutsista Inventory — Active, On Order & In Development — Open-source intelligence</p>
+          </div>
+        </div>
+        {/* Stats */}
+        <div style={{display:"flex",flexWrap:"wrap",gap:12,marginTop:20}}>
+          {[["Total Systems",st.t,GOLD],["Active",st.a,"#16a34a"],["On Order / Building",st.o,"#ea580c"],["Domestic / Joint",st.d,"#2563eb"]].map(([l,v,c])=>(
+            <div key={l} style={{background:"#fafafa",border:"1px solid #e5e7eb",borderRadius:10,padding:"14px 20px",flex:"1 1 130px"}}>
+              <div style={{fontSize:28,fontWeight:800,color:c}}>{v}</div>
+              <div style={{fontSize:10,color:"#9ca3af",fontWeight:600,letterSpacing:.5,textTransform:"uppercase",marginTop:2}}>{l}</div>
+            </div>
+          ))}
+        </div>
+        {/* Tabs */}
+        <div style={{display:"flex",gap:4,marginTop:20}}>
+          {[["inventory","Inventory"],["timeline","Procurement Timeline"],["origins","Country of Origin"]].map(([k,l])=>(
+            <button key={k} onClick={()=>setTab(k)} style={{background:tab===k?"#111":"transparent",color:tab===k?"#fff":"#6b7280",border:"1px solid "+(tab===k?"#111":"#e5e7eb"),borderRadius:8,padding:"8px 18px",cursor:"pointer",fontSize:12,fontWeight:600,transition:"all .2s"}}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      {tab==="inventory"&&<>
+        {/* Filters */}
+        <div style={{padding:"14px 32px",background:"#fff",borderBottom:"1px solid #e5e7eb"}}>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8,alignItems:"center"}}>
+            <input type="text" placeholder="Search systems, bases, deployments..." value={q} onChange={e=>setQ(e.target.value)} style={{...ss,flex:"2 1 250px",borderColor:q?GOLD:"#e5e7eb"}}/>
+            <select value={fc} onChange={e=>setFc(e.target.value)} style={ss}><option value="All">All Categories</option>{CATS.map(c=><option key={c}>{c}</option>)}</select>
+            <select value={fb} onChange={e=>setFb(e.target.value)} style={ss}><option value="All">All Branches</option>{BRS.map(b=><option key={b}>{b}</option>)}</select>
+            <select value={fo} onChange={e=>setFo(e.target.value)} style={ss}><option value="All">All Origins</option>{ORS.map(o=><option key={o}>{o}</option>)}</select>
+            <select value={fs} onChange={e=>setFs(e.target.value)} style={ss}><option value="All">All Statuses</option>{STS.map(s=><option key={s}>{s}</option>)}</select>
+          </div>
+          <div style={{fontSize:11,color:"#9ca3af",marginTop:8}}>Showing {fl.length} of {WEAPON_SYSTEMS.length} systems</div>
+        </div>
+        {/* Table */}
+        <div style={{padding:"0 32px 40px"}}>
+          <div style={{overflowX:"auto",background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",marginTop:16}}>
+            <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+              <thead><tr style={{borderBottom:"2px solid #e5e7eb"}}>
+                {[["name","System"],["category","Category"],["branch","Branch"],["origin","Origin"],["quantity","Qty"],["status","Status"]].map(([f,l])=>(
+                  <th key={f} onClick={()=>ts(f)} style={{padding:"14px 12px",textAlign:"left",cursor:"pointer",color:"#9ca3af",fontWeight:700,fontSize:10,letterSpacing:1,textTransform:"uppercase",whiteSpace:"nowrap",userSelect:"none",background:"#fafafa"}}>
+                    {l} <span style={{color:sf===f?GOLD:"#d1d5db"}}>{sf===f?(sd==="asc"?"\u2191":"\u2193"):"\u2195"}</span>
+                  </th>
+                ))}
+              </tr></thead>
+              <tbody>{fl.map(w=>(
+                <tr key={w.id} onClick={()=>setSel(w)} style={{borderBottom:"1px solid #f3f4f6",cursor:"pointer",transition:"background .15s"}}
+                  onMouseEnter={e=>e.currentTarget.style.background="#fafafa"} onMouseLeave={e=>e.currentTarget.style.background="#fff"}>
+                  <td style={{padding:"12px",fontWeight:600,color:"#111"}}>
+                    {w.name}
+                    <div style={{fontSize:11,color:"#9ca3af",fontWeight:400,marginTop:1}}>{w.subcategory}</div>
+                  </td>
+                  <td style={{padding:12,color:"#6b7280"}}>{w.category}</td>
+                  <td style={{padding:12}}><Badge t={w.branch} c={BCo[w.branch]||"#64748b"}/></td>
+                  <td style={{padding:12,color:"#6b7280"}}>{w.origin}</td>
+                  <td style={{padding:12,fontWeight:700,color:"#111"}}>{w.quantity}</td>
+                  <td style={{padding:12}}><Badge t={w.status} c={SC[w.status]||"#64748b"}/></td>
+                </tr>
+              ))}</tbody>
+            </table>
+          </div>
+          {fl.length===0&&<div style={{padding:60,textAlign:"center",color:"#9ca3af",fontSize:14}}>No systems match your filters.</div>}
+        </div>
+      </>}
+
+      {tab==="timeline"&&<div style={{padding:"0 32px 40px"}}><Timeline/></div>}
+      {tab==="origins"&&<div style={{padding:"0 32px 40px"}}><OriginChart/></div>}
+
+      {/* Footer */}
+      <div style={{background:"#111",padding:"28px 32px",marginTop:20}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
+          <div>
+            <div style={{fontSize:13,color:GOLD,fontWeight:700,letterSpacing:1}}>Laboratorium Indonesia 2045</div>
+            <div style={{fontSize:11,color:"#6b7280",marginTop:4}}>Indonesia Weapon Systems Database v0.3 — OSINT sources — Last updated: April 2026</div>
+          </div>
+          <div style={{fontSize:10,color:"#4b5563"}}>lab45.id</div>
+        </div>
+      </div>
+
+      {sel&&<Detail s={sel} onClose={()=>setSel(null)}/>}
+    </div>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+</body>
+</html>
