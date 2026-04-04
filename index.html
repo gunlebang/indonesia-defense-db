@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Indonesia Weapon Systems Database — LAB45</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Helvetica Neue',Arial,sans-serif;background:#fafafa;-webkit-overflow-scrolling:touch}#root{min-height:100vh}</style></head><body><div id="root"></div>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Poppins','Helvetica Neue',Arial,sans-serif;background:#fafafa;-webkit-overflow-scrolling:touch}#root{min-height:100vh}</style></head><body><div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
@@ -14,18 +15,18 @@ const { useState, useMemo } = React;
 const WEAPON_SYSTEMS = [
   // ===== TNI AU - AIR FORCE =====
   // Fighters / Multirole
-  { id: "F16AM", name: "F-16A/B Fighting Falcon (Block 15 OCU eMLU)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 10, status: "Active", era: "4th Gen", specs: { crew: 1, maxSpeed: "Mach 2.0", range: "3,200 km", armament: "AIM-9, AIM-120, Mk-80 series bombs", engine: "1× P&W F100-PW-220", introduced: 1989, note: "Ex-USAF, upgraded under STAR eMLU program" }},
+  { id: "F16AM", name: "F-16A/B Fighting Falcon (Block 15 OCU eMLU)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 10, status: "Active (aging)", era: "4th Gen", specs: { crew: 1, maxSpeed: "Mach 2.0", range: "3,200 km", armament: "AIM-9, AIM-120, Mk-80 series bombs", engine: "1× P&W F100-PW-220", introduced: 1989, note: "Ex-USAF, upgraded under STAR eMLU program" }},
   { id: "F16CD", name: "F-16C/D Fighting Falcon (Block 25/32+)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 23, status: "Active", era: "4th Gen", specs: { crew: "1 (C) / 2 (D)", maxSpeed: "Mach 2.0", range: "3,200 km", armament: "AIM-9, AIM-120 AMRAAM, AGM-65 Maverick, JDAM", engine: "1× P&W F100-PW-220E", introduced: 2014, note: "Ex-USAF Excess Defense Articles (EDA)" }},
   { id: "SU27", name: "Su-27SKM Flanker", category: "Fighter", subcategory: "Air Superiority", branch: "TNI AU", origin: "Russia", manufacturer: "Sukhoi", quantity: 5, status: "Active", era: "4th Gen", specs: { crew: 1, maxSpeed: "Mach 2.35", range: "3,530 km", armament: "R-27, R-73, GSh-30-1 cannon", engine: "2× Saturn AL-31F", introduced: 2003, note: "Upgraded to SKM standard" }},
   { id: "SU30", name: "Su-30MK2 Flanker-G", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "Russia", manufacturer: "Sukhoi", quantity: 11, status: "Active", era: "4th Gen", specs: { crew: 2, maxSpeed: "Mach 2.0", range: "3,000 km", armament: "R-27, R-73, R-77, Kh-31, KAB-500 PGM", engine: "2× Saturn AL-31FP", introduced: 2009, note: "Maritime strike capable, 2 upgraded from MK to MK2" }},
   { id: "RAFALE", name: "Dassault Rafale F4", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "France", manufacturer: "Dassault Aviation", quantity: 42, status: "On Order", era: "4.5 Gen", specs: { crew: "1 (C) / 2 (B)", maxSpeed: "Mach 1.8", range: "3,700 km", armament: "MICA, METEOR, SCALP, Exocet AM39, AASM, 30mm GIAT cannon", engine: "2× Snecma M88-2", introduced: "2026 (expected)", note: "$8.1B deal (2022). 16 twin-seat + 26 single-seat. First delivery Feb 2026. Additional 12-24 under LoI (May 2025)" }},
   { id: "KAAN", name: "TAI KAAN (TF-X)", category: "Fighter", subcategory: "Stealth Multirole", branch: "TNI AU", origin: "Türkiye", manufacturer: "Turkish Aerospace Industries", quantity: 48, status: "On Order", era: "5th Gen", specs: { crew: 1, maxSpeed: "Mach 1.8+", range: "~1,100 km combat", armament: "Internal weapons bay, SDB, SOM-J (planned)", engine: "2× GE F110 (initial) / TEI TF-10000 (planned)", introduced: "TBD", note: "Contract signed July 2024. Program in development phase" }},
   { id: "KF21", name: "KAI KF-21 Boramae (IFX)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "South Korea / Indonesia", manufacturer: "Korea Aerospace Industries", quantity: "TBD (50 planned)", status: "In Development", era: "4.5 Gen", specs: { crew: "1-2", maxSpeed: "Mach 1.81", range: "2,900 km", armament: "AIM-9X, IRIS-T, Meteor, KEPD 350 (planned)", engine: "2× GE F414-GE-400K", introduced: "TBD", note: "Joint development program. Indonesia holds 20% stake (revised 2025). Formerly KF-X/IF-X" }},
-  { id: "HAWK200", name: "BAE Hawk 200", category: "Fighter", subcategory: "Light Attack", branch: "TNI AU", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 22, status: "Active", era: "Light Combat", specs: { crew: 1, maxSpeed: "1,065 km/h", range: "2,520 km", armament: "AIM-9, Mk-80 bombs, ADEN 30mm cannon", engine: "1× Rolls-Royce Adour Mk 871", introduced: 1996, note: "Single-seat light attack variant" }},
-  { id: "HAWK109", name: "BAE Hawk Mk 109/209", category: "Trainer", subcategory: "Lead-In Fighter Trainer", branch: "TNI AU", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 7, qtyDetail: "7 Hawk Mk109 trainers. Note: 22 Hawk Mk209 counted under Hawk 200 (FGA role) per IISS", status: "Active", era: "Trainer", specs: { crew: 2, maxSpeed: "1,028 km/h", range: "2,500 km", armament: "Practice bomb carriers, 30mm cannon pod", engine: "1× Rolls-Royce Adour Mk 861", introduced: 1993, note: "Two-seat advanced trainer variant" }},
+  { id: "HAWK200", name: "BAE Hawk 200", category: "Fighter", subcategory: "Light Attack", branch: "TNI AU", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 22, status: "Active (aging)", era: "Light Combat", specs: { crew: 1, maxSpeed: "1,065 km/h", range: "2,520 km", armament: "AIM-9, Mk-80 bombs, ADEN 30mm cannon", engine: "1× Rolls-Royce Adour Mk 871", introduced: 1996, note: "Single-seat light attack variant" }},
+  { id: "HAWK109", name: "BAE Hawk Mk 109/209", category: "Trainer", subcategory: "Lead-In Fighter Trainer", branch: "TNI AU", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 7, qtyDetail: "7 Hawk Mk109 trainers. Note: 22 Hawk Mk209 counted under Hawk 200 (FGA role) per IISS", status: "Active (aging)", era: "Trainer", specs: { crew: 2, maxSpeed: "1,028 km/h", range: "2,500 km", armament: "Practice bomb carriers, 30mm cannon pod", engine: "1× Rolls-Royce Adour Mk 861", introduced: 1993, note: "Two-seat advanced trainer variant" }},
   { id: "T50I", name: "KAI T-50i Golden Eagle", category: "Trainer", subcategory: "Advanced Jet Trainer / LIFT", branch: "TNI AU", origin: "South Korea", manufacturer: "Korea Aerospace Industries", quantity: 16, status: "Active", era: "Trainer", specs: { crew: 2, maxSpeed: "Mach 1.5", range: "1,851 km", armament: "AIM-9, practice ordnance, 20mm M197 cannon (optional)", engine: "1× GE F404-GE-102", introduced: 2013, note: "6 initial + 6 ordered (2021, $240M). Light combat capable" }},
   // Transport
-  { id: "C130H", name: "Lockheed C-130H/H-30 Hercules", category: "Transport", subcategory: "Tactical Airlift", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 15, status: "Active", era: "Legacy", specs: { crew: 5, maxSpeed: "592 km/h", range: "3,800 km", armament: "None", engine: "4× Allison T56-A-15", introduced: 1960, note: "Various sub-variants, some upgraded by PT DI" }},
+  { id: "C130H", name: "Lockheed C-130H/H-30 Hercules", category: "Transport", subcategory: "Tactical Airlift", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 15, status: "Active (aging)", era: "Legacy", specs: { crew: 5, maxSpeed: "592 km/h", range: "3,800 km", armament: "None", engine: "4× Allison T56-A-15", introduced: 1960, note: "Various sub-variants, some upgraded by PT DI" }},
   { id: "C130J", name: "Lockheed C-130J-30 Super Hercules", category: "Transport", subcategory: "Tactical Airlift", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 5, status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "671 km/h", range: "5,250 km", armament: "None", engine: "4× Rolls-Royce AE 2100D3", introduced: 2019, note: "All 5 delivered" }},
   { id: "A400M", name: "Airbus A400M Atlas", category: "Transport", subcategory: "Strategic/Tactical Airlift", branch: "TNI AU", origin: "Europe (Airbus)", manufacturer: "Airbus Defence & Space", quantity: 5, status: "Delivering", era: "Modern", specs: { crew: 3, maxSpeed: "780 km/h", range: "8,700 km", armament: "None", engine: "4× Europrop TP400-D6", introduced: 2025, note: "$2B contract (2017). 2 delivered as of late 2025, remaining in delivery" }},
   { id: "CN295", name: "Airbus CN-295", category: "Transport", subcategory: "Medium Tactical", branch: "TNI AU", origin: "Spain / Indonesia", manufacturer: "Airbus / PT DI", quantity: 9, status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "481 km/h", range: "3,700 km", armament: "None (MPA variant has ASW options)", engine: "2× GE CT7-9C3", introduced: 2012, note: "Assembled by PT DI. MPA variant also in service" }},
@@ -59,23 +60,23 @@ const WEAPON_SYSTEMS = [
   // Artillery
   { id: "CAESAR", name: "Nexter CAESAR 155mm", category: "Artillery", subcategory: "Self-Propelled Howitzer", branch: "TNI AD", origin: "France", manufacturer: "Nexter (KNDS)", quantity: 54, status: "Active", era: "Modern", specs: { crew: 5, maxSpeed: "100 km/h (road)", range: "42 km (ERFB-BB)", armament: "155mm/52 cal gun", engine: "Renault DXi7 (6×6 truck)", introduced: 2012, note: "Truck-mounted SPH. NATO-compatible. Additional units under LoI (2025)" }},
   { id: "ASTROS", name: "Avibras ASTROS II Mk 6", category: "Artillery", subcategory: "Multiple Launch Rocket System", branch: "TNI AD", origin: "Brazil", manufacturer: "Avibras", quantity: 63, qtyDetail: "63 launcher vehicles (IISS 2025). Previous estimates of 36 counted launcher sections", status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "80 km/h", range: "9-300 km (ammunition dependent)", armament: "SS-30/40/60/80 rockets, AV-TM 300 cruise missile", engine: "Tector 6x6 truck", introduced: 2014, note: "Multi-caliber system (127mm to 300mm). GPS/INS guided variants available" }},
-  { id: "RM70", name: "RM-70 Grad", category: "Artillery", subcategory: "Multiple Launch Rocket System", branch: "TNI AL", origin: "Czechoslovakia", manufacturer: "ZTS", quantity: 17, qtyDetail: "17 total: RM-70=9, RM-70 Vampir=8 (IISS 2025)", status: "Active", era: "Cold War", specs: { crew: 4, maxSpeed: "80 km/h", range: "20 km", armament: "40× 122mm rockets", engine: "Tatra V12 diesel", introduced: 1990, note: "Marine Corps MLRS. Mounted on Tatra 813 chassis" }},
+  { id: "RM70", name: "RM-70 Grad", category: "Artillery", subcategory: "Multiple Launch Rocket System", branch: "TNI AL", origin: "Czechoslovakia", manufacturer: "ZTS", quantity: 17, qtyDetail: "17 total: RM-70=9, RM-70 Vampir=8 (IISS 2025)", status: "Active (aging)", era: "Cold War", specs: { crew: 4, maxSpeed: "80 km/h", range: "20 km", armament: "40× 122mm rockets", engine: "Tatra V12 diesel", introduced: 1990, note: "Marine Corps MLRS. Mounted on Tatra 813 chassis" }},
   // Helicopters (AD)
   { id: "APACHE", name: "Boeing AH-64E Apache Guardian", category: "Helicopter", subcategory: "Attack Helicopter", branch: "TNI AD", origin: "United States", manufacturer: "Boeing", quantity: 8, status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "293 km/h", range: "476 km", armament: "AGM-114 Hellfire, Hydra 70 rockets, M230 30mm chain gun", engine: "2× GE T700-GE-701D", introduced: 2018, note: "$1.4B FMS deal. Longbow radar equipped" }},
   { id: "MI35", name: "Mil Mi-35P Hind", category: "Helicopter", subcategory: "Attack Helicopter", branch: "TNI AD", origin: "Russia", manufacturer: "Rostvertol", quantity: 6, status: "Active", era: "Cold War / Modern", specs: { crew: 3, maxSpeed: "310 km/h", range: "460 km", armament: "9M114 Shturm ATGMs, S-8 rockets, GSh-23L 23mm cannon", engine: "2× Klimov TV3-117VMA", introduced: 2003, note: "Attack/transport. 2 delivered 2003, 3 in 2010" }},
-  { id: "BELL412", name: "Bell 412EP/EPI", category: "Helicopter", subcategory: "Utility / Transport", branch: "TNI AD", origin: "United States / Canada", manufacturer: "Bell Helicopter / PT DI", quantity: 39, qtyDetail: "39 total: NB-412=6, Bell 412EP=24, Bell 412EPI=9 (IISS 2025)", status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "259 km/h", range: "672 km", armament: "Door guns, rocket pods (optional)", engine: "2× P&WC PT6T-3DF", introduced: 1982, note: "Workhorse utility helicopter. Some assembled by PT DI" }},
+  { id: "BELL412", name: "Bell 412EP/EPI", category: "Helicopter", subcategory: "Utility / Transport", branch: "TNI AD", origin: "United States / Canada", manufacturer: "Bell Helicopter / PT DI", quantity: 39, qtyDetail: "39 total: NB-412=6, Bell 412EP=24, Bell 412EPI=9 (IISS 2025)", status: "Active (aging)", era: "Modern", specs: { crew: 2, maxSpeed: "259 km/h", range: "672 km", armament: "Door guns, rocket pods (optional)", engine: "2× P&WC PT6T-3DF", introduced: 1982, note: "Workhorse utility helicopter. Some assembled by PT DI" }},
   { id: "MI17", name: "Mil Mi-17V5 Hip", category: "Helicopter", subcategory: "Medium Transport", branch: "TNI AD", origin: "Russia", manufacturer: "Kazan Helicopters", quantity: 15, qtyDetail: "15 total Mi-17V-5 across Army Aviation (IISS 2025)", status: "Active", era: "Modern", specs: { crew: 3, maxSpeed: "250 km/h", range: "580 km", armament: "Door guns, rockets (optional)", engine: "2× Klimov TV3-117VM", introduced: 2010, note: "Heavy-lift transport" }},
   { id: "FENNEC", name: "Airbus AS550 Fennec", category: "Helicopter", subcategory: "Light Utility / Scout", branch: "TNI AD", origin: "France", manufacturer: "Airbus Helicopters", quantity: 11, qtyDetail: "11 total: 5x AS550C3 + 6x AS555AP (IISS 2025)", status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "278 km/h", range: "660 km", armament: "20mm cannon, rockets (optional)", engine: "1× Turbomeca Arriel 2B", introduced: 2012, note: "Light observation / armed reconnaissance" }},
   // Anti-Tank
   { id: "JAVELIN", name: "FGM-148 Javelin", category: "Anti-Tank", subcategory: "ATGM (Man-Portable)", branch: "TNI AD", origin: "United States", manufacturer: "Raytheon / Lockheed Martin", quantity: "25 CLUs + 180 missiles", status: "Active", era: "Modern", specs: { crew: 1, maxSpeed: "N/A", range: "2,500 m", armament: "Tandem HEAT warhead (top-attack)", engine: "N/A", introduced: 2012, note: "Fire-and-forget. IR imaging seeker. Pen >750mm RHA" }},
   // Missiles
-  { id: "KHAN", name: "Khan SRBM", category: "Missile", subcategory: "Short-Range Ballistic Missile", branch: "TNI AD", origin: "Türkiye / Indonesia", manufacturer: "Roketsan / PT Pindad", quantity: "Classified", status: "Active", era: "Modern", specs: { crew: "Multi", maxSpeed: "N/A", range: "~280 km", armament: "HE / penetrator warhead", engine: "Solid rocket motor", introduced: "~2024", note: "Indonesia's first SRBM capability. ToT with Türkiye" }},
+  { id: "KHAN", name: "Khan SRBM", category: "Missile", subcategory: "Short-Range Ballistic Missile", branch: "TNI AD", origin: "Türkiye", manufacturer: "Roketsan / PT Pindad", quantity: "Classified", status: "Active", era: "Modern", specs: { crew: "Multi", maxSpeed: "N/A", range: "~280 km", armament: "HE / penetrator warhead", engine: "Solid rocket motor", introduced: "~2024", note: "Indonesia's first SRBM capability. ToT with Türkiye" }},
 
   // ===== TNI AL - NAVY =====
   // Submarines
   { id: "CAKRA", name: "KRI Cakra (Type 209/1300)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "Germany", manufacturer: "Howaldtswerke-Deutsche Werft", quantity: 1, status: "Active (aging)", era: "Cold War", specs: { crew: 33, maxSpeed: "21.5 kn (submerged)", range: "8,200 nm (snorkel)", armament: "8× 533mm torpedo tubes (14 torpedoes)", engine: "Diesel-electric", introduced: 1981, note: "KRI Cakra-401. KRI Nanggala-402 lost April 2021" }},
-  { id: "NAGAPASA", name: "Nagapasa-class (DSME 209/1400)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "South Korea", manufacturer: "Daewoo (DSME)", quantity: 3, status: "Active", era: "Modern", specs: { crew: 40, maxSpeed: "21 kn (submerged)", range: "10,000 nm (snorkel)", armament: "8× 533mm torpedo tubes, SUT Mod 4 torpedoes", engine: "Diesel-electric", introduced: 2017, note: "3rd unit (KRI Alugoro-405) built locally at PT PAL" }},
-  { id: "SCORPENE", name: "Scorpène Evolved (Li-ion)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "France", manufacturer: "Naval Group / PT PAL", quantity: 2, status: "On Order", era: "Modern", specs: { crew: 31, maxSpeed: "~20 kn (submerged)", range: "Extended (Li-ion battery)", armament: "6× 533mm torpedo tubes, SM39 Exocet (optional)", engine: "Diesel-electric with Li-ion", introduced: "~2028 (est.)", note: "$2.16B contract (March 2024). Built locally at PT PAL. Lithium-ion batteries for extended range" }},
+  { id: "NAGAPASA", name: "Nagapasa-class (DSME 209/1400)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "South Korea / Indonesia", manufacturer: "Daewoo (DSME) / PT PAL", quantity: 3, status: "Active", era: "Modern", specs: { crew: 40, maxSpeed: "21 kn (submerged)", range: "10,000 nm (snorkel)", armament: "8× 533mm torpedo tubes, SUT Mod 4 torpedoes", engine: "Diesel-electric", introduced: 2017, note: "First 2 built in Korea, 3rd (KRI Alugoro-405) assembled at PT PAL Surabaya with ToT. $1.02B contract" }},
+  { id: "SCORPENE", name: "Scorpène Evolved (Li-ion)", category: "Submarine", subcategory: "Diesel-Electric Attack", branch: "TNI AL", origin: "France / Indonesia", manufacturer: "Naval Group / PT PAL", quantity: 2, status: "On Order", era: "Modern", specs: { crew: 31, maxSpeed: "~20 kn (submerged)", range: "Extended (Li-ion battery)", armament: "6× 533mm torpedo tubes, SM39 Exocet (optional)", engine: "Diesel-electric with Li-ion", introduced: "~2028 (est.)", note: "$2.16B contract (March 2024). Built entirely at PT PAL Surabaya with Naval Group ToT. Full lithium-ion batteries" }},
   // Frigates / Destroyers
   { id: "MARTADINATA", name: "Martadinata-class (SIGMA 10514)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Netherlands", manufacturer: "Damen Schelde", quantity: 2, status: "Active", era: "Modern", specs: { crew: 122, maxSpeed: "28 kn", range: "5,000 nm", armament: "Exocet MM40 Block 3, VL MICA, Oto Melara 76mm, 2× Oerlikon 20mm, torpedo tubes", engine: "CODOE", introduced: 2017, note: "Classified as destroyers by TNI AL (PKR). Designated KRI Raden Eddy Martadinata-331 & KRI I Gusti Ngurah Rai-332" }},
   { id: "BRAWIJAYA", name: "Brawijaya-class (Fincantieri PPA Light+)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Italy", manufacturer: "Fincantieri", quantity: 2, status: "Delivering", era: "Modern", specs: { crew: "~170", maxSpeed: "31 kn", range: "6,500 nm", armament: "127mm gun, VLS for SAM, 76mm Super Rapid guns, torpedo tubes", engine: "CODLAG", introduced: 2025, note: "$1.39B (2024). KRI Brawijaya-320 commissioned Jul 2025. KRI Prabu Siliwangi-321 expected 2026. 4,912 tons — largest surface combatants" }},
@@ -110,18 +111,18 @@ const WEAPON_SYSTEMS = [
   { id: "ISTIF", name: "Istif-class frigate", category: "Surface Combatant", subcategory: "Frigate", branch: "TNI AL", origin: "Turkiye", manufacturer: "TAIS Shipyards", quantity: 2, status: "On Order", era: "Modern", base:"TBD", deploy:"N/A (ordered Jul 2025)", specs: { crew: "~200", maxSpeed: "29+ kn", range: "TBD", armament: "Atmaca AShM, MIDLAS VLS, 76mm gun, torpedo tubes", engine: "CODAD", introduced: "TBD", note: "Ordered 26 July 2025 per TNI AL. Turkish I-class frigate design" }},
   // Army - Legacy armor (IISS confirmed active)
   { id: "AMX13", name: "AMX-13 Light Tank", category: "Armor", subcategory: "Light Tank", branch: "TNI AD", origin: "France / Netherlands", manufacturer: "AMX / transferred via NLD", quantity: 275, status: "Active (aging)", era: "Cold War", base:"Various Yonkav across Kodam", deploy:"Territorial defense, training", specs: { crew: 3, maxSpeed: "60 km/h", range: "400 km", armament: "75mm or 90mm gun (retrofitted variants)", engine: "SOFAM 8Gxb (250 hp)", introduced: 1960, note: "275 units per IISS 2025. Retrofitted multiple times. Some upgraded with 90mm Cockerill turret. Oldest MBT-class platform still in service" }},
-  { id: "SCORPION90", name: "FV101 Scorpion-90", category: "Armor", subcategory: "Light Tank", branch: "TNI AD", origin: "United Kingdom", manufacturer: "Alvis", quantity: 60, status: "Active", era: "Cold War", base:"Yonkav across Kodam", deploy:"Rapid deployment, airborne ops (Kostrad)", specs: { crew: 3, maxSpeed: "80 km/h", range: "644 km", armament: "90mm Cockerill Mk III gun", engine: "Jaguar J60 (190 hp)", introduced: 1995, note: "60 units (IISS 2025). Upgraded with 90mm gun from original 76mm. Light enough for C-130 transport" }},
-  { id: "M109", name: "M109A4 Paladin", category: "Artillery", subcategory: "Self-Propelled Howitzer", branch: "TNI AD", origin: "United States", manufacturer: "BAE Systems / United Defense", quantity: 18, status: "Active", era: "Cold War", base:"Yonarmed, various Kodam", deploy:"Field artillery support, Latgab TNI", specs: { crew: 6, maxSpeed: "56 km/h", range: "22 km (standard HE)", armament: "155mm M126 howitzer", engine: "Detroit Diesel 8V71T (405 hp)", introduced: "~2000", note: "18 units (IISS 2025). Tracked SPH for heavy fire support" }},
+  { id: "SCORPION90", name: "FV101 Scorpion-90", category: "Armor", subcategory: "Light Tank", branch: "TNI AD", origin: "United Kingdom", manufacturer: "Alvis", quantity: 60, status: "Active (aging)", era: "Cold War", base:"Yonkav across Kodam", deploy:"Rapid deployment, airborne ops (Kostrad)", specs: { crew: 3, maxSpeed: "80 km/h", range: "644 km", armament: "90mm Cockerill Mk III gun", engine: "Jaguar J60 (190 hp)", introduced: 1995, note: "60 units (IISS 2025). Upgraded with 90mm gun from original 76mm. Light enough for C-130 transport" }},
+  { id: "M109", name: "M109A4 Paladin", category: "Artillery", subcategory: "Self-Propelled Howitzer", branch: "TNI AD", origin: "United States", manufacturer: "BAE Systems / United Defense", quantity: 18, status: "Active (aging)", era: "Cold War", base:"Yonarmed, various Kodam", deploy:"Field artillery support, Latgab TNI", specs: { crew: 6, maxSpeed: "56 km/h", range: "22 km (standard HE)", armament: "155mm M126 howitzer", engine: "Detroit Diesel 8V71T (405 hp)", introduced: "~2000", note: "18 units (IISS 2025). Tracked SPH for heavy fire support" }},
   { id: "KH179", name: "KH-179 155mm Howitzer", category: "Artillery", subcategory: "Towed Howitzer", branch: "TNI AD", origin: "South Korea", manufacturer: "WIA (now Hanwha)", quantity: 18, status: "Active", era: "Modern", base:"Yonarmed units", deploy:"Field artillery exercises, Latgab TNI", specs: { crew: "6-8", maxSpeed: "N/A (towed)", range: "30 km", armament: "155mm/39 cal howitzer", engine: "N/A (towed)", introduced: 2011, note: "18 units (IISS 2025). Upgraded variant of M114A1" }},
   // Army - Additional helicopter types (IISS)
   { id: "BO105", name: "MBB/Airbus Bo-105 (NBo-105)", category: "Helicopter", subcategory: "Light Utility", branch: "TNI AD", origin: "Germany / Indonesia", manufacturer: "MBB / PT DI", quantity: 14, status: "Active (aging)", era: "Cold War", base:"Puspenerbad, Semarang & various", deploy:"Light transport, observation, medevac", specs: { crew: 2, maxSpeed: "245 km/h", range: "575 km", armament: "None standard (door guns optional)", engine: "2x Allison 250-C20B", introduced: 1976, note: "14 total: 12 Army + 2 Air Force (IISS 2025). Some built locally as NBo-105 by PT DI. Aging fleet" }},
   { id: "BELL205", name: "Bell 205A (AB-205A)", category: "Helicopter", subcategory: "Utility Transport", branch: "TNI AD", origin: "United States", manufacturer: "Bell / Agusta", quantity: 7, status: "Active (aging)", era: "Cold War", base:"Puspenerbad regional detachments", deploy:"Light transport, HADR", specs: { crew: 2, maxSpeed: "222 km/h", range: "510 km", armament: "Door guns (optional)", engine: "1x Lycoming T5313A", introduced: 1975, note: "7 units (IISS 2025). Legacy UH-1 derivative. AB-205A (Agusta-built)" }},
-  { id: "SUPERPUMA", name: "H215 (AS332) Super Puma / NAS332", category: "Helicopter", subcategory: "Medium Transport", branch: "TNI AU", origin: "France / Indonesia", manufacturer: "Airbus Helicopters / PT DI", quantity: 10, status: "Active", era: "Modern", base:"Lanud Atang Sendjaja, Bogor & various", deploy:"VIP transport, HADR, medevac", specs: { crew: 2, maxSpeed: "278 km/h", range: "842 km", armament: "None standard", engine: "2x Turbomeca Makila 1A1", introduced: 1988, note: "10 total: H215/AS332=9, NAS332 C1+=1 (IISS 2025). Some assembled locally by PT DI as NAS332" }},
+  { id: "SUPERPUMA", name: "H215 (AS332) Super Puma / NAS332", category: "Helicopter", subcategory: "Medium Transport", branch: "TNI AU", origin: "France / Indonesia", manufacturer: "Airbus Helicopters / PT DI", quantity: 10, status: "Active (aging)", era: "Modern", base:"Lanud Atang Sendjaja, Bogor & various", deploy:"VIP transport, HADR, medevac", specs: { crew: 2, maxSpeed: "278 km/h", range: "842 km", armament: "None standard", engine: "2x Turbomeca Makila 1A1", introduced: 1988, note: "10 total: H215/AS332=9, NAS332 C1+=1 (IISS 2025). Some assembled locally by PT DI as NAS332" }},
   // Recent SIPRI orders - helicopters
   { id: "BLACKHAWK", name: "Sikorsky S-70L Black Hawk", category: "Helicopter", subcategory: "Medium Transport", branch: "TNI AD", origin: "United States", manufacturer: "Sikorsky (Lockheed Martin)", quantity: 24, status: "On Order", era: "Modern", base:"TBD (likely Puspenerbad)", deploy:"N/A (ordered 2023)", specs: { crew: 2, maxSpeed: "295 km/h", range: "590 km", armament: "Door guns, rockets (optional)", engine: "2x GE T700-GE-701D", introduced: "TBD", note: "24 units ordered 2023 per SIPRI. Significant Army Aviation expansion" }},
   // Recent SIPRI orders - aircraft
   { id: "A330MRTT", name: "Airbus A330 MRTT", category: "Transport", subcategory: "Tanker/Transport", branch: "TNI AU", origin: "France", manufacturer: "Airbus Defence & Space", quantity: 2, status: "On Order", era: "Modern", base:"TBD", deploy:"N/A (ordered 2023)", specs: { crew: 3, maxSpeed: "860 km/h", range: "14,800 km", armament: "None", engine: "2x Rolls-Royce Trent 700", introduced: "TBD", note: "2 tanker/transport aircraft ordered 2023 per SIPRI. Will provide TNI AU first AAR capability" }},
-  { id: "M346FA", name: "Leonardo M-346FA", category: "Fighter", subcategory: "Light Attack / Trainer", branch: "TNI AU", origin: "Italy", manufacturer: "Leonardo", quantity: 12, status: "On Order", era: "Modern", base:"TBD", deploy:"N/A (ordered 2025)", specs: { crew: "1-2", maxSpeed: "1,085 km/h", range: "1,890 km", armament: "Grifo radar, AIM-9, bombs, gun pods", engine: "2x Honeywell F124-GA-200", introduced: "TBD", note: "12 units ordered 2025 per SIPRI. Fighter Attack variant of M-346 trainer. Light combat/LIFT role" }},
+  { id: "M346FA", name: "Leonardo M-346F Block 20", category: "Fighter", subcategory: "Light Attack / LIFT Trainer", branch: "TNI AU", origin: "Italy", manufacturer: "Leonardo", quantity: 24, status: "On Order", era: "Modern", base:"TBD", deploy:"Replace Hawk 109/209. Training + light combat", specs: { crew: "1-2", maxSpeed: "1,085 km/h", range: "1,890 km", armament: "AESA radar, Link 16, AIM-9, bombs, gun pods, ECM", engine: "2× Honeywell F124-GA-200", introduced: "TBD", note: "Selected Jul 2025. LOI signed Singapore Airshow Feb 2026 with PT ESystem Solutions. Block 20 with LAD cockpit, AESA, Link 16. ~24 aircraft + option 12 more. Replaces Hawk fleet" }},
   { id: "TB2", name: "Bayraktar TB2", category: "UAV", subcategory: "MALE UCAV", branch: "TNI AU", origin: "Turkiye", manufacturer: "Baykar", quantity: 12, status: "On Order", era: "Modern", base:"TBD", deploy:"N/A (ordered 2024)", specs: { crew: "0 (Remote)", maxSpeed: "220 km/h", range: "150 km data link", armament: "MAM-L, MAM-C smart munitions", engine: "1x Rotax 912", introduced: "TBD", note: "12 units ordered 2024 per SIPRI. Combat-proven UCAV from Ukraine/Libya/Nagorno-Karabakh conflicts" }},
   // SIPRI - Turkish missile systems
   { id: "HISARO", name: "Aselsan/Roketsan Hisar-O", category: "Air Defense", subcategory: "MRSAM", branch: "TNI AD", origin: "Turkiye", manufacturer: "Aselsan / Roketsan", quantity: "TBD", status: "On Order", era: "Modern", base:"TBD", deploy:"N/A (ordered 2023)", specs: { crew: "Multi", maxSpeed: "N/A", range: "25 km", armament: "Hisar-O IR/RF guided SAM", engine: "N/A", introduced: "TBD", note: "Medium-range SAM ordered 2023 per SIPRI. Turkish-made MRSAM system" }},
@@ -132,7 +133,147 @@ const WEAPON_SYSTEMS = [
   // Navy helicopters
   { id: "AS565", name: "Airbus AS565 MBe Panther", category: "Helicopter", subcategory: "Naval ASW/Utility", branch: "TNI AL", origin: "France / Indonesia", manufacturer: "Airbus Helicopters / PT DI", quantity: 11, status: "Active", era: "Modern", base:"Pusat Penerbangan AL (Puspenerbal), Juanda, Surabaya", deploy:"ASW patrol, SAR, ship-borne ops (embarked on frigates/corvettes)", specs: { crew: 2, maxSpeed: "296 km/h", range: "875 km", armament: "Torpedoes, depth charges (ASW variant)", engine: "2x Turbomeca Arriel 2C2", introduced: 2008, note: "Primary TNI AL shipborne helicopter. 11 units per IISS 2025. Operated from frigate/corvette flight decks" }},
 
+  // ===== A2/AD ADDITIONS =====
+  { id: "EMB314", name: "Embraer EMB-314 Super Tucano", category: "Fighter", subcategory: "COIN / Light Attack", branch: "TNI AU", origin: "Brazil", manufacturer: "Embraer", quantity: 16, status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "590 km/h", range: "1,330 km", armament: "12.7mm FN Herstal HMP, 70mm rockets, bombs", engine: "1× P&W PT6A-68C (1,600 shp)", introduced: 2012, note: "COIN/light attack. Deployed to Papua. Based at Lanud Abdulrachman Saleh, Malang" }},
+  { id: "STARSTREAK", name: "Thales Starstreak ForceSHIELD", category: "Air Defense", subcategory: "VSHORAD", branch: "TNI AD", origin: "United Kingdom", manufacturer: "Thales UK", quantity: 9, status: "Active", era: "Modern", specs: { crew: "2-3", maxSpeed: "N/A", range: "7 km", armament: "Starstreak HVM laser-guided SAM", engine: "N/A", introduced: 2020, note: "9 ForceSHIELD systems with GM200 radar. Arhanud units. 3-dart VSHORAD" }},
+  { id: "C705", name: "CASIC C-705 AShM (Shore-based)", category: "Missile", subcategory: "Coastal Defense / AShM", branch: "TNI AL", origin: "China", manufacturer: "CASIC", quantity: "Multiple batteries", status: "Active", era: "Modern", specs: { crew: "Multi", maxSpeed: "Subsonic", range: "130 km", armament: "165 kg semi-AP warhead", engine: "Turbojet", introduced: 2014, note: "Shore-launched AShM. Also on KCR-40/60. Covers strait chokepoints" }},
+  { id: "EXOCET_SHORE", name: "MBDA Exocet MM40 Block 3 (Coastal)", category: "Missile", subcategory: "Coastal Defense / AShM", branch: "TNI AL", origin: "France", manufacturer: "MBDA", quantity: "On Order", status: "On Order", era: "Modern", specs: { crew: "Multi", maxSpeed: "Subsonic (high)", range: "200 km", armament: "165 kg shaped-charge warhead", engine: "Turbojet + booster", introduced: "TBD", note: "Shore-based coastal defense variant of Exocet Block 3" }},
+  { id: "CN235MPA", name: "Airbus CN-235 MPA", category: "Transport", subcategory: "Maritime Patrol / ASW", branch: "TNI AU", origin: "Spain / Indonesia", manufacturer: "Airbus / PT DI", quantity: 4, status: "Active", era: "Modern", specs: { crew: "5+", maxSpeed: "460 km/h", range: "4,000 km", armament: "Sonobuoys, torpedoes (optional), radar, FLIR", engine: "2× GE CT7-9C3", introduced: 2014, note: "Maritime patrol variant. Surface search radar, FLIR, sonobuoy dispensers" }},
+  { id: "B737", name: "Boeing 737-200 Surveiller", category: "Transport", subcategory: "Maritime ISR", branch: "TNI AU", origin: "United States", manufacturer: "Boeing", quantity: 3, status: "Active (aging)", era: "Cold War", specs: { crew: "10+", maxSpeed: "800 km/h", range: "5,000 km", armament: "None (ISR sensors, radar, FLIR)", engine: "2× P&W JT8D-17A", introduced: 1982, note: "Maritime surveillance. Skadron 5, Lanud Sultan Hasanuddin. SLAMMR radar" }},
+  { id: "KCR70M", name: "KCR-70M Fast Attack Craft", category: "Surface Combatant", subcategory: "Fast Attack Craft (Missile)", branch: "TNI AL", origin: "Türkiye / Indonesia", manufacturer: "Sefine Shipyard (TAIS)", quantity: 2, status: "Under Construction", era: "Modern", specs: { crew: 55, maxSpeed: "40+ kn", range: "1,600 nm", armament: "76mm gun, SSM (likely Atmaca), 12.7mm MG, 3D radar", engine: "CODAG (2× diesel + 1× gas turbine, Kongsberg waterjet)", introduced: "~2026", note: "Keel laid Jul 2025 at Sefine Shipyard, Türkiye. First delivery expected mid-2026. 850 tonnes. Technology transfer to Indonesia included" }},
+  { id: "CAKIR", name: "Roketsan Çakır Cruise Missile", category: "Missile", subcategory: "Cruise Missile (Air/Surface-launched)", branch: "TNI AL", origin: "Türkiye / Indonesia", manufacturer: "Roketsan / PT Republikorp", quantity: "On Order", status: "On Order", era: "Modern", specs: { crew: "N/A", maxSpeed: "Mach 0.75-0.85", range: "150 km (air) / 100 km (surface)", armament: "70 kg warhead (HE, thermobaric, semi-AP)", engine: "Kale KTJ-1750 turbojet", introduced: "TBD", note: "Agreement signed IDEF Jul 2025. Joint production facility in Indonesia. Technology transfer included. Air & surface launch variants" }},
+  { id: "PC24", name: "Pilatus PC-24 Super Versatile Jet", category: "Transport", subcategory: "Light Transport / Trainer", branch: "TNI AU", origin: "Switzerland", manufacturer: "Pilatus Aircraft", quantity: 12, status: "On Order", era: "Modern", specs: { crew: "1-2", maxSpeed: "815 km/h", range: "3,610 km", armament: "None (transport/training)", engine: "2× Williams FJ44-4A", introduced: "TBD", note: "Contract signed Mar 2026 with PT E-System Solutions. IFR pilot training, transport, liaison. Unpaved runway capable. Option for additional aircraft" }},
+  { id: "PC21", name: "Pilatus PC-21 Trainer", category: "Trainer", subcategory: "Turboprop Trainer", branch: "TNI AU", origin: "Switzerland", manufacturer: "Pilatus Aircraft", quantity: 24, status: "On Order", era: "Modern", specs: { crew: 2, maxSpeed: "685 km/h", range: "1,334 km", armament: "Training weapons (optional hardpoints)", engine: "1× P&W PT6A-68B (1,600 shp)", introduced: "TBD", note: "LOI signed Mar 2026. Includes ground-based training equipment, spares, GSE and technical support" }},
+  { id: "BRAHMOS", name: "BrahMos Supersonic Cruise Missile", category: "Missile", subcategory: "Coastal Defense / AShM (Supersonic)", branch: "TNI AL", origin: "India", manufacturer: "BrahMos Aerospace (India-Russia JV)", quantity: "3 batteries", status: "On Order", era: "Modern", specs: { crew: "Multi", maxSpeed: "Mach 2.8-3.0", range: "290 km", armament: "200-300 kg warhead", engine: "Solid booster + liquid ramjet", introduced: "~2028-2029", note: "Agreement confirmed Mar 2026. Est. $300-450M. Shore-based coastal defense. 3 batteries with launchers, radars, command posts. Delivery within 36 months. Second export customer after Philippines" }},
 ];
+
+const CONTRACT_VALUES = {
+  "RAFALE": "$8.1B (42 aircraft, Dassault 2022)",
+  "KAAN": "Undisclosed (48 aircraft, TAI 2025)",
+  "SCORPENE": "~$2B (2 subs, Naval Group 2024)",
+  "BRAWIJAYA": "$1.39B (2 PPA frigates, Fincantieri 2024)",
+  "ISTIF": "~$1B (2 frigates, TAIS/Qatar, DIMDEX 2026)",
+  "KHAN": "Part of €500M+ (Excalibur/Roketsan 2022)",
+  "HISARO": "Part of €500M+ (Excalibur/Roketsan 2022)",
+  "SIPER": "Part of €500M+ (Excalibur/Roketsan 2022)",
+  "BORA": "Part of €500M+ (Excalibur/Roketsan 2022)",
+  "ATMACA": "~45 missiles (PT Republik Defensindo 2024)",
+  "CAKIR": "Undisclosed JV (Roketsan/Republikorp 2025)",
+  "A400M": "~$500M est. (2 aircraft, Airbus 2023)",
+  "TB2": "Part of drone pkg (60× TB3 + 9× Akıncı, Baykar 2025)",
+  "KCR70M": "Undisclosed (2 vessels, Sefine/TAIS 2024)",
+  "M346FA": "Est. $1.5–2B (~24 aircraft, Leonardo, LOI 2026)",
+  "PC24": "Undisclosed (12 aircraft, Pilatus, contract 2026)",
+  "PC21": "Undisclosed (24 aircraft, Pilatus, LOI 2026)",
+  "BLACKHAWK": "~$800M est. (24× S-70M, Lockheed Martin)",
+  "NAGAPASA": "$1.02B (3 subs, DSME 2011/2019)",
+  "GARIBALDI": "$1.18B (2 PPA, Fincantieri 2024)",
+  "KF21": "$450M (reduced contribution, KAI)",
+  "RWFRIGATE": "~$1B est. (2 frigates, Babcock/PT PAL)",
+  "NASAMS": "Undisclosed (Kongsberg/Raytheon)",
+  "A330MRTT": "Undisclosed (Airbus, ordered ~2024)",
+  "C130J": "~$366M (5 aircraft, Lockheed Martin FMS 2020)",
+  "BRAHMOS": "~$300-450M (3 batteries, BrahMos Aerospace 2026)",
+};
+
+const SOURCES = {
+  "RAFALE":["Confirmed","Dassault Aviation, Indonesian MoD (Jan 2026), IISS MB 2026"],
+  "KAAN":["Confirmed","TAI, Indonesian MoD (Jun 2025)"],
+  "SCORPENE":["Confirmed","Naval Group (Mar 2024), Indonesian MoD"],
+  "BRAWIJAYA":["Confirmed","Fincantieri (Nov 2024), USNI News"],
+  "GARIBALDI":["Confirmed","Italian MoD, Indonesian MoD (2024)"],
+  "ISTIF":["Confirmed","TAIS/STM, DIMDEX 2026 signing"],
+  "BRAHMOS":["Confirmed","Indonesian MoD spokesman (Mar 2026), The Diplomat"],
+  "NAGAPASA":["Confirmed","DSME/PT PAL, SIPRI, IISS MB 2026"],
+  "A400M":["Confirmed","Airbus Defence (2023), Indonesian MoD"],
+  "C130J":["Confirmed","Lockheed Martin FMS (2020), IISS MB 2026"],
+  "APACHE":["Confirmed","Boeing FMS, IISS MB 2026, SIPRI"],
+  "M346FA":["Reported","Leonardo LOI (Feb 2026), Alert 5, Janes"],
+  "PC24":["Confirmed","Pilatus contract (Mar 2026)"],
+  "PC21":["Reported","Pilatus LOI (Mar 2026)"],
+  "TB2":["Reported","Baykar (Feb 2025), defense media"],
+  "KHAN":["Confirmed","Indo Defence 2022, Excalibur Army/Roketsan"],
+  "HISARO":["Confirmed","Indo Defence 2022, Excalibur Army/Roketsan"],
+  "SIPER":["Confirmed","Indo Defence 2022, Excalibur Army/Roketsan"],
+  "BORA":["Confirmed","Indo Defence 2022, Excalibur Army/Roketsan"],
+  "ATMACA":["Confirmed","Roketsan (Jan 2024)"],
+  "CAKIR":["Confirmed","Roketsan/Republikorp JV, IDEF 2025"],
+  "KCR70M":["Confirmed","Sefine Shipyard (keel laid Jul 2025)"],
+  "RWFRIGATE":["Confirmed","Babcock/PT PAL, Indonesian MoD"],
+  "BLACKHAWK":["Confirmed","Lockheed Martin (2023), IISS MB 2026"],
+  "NASAMS":["Confirmed","Kongsberg/Raytheon, Norwegian MoD"],
+  "A330MRTT":["Reported","Airbus (~2024), defense media"],
+  "KF21":["Confirmed","KAI/DAPA, Indonesian MoD"],
+  "ANKAS":["Confirmed","TAI (2022), delivered 2025"],
+  "F16AM":["Confirmed","IISS MB 2026, SIPRI, US FMS"],
+  "F16CD":["Confirmed","IISS MB 2026, SIPRI, US FMS"],
+  "SU27":["Confirmed","IISS MB 2026, SIPRI"],
+  "SU30":["Confirmed","IISS MB 2026, SIPRI"],
+  "HAWK109":["Confirmed","IISS MB 2026, BAE Systems"],
+  "HAWK200":["Confirmed","IISS MB 2026, BAE Systems"],
+  "T50I":["Confirmed","IISS MB 2026, KAI"],
+  "EMB314":["Confirmed","IISS MB 2026, Embraer"],
+  "C130H":["Confirmed","IISS MB 2026, SIPRI"],
+  "CN295":["Confirmed","IISS MB 2026, Airbus/PT DI"],
+  "CN235MPA":["Confirmed","IISS MB 2026, Airbus/PT DI"],
+  "B737":["Confirmed","IISS MB 2026"],
+  "H225M":["Confirmed","IISS MB 2026, Airbus"],
+  "BELL412":["Confirmed","IISS MB 2026, Bell/PT DI"],
+  "BELL205":["Confirmed","IISS MB 2026"],
+  "MI17":["Confirmed","IISS MB 2026, SIPRI"],
+  "MI35":["Confirmed","IISS MB 2026, SIPRI"],
+  "SUPERPUMA":["Confirmed","IISS MB 2026, PT DI"],
+  "BO105":["Confirmed","IISS MB 2026, PT DI"],
+  "FENNEC":["Confirmed","IISS MB 2026, Airbus"],
+  "AS565":["Confirmed","IISS MB 2026, Airbus"],
+  "CH4":["Confirmed","IISS MB 2026, SIPRI"],
+  "PTPAL_AUV":["Reported","PT PAL (2024), defense media"],
+  "CAKRA":["Confirmed","IISS MB 2026, SIPRI"],
+  "DIPONEGORO":["Confirmed","IISS MB 2026, Damen"],
+  "USMANHARUN":["Confirmed","IISS MB 2026, Damen"],
+  "FATAHILLAH":["Confirmed","IISS MB 2026"],
+  "PATTIMURA":["Confirmed","IISS MB 2026"],
+  "BUNGTOMO":["Confirmed","IISS MB 2026"],
+  "BUNGKARNO":["Confirmed","IISS MB 2026"],
+  "MARTADINATA":["Confirmed","IISS MB 2026, Damen"],
+  "AHMADYANI":["Confirmed","IISS MB 2026"],
+  "KCR60":["Confirmed","IISS MB 2026, PT PAL"],
+  "KCR40":["Confirmed","IISS MB 2026"],
+  "MANDAU":["Confirmed","IISS MB 2026"],
+  "KLEWANG":["Confirmed","IISS MB 2026, PT PAL"],
+  "MAKASSAR":["Confirmed","IISS MB 2026, PT PAL"],
+  "LEO2":["Confirmed","IISS MB 2026, SIPRI"],
+  "LEO2RI":["Confirmed","IISS MB 2026, Rheinmetall"],
+  "HARIMAU":["Confirmed","IISS MB 2026, FNSS/PT Pindad"],
+  "AMX13":["Confirmed","IISS MB 2026"],
+  "SCORPION90":["Confirmed","IISS MB 2026"],
+  "AMX10PAC":["Confirmed","IISS MB 2026"],
+  "MARDER":["Confirmed","IISS MB 2026, SIPRI"],
+  "PANDUR":["Confirmed","IISS MB 2026, GDELS"],
+  "BMP3F":["Confirmed","IISS MB 2026, SIPRI"],
+  "BVP2":["Confirmed","IISS MB 2026"],
+  "ANOA":["Confirmed","IISS MB 2026, PT Pindad"],
+  "BADAK":["Confirmed","IISS MB 2026, PT Pindad"],
+  "KOMODO":["Confirmed","IISS MB 2026, PT Pindad"],
+  "MAUNG":["Confirmed","IISS MB 2026, PT Pindad"],
+  "CAESAR":["Confirmed","IISS MB 2026, SIPRI, Nexter"],
+  "M109":["Confirmed","IISS MB 2026"],
+  "KH179":["Confirmed","IISS MB 2026"],
+  "ASTROS":["Confirmed","IISS MB 2026, Avibras"],
+  "RM70":["Confirmed","IISS MB 2026"],
+  "JAVELIN":["Confirmed","IISS MB 2026, US FMS"],
+  "SKYSHIELD":["Confirmed","IISS MB 2026, Rheinmetall"],
+  "MISTRAL":["Confirmed","IISS MB 2026, MBDA"],
+  "QW3":["Confirmed","IISS MB 2026, SIPRI"],
+  "STARSTREAK":["Confirmed","IISS MB 2026, Thales"],
+  "MASTERT":["Confirmed","IISS MB 2026, Thales"],
+  "TRS2215":["Confirmed","IISS MB 2026"],
+  "AR325":["Confirmed","IISS MB 2026"],
+  "GM200":["Confirmed","IISS MB 2026, Thales"],
+  "GM400":["Confirmed","Thales (2023)"],
+  "C705":["Confirmed","IISS MB 2026, SIPRI"],
+  "EXOCET_SHORE":["Reported","MBDA (2024), defense media"],
+};
 
 const CATS=[...new Set(WEAPON_SYSTEMS.map(w=>w.category))].sort();
 const BRS=[...new Set(WEAPON_SYSTEMS.map(w=>w.branch))].sort();
@@ -141,42 +282,139 @@ const STS=[...new Set(WEAPON_SYSTEMS.map(w=>w.status))].sort();
 
 const SC={"Active":"#16a34a","Active (aging)":"#ca8a04","Delivering":"#2563eb","On Order":"#ea580c","Under Construction":"#9333ea","In Development":"#64748b"};
 const BCo={"TNI AU":"#2563eb","TNI AD":"#16a34a","TNI AL":"#64748b",};
-const GOLD="#C8A951";
+const GOLD="#C43E2A";
 
 const Badge=({t,c})=><span style={{display:"inline-block",padding:"3px 10px",borderRadius:20,fontSize:10,fontWeight:600,letterSpacing:".3px",textTransform:"uppercase",background:c+"14",color:c,border:"1px solid "+c+"30"}}>{t}</span>;
 
 function Detail({s,onClose}){
   const sp=s.specs;
+  const cv = CONTRACT_VALUES[s.id];
+  const bases = SYSTEM_BASES[s.id] || [];
+  const cr = COMBAT_RADIUS[s.id];
+  const isAging = s.status.includes("aging");
+  const introMatch = String(sp.introduced || "").match(/(\d{4})/);
+  const introYear = introMatch ? parseInt(introMatch[0]) : null;
+  const age = introYear ? (2026 - introYear) : null;
+
+  // Determine ordering administration
+  const CONTRACT_YEARS_LOCAL = {"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014};
+  const orderYear = CONTRACT_YEARS_LOCAL[s.id];
+  const getAdmin = (y) => { if(!y) return null; if(y<1998) return "Suharto"; if(y<2004) return "Reform Era"; if(y<2014) return "Yudhoyono (SBY)"; if(y<2024) return "Jokowi"; return "Prabowo"; };
+  const admin = getAdmin(orderYear);
+  const adminColor = {"Suharto":"#ca8a04","Reform Era":"#6b7280","Yudhoyono (SBY)":"#2563eb","Jokowi":"#dc2626","Prabowo":"#38bdf8"};
+
   return(
     <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={onClose}>
-      <div style={{background:"#fff",borderRadius:12,maxWidth:700,width:"100%",maxHeight:"88vh",overflow:"auto",boxShadow:"0 25px 50px rgba(0,0,0,.15)"}} onClick={e=>e.stopPropagation()}>
-        <div style={{padding:"28px 32px 22px",borderBottom:"1px solid #e5e7eb"}}>
+      <div style={{background:"#fff",borderRadius:12,maxWidth:760,width:"100%",maxHeight:"90vh",overflow:"auto",boxShadow:"0 25px 50px rgba(0,0,0,.15)"}} onClick={e=>e.stopPropagation()}>
+
+        {/* Header */}
+        <div style={{padding:"24px 28px 18px",borderBottom:"1px solid #e5e7eb"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-            <div>
-              <div style={{fontSize:11,color:GOLD,fontWeight:700,letterSpacing:1.2,marginBottom:6,textTransform:"uppercase"}}>{s.category} — {s.subcategory}</div>
-              <div style={{fontSize:24,fontWeight:800,color:"#111",letterSpacing:"-.3px",lineHeight:1.2}}>{s.name}</div>
+            <div style={{flex:1}}>
+              <div style={{fontSize:10,color:GOLD,fontWeight:700,letterSpacing:1.2,marginBottom:4,textTransform:"uppercase"}}>{s.category} — {s.subcategory}</div>
+              <div style={{fontSize:22,fontWeight:800,color:"#111",letterSpacing:"-.3px",lineHeight:1.2}}>{s.name}</div>
+              <div style={{fontSize:12,color:"#6b7280",marginTop:4}}>{s.manufacturer}</div>
             </div>
-            <button onClick={onClose} style={{background:"#f3f4f6",border:"none",color:"#666",width:36,height:36,borderRadius:18,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}>{"×"}</button>
+            <button onClick={onClose} style={{background:"#f3f4f6",border:"none",color:"#666",width:32,height:32,borderRadius:16,cursor:"pointer",fontSize:16,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{"×"}</button>
           </div>
-          <div style={{marginTop:14,display:"flex",gap:8,flexWrap:"wrap"}}>
+          <div style={{marginTop:12,display:"flex",gap:6,flexWrap:"wrap"}}>
             <Badge t={s.branch} c={BCo[s.branch]||"#64748b"}/>
             <Badge t={s.status} c={SC[s.status]||"#64748b"}/>
-            <Badge t={s.manufacturer} c="#475569"/>
+            <Badge t={s.origin} c="#475569"/>
+            {s.era && <Badge t={s.era} c="#94a3b8"/>}
           </div>
         </div>
-        <div style={{padding:"24px 32px"}}>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:12}}>
-            {[["Origin",s.origin],["Quantity",s.quantity],["Era",s.era],["Crew",sp.crew],["Max Speed",sp.maxSpeed],["Range",sp.range],["Engine",sp.engine],["Introduced",sp.introduced]].filter(([,v])=>v).map(([l,v])=>(
-              <div key={l} style={{background:"#f9fafb",borderRadius:8,padding:"12px 14px"}}>
-                <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase",marginBottom:3}}>{l}</div>
-                <div style={{fontSize:14,color:"#111",fontWeight:600}}>{String(v)}</div>
+
+        <div style={{padding:"20px 28px 28px"}}>
+
+          {/* Procurement summary bar */}
+          <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap"}}>
+            {orderYear && <div style={{flex:"1 1 100px",padding:"10px 12px",borderRadius:8,background:adminColor[admin]+"12",border:`1px solid ${adminColor[admin]}30`}}>
+              <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>Ordered</div>
+              <div style={{fontSize:16,fontWeight:800,color:adminColor[admin]}}>{orderYear}</div>
+              <div style={{fontSize:9,color:adminColor[admin]}}>{admin} era</div>
+            </div>}
+            {introYear && <div style={{flex:"1 1 100px",padding:"10px 12px",borderRadius:8,background:"#f9fafb",border:"1px solid #e5e7eb"}}>
+              <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>Delivered</div>
+              <div style={{fontSize:16,fontWeight:800,color:"#111"}}>{introYear}</div>
+              {age && <div style={{fontSize:9,color:isAging?"#f59e0b":"#6b7280"}}>{age} years in service{isAging?" ⚠":""}</div>}
+            </div>}
+            <div style={{flex:"1 1 100px",padding:"10px 12px",borderRadius:8,background:"#f9fafb",border:"1px solid #e5e7eb"}}>
+              <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>Quantity</div>
+              <div style={{fontSize:16,fontWeight:800,color:"#111"}}>{s.quantity}</div>
+            </div>
+            {cv && <div style={{flex:"1 1 140px",padding:"10px 12px",borderRadius:8,background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
+              <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>Contract Value</div>
+              <div style={{fontSize:12,fontWeight:700,color:"#059669",lineHeight:1.4}}>{cv}</div>
+            </div>}
+          </div>
+
+          {/* Technical specs grid */}
+          <div style={{fontSize:10,color:GOLD,fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Technical Specifications</div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:8,marginBottom:16}}>
+            {[["Max Speed",sp.maxSpeed],["Range",sp.range],["Engine",sp.engine],["Crew",sp.crew]].filter(([,v])=>v).map(([l,v])=>(
+              <div key={l} style={{background:"#f9fafb",borderRadius:8,padding:"10px 12px"}}>
+                <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase",marginBottom:2}}>{l}</div>
+                <div style={{fontSize:13,color:"#111",fontWeight:600}}>{String(v)}</div>
               </div>
             ))}
           </div>
-          {sp.armament&&<div style={{marginTop:20}}><div style={{fontSize:10,color:GOLD,fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Armament</div><div style={{background:"#f9fafb",borderRadius:8,padding:14,fontSize:13,color:"#374151",lineHeight:1.7}}>{sp.armament}</div></div>}
-          {s.base&&<div style={{marginTop:16}}><div style={{fontSize:10,color:"#2563eb",fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Stationed / Home Base</div><div style={{background:"#eff6ff",borderRadius:8,padding:14,fontSize:13,color:"#1e40af",lineHeight:1.7,borderLeft:"3px solid #3b82f6"}}>{s.base}</div></div>}
-          {s.deploy&&<div style={{marginTop:16}}><div style={{fontSize:10,color:"#ea580c",fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Deployments / Exercises</div><div style={{background:"#fff7ed",borderRadius:8,padding:14,fontSize:13,color:"#9a3412",lineHeight:1.7,borderLeft:"3px solid #f97316"}}>{s.deploy}</div></div>}
-          {sp.note&&<div style={{marginTop:16}}><div style={{fontSize:10,color:"#64748b",fontWeight:700,letterSpacing:1,marginBottom:8,textTransform:"uppercase"}}>Notes</div><div style={{background:"#f9fafb",borderRadius:8,padding:14,fontSize:13,color:"#6b7280",lineHeight:1.7}}>{sp.note}</div></div>}
+
+          {/* Armament */}
+          {sp.armament&&<div style={{marginBottom:16}}>
+            <div style={{fontSize:10,color:"#dc2626",fontWeight:700,letterSpacing:1,marginBottom:6,textTransform:"uppercase"}}>Armament</div>
+            <div style={{background:"#fef2f2",borderRadius:8,padding:"10px 14px",fontSize:12,color:"#991b1b",lineHeight:1.7,borderLeft:"3px solid #ef4444"}}>{sp.armament}</div>
+          </div>}
+
+          {/* Combat radius */}
+          {cr&&<div style={{marginBottom:16}}>
+            <div style={{fontSize:10,color:"#7c3aed",fontWeight:700,letterSpacing:1,marginBottom:6,textTransform:"uppercase"}}>Combat / Operational Radius</div>
+            <div style={{background:"#f5f3ff",borderRadius:8,padding:"10px 14px",fontSize:13,color:"#5b21b6",fontWeight:700,borderLeft:"3px solid #8b5cf6"}}>{cr.radius} km — {cr.label}</div>
+          </div>}
+
+          {/* Basing */}
+          {bases.length > 0 && <div style={{marginBottom:16}}>
+            <div style={{fontSize:10,color:"#2563eb",fontWeight:700,letterSpacing:1,marginBottom:6,textTransform:"uppercase"}}>Stationed at ({bases.length} location{bases.length>1?"s":""})</div>
+            <div style={{display:"flex",flexDirection:"column",gap:4}}>
+              {bases.map((b,i) => <div key={i} style={{background:"#eff6ff",borderRadius:6,padding:"8px 12px",fontSize:12,color:"#1e40af",borderLeft:"3px solid #3b82f6"}}>{b}</div>)}
+            </div>
+          </div>}
+          {bases.length === 0 && s.base && <div style={{marginBottom:16}}>
+            <div style={{fontSize:10,color:"#2563eb",fontWeight:700,letterSpacing:1,marginBottom:6,textTransform:"uppercase"}}>Basing</div>
+            <div style={{background:"#eff6ff",borderRadius:8,padding:"10px 14px",fontSize:12,color:"#1e40af",lineHeight:1.7,borderLeft:"3px solid #3b82f6"}}>{s.base}</div>
+          </div>}
+
+          {/* Deployment */}
+          {s.deploy&&<div style={{marginBottom:16}}>
+            <div style={{fontSize:10,color:"#ea580c",fontWeight:700,letterSpacing:1,marginBottom:6,textTransform:"uppercase"}}>Deployments / Role</div>
+            <div style={{background:"#fff7ed",borderRadius:8,padding:"10px 14px",fontSize:12,color:"#9a3412",lineHeight:1.7,borderLeft:"3px solid #f97316"}}>{s.deploy}</div>
+          </div>}
+
+          {/* Notes */}
+          {sp.note&&<div style={{marginBottom:16}}>
+            <div style={{fontSize:10,color:"#64748b",fontWeight:700,letterSpacing:1,marginBottom:6,textTransform:"uppercase"}}>Notes</div>
+            <div style={{background:"#f9fafb",borderRadius:8,padding:"10px 14px",fontSize:12,color:"#6b7280",lineHeight:1.7}}>{sp.note}</div>
+          </div>}
+
+          {/* Source & Confidence */}
+          {(() => {
+            const src = SOURCES[s.id];
+            if (!src) return null;
+            const confColor = {"Confirmed":"#059669","Reported":"#d97706","Estimated":"#6b7280"};
+            const confBg = {"Confirmed":"#f0fdf4","Reported":"#fffbeb","Estimated":"#f9fafb"};
+            const confBorder = {"Confirmed":"#bbf7d0","Reported":"#fde68a","Estimated":"#e5e7eb"};
+            return (
+              <div>
+                <div style={{fontSize:10,color:"#64748b",fontWeight:700,letterSpacing:1,marginBottom:6,textTransform:"uppercase"}}>Source & Confidence</div>
+                <div style={{background:confBg[src[0]]||"#f9fafb",borderRadius:8,padding:"10px 14px",border:`1px solid ${confBorder[src[0]]||"#e5e7eb"}`}}>
+                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                    <span style={{fontSize:10,fontWeight:700,color:confColor[src[0]]||"#6b7280",background:"#fff",padding:"2px 8px",borderRadius:10,border:`1px solid ${confBorder[src[0]]||"#e5e7eb"}`}}>{src[0]}</span>
+                  </div>
+                  <div style={{fontSize:11,color:"#6b7280",lineHeight:1.6}}>{src[1]}</div>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
@@ -185,6 +423,7 @@ function Detail({s,onClose}){
 
 function OriginChart(){
   const [expandJoint, setExpandJoint] = useState(false);
+  const [expandedOrigin, setExpandedOrigin] = useState(null); // country name to show systems
 
   // Determine if a system is Prabowo-era (contract/introduced 2020+)
   const isPrabowoEra = (w) => {
@@ -215,24 +454,32 @@ function OriginChart(){
       const hasSlash = o.includes("/");
       const hasIndo = o.includes("Indonesia");
       const prabowo = isPrabowoEra(w);
+      const isAging = w.status.includes("aging");
+      const cvEntry = CONTRACT_VALUES[w.id];
+      const cvMatch = cvEntry ? cvEntry.match(/\$([\.\d]+)B/) : null;
+      const cvVal = cvMatch ? parseFloat(cvMatch[1]) : 0;
 
       if (hasSlash && hasIndo) {
-        // Joint with Indonesia - group by partner
         const partner = getPartner(o);
-        if (!jointIndoMap[partner]) jointIndoMap[partner] = { count: 0, prabowo: 0, systems: [] };
+        if (!jointIndoMap[partner]) jointIndoMap[partner] = { count: 0, prabowo: 0, aging: 0, value: 0, systems: [] };
         jointIndoMap[partner].count++;
         if (prabowo) jointIndoMap[partner].prabowo++;
+        if (isAging) jointIndoMap[partner].aging++;
+        jointIndoMap[partner].value += cvVal;
         jointIndoMap[partner].systems.push(w.name);
       } else if (hasSlash && !hasIndo) {
-        // Joint without Indonesia - keep as separate origin
-        if (!jointOtherMap[o]) jointOtherMap[o] = { count: 0, prabowo: 0, systems: [] };
+        if (!jointOtherMap[o]) jointOtherMap[o] = { count: 0, prabowo: 0, aging: 0, value: 0, systems: [] };
         jointOtherMap[o].count++;
         if (prabowo) jointOtherMap[o].prabowo++;
+        if (isAging) jointOtherMap[o].aging++;
+        jointOtherMap[o].value += cvVal;
         jointOtherMap[o].systems.push(w.name);
       } else {
-        if (!pureMap[o]) pureMap[o] = { count: 0, prabowo: 0, systems: [] };
+        if (!pureMap[o]) pureMap[o] = { count: 0, prabowo: 0, aging: 0, value: 0, systems: [] };
         pureMap[o].count++;
         if (prabowo) pureMap[o].prabowo++;
+        if (isAging) pureMap[o].aging++;
+        pureMap[o].value += cvVal;
         pureMap[o].systems.push(w.name);
       }
     });
@@ -242,9 +489,11 @@ function OriginChart(){
     // Add Indonesia Joint Production as one grouped entry
     const jointIndoTotal = Object.values(jointIndoMap).reduce((s, v) => s + v.count, 0);
     const jointIndoPrabowo = Object.values(jointIndoMap).reduce((s, v) => s + v.prabowo, 0);
+    const jointIndoAging = Object.values(jointIndoMap).reduce((s, v) => s + v.aging, 0);
+    const jointIndoValue = Object.values(jointIndoMap).reduce((s, v) => s + v.value, 0);
     if (jointIndoTotal > 0) {
       result.push(["Indonesia Joint Production", {
-        count: jointIndoTotal, prabowo: jointIndoPrabowo, systems: [],
+        count: jointIndoTotal, prabowo: jointIndoPrabowo, aging: jointIndoAging, value: jointIndoValue, systems: [],
         type: "jointIndo",
         breakdown: Object.entries(jointIndoMap).sort((a, b) => b[1].count - a[1].count)
       }]);
@@ -271,40 +520,146 @@ function OriginChart(){
     <div style={{ marginTop: 32 }}>
       <h2 style={{ fontSize: 18, fontWeight: 800, color: "#111", marginBottom: 4 }}>Country of Origin</h2>
       <p style={{ fontSize: 12, color: "#9ca3af", marginBottom: 4 }}>Number of weapon system types by supplier nation</p>
-      <div style={{ display: "flex", gap: 12, marginBottom: 16, fontSize: 10, color: "#9ca3af" }}>
-        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 12, height: 8, borderRadius: 2, background: GOLD, display: "inline-block" }} /> Total</span>
+      {/* Diversification summary */}
+      {(() => {
+        const totalSystems = origins.reduce((s, [, d]) => s + d.count, 0);
+        const topSupplier = origins[0];
+        const topPct = topSupplier ? Math.round((topSupplier[1].count / totalSystems) * 100) : 0;
+        const totalAging = origins.reduce((s, [, d]) => s + (d.aging || 0), 0);
+        const totalValue = origins.reduce((s, [, d]) => s + (d.value || 0), 0);
+        const supplierCount = origins.length;
+        return (
+          <div style={{ display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 120px", padding: "8px 12px", background: "#f0fdf4", borderRadius: 8, border: "1px solid #bbf7d0" }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#059669" }}>{supplierCount}</div>
+              <div style={{ fontSize: 9, color: "#6b7280" }}>supplier nations</div>
+            </div>
+            <div style={{ flex: "1 1 120px", padding: "8px 12px", background: "#fef2f2", borderRadius: 8, border: "1px solid #fecaca" }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#dc2626" }}>{topPct}%</div>
+              <div style={{ fontSize: 9, color: "#6b7280" }}>from top supplier ({topSupplier ? topSupplier[0] : ""})</div>
+            </div>
+            <div style={{ flex: "1 1 120px", padding: "8px 12px", background: "#fffbeb", borderRadius: 8, border: "1px solid #fde68a" }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#d97706" }}>{totalAging}</div>
+              <div style={{ fontSize: 9, color: "#6b7280" }}>aging systems</div>
+            </div>
+            {totalValue > 0 && <div style={{ flex: "1 1 120px", padding: "8px 12px", background: "#f0fdf4", borderRadius: 8, border: "1px solid #bbf7d0" }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#059669" }}>${totalValue.toFixed(1)}B</div>
+              <div style={{ fontSize: 9, color: "#6b7280" }}>known contract value</div>
+            </div>}
+          </div>
+        );
+      })()}
+      <div style={{ display: "flex", gap: 12, marginBottom: 12, fontSize: 10, color: "#9ca3af", flexWrap: "wrap" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 12, height: 8, borderRadius: 2, background: GOLD, display: "inline-block" }} /> Total systems</span>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 12, height: 8, borderRadius: 2, background: "#ef4444", display: "inline-block" }} /> Prabowo era (2020+)</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ color: "#f59e0b", fontWeight: 600 }}>●</span> aging ({"\u2265"}25 yrs)</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ color: "#059669", fontWeight: 600 }}>$</span> known value</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         {origins.map(([name, data]) => (
           <div key={name}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, cursor: data.type === "jointIndo" ? "pointer" : "default" }}
-              onClick={() => data.type === "jointIndo" && setExpandJoint(!expandJoint)}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }}
+              onClick={() => {
+                if (data.type === "jointIndo") { setExpandJoint(!expandJoint); setExpandedOrigin(null); }
+                else { setExpandedOrigin(expandedOrigin === name ? null : name); }
+              }}>
               <div style={{ width: 170, fontSize: 11, color: data.type === "jointIndo" ? "#C8A951" : data.type === "jointOther" ? "#94a3b8" : "#374151", fontWeight: 600, textAlign: "right", flexShrink: 0 }}>
-                {name}{data.type === "jointIndo" ? (expandJoint ? " ▴" : " ▾") : ""}
+                {name}{data.type === "jointIndo" ? (expandJoint ? " ▴" : " ▾") : (expandedOrigin === name ? " ▴" : "")}
               </div>
               <div style={{ flex: 1, background: "#f3f4f6", borderRadius: 4, height: 22, position: "relative", overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${(data.count / max) * 100}%`, background: `linear-gradient(90deg,${barColor(data.type)},${barColor(data.type)}cc)`, borderRadius: 4, transition: "width .5s" }} />
                 {data.prabowo > 0 && <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: `${(data.prabowo / max) * 100}%`, background: "linear-gradient(90deg,#ef4444,#ef4444cc)", borderRadius: 4, opacity: 0.85 }} />}
               </div>
-              <div style={{ width: 50, fontSize: 12, fontWeight: 700, color: "#111", textAlign: "right" }}>
-                {data.count}{data.prabowo > 0 ? <span style={{ color: "#ef4444", fontSize: 10, fontWeight: 600 }}>{" "}({data.prabowo})</span> : ""}
+              <div style={{ width: 120, fontSize: 11, fontWeight: 700, color: "#111", textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 1, flexShrink: 0 }}>
+                <div>
+                  {data.count}
+                  {data.prabowo > 0 ? <span style={{ color: "#ef4444", fontSize: 9, fontWeight: 600 }}>{" "}({data.prabowo} new)</span> : ""}
+                </div>
+                <div style={{ display: "flex", gap: 6, fontSize: 8 }}>
+                  {data.aging > 0 && <span style={{ color: "#f59e0b" }}>{data.aging} aging</span>}
+                  {data.value > 0 && <span style={{ color: "#059669" }}>${data.value.toFixed(1)}B</span>}
+                </div>
               </div>
             </div>
+            {/* System list for pure/jointOther origins */}
+            {expandedOrigin === name && data.systems && data.systems.length > 0 && (
+              <div style={{ marginLeft: 182, marginTop: 4, marginBottom: 6, padding: "6px 10px", background: "#f9fafb", borderRadius: 6, border: "1px solid #e5e7eb" }}>
+                {data.systems.map((sysName, i) => {
+                  const w = WEAPON_SYSTEMS.find(s => s.name === sysName);
+                  return (
+                    <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "3px 0", borderBottom: i < data.systems.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+                      <div>
+                        <span style={{ fontSize: 11, fontWeight: 600, color: "#374151" }}>{sysName}</span>
+                        {w && <span style={{ fontSize: 9, color: "#9ca3af", marginLeft: 6 }}>{w.category}</span>}
+                      </div>
+                      {w && <span style={{ fontSize: 9, color: w.status.includes("Order") ? "#f59e0b" : w.status.includes("Active") ? "#10b981" : "#6b7280", fontWeight: 500 }}>{w.status}</span>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {/* Joint Indo breakdown */}
             {data.type === "jointIndo" && expandJoint && data.breakdown && (
               <div style={{ marginLeft: 182, marginTop: 4, marginBottom: 6 }}>
                 {data.breakdown.map(([partner, pd]) => (
-                  <div key={partner} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
-                    <div style={{ width: 130, fontSize: 10, color: "#b08d3e", textAlign: "right", flexShrink: 0, fontWeight: 500 }}>{partner}</div>
-                    <div style={{ flex: 1, background: "#f9fafb", borderRadius: 3, height: 14, overflow: "hidden", position: "relative" }}>
-                      <div style={{ height: "100%", width: `${(pd.count / data.count) * 100}%`, background: "#e2d5a8", borderRadius: 3 }} />
-                      {pd.prabowo > 0 && <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: `${(pd.prabowo / data.count) * 100}%`, background: "#ef9a9a", borderRadius: 3 }} />}
+                  <div key={partner}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3, cursor: "pointer" }}
+                      onClick={(e) => { e.stopPropagation(); setExpandedOrigin(expandedOrigin === `joint-${partner}` ? null : `joint-${partner}`); }}>
+                      <div style={{ width: 130, fontSize: 10, color: "#b08d3e", textAlign: "right", flexShrink: 0, fontWeight: 500 }}>{partner}{expandedOrigin === `joint-${partner}` ? " ▴" : ""}</div>
+                      <div style={{ flex: 1, background: "#f9fafb", borderRadius: 3, height: 14, overflow: "hidden", position: "relative" }}>
+                        <div style={{ height: "100%", width: `${(pd.count / data.count) * 100}%`, background: "#e2d5a8", borderRadius: 3 }} />
+                        {pd.prabowo > 0 && <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: `${(pd.prabowo / data.count) * 100}%`, background: "#ef9a9a", borderRadius: 3 }} />}
+                      </div>
+                      <div style={{ width: 30, fontSize: 10, color: "#6b7280", textAlign: "right" }}>{pd.count}</div>
                     </div>
-                    <div style={{ width: 30, fontSize: 10, color: "#6b7280", textAlign: "right" }}>{pd.count}</div>
+                    {expandedOrigin === `joint-${partner}` && pd.systems && (
+                      <div style={{ marginLeft: 138, marginBottom: 4, padding: "4px 8px", background: "#fefce8", borderRadius: 4, border: "1px solid #fef08a" }}>
+                        {pd.systems.map((sysName, i) => {
+                          const w = WEAPON_SYSTEMS.find(s => s.name === sysName);
+                          return (
+                            <div key={i} style={{ fontSize: 10, color: "#78350f", padding: "2px 0" }}>
+                              {sysName}{w && <span style={{ color: "#a16207", marginLeft: 4 }}>({w.category})</span>}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
             )}
+          </div>
+        ))}
+      </div>
+
+      {/* Local Partners & Intermediaries */}
+      <div style={{ marginTop: 32 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 800, color: "#111", marginBottom: 4 }}>Local Partners & Intermediaries</h2>
+        <p style={{ fontSize: 12, color: "#9ca3af", marginBottom: 16 }}>Indonesian defense intermediaries and their procurement channels</p>
+        {[
+          { name: "PT Republikorp", type: "Private holding", value: "Undisclosed", valueNote: "multiple signed contracts, $ not public", systems: ["KAAN 48× (TAI, signed Jun 2025)", "ATMACA 45× (Roketsan, Jan 2024)", "CAKIR JV (Roketsan, Jul 2025)", "TB3 60× + Akıncı 9× (Baykar, Feb 2025)"], note: "Türkiye channel. JV with Roketsan (PT Republik Roketsan Indonesia) and Baykar. KHAN/Hisar routed via Excalibur Army. Contract values not publicly disclosed. EDGE ($7B) and Barzan ($2.3B) are framework agreements, not firm contracts." },
+          { name: "PT E-System Solutions", type: "Private contractor", value: "Undisclosed", valueNote: "1 contract + 2 LOIs signed", systems: ["M-346F Block 20 ~24× (Leonardo, LOI Feb 2026)", "PC-24 12× (Pilatus, contract Mar 2026)", "PC-21 24× (Pilatus, LOI Mar 2026)"], note: "European aviation channel. Only PC-24 has a signed contract; M-346 and PC-21 are at LOI stage. No dollar values publicly disclosed for any of the three." },
+          { name: "Excalibur Army (CSG, Czech)", type: "Foreign prime contractor", value: "€500M+", valueNote: "confirmed contract", systems: ["KHAN (Roketsan)", "HISARO / Trisula-O (Roketsan)", "SIPER (Roketsan)", "BORA (Roketsan)"], note: "Part of Czechoslovak Group. Prime contractor for Turkish missile package — Roketsan as subcontractor. Czech Eximbank financing. €500M+ confirmed at Indo Defence 2022. Includes Tatra vehicles as launch platforms." },
+          { name: "PT PAL Indonesia", type: "State-owned (DEFEND ID)", value: "~$4B+", valueNote: "confirmed build contracts", systems: ["Nagapasa 3× ($1.02B, DSME)", "Scorpène Evolved 2× (~$2B, Naval Group)", "Red White Frigate 2× (~$1B, Babcock)", "KCR-60M series", "Makassar LPD"], note: "Primary naval yard, Surabaya. Nagapasa $1.02B + Scorpène ~$2B + RW Frigate ~$1B = ~$4B in confirmed/estimated build contracts. License-building Scorpène locally with full Naval Group ToT." },
+          { name: "PT Pindad", type: "State-owned (DEFEND ID)", value: "Undisclosed", valueNote: "contract values not public", systems: ["Pandur II 8×8 (GDELS)", "Harimau tank (JV FNSS)", "Maung 4×4 (indigenous)"], note: "Land systems. Harimau JV with FNSS (100+ planned) is the largest program but contract value not disclosed. Maung funded through domestic procurement budget." },
+          { name: "PT DI (Dirgantara Indonesia)", type: "State-owned (DEFEND ID)", value: "N/A", valueNote: "license/MRO revenue", systems: ["CN-295 (Airbus)", "CN-235 MPA", "H225M Caracal", "Bell 412EP (licensed)", "Bo-105", "Super Puma"], note: "Aerospace manufacturer. Revenue from license production and MRO fees rather than standalone procurement contracts." },
+          { name: "PT LEN Industri", type: "State-owned (DEFEND ID)", value: "N/A", valueNote: "systems integration", systems: ["13× GCI radar delivery", "Thales TACTICOS CMS integration", "C4ISR infrastructure"], note: "Defense electronics. Contract values embedded in larger platform procurement packages rather than separately disclosed." },
+        ].map((broker, i) => (
+          <div key={i} style={{ marginBottom: 12, padding: "12px 16px", background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#111" }}>{broker.name}</span>
+                {broker.value !== "N/A" && <span style={{ fontSize: 11, fontWeight: 800, color: "#059669", background: "#d1fae5", padding: "1px 8px", borderRadius: 8 }}>{broker.value}</span>}
+                {broker.value !== "N/A" && <span style={{ fontSize: 8, color: "#6b7280" }}>{broker.valueNote}</span>}
+              </div>
+              <span style={{ fontSize: 9, padding: "2px 8px", borderRadius: 10, background: broker.type.includes("State") ? "#dbeafe" : broker.type.includes("Foreign") ? "#fef3c7" : "#f3e8ff", color: broker.type.includes("State") ? "#1e40af" : broker.type.includes("Foreign") ? "#92400e" : "#6b21a8", fontWeight: 600 }}>{broker.type}</span>
+            </div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
+              {broker.systems.map((s, j) => (
+                <span key={j} style={{ fontSize: 10, padding: "2px 6px", borderRadius: 4, background: "#fff", border: "1px solid #e5e7eb", color: "#374151" }}>{s}</span>
+              ))}
+            </div>
+            <div style={{ fontSize: 10, color: "#6b7280", lineHeight: 1.5 }}>{broker.note}</div>
           </div>
         ))}
       </div>
@@ -313,42 +668,211 @@ function OriginChart(){
 }
 
 function Timeline(){
-  const items=useMemo(()=>{
-    return WEAPON_SYSTEMS.filter(w=>w.specs.introduced&&String(w.specs.introduced).match(/\d{4}/)).map(w=>({
-      ...w,
-      year:parseInt(String(w.specs.introduced).match(/\d{4}/)[0])
-    })).sort((a,b)=>a.year-b.year);
-  },[]);
-  const decades=[1970,1980,1990,2000,2010,2020,2030];
-  return(
-    <div style={{marginTop:32}}>
-      <h2 style={{fontSize:18,fontWeight:800,color:"#111",marginBottom:4}}>Procurement Timeline</h2>
-      <p style={{fontSize:12,color:"#9ca3af",marginBottom:16}}>Year of introduction / first delivery by branch</p>
-      <div style={{overflowX:"auto",paddingBottom:8}}>
-        <div style={{position:"relative",minWidth:800,height:Math.max(items.length*28+60,200)}}>
-          {decades.map(d=>{
-            const minY=items.length?items[0].year:1970;
-            const maxY=items.length?Math.max(items[items.length-1].year,2030):2030;
-            const pct=((d-minY)/(maxY-minY))*100;
-            return <div key={d} style={{position:"absolute",left:`${pct}%`,top:0,bottom:0,borderLeft:"1px dashed #e5e7eb",zIndex:0}}>
-              <span style={{position:"absolute",top:0,left:4,fontSize:10,color:"#9ca3af",fontWeight:600}}>{d}</span>
-            </div>;
-          })}
-          {items.map((w,i)=>{
-            const minY=items[0].year;
-            const maxY=Math.max(items[items.length-1].year,2030);
-            const pct=((w.year-minY)/(maxY-minY))*100;
-            const c=BCo[w.branch]||"#64748b";
-            return <div key={w.id} style={{position:"absolute",left:`${pct}%`,top:24+i*28,display:"flex",alignItems:"center",gap:6,zIndex:1}}>
-              <div style={{width:10,height:10,borderRadius:5,background:c,flexShrink:0,border:"2px solid #fff",boxShadow:"0 1px 3px rgba(0,0,0,.15)"}}/>
-              <span style={{fontSize:11,color:"#374151",fontWeight:500,whiteSpace:"nowrap"}}>{w.name}</span>
-              <span style={{fontSize:10,color:"#9ca3af"}}>({w.year})</span>
-            </div>;
-          })}
-        </div>
+  const CONTRACT_YEARS = {
+    "F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,
+    "AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,
+    "BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,
+    "SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,
+    "BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,
+    "F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,
+    "APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,
+    "USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,
+    "FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,
+    "MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,
+    "KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,
+    "STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,
+    "HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,
+    "KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,
+    "RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,
+    "HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,
+    "NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,
+    "SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,
+    "A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,
+    "KAAN":2025,"TB2":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,
+    "PC24":2026,"PC21":2026,"BRAHMOS":2026,"RM70":2014,
+    "ANOA":2010,"BADAK":2014,"KOMODO":2012,
+    "MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,
+  };
+
+  const GROUPS = [
+    { label: "Fighters", ids: ["F16AM","F16CD","SU27","SU30","RAFALE","KAAN","KF21","HAWK200","EMB314","M346FA"] },
+    { label: "Trainers", ids: ["HAWK109","T50I","PC21","PC24"] },
+    { label: "Transport & ISR", ids: ["C130H","C130J","CN295","A400M","A330MRTT","CN235MPA","B737"] },
+    { label: "Attack Helicopters", ids: ["APACHE","MI35"] },
+    { label: "Utility Helicopters", ids: ["H225M","BELL412","BELL205","MI17","SUPERPUMA","BO105","FENNEC","BLACKHAWK","AS565"] },
+    { label: "UAVs", ids: ["ANKAS","CH4","TB2","PTPAL_AUV"] },
+    { label: "Frigates", ids: ["AHMADYANI","MARTADINATA","BRAWIJAYA","RWFRIGATE","ISTIF","GARIBALDI"] },
+    { label: "Corvettes", ids: ["DIPONEGORO","USMANHARUN","FATAHILLAH","BUNGTOMO","BUNGKARNO","PATTIMURA"] },
+    { label: "Fast Attack Craft", ids: ["KCR60","KCR40","MANDAU","KLEWANG","KCR70M"] },
+    { label: "Amphibious", ids: ["MAKASSAR"] },
+    { label: "Submarines", ids: ["CAKRA","NAGAPASA","SCORPENE"] },
+    { label: "Missiles & Launchers", ids: ["KHAN","BORA","ASTROS","ATMACA","C705","EXOCET_SHORE","BRAHMOS","CAKIR"] },
+    { label: "Air Defense", ids: ["SKYSHIELD","NASAMS","MISTRAL","QW3","HISARO","SIPER","STARSTREAK"] },
+    { label: "Radar", ids: ["MASTERT","TRS2215","AR325","GM200","GM400"] },
+    { label: "Main Battle Tanks", ids: ["LEO2","LEO2RI"] },
+    { label: "Medium & Light Tanks", ids: ["HARIMAU","AMX13","SCORPION90","AMX10PAC"] },
+    { label: "IFVs & APCs", ids: ["MARDER","PANDUR","BMP3F","BVP2","ANOA","BADAK","KOMODO","MAUNG"] },
+    { label: "Artillery", ids: ["CAESAR","M109","KH179","RM70"] },
+    { label: "Anti-Tank", ids: ["JAVELIN"] },
+  ];
+
+  const admins = [
+    { name: "Suharto", start: 1960, end: 1998, color: "#eab30820", textColor: "#ca8a04" },
+    { name: "Reform Era", start: 1998, end: 2004, color: "#6b728015", textColor: "#6b7280" },
+    { name: "Yudhoyono (SBY)", start: 2004, end: 2014, color: "#3b82f615", textColor: "#2563eb" },
+    { name: "Jokowi", start: 2014, end: 2024, color: "#ef444415", textColor: "#dc2626" },
+    { name: "Prabowo", start: 2024, end: 2030, color: "#7dd3fc18", textColor: "#38bdf8" },
+  ];
+
+  const sysMap = useMemo(() => {
+    const m = {};
+    WEAPON_SYSTEMS.forEach(w => { m[w.id] = w; });
+    return m;
+  }, []);
+
+  const minY = 1960, maxY = 2030;
+  const pctX = (year) => ((year - minY) / (maxY - minY)) * 100;
+
+  // Build rows: group label rows + system rows
+  const rows = useMemo(() => {
+    const result = [];
+    GROUPS.forEach(g => {
+      result.push({ type: "group", label: g.label });
+      const items = g.ids.map(id => {
+        const w = sysMap[id];
+        const cy = CONTRACT_YEARS[id];
+        if (!w || !cy) return null;
+        const introMatch = String(w.specs.introduced || "").match(/\d{4}/);
+        return { type: "system", id, w, cy, introYear: introMatch ? parseInt(introMatch[0]) : null };
+      }).filter(Boolean).sort((a, b) => a.cy - b.cy);
+      items.forEach(item => result.push(item));
+    });
+    return result;
+  }, [sysMap]);
+
+  const [tlBranch, setTlBranch] = useState("All");
+
+  // Filter rows by branch
+  const filteredRows = useMemo(() => {
+    if (tlBranch === "All") return rows;
+    return rows.filter(r => {
+      if (r.type === "group") return true; // keep group headers
+      return r.w.branch === tlBranch;
+    }).filter((r, i, arr) => {
+      // Remove empty group headers (no systems after them)
+      if (r.type === "group") {
+        const next = arr[i + 1];
+        return next && next.type === "system";
+      }
+      return true;
+    });
+  }, [rows, tlBranch]);
+
+  // Admin summary stats
+  const adminStats = useMemo(() => {
+    const allSystems = rows.filter(r => r.type === "system" && (tlBranch === "All" || r.w.branch === tlBranch));
+    return admins.map(a => {
+      const systems = allSystems.filter(r => r.cy >= a.start && r.cy < a.end);
+      // Sum known contract values
+      let knownValue = 0;
+      let hasValue = false;
+      systems.forEach(r => {
+        const cv = CONTRACT_VALUES[r.id];
+        if (cv) {
+          const match = cv.match(/\\$([\\.\\d]+)B/);
+          if (match) { knownValue += parseFloat(match[1]); hasValue = true; }
+        }
+      });
+      return { ...a, count: systems.length, knownValue: hasValue ? knownValue : null, stalled: systems.filter(r => !r.introYear).length };
+    });
+  }, [rows, tlBranch]);
+
+  const rowH = 22;
+  const groupH = 28;
+  const totalH = filteredRows.reduce((h, r) => h + (r.type === "group" ? groupH : rowH), 0) + 40;
+
+  return (
+    <div style={{ marginTop: 32 }}>
+      <h2 style={{ fontSize: 18, fontWeight: 800, color: "#111", marginBottom: 4 }}>Procurement Timeline</h2>
+      <p style={{ fontSize: 12, color: "#9ca3af", marginBottom: 4 }}>Year of contract/order signing by presidential administration</p>
+
+      {/* Admin summary stats */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+        {adminStats.map(a => (
+          <div key={a.name} style={{ flex: "1 1 140px", padding: "10px 12px", borderRadius: 8, background: a.color.replace(/15$/, "30").replace(/18$/, "30").replace(/20$/, "30"), border: `1px solid ${a.textColor}25` }}>
+            <div style={{ fontSize: 9, fontWeight: 700, color: a.textColor, letterSpacing: ".5px", textTransform: "uppercase", marginBottom: 4 }}>{a.name}</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: a.textColor }}>{a.count}</div>
+            <div style={{ fontSize: 9, color: "#6b7280" }}>systems ordered</div>
+            {a.knownValue && <div style={{ fontSize: 10, color: a.textColor, fontWeight: 600, marginTop: 4 }}>~${a.knownValue.toFixed(1)}B known value</div>}
+            {a.stalled > 0 && <div style={{ fontSize: 9, color: "#f59e0b", marginTop: 2 }}>{a.stalled} awaiting delivery</div>}
+          </div>
+        ))}
       </div>
-      <div style={{display:"flex",gap:16,marginTop:12,flexWrap:"wrap"}}>
-        {Object.entries(BCo).map(([b,c])=><div key={b} style={{display:"flex",alignItems:"center",gap:6}}><div style={{width:10,height:10,borderRadius:5,background:c}}/><span style={{fontSize:11,color:"#6b7280"}}>{b}</span></div>)}
+
+      {/* Branch filter + legend */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
+        <span style={{ fontSize: 10, color: "#6b7280", fontWeight: 600 }}>Filter:</span>
+        {["All", "TNI AU", "TNI AD", "TNI AL"].map(b => (
+          <button key={b} onClick={() => setTlBranch(b)} style={{
+            padding: "4px 10px", borderRadius: 12, fontSize: 10, fontWeight: 600, cursor: "pointer",
+            border: tlBranch === b ? `1px solid ${b === "All" ? "#C8A951" : BCo[b]}` : "1px solid #e5e7eb",
+            background: tlBranch === b ? (b === "All" ? "#C8A95118" : BCo[b] + "18") : "#fff",
+            color: tlBranch === b ? (b === "All" ? "#C8A951" : BCo[b]) : "#6b7280",
+          }}>{b}</button>
+        ))}
+        <span style={{ marginLeft: 12, fontSize: 9, color: "#9ca3af" }}>●</span>
+        <span style={{ fontSize: 9, color: "#9ca3af" }}> contract year</span>
+        <span style={{ fontSize: 9, color: "#C8A951", marginLeft: 8 }}>→ delivery</span>
+        <span style={{ fontSize: 9, color: "#f59e0b", marginLeft: 8 }}>⊘ no delivery date</span>
+      </div>
+
+      <div style={{ overflowX: "auto", paddingBottom: 8 }}>
+        <div style={{ position: "relative", minWidth: 950, height: totalH }}>
+          {/* Admin era bands */}
+          {admins.map(a => (
+            <div key={a.name} style={{ position: "absolute", left: `${pctX(a.start)}%`, width: `${pctX(a.end) - pctX(a.start)}%`, top: 0, bottom: 0, background: a.color, borderLeft: `2px solid ${a.textColor}30` }}>
+              <span style={{ position: "absolute", top: 2, left: 6, fontSize: 9, color: a.textColor, fontWeight: 700, opacity: 0.7 }}>{a.name}</span>
+            </div>
+          ))}
+          {/* Decade markers */}
+          {[1960,1970,1980,1990,2000,2010,2020,2030].map(d => (
+            <div key={d} style={{ position: "absolute", left: `${pctX(d)}%`, top: 16, bottom: 0, borderLeft: "1px dashed #d1d5db40", zIndex: 0 }}>
+              <span style={{ position: "absolute", top: 0, left: 4, fontSize: 9, color: "#9ca3af", fontWeight: 600 }}>{d}</span>
+            </div>
+          ))}
+          {/* Rows */}
+          {(() => {
+            let y = 30;
+            return filteredRows.map((row, i) => {
+              if (row.type === "group") {
+                const el = <div key={`g-${i}`} style={{ position: "absolute", left: 0, top: y, height: groupH, display: "flex", alignItems: "center", zIndex: 2 }}>
+                  <span style={{ fontSize: 10, fontWeight: 800, color: "#374151", background: "#f9fafb", padding: "2px 8px", borderRadius: 4, border: "1px solid #e5e7eb", whiteSpace: "nowrap" }}>{row.label}</span>
+                </div>;
+                y += groupH;
+                return el;
+              } else {
+                const c = BCo[row.w.branch] || "#64748b";
+                const admin = admins.find(a => row.cy >= a.start && row.cy < a.end);
+                const ac = admin ? admin.textColor : "#6b7280";
+                const isStalled = !row.introYear && row.cy < 2025;
+                const isTBD = !row.introYear;
+                const cv = CONTRACT_VALUES[row.id];
+                const el = <div key={row.id} style={{ position: "absolute", left: `${pctX(row.cy)}%`, top: y, height: rowH, display: "flex", alignItems: "center", gap: 4, zIndex: 1 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: 4, background: c, flexShrink: 0, border: "1.5px solid #fff", boxShadow: "0 1px 2px rgba(0,0,0,.12)" }} />
+                  <span style={{ fontSize: 10, color: isStalled ? "#f59e0b" : "#374151", fontWeight: 500, whiteSpace: "nowrap" }}>{row.w.name}</span>
+                  <span style={{ fontSize: 9, color: ac, fontWeight: 600 }}>({row.cy})</span>
+                  {row.introYear && row.introYear !== row.cy && (
+                    <span style={{ fontSize: 8, color: "#C8A951", fontWeight: 500 }}>{" \u2192 "}{row.introYear}</span>
+                  )}
+                  {isTBD && <span style={{ fontSize: 8, color: "#f59e0b", fontWeight: 500 }}>{" \u2298"}</span>}
+                  {cv && <span style={{ fontSize: 8, color: "#059669", fontWeight: 500, marginLeft: 2 }}>{cv.split("(")[0].trim()}</span>}
+                </div>;
+                y += rowH;
+                return el;
+              }
+            });
+          })()}
+        </div>
       </div>
     </div>
   );
@@ -367,6 +891,30 @@ const NEIGHBORS = {
   "Malaysia": [[[100.09,6.46],[100.26,6.64],[101.08,6.21],[101.16,5.69],[101.81,5.81],[102.14,6.22],[102.37,6.13],[102.96,5.53],[103.38,4.85],[103.44,4.18],[103.33,3.73],[103.43,3.38],[103.5,2.79],[103.86,2.52],[104.25,1.63],[104.23,1.29],[103.52,1.23],[102.57,1.97],[101.39,2.76],[101.27,3.27],[100.69,3.94],[100.56,4.77],[100.2,5.31],[100.31,6.04],[100.09,6.46]],[[117.88,4.14],[117.01,4.31],[115.87,4.31],[115.52,3.17],[115.13,2.82],[114.62,1.43],[113.81,1.22],[112.86,1.5],[112.38,1.41],[111.8,0.9],[111.16,0.98],[110.52,0.77],[109.83,1.34],[109.66,2.01],[110.4,1.66],[111.17,1.85],[111.37,2.7],[111.8,2.89],[113.0,3.1],[113.71,3.89],[114.21,4.53],[114.66,4.01],[114.87,4.35],[115.35,4.32],[115.4,4.95],[115.45,5.45],[116.22,6.14],[116.73,6.92],[117.13,6.93],[117.64,6.42],[117.69,5.99],[118.35,5.71],[119.18,5.41],[119.11,5.02],[118.44,4.97],[118.62,4.48],[117.88,4.14]]],
   "Australia": [[[126.1,-32.2],[125.1,-32.7],[124.2,-33.0],[124.0,-33.5],[123.7,-33.9],[122.8,-33.9],[122.2,-34.0],[121.3,-33.8],[120.6,-33.9],[119.9,-34.0],[119.3,-34.5],[119.0,-34.5],[118.5,-34.7],[118.0,-35.1],[117.3,-35.0],[116.6,-35.0],[115.6,-34.4],[115.0,-34.2],[115.0,-33.6],[115.5,-33.5],[115.7,-33.3],[115.7,-32.9],[115.8,-32.2],[115.7,-31.6],[115.2,-30.6],[115.0,-30.0],[115.0,-29.5],[114.6,-28.8],[114.6,-28.5],[114.2,-28.1],[114.0,-27.3],[113.5,-26.5],[113.3,-26.1],[113.8,-26.5],[113.4,-25.6],[113.9,-25.9],[114.2,-26.3],[114.2,-25.8],[113.7,-25.0],[113.6,-24.7],[113.4,-24.4],[113.5,-23.8],[113.7,-23.6],[113.8,-23.1],[113.7,-22.5],[114.1,-21.8],[114.2,-22.5],[114.6,-21.8],[115.5,-21.5],[115.9,-21.1],[116.7,-20.7],[117.2,-20.6],[117.4,-20.7],[118.2,-20.4],[118.8,-20.3],[119.0,-20.0],[119.3,-20.0],[119.8,-20.0],[120.9,-19.7],[121.4,-19.2],[121.7,-18.7],[122.2,-18.2],[122.3,-17.8],[122.3,-17.3],[123.0,-16.4],[123.4,-17.3],[123.9,-17.1],[123.5,-16.6],[123.8,-16.1],[124.3,-16.3],[124.4,-15.6],[124.9,-15.1],[125.2,-14.7],[125.7,-14.5],[125.7,-14.2],[126.1,-14.3],[126.1,-14.1],[126.6,-14.0],[127.1,-13.8],[127.8,-14.3],[128.4,-14.9],[129.0,-14.9],[129.6,-15.0],[129.4,-14.4],[129.9,-13.6],[130.3,-13.4],[130.2,-13.1],[130.6,-12.5],[131.2,-12.2],[131.7,-12.3],[132.6,-12.1],[132.6,-11.6],[131.8,-11.3],[132.4,-11.1],[133.0,-11.4],[133.6,-11.8],[134.4,-12.0],[134.7,-11.9],[135.3,-12.2],[135.9,-12.0],[136.3,-12.0],[136.5,-11.9],[137.0,-12.4],[136.7,-12.9],[136.3,-13.3],[136.0,-13.3],[136.1,-13.7],[135.8,-14.2],[135.4,-14.7],[135.5,-15.0],[136.3,-15.6],[137.1,-15.9],[137.6,-16.2],[138.3,-16.8],[138.6,-16.8],[139.1,-17.1],[139.3,-17.4],[140.2,-17.7],[140.9,-17.4],[141.1,-16.8],[141.3,-16.4],[141.4,-15.8],[141.7,-15.0],[141.6,-14.6],[141.6,-14.3],[141.5,-13.7],[141.7,-12.9],[141.8,-12.7],[141.7,-12.4],[141.9,-11.9],[142.1,-11.3],[142.1,-11.0],[142.5,-10.7],[142.8,-11.2],[142.9,-11.8],[143.1,-11.9],[143.2,-12.3],[143.5,-12.8],[143.6,-13.4],[143.6,-13.8],[143.9,-14.5],[144.6,-14.2],[144.9,-14.6],[145.4,-15.0],[145.3,-15.4],[145.5,-16.3],[145.6,-16.8],[145.9,-16.9],[146.2,-17.8],[146.1,-18.3],[146.4,-19.0],[147.5,-19.5],[148.2,-20.0],[148.8,-20.4],[148.7,-20.6],[149.3,-21.3],[149.7,-22.3],[150.1,-22.1],[150.5,-22.6],[150.7,-22.4],[150.9,-23.5],[151.6,-24.1],[152.1,-24.5],[152.9,-25.3],[153.1,-26.1],[153.2,-26.6],[153.1,-27.3],[153.6,-28.1],[153.5,-29.0],[153.3,-29.5],[153.1,-30.4],[153.1,-30.9],[152.9,-31.6],[152.4,-32.6],[151.7,-33.0],[151.3,-33.8],[151.0,-34.3],[150.7,-35.2],[150.3,-35.7],[150.1,-36.4],[149.9,-37.1],[150.0,-37.4],[149.4,-37.8],[148.3,-37.8],[147.4,-38.2],[146.9,-38.6],[146.3,-39.0],[145.5,-38.6],[144.9,-38.4],[145.0,-37.9],[144.5,-38.1],[143.6,-38.8],[142.7,-38.5],[142.2,-38.4],[141.6,-38.3],[140.6,-38.0],[140.0,-37.4],[139.8,-36.6],[139.6,-36.1],[139.1,-35.7],[138.1,-35.6],[138.4,-35.1],[138.2,-34.4],[137.7,-35.1],[136.8,-35.3],[137.4,-34.7],[137.5,-34.1],[137.9,-33.6],[137.8,-32.9],[137.0,-33.8],[136.4,-34.1],[136.0,-34.9],[135.2,-34.5],[135.2,-33.9],[134.6,-33.2],[134.1,-32.8],[134.3,-32.6],[133.0,-32.0],[132.3,-32.0],[131.3,-31.5],[129.5,-31.6],[128.2,-31.9],[127.1,-32.3],[126.1,-32.2]]],
 };
+
+const ALKI_ROUTES = [
+  { name: "ALKI I", desc: "SCS \u2192 Natuna \u2192 Karimata \u2192 Java Sea \u2192 Sunda Strait \u2192 Indian Ocean", color: "#f59e0b",
+    waypoints: [[108.5,5.0],[108.0,2.5],[107.5,0.5],[107.0,-1.5],[106.5,-3.0],[106.0,-5.5],[105.5,-6.2],[104.5,-7.0]] },
+  { name: "ALKI IA", desc: "Singapore Strait \u2192 Natuna Sea (spur)", color: "#fbbf24",
+    waypoints: [[104.0,1.3],[105.5,1.8],[107.0,1.5],[107.5,0.5]] },
+  { name: "ALKI II", desc: "Sulawesi Sea \u2192 Makassar \u2192 Flores \u2192 Lombok \u2192 Indian Ocean", color: "#f59e0b",
+    waypoints: [[119.5,4.0],[118.5,1.5],[117.5,-0.5],[117.0,-2.5],[117.5,-4.5],[117.0,-6.5],[116.5,-8.0],[116.0,-9.5]] },
+  { name: "ALKI IIIA", desc: "Pacific \u2192 Maluku \u2192 Seram \u2192 Banda \u2192 Ombai \u2192 Sawu \u2192 Indian Ocean", color: "#fb923c",
+    waypoints: [[131.0,2.5],[129.5,0.5],[128.5,-1.0],[128.5,-3.0],[128.0,-4.5],[127.0,-6.0],[125.5,-7.8],[124.5,-8.5],[123.0,-9.5],[122.0,-10.5]] },
+  { name: "ALKI IIIB", desc: "Pacific \u2192 Maluku \u2192 Seram \u2192 Banda \u2192 Leti Strait \u2192 Indian Ocean", color: "#fb923c",
+    waypoints: [[131.0,2.5],[129.5,0.5],[128.5,-1.0],[128.5,-3.0],[128.0,-5.0],[127.5,-7.0],[127.5,-8.0],[127.0,-8.5]] },
+  { name: "ALKI IIIC", desc: "Pacific \u2192 Maluku \u2192 Seram \u2192 Banda \u2192 Arafura Sea", color: "#fb923c",
+    waypoints: [[131.0,2.5],[129.5,0.5],[128.5,-1.0],[128.5,-3.0],[129.0,-5.0],[130.5,-6.0],[132.0,-7.0],[133.0,-7.5]] },
+];
+
+const EEZ_BOUNDARY = [
+  [95.0,6.5],[97.0,6.5],[100.0,5.5],[103.0,3.5],[105.0,3.0],[108.5,5.5],[110.0,4.5],
+  [115.0,5.5],[118.0,5.5],[120.0,5.0],[123.0,5.5],[126.0,5.0],[128.5,3.5],[131.0,2.5],
+  [135.0,0.5],[138.0,-1.0],[141.0,-2.5],[141.0,-9.5],[140.0,-10.5],[137.0,-9.5],
+  [132.0,-11.5],[126.0,-12.0],[122.0,-12.5],[118.0,-12.0],[114.0,-11.5],[110.0,-11.0],
+  [107.0,-10.5],[104.0,-9.5],[101.0,-8.5],[97.0,-6.5],[95.0,-5.0],[93.0,-2.0],
+  [93.0,2.0],[95.0,5.0],[95.0,6.5],
+];
 
 
 const BASE_COORDS = {
@@ -519,6 +1067,17 @@ const SYSTEM_BASES = {
   "PTPAL_AUV": ["PT PAL, Surabaya"],
   "A330MRTT": [],
   "M346FA": [],
+  "EMB314": ["Lanud Abdulrachman Saleh, Malang"],
+  "STARSTREAK": ["Arhanud, Malang"],
+  "C705": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya", "Brigif Marinir 1, Surabaya"],
+  "EXOCET_SHORE": [],
+  "CN235MPA": ["Lanud Husein Sastranegara, Bandung"],
+  "B737": ["Lanud Sultan Hasanuddin, Makassar"],
+  "KCR70M": [],
+  "CAKIR": [],
+  "PC24": [],
+  "PC21": [],
+  "BRAHMOS": [],
 };
 
 // Combat radius in km (theoretical, from base) for fighters, missiles, artillery, radars, air defense
@@ -548,6 +1107,11 @@ const COMBAT_RADIUS = {
   "QW3": { radius: 6, label: "QW-3 MANPADS range", color: "#a855f7" },
   "HISARO": { radius: 25, label: "Hisar-O range", color: "#a855f7" },
   "SIPER": { radius: 100, label: "Siper LRSAM range", color: "#7c3aed" },
+  "STARSTREAK": { radius: 7, label: "Starstreak VSHORAD", color: "#a855f7" },
+  // Coastal Defense
+  "C705": { radius: 130, label: "C-705 AShM range", color: "#dc2626" },
+  "EXOCET_SHORE": { radius: 200, label: "Exocet Block 3 coastal range", color: "#dc2626" },
+  "BRAHMOS": { radius: 290, label: "BrahMos coastal range", color: "#dc2626" },
   // Radar
   "GM400": { radius: 470, label: "Ground Master 400α detection", color: "#06b6d4" },
   "MASTERT": { radius: 444, label: "Master-T GCI range", color: "#0891b2" },
@@ -588,7 +1152,9 @@ function BaseMap() {
   const [panOffset, setPanOffset] = useState([0, 0]);
   const [showRadius, setShowRadius] = useState(null); // null = off, or category string
   const [radiusCategory, setRadiusCategory] = useState("Fighters");
-  const [selectedWeapon, setSelectedWeapon] = useState(null); // weapon ID clicked in detail panel
+  const [selectedWeapon, setSelectedWeapon] = useState(null);
+  const [showALKI, setShowALKI] = useState(false);
+  const [showEEZ, setShowEEZ] = useState(false); // weapon ID clicked in detail panel
 
   const mapW = 960, mapH = 540;
 
@@ -668,11 +1234,10 @@ function BaseMap() {
   // Radius category definitions
   const radiusCategories = {
     "Fighters": ["F16AM","F16CD","SU27","SU30","RAFALE","HAWK200","T50I"],
-    "Missiles": ["KHAN","BORA","ASTROS","ATMACA"],
-    "Air Defense": ["SKYSHIELD","NASAMS","MISTRAL","QW3","HISARO","SIPER"],
+    "Missiles": ["KHAN","BORA","ASTROS","ATMACA","C705","EXOCET_SHORE","BRAHMOS"],
+    "Ground Defense": ["SKYSHIELD","NASAMS","MISTRAL","QW3","HISARO","SIPER","STARSTREAK","CAESAR","M109","KH179","RM70"],
     "Radar": ["MASTERT","TRS2215","AR325","GM200"],
     "UAVs": ["ANKAS","CH4","TB2"],
-    "Artillery": ["CAESAR","M109","KH179","RM70"],
     "Submarines": ["CAKRA","NAGAPASA"],
     "Combatants": ["MARTADINATA","BRAWIJAYA","AHMADYANI","DIPONEGORO","USMANHARUN","FATAHILLAH","BUNGTOMO","BUNGKARNO","MAKASSAR"],
     "Patrol Ships": ["PATTIMURA","KCR60","KCR40"],
@@ -763,6 +1328,22 @@ function BaseMap() {
     return pathGen(g());
   }, [pathGen]);
 
+  // ALKI route paths
+  const alkiPaths = useMemo(() => {
+    return ALKI_ROUTES.map(route => {
+      const points = route.waypoints.map(wp => projection([wp[0], wp[1]])).filter(Boolean);
+      const pathStr = points.map((p, i) => `${i === 0 ? "M" : "L"}${p[0]},${p[1]}`).join(" ");
+      const mid = points[Math.floor(points.length / 2)];
+      return { ...route, path: pathStr, labelX: mid ? mid[0] : 0, labelY: mid ? mid[1] : 0 };
+    });
+  }, [projection]);
+
+  // EEZ boundary path
+  const eezPath = useMemo(() => {
+    const points = EEZ_BOUNDARY.map(wp => projection([wp[0], wp[1]])).filter(Boolean);
+    return points.map((p, i) => `${i === 0 ? "M" : "L"}${p[0]},${p[1]}`).join(" ") + "Z";
+  }, [projection]);
+
   const sel = selectedBase;
   const hov = hoveredBase;
 
@@ -811,6 +1392,20 @@ function BaseMap() {
         {!showRadius && <div style={{ fontSize: 10, color: "#4a5568", marginTop: 6, fontStyle: "italic" }}>
           Select a category to overlay range circles on the map. Or click a weapon in a base detail panel.
         </div>}
+        {/* Strategic overlays */}
+        <div style={{ display: "flex", gap: 6, marginTop: 10, paddingTop: 10, borderTop: "1px solid #1e3a5f", alignItems: "center" }}>
+          <span style={{ fontSize: 10, color: "#6b8bb5", fontWeight: 600, marginRight: 4 }}>Overlays:</span>
+          <button onClick={() => setShowALKI(!showALKI)}
+            style={{ padding: "4px 10px", borderRadius: 12, fontSize: 9, fontWeight: 600, cursor: "pointer",
+              border: showALKI ? "1px solid #f59e0b" : "1px solid #374151",
+              background: showALKI ? "#f59e0b18" : "#1f2937",
+              color: showALKI ? "#f59e0b" : "#6b7280" }}>ALKI Sea Lanes</button>
+          <button onClick={() => setShowEEZ(!showEEZ)}
+            style={{ padding: "4px 10px", borderRadius: 12, fontSize: 9, fontWeight: 600, cursor: "pointer",
+              border: showEEZ ? "1px solid #3b82f6" : "1px solid #374151",
+              background: showEEZ ? "#3b82f618" : "#1f2937",
+              color: showEEZ ? "#3b82f6" : "#6b7280" }}>EEZ Boundary</button>
+        </div>
       </div>
 
       <div style={{ background: "#0a1628", borderRadius: 12, overflow: "hidden", position: "relative", border: "1px solid #1e3a5f" }}>
@@ -883,10 +1478,22 @@ function BaseMap() {
               <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
-          <rect x="0" y="0" width={mapW} height={mapH} fill="url(#ocean)" />
+          <rect x="-2000" y="-2000" width="6000" height="6000" fill="url(#ocean)" />
 
           {/* Graticule grid */}
           <path d={graticule} fill="none" stroke="#1a2d4a" strokeWidth="0.3" strokeDasharray="2,4" />
+
+          {/* EEZ Boundary */}
+          {showEEZ && <path d={eezPath} fill="none" stroke="#3b82f6" strokeWidth="1.2" strokeDasharray="8,4" opacity="0.5" />}
+
+          {/* ALKI Sea Lanes */}
+          {showALKI && alkiPaths.map((route, i) => (
+            <g key={`alki-${i}`}>
+              <path d={route.path} fill="none" stroke={route.color} strokeWidth="2" strokeDasharray="10,5" opacity="0.6" strokeLinecap="round" />
+              <path d={route.path} fill="none" stroke={route.color} strokeWidth="6" opacity="0.08" strokeLinecap="round" />
+              <text x={route.labelX + 8} y={route.labelY - 6} fill={route.color} fontSize="8" fontWeight="700" opacity="0.85">{route.name}</text>
+            </g>
+          ))}
 
           {/* Neighbor countries */}
           {neighborPaths.map(n => (
@@ -1098,6 +1705,207 @@ function BaseMap() {
 
 
 
+function A2ADView() {
+  const [activeLayer, setActiveLayer] = useState("all");
+  const [hoveredCP, setHoveredCP] = useState(null);
+
+  const mapW = 960, mapH = 540;
+  const projection = useMemo(() => d3.geoMercator().center([118, -4]).scale(1050).translate([mapW / 2, mapH / 2]), []);
+  const pathGen = useMemo(() => d3.geoPath().projection(projection), [projection]);
+  const idnFeature = useMemo(() => ({ type: "Feature", properties: {}, geometry: { type: "MultiPolygon", coordinates: IDN_GEO } }), []);
+  const idnPath = useMemo(() => pathGen(idnFeature), [pathGen, idnFeature]);
+  const neighborPaths = useMemo(() => Object.entries(NEIGHBORS).map(([name, polygons]) => {
+    const f = { type: "Feature", properties: { name }, geometry: { type: "MultiPolygon", coordinates: polygons.map(r => [r]) } };
+    const c = d3.geoCentroid(f); const p = projection(c);
+    return { name, path: pathGen(f), cx: p?p[0]:0, cy: p?p[1]:0 };
+  }), [pathGen, projection]);
+  const graticule = useMemo(() => pathGen(d3.geoGraticule().step([5,5])()), [pathGen]);
+  const alkiPaths = useMemo(() => ALKI_ROUTES.map(route => {
+    const points = route.waypoints.map(wp => projection([wp[0], wp[1]])).filter(Boolean);
+    const pathStr = points.map((p, i) => `${i === 0 ? "M" : "L"}${p[0]},${p[1]}`).join(" ");
+    const mid = points[Math.floor(points.length / 2)];
+    return { ...route, path: pathStr, labelX: mid?mid[0]:0, labelY: mid?mid[1]:0 };
+  }), [projection]);
+  const eezPath = useMemo(() => {
+    const pts = EEZ_BOUNDARY.map(wp => projection([wp[0], wp[1]])).filter(Boolean);
+    return pts.map((p,i) => `${i===0?"M":"L"}${p[0]},${p[1]}`).join(" ") + "Z";
+  }, [projection]);
+
+  // A2/AD layer definitions
+  const layers = {
+    outer: { label: "Outer Layer", desc: "Long-range detection & deterrence", color: "#3b82f6",
+      systems: ["SU27","SU30","RAFALE","F16AM","F16CD","CAKRA","NAGAPASA","MASTERT","TRS2215","AR325","GM400","B737","CN235MPA"] },
+    middle: { label: "Middle Layer", desc: "Area denial & surface control", color: "#10b981",
+      systems: ["MARTADINATA","BRAWIJAYA","AHMADYANI","DIPONEGORO","ANKAS","CH4","NASAMS","SIPER","HISARO","KHAN","BORA"] },
+    inner: { label: "Inner Layer", desc: "Point defense & coastal denial", color: "#ef4444",
+      systems: ["C705","EXOCET_SHORE","BRAHMOS","ATMACA","KCR60","KCR40","SKYSHIELD","MISTRAL","QW3","STARSTREAK","CAESAR","ASTROS"] },
+  };
+
+  // System type classification for visual differentiation
+  const getSystemType = (sysId) => {
+    const fighters = ["SU27","SU30","RAFALE","F16AM","F16CD","HAWK200","T50I","EMB314"];
+    const radars = ["MASTERT","TRS2215","AR325","GM200","GM400"];
+    const subs = ["CAKRA","NAGAPASA"];
+    const ships = ["MARTADINATA","BRAWIJAYA","AHMADYANI","DIPONEGORO","KCR60","KCR40"];
+    const missiles = ["KHAN","BORA","ASTROS","C705","EXOCET_SHORE","ATMACA"];
+    const airdef = ["SKYSHIELD","NASAMS","MISTRAL","QW3","HISARO","SIPER","STARSTREAK"];
+    const uavs = ["ANKAS","CH4","TB2"];
+    const isr = ["B737","CN235MPA"];
+    if (fighters.includes(sysId)) return "fighter";
+    if (radars.includes(sysId)) return "radar";
+    if (subs.includes(sysId)) return "submarine";
+    if (ships.includes(sysId)) return "ship";
+    if (missiles.includes(sysId)) return "missile";
+    if (airdef.includes(sysId)) return "airdef";
+    if (uavs.includes(sysId)) return "uav";
+    if (isr.includes(sysId)) return "isr";
+    return "other";
+  };
+
+  const typeStyles = {
+    fighter:   { color: "#3b82f6", dash: "none",  fillOp: 0.06, strokeW: 1.2, label: "Fighter CAP" },
+    radar:     { color: "#06b6d4", dash: "2,3",   fillOp: 0.04, strokeW: 0.6, label: "Radar Coverage" },
+    submarine: { color: "#8b5cf6", dash: "8,4",   fillOp: 0.06, strokeW: 1.0, label: "Submarine Patrol" },
+    ship:      { color: "#64748b", dash: "6,3",   fillOp: 0.05, strokeW: 0.8, label: "Surface Combatant" },
+    missile:   { color: "#ef4444", dash: "none",  fillOp: 0.10, strokeW: 1.5, label: "Missile Range" },
+    airdef:    { color: "#a855f7", dash: "3,2",   fillOp: 0.06, strokeW: 0.7, label: "Air Defense" },
+    uav:       { color: "#10b981", dash: "4,4",   fillOp: 0.04, strokeW: 0.6, label: "UAV Link Range" },
+    isr:       { color: "#0ea5e9", dash: "10,5",  fillOp: 0.03, strokeW: 0.5, label: "ISR Patrol" },
+    other:     { color: "#9ca3af", dash: "3,3",   fillOp: 0.05, strokeW: 0.6, label: "Other" },
+  };
+
+  // Compute range rings for active layer(s)
+  const rings = useMemo(() => {
+    const activeSystems = activeLayer === "all"
+      ? [...layers.outer.systems, ...layers.middle.systems, ...layers.inner.systems]
+      : (layers[activeLayer]?.systems || []);
+    const result = [];
+    activeSystems.forEach(sysId => {
+      const cr = COMBAT_RADIUS[sysId];
+      if (!cr) return;
+      const sType = getSystemType(sysId);
+      const bases = SYSTEM_BASES[sysId] || [];
+      bases.forEach(baseName => {
+        const coord = BASE_COORDS[baseName];
+        if (!coord) return;
+        const latRad = coord[0] * Math.PI / 180;
+        const kmPerDeg = 111.32 * Math.cos(latRad);
+        const degRadius = cr.radius / kmPerDeg;
+        const center = projection([coord[1], coord[0]]);
+        const edge = projection([coord[1] + degRadius, coord[0]]);
+        if (!center || !edge) return;
+        const pxRadius = Math.max(Math.abs(edge[0] - center[0]), 12);
+        const layerKey = layers.outer.systems.includes(sysId) ? "outer" : layers.middle.systems.includes(sysId) ? "middle" : "inner";
+        result.push({ cx: center[0], cy: center[1], r: pxRadius, label: cr.label, radiusKm: cr.radius, layer: layerKey, sType });
+      });
+    });
+    return result;
+  }, [activeLayer, projection]);
+
+  return (
+    <div style={{ marginTop: 32 }}>
+      <div style={{ marginBottom: 16 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 800, color: "#111", marginBottom: 4 }}>A2/AD Layered Defense Analysis</h2>
+        <p style={{ fontSize: 12, color: "#9ca3af", margin: 0 }}>Indonesia's anti-access/area-denial posture across ALKI sea lanes and EEZ</p>
+      </div>
+
+      {/* Layer selector */}
+      <div style={{ background: "linear-gradient(135deg, #111827 0%, #0f172a 100%)", borderRadius: 10, padding: "14px 16px", marginBottom: 12, border: "1px solid #1e3a5f" }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+          <span style={{ fontSize: 11, color: "#C8A951", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", marginRight: 4 }}>Defense Layers</span>
+          {[["all","All Layers","#C8A951"],["outer","Outer","#3b82f6"],["middle","Middle","#10b981"],["inner","Inner","#ef4444"]].map(([k,l,c]) => (
+            <button key={k} onClick={() => setActiveLayer(k)}
+              style={{ padding: "6px 14px", borderRadius: 20, fontSize: 10, fontWeight: 700, cursor: "pointer",
+                border: activeLayer === k ? `1px solid ${c}` : "1px solid #374151",
+                background: activeLayer === k ? `${c}18` : "#1f2937",
+                color: activeLayer === k ? c : "#6b7280", transition: "all .2s" }}>{l}</button>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 16, marginTop: 10, fontSize: 10 }}>
+          {Object.entries(layers).map(([k, v]) => (
+            <div key={k} style={{ display: "flex", alignItems: "center", gap: 4, opacity: activeLayer === "all" || activeLayer === k ? 1 : 0.3 }}>
+              <div style={{ width: 8, height: 8, borderRadius: 4, background: v.color }} />
+              <span style={{ color: v.color, fontWeight: 600 }}>{v.label}:</span>
+              <span style={{ color: "#6b8bb5" }}>{v.desc}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Map */}
+      <div style={{ background: "#0a1628", borderRadius: 12, overflow: "hidden", border: "1px solid #1e3a5f" }}>
+        <svg viewBox={`0 0 ${mapW} ${mapH}`} style={{ width: "100%", height: "auto", display: "block" }}>
+          <defs>
+            <radialGradient id="ocean2" cx="50%" cy="50%" r="70%"><stop offset="0%" stopColor="#0d1f3c"/><stop offset="100%" stopColor="#060e1a"/></radialGradient>
+          </defs>
+          <rect x="-2000" y="-2000" width="6000" height="6000" fill="url(#ocean2)" />
+          <path d={graticule} fill="none" stroke="#1a2d4a" strokeWidth="0.3" strokeDasharray="2,4" />
+
+          {/* EEZ */}
+          <path d={eezPath} fill="none" stroke="#3b82f6" strokeWidth="1" strokeDasharray="6,3" opacity="0.4" />
+
+          {/* ALKI Routes */}
+          {alkiPaths.map((route, i) => (
+            <g key={`alki-${i}`}>
+              <path d={route.path} fill="none" stroke={route.color} strokeWidth="2.5" strokeDasharray="8,4" opacity="0.5" strokeLinecap="round" />
+              <path d={route.path} fill="none" stroke={route.color} strokeWidth="8" opacity="0.06" strokeLinecap="round" />
+              <text x={route.labelX + 6} y={route.labelY - 5} fill={route.color} fontSize="7" fontWeight="700" opacity="0.8">{route.name}</text>
+            </g>
+          ))}
+
+          {/* Neighbors */}
+          {neighborPaths.map(n => (
+            <g key={n.name}><path d={n.path} fill="#0e1a2e" stroke="#1a2d4a" strokeWidth="0.4" />
+              <text x={n.cx} y={n.cy} textAnchor="middle" fill="#1a2d4a" fontSize="7" fontWeight="600" letterSpacing="1.5">{n.name.toUpperCase()}</text></g>
+          ))}
+
+          {/* Indonesia */}
+          <path d={idnPath} fill="#162a46" stroke="#2a5080" strokeWidth="0.6" />
+
+          {/* Range rings by type */}
+          {rings.map((ring, i) => {
+            const ts = typeStyles[ring.sType] || typeStyles.other;
+            return <circle key={`r-${i}`} cx={ring.cx} cy={ring.cy} r={ring.r}
+              fill={ts.color} fillOpacity={ts.fillOp}
+              stroke={ts.color} strokeWidth={ts.strokeW}
+              strokeDasharray={ts.dash === "none" ? undefined : ts.dash}
+              opacity="0.7" />;
+          })}
+
+          {/* Labels */}
+          <text x="30" y="28" fill="#1e3a5f" fontSize="9" fontWeight="600" letterSpacing="2">INDIAN OCEAN</text>
+          <text x={mapW - 120} y={mapH - 15} fill="#1e3a5f" fontSize="9" fontWeight="600" letterSpacing="2">PACIFIC OCEAN</text>
+        </svg>
+      </div>
+
+      {/* Type legend */}
+      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 10, padding: "8px 12px", background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb" }}>
+        {Object.entries(typeStyles).filter(([k]) => {
+          if (activeLayer === "all") return true;
+          const layerSystems = layers[activeLayer]?.systems || [];
+          return layerSystems.some(s => getSystemType(s) === k);
+        }).map(([k, ts]) => (
+          <div key={k} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 10 }}>
+            <svg width="20" height="12"><circle cx="10" cy="6" r="5" fill={ts.color} fillOpacity={ts.fillOp * 3} stroke={ts.color} strokeWidth={ts.strokeW} strokeDasharray={ts.dash === "none" ? undefined : ts.dash} /></svg>
+            <span style={{ color: "#374151", fontWeight: 500 }}>{ts.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Analysis narrative */}
+      <div style={{ marginTop: 16, background: "#f9fafb", borderRadius: 10, padding: "16px 20px", border: "1px solid #e5e7eb" }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 8 }}>Strategic Assessment</div>
+        <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.7 }}>
+          {activeLayer === "all" && "Indonesia's A2/AD architecture is organized around three ALKI corridors connecting the Pacific and Indian Oceans. The outer layer provides early warning through long-range radar (400+ km) and fighter combat air patrols from bases in Sumatra, Java, Sulawesi, and Papua. The middle layer deploys surface combatants and medium-range SAMs to contest sea control. The inner layer concentrates coastal AShM batteries, SHORAD systems, and fast attack craft at chokepoints — the straits of Sunda, Lombok, Makassar, Ombai, and Leti. Coverage gaps remain in eastern Indonesia (ALKI III branches) where basing infrastructure is thinnest."}
+          {activeLayer === "outer" && "The outer detection and deterrence layer relies on 20 Kohanudnas radar stations (Master-T, Thomson TRS-2215, Plessey AR-325) providing 400-470 km detection coverage, plus fighter CAP from Su-27/30 at Makassar (750-800 km radius), F-16 at Iswahjudi/Roesmin Nurjadin (550 km), and incoming Rafale (1,100 km). Submarine patrols from Surabaya extend denial to ~2,800 km. Boeing 737 Surveiller and CN-235 MPA provide maritime ISR. Key gap: eastern Indonesia beyond Makassar has no fighter basing until Papua."}
+          {activeLayer === "middle" && "The middle layer provides area denial through SIGMA and PPA-class frigates (1,500-2,000 km patrol radius), corvettes (1,100-1,400 km), and MALE UAVs (Anka-S, CH-4 at 200-250 km data link range). The KHAN SRBM at Tenggarong (280 km) and ASTROS MLRS (300 km) add land-based deep strike. Planned NASAMS, Hisar-O, and Siper SAMs will create medium-range air defense zones. The middle layer is strongest around Java and the Makassar Strait (ALKI II) but thin around ALKI III."}
+          {activeLayer === "inner" && "The inner denial layer concentrates at chokepoints: C-705 shore-launched AShM (130 km) at Koarmada I/II, Atmaca missiles on Red White Frigates (250 km), KCR-40/60 fast attack craft for sprint intercepts (400-550 km sortie radius), and Starstreak ForceSHIELD VSHORAD (7 km) at Arhanud units. CAESAR 155mm SPH provides fire support at 42 km. This layer is designed to make strait transit prohibitively costly. Strongest at Sunda Strait (ALKI I) and Lombok/Makassar (ALKI II); weakest at ALKI III eastern branches."}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App(){
   const[q,setQ]=useState("");
   const[fc,setFc]=useState("All");
@@ -1122,36 +1930,66 @@ function App(){
     return d;
   },[q,fc,fb,fo,fs,sf,sd]);
 
-  const st=useMemo(()=>({t:WEAPON_SYSTEMS.length,a:WEAPON_SYSTEMS.filter(w=>w.status.includes("Active")).length,o:WEAPON_SYSTEMS.filter(w=>["On Order","Under Construction","Delivering"].includes(w.status)).length,d:WEAPON_SYSTEMS.filter(w=>w.origin.includes("Indonesia")).length}),[]);
+  const st=useMemo(()=>{
+    const aging = WEAPON_SYSTEMS.filter(w=>w.status.includes("aging")).length;
+    const onOrder = WEAPON_SYSTEMS.filter(w=>["On Order","Under Construction","Delivering","In Development"].includes(w.status)).length;
+    const prabowoEra = WEAPON_SYSTEMS.filter(w=>{
+      const introStr = String(w.specs.introduced || "");
+      const m = introStr.match(/(\d{4})/);
+      if (m && parseInt(m[1]) >= 2020) return true;
+      if (["On Order","Under Construction","In Development","Delivering"].includes(w.status) && (!m || parseInt(m[1]) >= 2020)) return true;
+      return false;
+    }).length;
+    let knownValue = 0;
+    Object.values(CONTRACT_VALUES).forEach(cv => {
+      const m = cv.match(/\$([\.\d]+)B/);
+      if (m) knownValue += parseFloat(m[1]);
+    });
+    const suppliers = new Set(WEAPON_SYSTEMS.map(w => w.origin.split("/")[0].trim())).size;
+    return { t: WEAPON_SYSTEMS.length, aging, onOrder, prabowoEra, knownValue, suppliers };
+  },[]);
 
   const ts=(f)=>{if(sf===f)setSd(x=>x==="asc"?"desc":"asc");else{setSf(f);setSd("asc");}};
 
   const ss={background:"#fff",border:"1px solid #e5e7eb",borderRadius:8,padding:"9px 14px",color:"#374151",fontSize:12,outline:"none",cursor:"pointer",flex:"1 1 140px",minWidth:120};
 
   return(
-    <div style={{fontFamily:"'Helvetica Neue',Arial,sans-serif",background:"#fafafa",color:"#374151",minHeight:"100vh"}}>
+    <div style={{fontFamily:"'Poppins','Helvetica Neue',Arial,sans-serif",background:"#fafafa",color:"#374151",minHeight:"100vh"}}>
       {/* Header */}
-      <div style={{background:"#fff",borderBottom:"1px solid #e5e7eb",padding:"24px 32px 20px"}}>
+      <div style={{background:"#1a1a1a",borderBottom:"1px solid #333",padding:"24px 32px 20px"}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
           <div>
             <div style={{fontSize:12,letterSpacing:2,color:GOLD,fontWeight:800,textTransform:"uppercase",marginBottom:4}}>Laboratorium Indonesia 2045</div>
-            <h1 style={{fontSize:26,fontWeight:900,color:"#111",margin:0,letterSpacing:"-.5px",lineHeight:1.2}}>Indonesia Weapon Systems Database</h1>
-            <p style={{fontSize:12,color:"#9ca3af",margin:"4px 0 0"}}>TNI Alutsista Inventory — Active, On Order & In Development — Open-source intelligence</p>
+            <h1 style={{fontSize:26,fontWeight:900,color:"#fff",margin:0,letterSpacing:"-.5px",lineHeight:1.2}}>Indonesia Weapon Systems Database</h1>
+            <p style={{fontSize:12,color:"#999",margin:"4px 0 0"}}>TNI Alutsista Inventory — Active, On Order & In Development — Open-source intelligence</p>
+          </div>
+          <div style={{fontSize:10,color:"#999",textAlign:"right"}}>
+            <div style={{fontWeight:700,color:"#999"}}>Last updated</div>
+            <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>April 2026</div>
           </div>
         </div>
         {/* Stats */}
         <div style={{display:"flex",flexWrap:"wrap",gap:8,marginTop:16}}>
-          {[["Total Systems",st.t,GOLD],["Active",st.a,"#16a34a"],["On Order / Building",st.o,"#ea580c"],["Domestic / Joint",st.d,"#2563eb"]].map(([l,v,c])=>(
-            <div key={l} style={{background:"#fafafa",border:"1px solid #e5e7eb",borderRadius:8,padding:"8px 14px",flex:"1 1 100px"}}>
+          {[
+            ["Total Systems",st.t,GOLD],
+            ["On Order / Building",st.onOrder,"#ea580c"],
+            ["Aging (\u226525 yrs)",st.aging,"#f59e0b"],
+            ["Prabowo Era (2020+)",st.prabowoEra,"#38bdf8"],
+            ["Supplier Nations",st.suppliers,"#6366f1"],
+          ].map(([l,v,c])=>(
+            <div key={l} style={{background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:8,padding:"8px 14px",flex:"1 1 100px"}}>
               <div style={{fontSize:20,fontWeight:800,color:c}}>{v}</div>
-              <div style={{fontSize:9,color:"#9ca3af",fontWeight:600,letterSpacing:.5,textTransform:"uppercase",marginTop:1}}>{l}</div>
+              <div style={{fontSize:9,color:"rgba(255,255,255,0.5)",fontWeight:600,letterSpacing:.5,textTransform:"uppercase",marginTop:1}}>{l}</div>
             </div>
           ))}
         </div>
         {/* Tabs */}
         <div style={{display:"flex",gap:4,marginTop:20}}>
-          {[["map","Base Map"],["inventory","Inventory"],["timeline","Procurement Timeline"],["origins","Country of Origin"]].map(([k,l])=>(
-            <button key={k} onClick={()=>setTab(k)} style={{background:tab===k?"#111":"transparent",color:tab===k?"#fff":"#6b7280",border:"1px solid "+(tab===k?"#111":"#e5e7eb"),borderRadius:8,padding:"8px 18px",cursor:"pointer",fontSize:12,fontWeight:600,transition:"all .2s"}}>{l}</button>
+          {[["map","Base Map"],["inventory","Inventory"],["timeline","Procurement Timeline"],["origins","Country of Origin"],["a2ad","A2/AD Analysis"]].map(([k,l])=>(
+            <button key={k} onClick={()=>setTab(k)} style={{background:tab===k?GOLD:"transparent",color:tab===k?"#fff":"rgba(255,255,255,0.6)",border:"1px solid "+(tab===k?GOLD:"rgba(255,255,255,0.15)"),borderRadius:8,padding:"8px 18px",cursor:"pointer",fontSize:12,fontWeight:600,transition:"all .2s",position:"relative"}}>
+              {l}
+              {k==="a2ad"&&<span style={{position:"absolute",top:-6,right:-6,background:"#ef4444",color:"#fff",fontSize:8,fontWeight:800,padding:"2px 5px",borderRadius:8,lineHeight:1,letterSpacing:.5}}>BETA</span>}
+            </button>
           ))}
         </div>
       </div>
@@ -1173,9 +2011,9 @@ function App(){
           <div style={{overflowX:"auto",background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",marginTop:16}}>
             <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
               <thead><tr style={{borderBottom:"2px solid #e5e7eb"}}>
-                {[["name","System"],["category","Category"],["branch","Branch"],["origin","Origin"],["quantity","Qty"],["status","Status"]].map(([f,l])=>(
-                  <th key={f} onClick={()=>ts(f)} style={{padding:"14px 12px",textAlign:"left",cursor:"pointer",color:"#9ca3af",fontWeight:700,fontSize:10,letterSpacing:1,textTransform:"uppercase",whiteSpace:"nowrap",userSelect:"none",background:"#fafafa"}}>
-                    {l} <span style={{color:sf===f?GOLD:"#d1d5db"}}>{sf===f?(sd==="asc"?"\u2191":"\u2193"):"\u2195"}</span>
+                {[["name","System"],["category","Category"],["branch","Branch"],["origin","Origin"],["quantity","Qty"],["status","Status"],["contract","Contract"],["source","Source"]].map(([f,l])=>(
+                  <th key={f} onClick={()=>f!=="contract"&&f!=="source"&&ts(f)} style={{padding:"14px 12px",textAlign:"left",cursor:f!=="contract"&&f!=="source"?"pointer":"default",color:"#9ca3af",fontWeight:700,fontSize:10,letterSpacing:1,textTransform:"uppercase",whiteSpace:"nowrap",userSelect:"none",background:"#fafafa"}}>
+                    {l} {f!=="contract"&&<span style={{color:sf===f?GOLD:"#d1d5db"}}>{sf===f?(sd==="asc"?"\u2191":"\u2193"):"\u2195"}</span>}
                   </th>
                 ))}
               </tr></thead>
@@ -1191,6 +2029,13 @@ function App(){
                   <td style={{padding:12,color:"#6b7280"}}>{w.origin}</td>
                   <td style={{padding:12,fontWeight:700,color:"#111"}}>{w.quantity}</td>
                   <td style={{padding:12}}><Badge t={w.status} c={SC[w.status]||"#64748b"}/></td>
+                  <td style={{padding:12,fontSize:10,color:CONTRACT_VALUES[w.id]?"#059669":"#d1d5db",fontWeight:CONTRACT_VALUES[w.id]?600:400,maxWidth:200}}>{CONTRACT_VALUES[w.id]||"—"}</td>
+                  <td style={{padding:12,fontSize:10}}>{(() => {
+                    const src = SOURCES[w.id];
+                    if (!src) return "—";
+                    const c = {"Confirmed":"#059669","Reported":"#d97706","Estimated":"#6b7280"};
+                    return <span style={{color:c[src[0]]||"#6b7280",fontWeight:600}}>{src[0]}</span>;
+                  })()}</td>
                 </tr>
               ))}</tbody>
             </table>
@@ -1204,8 +2049,10 @@ function App(){
 
       {tab==="map"&&<div style={{padding:"0 32px 40px"}}><BaseMap/></div>}
 
+      {tab==="a2ad"&&<div style={{padding:"0 32px 40px"}}><A2ADView/></div>}
+
       {/* Footer */}
-      <div style={{background:"#111",padding:"28px 32px",marginTop:20}}>
+      <div style={{background:"#1a1a1a",padding:"28px 32px",marginTop:20}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
           <div>
             <div style={{fontSize:13,color:GOLD,fontWeight:700,letterSpacing:1}}>Laboratorium Indonesia 2045</div>
