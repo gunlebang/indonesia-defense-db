@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Indonesia Weapon Systems Database — LAB45</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Montserrat', sans-serif; background: #f8f9fa; }
+body { font-family: 'DM Sans', sans-serif; background: #f8f9fa; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #C8A95140; border-radius: 3px; }
@@ -590,7 +590,7 @@ function OriginChart(){
   },[hovered,sankeyData]);
 
   // Bar chart fallback
-  // Bar chart: preserve full origins including joint production
+  // Bar chart: consolidate multi-country origins into primary country
   const [expandedBar,setExpandedBar]=useState(null);
   const barData=useMemo(()=>{
     const map={};
@@ -598,6 +598,16 @@ function OriginChart(){
       let o=w.origin;
       o=o.replace(/\bTurkiye\b/g,"Türkiye");
       if(o==="TBD")o="Italy";
+      // Consolidate: attribute to primary (first-listed) country
+      // Keep "Indonesia" separate, group joint-Indo later
+      if(o.includes("/") && !o.includes("Indonesia")){
+        o=o.split("/")[0].trim();
+        // Normalize some edge cases
+        if(o==="Germany (East)") o="Germany";
+        if(o==="Czechoslovakia"||o==="Czech Republic"||o==="Czechia") o="Czechia";
+      }
+      if(o==="Germany (East)") o="Germany";
+      if(o==="Czechoslovakia"||o==="Czech Republic") o="Czechia";
       if(!map[o])map[o]={name:o,total:0,active:0,newOrder:0,aging:0,systems:[]};
       map[o].total++;
       map[o].systems.push({name:w.name,status:w.status,id:w.id,origin:w.origin,manufacturer:w.manufacturer});
@@ -608,18 +618,15 @@ function OriginChart(){
     });
     // Group Indonesia joint production with partner breakdown
     const result=[];
-    const jointIndo={name:"Indonesia (Joint Production)",total:0,active:0,newOrder:0,aging:0,systems:[],isJoint:true,partners:{}};
+    const jointIndo={name:"Indonesia (Joint)",total:0,active:0,newOrder:0,aging:0,systems:[],isJoint:true,partners:{}};
     Object.values(map).forEach(d=>{
       if(d.name.includes("/")&&d.name.includes("Indonesia")){
-        // Extract partner country name
         const parts=d.name.split("/").map(s=>s.trim());
         const partner=parts.filter(p=>p!=="Indonesia").join(" / ")||"Indonesia";
         if(!jointIndo.partners[partner])jointIndo.partners[partner]={count:0,systems:[]};
         jointIndo.partners[partner].count+=d.total;
         jointIndo.partners[partner].systems.push(...d.systems);
         jointIndo.total+=d.total;jointIndo.active+=d.active;jointIndo.newOrder+=d.newOrder;jointIndo.aging+=d.aging;jointIndo.systems.push(...d.systems);
-      } else if(d.name.includes("/")&&!d.name.includes("Indonesia")){
-        result.push(d);
       } else {
         result.push(d);
       }
@@ -812,7 +819,7 @@ function OriginChart(){
               }
               const uniqueSys=[...new Set(sys)];
               return(
-                <div style={{position:"absolute",top:12,right:12,background:"#111",color:"#fff",padding:"12px 16px",borderRadius:8,maxWidth:300,fontSize:11,zIndex:10,boxShadow:"0 8px 24px rgba(0,0,0,.2)"}}>
+                <div style={{position:"fixed",top:120,right:24,background:"#111",color:"#fff",padding:"12px 16px",borderRadius:8,maxWidth:280,fontSize:11,zIndex:50,boxShadow:"0 8px 24px rgba(0,0,0,.3)",pointerEvents:"none"}}>
                   <div style={{fontWeight:700,marginBottom:4,color:"#f59e0b"}}>{hovered.replace(/→/g," → ")}</div>
                   {pctLabel&&<div style={{fontSize:13,fontWeight:800,color:"#fff",marginBottom:6}}>{uniqueSys.length} systems <span style={{color:"#38bdf8",fontWeight:600}}>({pctLabel})</span></div>}
                   {!pctLabel&&<div style={{fontSize:13,fontWeight:800,color:"#fff",marginBottom:6}}>{uniqueSys.length} systems</div>}
@@ -831,27 +838,28 @@ function OriginChart(){
             </div>
           ))}
         </div>
-        <div style={{fontSize:11,color:"#9ca3af",marginTop:6,textAlign:"center"}}>Hover to highlight supply chains. Width = number of system types.</div>
+        <div style={{fontSize:11,color:"#9ca3af",marginTop:6,textAlign:"center"}}>Hover to highlight supply chains. Width = number of system types. Scroll horizontally to see full diagram →</div>
         </div>
       </>}
 
       {viewMode==="bar"&&<div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:"16px 12px"}}>
         {barData.map(d=>{
           const maxVal=barData[0].total;
-          const barColor=d.isJoint?"#C8A951":getColor(d.name);
           const isExpanded=expandedBar===d.name;
+          const activeColor=d.isJoint?"#C8A95160":"#94a3b8";
+          const newColor=d.isJoint?"#C8A951":"#2563eb";
           return(
             <div key={d.name} style={{marginBottom:4}}>
               <div onClick={()=>setExpandedBar(isExpanded?null:d.name)} style={{display:"flex",alignItems:"center",gap:6,padding:"4px 0",cursor:"pointer",borderRadius:6,transition:"background .15s"}}
                 onMouseEnter={e=>e.currentTarget.style.background="#f9fafb"} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
-                <div style={{minWidth:80,maxWidth:140,fontSize:10,fontWeight:600,color:isExpanded?"#111":"#374151",textAlign:"right",flexShrink:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.name}{d.isJoint?" 🤝":""}</div>
+                <div style={{width:150,fontSize:10,fontWeight:600,color:isExpanded?"#111":"#374151",textAlign:"right",flexShrink:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.name}{d.isJoint?" 🤝":""}</div>
                 <div style={{flex:1,height:22,background:"#f3f4f6",borderRadius:4,overflow:"hidden",display:"flex",minWidth:40}}>
-                  {d.active>0&&<div style={{height:"100%",width:`${(d.active/maxVal)*100}%`,background:barColor,opacity:0.45,transition:"width .3s"}}/>}
-                  {d.newOrder>0&&<div style={{height:"100%",width:`${(d.newOrder/maxVal)*100}%`,background:barColor,opacity:0.95,borderLeft:d.active>0?"2px solid rgba(255,255,255,.7)":"none",transition:"width .3s"}}/>}
+                  {d.active>0&&<div style={{height:"100%",width:`${(d.active/maxVal)*100}%`,background:activeColor,transition:"width .3s"}}/>}
+                  {d.newOrder>0&&<div style={{height:"100%",width:`${(d.newOrder/maxVal)*100}%`,background:newColor,borderLeft:d.active>0?"2px solid rgba(255,255,255,.7)":"none",transition:"width .3s"}}/>}
                 </div>
                 <div style={{display:"flex",gap:3,alignItems:"center",flexShrink:0}}>
                   <span style={{fontSize:12,fontWeight:800,color:"#111"}}>{d.total}</span>
-                  {d.newOrder>0&&<span style={{fontSize:8,color:"#ea580c",fontWeight:700,background:"#fff7ed",padding:"1px 3px",borderRadius:3}}>+{d.newOrder}</span>}
+                  {d.newOrder>0&&<span style={{fontSize:8,color:"#2563eb",fontWeight:700,background:"#eff6ff",padding:"1px 3px",borderRadius:3}}>+{d.newOrder}</span>}
                 </div>
               </div>
               {isExpanded&&<div style={{marginLeft:0,padding:"8px 10px",background:"#f9fafb",borderRadius:8,marginBottom:8,marginTop:2}}>
@@ -872,19 +880,21 @@ function OriginChart(){
                 </div>}
                 {/* Regular system list for non-joint rows */}
                 {!d.isJoint&&<div style={{display:"flex",flexWrap:"wrap",gap:4}}>
-                  {d.systems.map((s,i)=>(
-                    <span key={i} style={{fontSize:9,padding:"2px 6px",borderRadius:4,background:["On Order","Under Construction","In Development","Delivering","Under Negotiation"].includes(s.status)?barColor+"18":"#fff",border:`1px solid ${["On Order","Under Construction","In Development","Delivering","Under Negotiation"].includes(s.status)?barColor+"40":"#e5e7eb"}`,color:"#374151",fontWeight:500}}>
+                  {d.systems.map((s,i)=>{
+                    const isNew=["On Order","Under Construction","In Development","Delivering","Under Negotiation"].includes(s.status);
+                    return(
+                    <span key={i} style={{fontSize:9,padding:"2px 6px",borderRadius:4,background:isNew?"#eff6ff":"#fff",border:`1px solid ${isNew?"#bfdbfe":"#e5e7eb"}`,color:"#374151",fontWeight:500}}>
                       {s.name} <span style={{fontSize:8,color:SC[s.status]||"#9ca3af",fontWeight:700}}>{s.status}</span>
-                    </span>
-                  ))}
+                    </span>);
+                  })}
                 </div>}
               </div>}
             </div>
           );
         })}
         <div style={{display:"flex",gap:16,marginTop:14,justifyContent:"center",paddingTop:10,borderTop:"1px solid #f3f4f6"}}>
-          <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:"#6b7280"}}><span style={{width:14,height:10,background:"#94a3b8",opacity:0.45,borderRadius:2,display:"inline-block"}}/> Active / Legacy</div>
-          <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:"#6b7280"}}><span style={{width:14,height:10,background:"#94a3b8",opacity:0.95,borderRadius:2,display:"inline-block"}}/> On Order / New</div>
+          <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:"#6b7280"}}><span style={{width:14,height:10,background:"#94a3b8",borderRadius:2,display:"inline-block"}}/> Active / Legacy</div>
+          <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:"#6b7280"}}><span style={{width:14,height:10,background:"#2563eb",borderRadius:2,display:"inline-block"}}/> On Order / New</div>
           <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:"#6b7280"}}><span style={{width:14,height:10,background:"#C8A951",borderRadius:2,display:"inline-block"}}/> Joint w/ Indonesia</div>
         </div>
         <div style={{fontSize:11,color:"#9ca3af",marginTop:8,textAlign:"center"}}>Click any row to see individual systems. "+N new" = systems not yet in active service (on order, delivering, under construction, in development, or under negotiation).</div>
@@ -990,11 +1000,11 @@ function Timeline(){
   ];
 
   const admins = [
-    { name: "Suharto", start: 1960, end: 1998, color: "#eab30820", textColor: "#ca8a04" },
-    { name: "Reform Era", start: 1998, end: 2004, color: "#6b728015", textColor: "#6b7280" },
-    { name: "Yudhoyono (SBY)", start: 2004, end: 2014, color: "#3b82f615", textColor: "#2563eb" },
-    { name: "Jokowi", start: 2014, end: 2024, color: "#ef444415", textColor: "#dc2626" },
-    { name: "Prabowo", start: 2024, end: 2030, color: "#7dd3fc18", textColor: "#38bdf8" },
+    { name: "Suharto", start: 1960, end: 1998, color: "#eab30835", textColor: "#ca8a04" },
+    { name: "Reform Era", start: 1998, end: 2004, color: "#6b728028", textColor: "#6b7280" },
+    { name: "Yudhoyono (SBY)", start: 2004, end: 2014, color: "#3b82f628", textColor: "#2563eb" },
+    { name: "Jokowi", start: 2014, end: 2024, color: "#ef444428", textColor: "#dc2626" },
+    { name: "Prabowo", start: 2024, end: 2030, color: "#7dd3fc30", textColor: "#38bdf8" },
   ];
 
   const sysMap = useMemo(() => {
@@ -1152,13 +1162,11 @@ function Timeline(){
                 const cv = CONTRACT_VALUES[row.id];
                 const el = <div key={row.id} style={{ position: "absolute", left: `${pctX(row.cy)}%`, top: y, height: rowH, display: "flex", alignItems: "center", gap: 4, zIndex: 1 }}>
                   <div style={{ width: 7, height: 7, borderRadius: 4, background: c, flexShrink: 0, border: "1.5px solid #fff", boxShadow: "0 1px 2px rgba(0,0,0,.12)" }} />
-                  <span style={{ fontSize: 12, color: isStalled ? "#f59e0b" : "#374151", fontWeight: 500, whiteSpace: "nowrap" }}>{row.w.name}</span>
-                  <span style={{ fontSize: 11, color: ac, fontWeight: 600 }}>({row.cy})</span>
+                  <span style={{ fontSize: 11, color: isStalled ? "#f59e0b" : "#374151", fontWeight: 500, whiteSpace: "nowrap" }}>{row.w.name.split("(")[0].trim()}</span>
                   {row.introYear && row.introYear !== row.cy && (
                     <span style={{ fontSize: 10, color: "#C8A951", fontWeight: 500 }}>{" \u2192 "}{row.introYear}</span>
                   )}
                   {isTBD && <span style={{ fontSize: 10, color: "#f59e0b", fontWeight: 500 }}>{" \u2298"}</span>}
-                  {cv && <span style={{ fontSize: 10, color: "#059669", fontWeight: 500, marginLeft: 2 }}>{cv.split("(")[0].trim()}</span>}
                 </div>;
                 y += rowH;
                 return el;
@@ -1986,7 +1994,7 @@ function BaseMap() {
             })()}
 
             {/* Full list mode */}
-            {!selectedWeapon && <div style={{ padding: "10px 14px 14px" }}>
+            {!selectedWeapon && <div style={{ padding: "10px 14px 14px", maxHeight: 340, overflowY: "auto" }}>
               {sel.systems.map(w => {
                 const sc = BCo[w.branch] || "#64748b";
                 const stc = SC[w.status] || "#64748b";
@@ -2468,7 +2476,7 @@ function PTNTracker(){
               </div>
               <div style={{width:"100%",height:10,background:"#e5e7eb",borderRadius:5,overflow:"hidden",display:"flex"}}>
                 <div style={{width:`${stats.pct}%`,minWidth:stats.pct>0?4:0,height:"100%",background:"linear-gradient(90deg,#C8A951,#b8941f)",transition:"width .5s"}}/>
-                <div style={{width:`${stats.pctPipeline}%`,height:"100%",background:"repeating-linear-gradient(135deg,#93c5fd,#93c5fd 3px,#60a5fa 3px,#60a5fa 6px)",transition:"width .5s"}}/>
+                <div style={{width:`${stats.pctPipeline}%`,height:"100%",background:"#93c5fd",transition:"width .5s"}}/>
               </div>
               <div style={{display:"flex",justifyContent:"space-between",marginTop:6,fontSize:10,color:"#9ca3af"}}>
                 <div style={{display:"flex",gap:12}}>
@@ -2513,7 +2521,7 @@ function PTNTracker(){
                   <div style={{flex:1}}>
                     <div style={{height:8,background:"#f3f4f6",borderRadius:4,overflow:"hidden",marginTop:8,display:"flex"}}>
                       <div style={{height:"100%",width:`${stats.pct}%`,background:p.color,transition:"width .5s"}}/>
-                      <div style={{height:"100%",width:`${stats.pctPipeline}%`,background:"repeating-linear-gradient(135deg,"+p.color+"40,"+p.color+"40 2px,"+p.color+"20 2px,"+p.color+"20 4px)",transition:"width .5s"}}/>
+                      <div style={{height:"100%",width:`${stats.pctPipeline}%`,background:p.color+"50",transition:"width .5s"}}/>
                     </div>
                     <div style={{fontSize:9,color:"#9ca3af",marginTop:2}}>{stats.fulfilled.toLocaleString()} delivered / {stats.pipeline.toLocaleString()} on order / {stats.total.toLocaleString()} target</div>
                   </div>
@@ -2714,7 +2722,7 @@ function App(){
   const ss={background:"#fff",border:"1px solid #e5e7eb",borderRadius:8,padding:"9px 14px",color:"#374151",fontSize:12,outline:"none",cursor:"pointer",flex:"1 1 140px",minWidth:120};
 
   return(
-    <div style={{fontFamily:"'Montserrat','Helvetica Neue',Arial,sans-serif",background:"#fafafa",color:"#374151",minHeight:"100vh"}}>
+    <div style={{fontFamily:"'DM Sans','Helvetica Neue',Arial,sans-serif",background:"#fafafa",color:"#374151",minHeight:"100vh"}}>
       {/* Header */}
       <div style={{background:"#1a1a1a",borderBottom:"1px solid #333",padding:"20px 16px 16px"}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
@@ -2728,8 +2736,8 @@ function App(){
           </div>
         </div>
         {/* Narrative stats */}
-        <p style={{fontSize:12,color:"rgba(255,255,255,0.6)",margin:"12px 0 0",lineHeight:1.7}}>
-          Tracking <span style={{color:GOLD,fontWeight:700}}>{st.t} weapon systems</span> across TNI's three branches — <span style={{color:"#ea580c",fontWeight:600}}>{st.onOrder} on order or building</span>, <span style={{color:"#f59e0b",fontWeight:600}}>{st.aging} aging (≥25 yrs)</span>, <span style={{color:"#38bdf8",fontWeight:600}}>{st.prabowoEra} acquired in the Prabowo era (2020+)</span> — sourced from <span style={{color:"#6366f1",fontWeight:600}}>{st.suppliers} supplier nations</span>. <span style={{color:"rgba(255,255,255,0.4)",fontSize:11}}>See the <span onClick={()=>setTab("about")} style={{color:"rgba(255,255,255,0.6)",cursor:"pointer",textDecoration:"underline",textUnderlineOffset:2}}>About</span> tab for full methodology & sources.</span>
+        <p style={{fontSize:12,color:"rgba(255,255,255,0.5)",margin:"12px 0 0",lineHeight:1.7}}>
+          Tracking <span style={{color:"#C8A951",fontWeight:700}}>{st.t} weapon systems</span> across TNI's three branches — <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.onOrder} on order or building</span>, <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.aging} aging (≥25 yrs)</span>, <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.prabowoEra} acquired in the Prabowo era (2020+)</span> — sourced from <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.suppliers} supplier nations</span>. <span style={{color:"rgba(255,255,255,0.35)",fontSize:11}}>See the <span onClick={()=>setTab("about")} style={{color:"rgba(255,255,255,0.5)",cursor:"pointer",textDecoration:"underline",textUnderlineOffset:2}}>About</span> tab for full methodology & sources.</span>
         </p>
         {/* Tabs */}
         <div style={{display:"flex",gap:6,marginTop:20,overflowX:"auto",WebkitOverflowScrolling:"touch",paddingBottom:8,paddingTop:4}}>
@@ -2760,9 +2768,9 @@ function App(){
           <div style={{overflowX:"auto",WebkitOverflowScrolling:"touch",background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",marginTop:16}}>
             <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:900}}>
               <thead><tr style={{borderBottom:"2px solid #e5e7eb"}}>
-                {[["name","System"],["category","Category"],["branch","Branch"],["origin","Origin"],["quantity","Qty"],["status","Status"],["condition","Condition"],["ordered","Ordered"],["delivered","Delivered"],["contract","Contract"],["source","Source"]].map(([f,l])=>(
-                  <th key={f} onClick={()=>f!=="contract"&&f!=="source"&&ts(f)} style={{padding:"14px 12px",textAlign:"left",cursor:f!=="contract"&&f!=="source"?"pointer":"default",color:"#9ca3af",fontWeight:700,fontSize:10,letterSpacing:1,textTransform:"uppercase",whiteSpace:"nowrap",userSelect:"none",background:"#fafafa"}}>
-                    {l} {f!=="contract"&&f!=="source"&&<span style={{color:sf===f?GOLD:"#d1d5db"}}>{sf===f?(sd==="asc"?"\u2191":"\u2193"):"\u2195"}</span>}
+                {[["name","System"],["category","Category"],["branch","Branch"],["origin","Origin"],["quantity","Qty"],["status","Status"],["condition","Condition"],["ordered","Ordered"],["delivered","Delivered"]].map(([f,l])=>(
+                  <th key={f} onClick={()=>ts(f)} style={{padding:"14px 12px",textAlign:"left",cursor:"pointer",color:"#9ca3af",fontWeight:700,fontSize:10,letterSpacing:1,textTransform:"uppercase",whiteSpace:"nowrap",userSelect:"none",background:"#fafafa"}}>
+                    {l} <span style={{color:sf===f?GOLD:"#d1d5db"}}>{sf===f?(sd==="asc"?"↑":"↓"):"↕"}</span>
                   </th>
                 ))}
               </tr></thead>
@@ -2787,13 +2795,6 @@ function App(){
                   <td style={{padding:12}}><Badge t={cond} c={COND_COLORS[cond]||"#64748b"}/></td>
                   <td style={{padding:12,fontSize:11,fontWeight:600,color:ordYr?"#111":"#d1d5db"}}>{ordYr||"—"}</td>
                   <td style={{padding:12,fontSize:11,fontWeight:600,color:delYr?"#111":"#d1d5db"}}>{delYr||introStr||"—"}</td>
-                  <td style={{padding:12,fontSize:10,color:CONTRACT_VALUES[w.id]?"#059669":"#d1d5db",fontWeight:CONTRACT_VALUES[w.id]?600:400,maxWidth:200}}>{CONTRACT_VALUES[w.id]||"—"}</td>
-                  <td style={{padding:12,fontSize:10}}>{(() => {
-                    const src = SOURCES[w.id];
-                    if (!src) return "—";
-                    const c = {"Confirmed":"#059669","Reported":"#d97706","Estimated":"#6b7280"};
-                    return <span style={{color:c[src[0]]||"#6b7280",fontWeight:600}}>{src[0]}</span>;
-                  })()}</td>
                 </tr>
                 );
               })}</tbody>
@@ -2851,7 +2852,15 @@ function App(){
               <p style={{marginBottom:12}}><strong>Procurement pipeline:</strong> Contract dates, values, and delivery status drawn from SIPRI, Janes, defense media (Indonesia Defense, Alert 5, Defense Mirror), official Kemhan/TNI announcements, and OSINT.</p>
               <p style={{marginBottom:12}}><strong>Delivered vs. ordered:</strong> The tracker distinguishes between systems actually delivered and operational vs. those still in the procurement pipeline. Only delivered units count toward the solid PTN fulfillment percentage. The striped "on order" bar includes systems at all pipeline stages.</p>
               <p style={{marginBottom:12}}><strong>PTN fulfillment calculation:</strong> Each PTN pillar item has a target quantity (from Prabowo's 2023 speech) and a current status. The <strong>delivered percentage</strong> counts only systems that have been physically received and are operationally available to TNI. The <strong>on-order percentage</strong> counts systems with signed contracts or active procurement programs that have not yet been delivered — this includes systems currently being manufactured, under construction at shipyards, or in advanced development with committed funding. Cancelled programs and items mentioned in the PTN speech but with no procurement action ("PTN Target Only") contribute zero to both — they appear only as unfilled gap. Where a single PTN line item covers multiple weapon systems (e.g. "UAV/UCAV Systems" encompasses Anka-S, TB2, TB3, Akıncı, and CH-4), delivered and ordered quantities are summed across all related platforms. The gap represents the difference between Prabowo's stated target and what has been either delivered or contractually committed.</p>
-              <p style={{marginBottom:12}}><strong>Status definitions:</strong> <strong>Active</strong> = operationally delivered and in service. <strong>Delivering</strong> = first units arriving, rest in pipeline. <strong>On Order</strong> = contract signed, delivery pending. <strong>Under Construction</strong> = physically being built (primarily ships). <strong>In Development</strong> = still being designed or tested (e.g. KF-21, KSOT). <strong>Under Procurement</strong> = budget allocated but no final contract signed. <strong>Cancelled</strong> = program terminated. <strong>Concept</strong> = exists only as a design proposal. <strong>PTN Target Only</strong> = mentioned in PTN speech but no procurement action taken.</p>
+              <p style={{marginBottom:12}}><strong>Status definitions:</strong></p>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(220px,100%),1fr))",gap:6,marginBottom:12}}>
+                {[["Active","Operationally delivered and in service","#16a34a"],["Active (aging)","In service but 25+ years old","#ca8a04"],["Delivering","First units arriving, rest in pipeline","#2563eb"],["On Order","Contract signed, delivery pending","#ea580c"],["Under Construction","Physically being built (primarily ships)","#9333ea"],["In Development","Still being designed or tested","#64748b"],["Under Procurement","Budget allocated, no final contract","#d97706"],["Under Negotiation","Discussions ongoing","#ec4899"],["Cancelled","Program terminated","#ef4444"],["PTN Target Only","Mentioned in PTN but no procurement action","#9ca3af"]].map(([status,desc,c])=>(
+                  <div key={status} style={{display:"flex",gap:8,alignItems:"flex-start",padding:"6px 8px",background:"#f9fafb",borderRadius:6,border:"1px solid #f3f4f6"}}>
+                    <span style={{flexShrink:0,marginTop:2,width:8,height:8,borderRadius:4,background:c}}/>
+                    <div><span style={{fontSize:11,fontWeight:700,color:"#111"}}>{status}</span><span style={{fontSize:11,color:"#6b7280"}}> — {desc}</span></div>
+                  </div>
+                ))}
+              </div>
               <p style={{margin:0}}><strong>Limitations:</strong> The Indonesian government has not released a detailed PTN or OEF procurement plan. All target figures should be treated as analytical estimates, not confirmed government targets. Some items (e.g. mortars, classified missile deliveries) have unknown inventory counts — these show as zero delivered, which likely understates actual fulfillment. This tracker is updated periodically and may not reflect the most recent developments.</p>
             </div>
           </div>
@@ -2912,8 +2921,7 @@ function App(){
           </div>
 
           <div style={{background:"#f9fafb",borderRadius:12,border:"1px solid #e5e7eb",padding:16,textAlign:"center"}}>
-            <div style={{fontSize:11,color:"#9ca3af"}}>Indonesia Weapon Systems Database v0.3 — LAB45 (Laboratorium Indonesia 2045)</div>
-            <div style={{fontSize:11,color:"#9ca3af",marginTop:4}}>Open-source intelligence. Last updated: April 2026.</div>
+            <div style={{fontSize:11,color:"#9ca3af"}}>Open-source intelligence. See footer for version info.</div>
           </div>
         </div>
       </div>}
@@ -2923,7 +2931,7 @@ function App(){
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
           <div>
             <div style={{fontSize:13,color:GOLD,fontWeight:700,letterSpacing:1}}>Laboratorium Indonesia 2045</div>
-            <div style={{fontSize:11,color:"#6b7280",marginTop:4}}>Indonesia Weapon Systems Database v0.3 — OSINT sources — Last updated: April 2026</div>
+            <div style={{fontSize:11,color:"#6b7280",marginTop:4}}>Indonesia Weapon Systems Database v0.4 — OSINT sources — Last updated: April 2026</div>
           </div>
           <div style={{fontSize:10,color:"#4b5563"}}>lab45.id</div>
         </div>
@@ -2933,7 +2941,6 @@ function App(){
     </div>
   );
 }
-
 
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
 </script>
