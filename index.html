@@ -640,8 +640,8 @@ function OriginChart(){
     <div style={{marginTop:32}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16,flexWrap:"wrap",gap:8}}>
         <div>
-          <h2 style={{fontSize:22,fontWeight:800,color:"#111",marginBottom:4}}>Country of Origin</h2>
-          <p style={{fontSize:13,color:"#9ca3af"}}>Weapon system types by supplier nation — {totalSystems} systems across {sankeyData.origins.length} countries</p>
+          <h2 style={{fontSize:26,fontWeight:800,color:"#111",marginBottom:6}}>Country of Origin</h2>
+          <p style={{fontSize:14,color:"#9ca3af"}}>Weapon system types by supplier nation — {totalSystems} systems across {sankeyData.origins.length} countries</p>
         </div>
         <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
           {[["sankey","Sankey"],["bar","Bar Chart"],["partners","Local Partners & Intermediaries"]].map(([k,l])=>(
@@ -1075,9 +1075,9 @@ function Timeline(){
   const totalH = filteredRows.reduce((h, r) => h + (r.type === "group" ? groupH : rowH), 0) + 40;
 
   return (
-    <div style={{ marginTop: 32 }}>
-      <h2 style={{ fontSize: 22, fontWeight: 800, color: "#111", marginBottom: 4 }}>Procurement Timeline</h2>
-      <p style={{ fontSize: 13, color: "#9ca3af", marginBottom: 4 }}>Year of contract/order signing by presidential administration</p>
+    <div style={{ marginTop: 36 }}>
+      <h2 style={{ fontSize: 26, fontWeight: 800, color: "#111", marginBottom: 6 }}>Procurement Timeline</h2>
+      <p style={{ fontSize: 14, color: "#9ca3af", marginBottom: 8 }}>Year of contract/order signing by presidential administration</p>
 
       {/* Admin summary stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(180px,100%), 1fr))", gap: 8, marginBottom: 16 }}>
@@ -1670,11 +1670,11 @@ function BaseMap() {
   const hov = hoveredBase;
 
   return (
-    <div style={{ marginTop: 32 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 16 }}>
+    <div style={{ marginTop: 36 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
         <div>
-          <h2 style={{ fontSize: 18, fontWeight: 800, color: "#111", marginBottom: 4 }}>Deployment Map</h2>
-          <p style={{ fontSize: 12, color: "#9ca3af", margin: 0 }}>
+          <h2 style={{ fontSize: 26, fontWeight: 800, color: "#111", marginBottom: 6 }}>Deployment Map</h2>
+          <p style={{ fontSize: 14, color: "#9ca3af", margin: 0 }}>
             {baseMarkers.length} installations • {WEAPON_SYSTEMS.length - unlocatedSystems.length} systems mapped • Click a base for details
           </p>
         </div>
@@ -2156,10 +2156,10 @@ function A2ADView() {
   }, [activeLayer, projection]);
 
   return (
-    <div style={{ marginTop: 32 }}>
-      <div style={{ marginBottom: 20 }}>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: "#111", marginBottom: 4 }}>Strategic Environment</h2>
-        <p style={{ fontSize: 13, color: "#9ca3af", margin: 0 }}>Assessing Indonesia's defense posture against regional contingencies</p>
+    <div style={{ marginTop: 36 }}>
+      <div style={{ marginBottom: 24 }}>
+        <h2 style={{ fontSize: 26, fontWeight: 800, color: "#111", marginBottom: 6 }}>Strategic Environment</h2>
+        <p style={{ fontSize: 14, color: "#9ca3af", margin: 0 }}>Assessing Indonesia's defense posture against regional contingencies</p>
       </div>
 
       {/* Strategic assessment — hidden for now, set to true to re-enable */}
@@ -2723,7 +2723,7 @@ function App(){
   return(
     <div style={{fontFamily:"'DM Sans','Helvetica Neue',Arial,sans-serif",background:"#fafafa",color:"#374151",minHeight:"100vh"}}>
       {/* Header */}
-      <div style={{background:"#1a1a1a",borderBottom:"1px solid #333",padding:"28px 24px 20px"}}>
+      <div style={{background:"#1a1a1a",borderBottom:"1px solid #333",padding:"32px 32px 24px"}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
           <div>
             <div style={{fontSize:13,letterSpacing:3,color:GOLD,fontWeight:800,textTransform:"uppercase",marginBottom:6}}>Laboratorium Indonesia 2045</div>
@@ -2751,7 +2751,7 @@ function App(){
 
       {tab==="inventory"&&<>
         {/* Filters */}
-        <div style={{padding:"14px 16px",background:"#fff",borderBottom:"1px solid #e5e7eb"}}>
+        <div style={{padding:"18px 24px",background:"#fff",borderBottom:"1px solid #e5e7eb"}}>
           <div style={{display:"flex",flexWrap:"wrap",gap:8,alignItems:"center"}}>
             <input type="text" placeholder="Search systems, bases, deployments..." value={q} onChange={e=>setQ(e.target.value)} style={{...ss,flex:"2 1 250px",borderColor:q?GOLD:"#e5e7eb"}}/>
             <select value={fc} onChange={e=>setFc(e.target.value)} style={ss}><option value="All">All Categories</option>{CATS.map(c=><option key={c}>{c}</option>)}</select>
@@ -2763,12 +2763,12 @@ function App(){
           <div style={{fontSize:11,color:"#9ca3af",marginTop:8}}>Showing {fl.length} of {WEAPON_SYSTEMS.length} systems</div>
         </div>
         {/* Table */}
-        <div style={{padding:"0 16px 40px"}}>
+        <div style={{padding:"0 32px 48px"}}>
           <div style={{overflowX:"auto",WebkitOverflowScrolling:"touch",background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",marginTop:16}}>
-            <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:900}}>
+            <table style={{width:"100%",borderCollapse:"collapse",fontSize:14,minWidth:900}}>
               <thead><tr style={{borderBottom:"2px solid #e5e7eb"}}>
                 {[["name","System"],["category","Category"],["branch","Branch"],["origin","Origin"],["quantity","Qty"],["status","Status"],["condition","Condition"],["ordered","Ordered"],["delivered","Delivered"]].map(([f,l])=>(
-                  <th key={f} onClick={()=>ts(f)} style={{padding:"14px 12px",textAlign:"left",cursor:"pointer",color:"#9ca3af",fontWeight:700,fontSize:10,letterSpacing:1,textTransform:"uppercase",whiteSpace:"nowrap",userSelect:"none",background:"#fafafa"}}>
+                  <th key={f} onClick={()=>ts(f)} style={{padding:"16px 14px",textAlign:"left",cursor:"pointer",color:"#9ca3af",fontWeight:700,fontSize:12,letterSpacing:1,textTransform:"uppercase",whiteSpace:"nowrap",userSelect:"none",background:"#fafafa"}}>
                     {l} <span style={{color:sf===f?GOLD:"#d1d5db"}}>{sf===f?(sd==="asc"?"↑":"↓"):"↕"}</span>
                   </th>
                 ))}
@@ -2782,50 +2782,50 @@ function App(){
                 return(
                 <tr key={w.id} onClick={()=>setSel(w)} style={{borderBottom:"1px solid #f3f4f6",cursor:"pointer",transition:"background .15s"}}
                   onMouseEnter={e=>e.currentTarget.style.background="#fafafa"} onMouseLeave={e=>e.currentTarget.style.background="#fff"}>
-                  <td style={{padding:"12px",fontWeight:600,color:"#111"}}>
+                  <td style={{padding:"14px",fontWeight:600,color:"#111",fontSize:14}}>
                     {w.name}
-                    <div style={{fontSize:11,color:"#9ca3af",fontWeight:400,marginTop:1}}>{w.subcategory}</div>
+                    <div style={{fontSize:12,color:"#9ca3af",fontWeight:400,marginTop:2}}>{w.subcategory}</div>
                   </td>
-                  <td style={{padding:12,color:"#6b7280"}}>{w.category}</td>
-                  <td style={{padding:12}}><Badge t={w.branch} c={BCo[w.branch]||"#64748b"}/></td>
-                  <td style={{padding:12,color:"#6b7280"}}>{w.origin}</td>
-                  <td style={{padding:12,fontWeight:700,color:"#111"}}>{w.quantity}</td>
-                  <td style={{padding:12}}><Badge t={w.status} c={SC[w.status]||"#64748b"}/></td>
-                  <td style={{padding:12}}><Badge t={cond} c={COND_COLORS[cond]||"#64748b"}/></td>
-                  <td style={{padding:12,fontSize:11,fontWeight:600,color:ordYr?"#111":"#d1d5db"}}>{ordYr||"—"}</td>
-                  <td style={{padding:12,fontSize:11,fontWeight:600,color:delYr?"#111":"#d1d5db"}}>{delYr||introStr||"—"}</td>
+                  <td style={{padding:14,color:"#6b7280"}}>{w.category}</td>
+                  <td style={{padding:14}}><Badge t={w.branch} c={BCo[w.branch]||"#64748b"}/></td>
+                  <td style={{padding:14,color:"#6b7280"}}>{w.origin}</td>
+                  <td style={{padding:14,fontWeight:700,color:"#111"}}>{w.quantity}</td>
+                  <td style={{padding:14}}><Badge t={w.status} c={SC[w.status]||"#64748b"}/></td>
+                  <td style={{padding:14}}><Badge t={cond} c={COND_COLORS[cond]||"#64748b"}/></td>
+                  <td style={{padding:14,fontSize:13,fontWeight:600,color:ordYr?"#111":"#d1d5db"}}>{ordYr||"—"}</td>
+                  <td style={{padding:14,fontSize:13,fontWeight:600,color:delYr?"#111":"#d1d5db"}}>{delYr||introStr||"—"}</td>
                 </tr>
                 );
               })}</tbody>
             </table>
           </div>
-          {fl.length===0&&<div style={{padding:60,textAlign:"center",color:"#9ca3af",fontSize:14}}>No systems match your filters.</div>}
+          {fl.length===0&&<div style={{padding:60,textAlign:"center",color:"#9ca3af",fontSize:16}}>No systems match your filters.</div>}
         </div>
       </>}
 
-      {tab==="timeline"&&<div style={{padding:"0 16px 40px"}}><Timeline/></div>}
-      {tab==="origins"&&<div style={{padding:"0 16px 40px"}}><OriginChart/></div>}
+      {tab==="timeline"&&<div style={{padding:"0 32px 48px"}}><Timeline/></div>}
+      {tab==="origins"&&<div style={{padding:"0 32px 48px"}}><OriginChart/></div>}
 
-      {tab==="map"&&<div style={{padding:"0 16px 40px"}}><BaseMap/></div>}
+      {tab==="map"&&<div style={{padding:"0 32px 48px"}}><BaseMap/></div>}
 
-      {tab==="a2ad"&&<div style={{padding:"0 16px 40px"}}><A2ADView/></div>}
+      {tab==="a2ad"&&<div style={{padding:"0 32px 48px"}}><A2ADView/></div>}
 
-      {tab==="ptn"&&<div style={{padding:"0 16px 40px"}}><PTNTracker/></div>}
+      {tab==="ptn"&&<div style={{padding:"0 32px 48px"}}><PTNTracker/></div>}
 
-      {tab==="about"&&<div style={{padding:"0 16px 40px",maxWidth:900,margin:"0 auto"}}>
-        <div style={{marginTop:32}}>
-          <h2 style={{fontSize:22,fontWeight:800,color:"#111",marginBottom:16}}>About This Tracker</h2>
+      {tab==="about"&&<div style={{padding:"0 32px 48px",maxWidth:1000,margin:"0 auto"}}>
+        <div style={{marginTop:36}}>
+          <h2 style={{fontSize:28,fontWeight:800,color:"#111",marginBottom:20}}>About This Tracker</h2>
 
-          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:24,marginBottom:16}}>
-            <div style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8}}>What is this?</div>
-            <p style={{fontSize:13,color:"#374151",lineHeight:1.8,margin:0}}>
+          <div style={{background:"#fff",borderRadius:14,border:"1px solid #e5e7eb",padding:28,marginBottom:20}}>
+            <div style={{fontSize:17,fontWeight:700,color:"#111",marginBottom:10}}>What is this?</div>
+            <p style={{fontSize:15,color:"#374151",lineHeight:1.8,margin:0}}>
               The Indonesia Weapon Systems Database is an open-source intelligence (OSINT) tracker maintained by LAB45 (Laboratorium Indonesia 2045). It maps the Indonesian military's (TNI) current inventory, procurement pipeline, supplier relationships, and strategic defense planning across {WEAPON_SYSTEMS.length} weapon systems sourced from {(() => {const s=new Set(); WEAPON_SYSTEMS.forEach(w => w.origin.split("/").forEach(o => {const t=o.trim(); if(t!=="Indonesia"&&t!=="TBD") s.add(t);})); return s.size;})()}+ supplier nations.
             </p>
           </div>
 
-          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:24,marginBottom:16}}>
-            <div style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8}}>Understanding the Frameworks</div>
-            <p style={{fontSize:13,color:"#374151",lineHeight:1.8,marginBottom:12}}>
+          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:28,marginBottom:20}}>
+            <div style={{fontSize:17,fontWeight:700,color:"#111",marginBottom:10}}>Understanding the Frameworks</div>
+            <p style={{fontSize:15,color:"#374151",lineHeight:1.8,marginBottom:12}}>
               Indonesia's defense buildup operates through two overlapping but distinct frameworks:
             </p>
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(320px,100%),1fr))",gap:12,marginBottom:12}}>
@@ -2843,9 +2843,9 @@ function App(){
             </p>
           </div>
 
-          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:24,marginBottom:16}}>
-            <div style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8}}>Data Sources & Methodology</div>
-            <div style={{fontSize:13,color:"#374151",lineHeight:1.8}}>
+          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:28,marginBottom:20}}>
+            <div style={{fontSize:17,fontWeight:700,color:"#111",marginBottom:10}}>Data Sources & Methodology</div>
+            <div style={{fontSize:15,color:"#374151",lineHeight:1.8}}>
               <p style={{marginBottom:12}}><strong>Primary source:</strong> PTN target quantities are based on Prabowo's June 2023 Sespim Lemdiklat Polri presentation. Where discrepancies exist between sources, the Prabowo speech figures take precedence.</p>
               <p style={{marginBottom:12}}><strong>Inventory data:</strong> Cross-referenced against IISS Military Balance 2025/2026, SIPRI Arms Transfers Database, and defense media reporting.</p>
               <p style={{marginBottom:12}}><strong>Procurement pipeline:</strong> Contract dates, values, and delivery status drawn from SIPRI, Janes, defense media (Indonesia Defense, Alert 5, Defense Mirror), official Kemhan/TNI announcements, and OSINT.</p>
@@ -2864,9 +2864,9 @@ function App(){
             </div>
           </div>
 
-          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:24,marginBottom:16}}>
-            <div style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8}}>Key Timeline</div>
-            <div style={{fontSize:12,color:"#374151",lineHeight:2}}>
+          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:28,marginBottom:20}}>
+            <div style={{fontSize:17,fontWeight:700,color:"#111",marginBottom:10}}>Key Timeline</div>
+            <div style={{fontSize:14,color:"#374151",lineHeight:2}}>
               <div style={{display:"flex",gap:12,marginBottom:4}}>
                 <span style={{minWidth:110,fontWeight:700,color:"#111",flexShrink:0}}>2010–2024</span>
                 <span style={{color:"#6b7280"}}>Minimum Essential Force (MEF) — three phases, achieved <a href="https://eastasiaforum.org/2025/04/05/indonesias-defence-strategy-is-in-urgent-need-of-a-refresh/" target="_blank" rel="noopener" style={{color:"#2563eb"}}>~65% of target</a> by conclusion (<a href="https://thediplomat.com/2022/06/indonesian-military-modernization-a-race-against-time/" target="_blank" rel="noopener" style={{color:"#2563eb"}}>The Diplomat</a>)</span>
@@ -2902,8 +2902,8 @@ function App(){
             </div>
           </div>
 
-          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:24,marginBottom:16}}>
-            <div style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8}}>RPJPN Defense Phases (UU 59/2024)</div>
+          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:28,marginBottom:20}}>
+            <div style={{fontSize:17,fontWeight:700,color:"#111",marginBottom:10}}>RPJPN Defense Phases (UU 59/2024)</div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))",gap:8}}>
               {[
                 ["Phase I","2025–2029","Island & maritime-oriented defense buildup, supported by healthy defense industry","#2563eb"],
