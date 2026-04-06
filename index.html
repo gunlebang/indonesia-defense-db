@@ -525,10 +525,10 @@ function OriginChart(){
   const totalSystems=sankeyData.origins.reduce((s,[,c])=>s+c,0);
 
   // Layout: 4 columns
-  const W=1100,H=Math.max(520,sankeyData.origins.length*26+80);
+  const W=1100,H=Math.max(620,sankeyData.origins.length*34+100);
   const nodeW=90;
   const colX=[0, 200, 520, 780];
-  const PAD=3,MIN_H=4;
+  const PAD=5,MIN_H=6;
   const availH=H-50;
 
   const computePositions=(entries,startY)=>{
@@ -769,7 +769,7 @@ function OriginChart(){
             });
             const flows=flowObj;
             
-            const sW=600,sCol=[40,460];
+            const sW=800,sCol=[160,600];
             const sH=Math.max(H,400);
             const svgEl=(
               <svg viewBox={`0 0 ${sW} ${sH}`} style={{width:"100%",height:"auto",minHeight:350}}>
@@ -781,8 +781,8 @@ function OriginChart(){
                   return(
                     <g key={p.name} onMouseEnter={()=>setHovered(p.name)} onMouseLeave={()=>setHovered(null)} style={{cursor:"pointer"}}>
                       <rect x={sCol[0]} y={p.y} width={nodeW} height={Math.max(p.h,12)} rx={3} fill={c} opacity={anyH&&!isH?0.15:0.85} style={{transition:"opacity .2s"}}/>
-                      <text x={sCol[0]-4} y={p.y+Math.max(p.h,12)/2} textAnchor="end" fill={isH?"#111":"#6b7280"} fontSize={10} fontWeight={isH?700:500} dominantBaseline="middle">{p.name}</text>
-                      <text x={sCol[0]+nodeW+4} y={p.y+Math.max(p.h,12)/2} fill="#9ca3af" fontSize={9} fontWeight={600} dominantBaseline="middle">{p.count}</text>
+                      <text x={sCol[0]-8} y={p.y+Math.max(p.h,12)/2} textAnchor="end" fill={isH?"#111":"#6b7280"} fontSize={14} fontWeight={isH?700:500} dominantBaseline="middle">{p.name}</text>
+                      <text x={sCol[0]+nodeW+6} y={p.y+Math.max(p.h,12)/2} fill="#9ca3af" fontSize={12} fontWeight={600} dominantBaseline="middle">{p.count}</text>
                     </g>
                   );
                 })}
@@ -792,9 +792,9 @@ function OriginChart(){
                   const anyH=hovered!==null;
                   return(
                     <g key={p.name} onMouseEnter={()=>setHovered(p.name)} onMouseLeave={()=>setHovered(null)} style={{cursor:"pointer"}}>
-                      <rect x={sCol[1]} y={p.y} width={nodeW+10} height={Math.max(p.h,16)} rx={3} fill={c} opacity={anyH&&!isH?0.15:0.85} style={{transition:"opacity .2s"}}/>
-                      <text x={sCol[1]+(nodeW+10)/2} y={p.y+Math.max(p.h,16)/2} textAnchor="middle" fill="#fff" fontSize={11} fontWeight={700} dominantBaseline="middle">{p.name}</text>
-                      <text x={sCol[1]+nodeW+18} y={p.y+Math.max(p.h,16)/2} fill="#9ca3af" fontSize={9} fontWeight={600} dominantBaseline="middle">{p.count}</text>
+                      <rect x={sCol[1]} y={p.y} width={nodeW+10} height={Math.max(p.h,20)} rx={3} fill={c} opacity={anyH&&!isH?0.15:0.85} style={{transition:"opacity .2s"}}/>
+                      <text x={sCol[1]+(nodeW+10)/2} y={p.y+Math.max(p.h,20)/2} textAnchor="middle" fill="#fff" fontSize={14} fontWeight={700} dominantBaseline="middle">{p.name}</text>
+                      <text x={sCol[1]+nodeW+22} y={p.y+Math.max(p.h,20)/2} fill="#9ca3af" fontSize={12} fontWeight={600} dominantBaseline="middle">{p.count}</text>
                     </g>
                   );
                 })}
@@ -819,7 +819,7 @@ function OriginChart(){
               }
               const uniqueSys=[...new Set(sys)];
               return(
-                <div style={{position:"fixed",top:120,right:24,background:"#111",color:"#fff",padding:"12px 16px",borderRadius:8,maxWidth:280,fontSize:11,zIndex:50,boxShadow:"0 8px 24px rgba(0,0,0,.3)",pointerEvents:"none"}}>
+                <div style={{position:"fixed",top:120,right:24,background:"#111",color:"#fff",padding:"14px 18px",borderRadius:10,maxWidth:300,fontSize:13,zIndex:50,boxShadow:"0 8px 24px rgba(0,0,0,.3)",pointerEvents:"none"}}>
                   <div style={{fontWeight:700,marginBottom:4,color:"#f59e0b"}}>{hovered.replace(/→/g," → ")}</div>
                   {pctLabel&&<div style={{fontSize:13,fontWeight:800,color:"#fff",marginBottom:6}}>{uniqueSys.length} systems <span style={{color:"#38bdf8",fontWeight:600}}>({pctLabel})</span></div>}
                   {!pctLabel&&<div style={{fontSize:13,fontWeight:800,color:"#fff",marginBottom:6}}>{uniqueSys.length} systems</div>}
@@ -2435,7 +2435,7 @@ function PTNTracker(){
   };
 
   const pillarNarratives={
-    dirga:"Since the 2023 PTN presentation, the F-15 program has collapsed (Boeing withdrew 2026) and the Mirage 2000-5 deal was cancelled. Indonesia is pivoting toward a Rafale-heavy fleet — 42 ordered, 3 delivered, with an additional 24 under LoI (total 66). 48 KAAN fifth-gen fighters ordered from Türkiye ($10B). JF-17 Block III (~40 units) under exploratory discussion with Pakistan following the May 2025 India-Pakistan clash. J-10C interest confirmed by DefMin (Oct 2025). M-346FA selected as Hawk replacement. The air fleet is being restructured from the original 4-type next-gen plan to a diversified multi-source approach.",
+    dirga:"Since the 2023 PTN presentation, the F-15 program has collapsed (Boeing withdrew 2026) and the Mirage 2000-5 deal was cancelled. Indonesia is pivoting toward a Rafale-heavy fleet — 42 ordered, 3 delivered, with an additional 24 under LoI (total 66). 48 KAAN fifth-gen fighters ordered from Türkiye ($10B). JF-17 Block III (~40 units) under exploratory discussion with Pakistan following the May 2025 India-Pakistan clash. J-10C interest confirmed by Minister of Defense (Oct 2025). M-346FA selected as Hawk replacement. The air fleet is being restructured from the original 4-type next-gen plan to a diversified multi-source approach.",
     samudra:"The Giuseppe Garibaldi carrier acquisition (not in original PTN) represents a significant scope expansion beyond the 2023 presentation. 2 Istif-class frigates ordered from Türkiye (Jul 2025) — also not in original PTN. FREMM financing remains unresolved since the 2021 Fincantieri contract. Red White Frigate program on track (2 keels laid). Scorpène submarine construction at PT PAL marks Indonesia's first domestic submarine build. BrahMos coastal defense deal confirmed (Mar 2026, 3 batteries).",
     darat:"Harimau MMWT joint production with FNSS ramping up (100+ planned). 24 S-70L Black Hawks ordered (not in original PTN) — significant Army Aviation expansion. Bora SRBM (40 missiles) complements the Khan/Trisula launchers for the 300km strike layer. UAV/UCAV procurement has accelerated dramatically, reflecting lessons from the Ukraine and Iran conflicts — TB3 (60×) and Akıncı (9×) ordered via PT Republikorp, alongside the existing Anka-S and CH-4 fleets. The shift toward drone-centric warfare doctrine is the biggest conceptual change from the 2023 PTN presentation, which allocated only 65 UAV/UCAVs total.",
     c4isr:"GM400α radar rollout underway — 13 units on order with PT LEN as local integrator, complementing the existing 12 ReUNION radars. Thales TACTICOS CMS being integrated on Bung Tomo-class corvettes (PT LEN lead contractor). The AWACS requirement ($800M budgeted) remains unfilled — platform selection pending. Link 16/SATCOM backbone still in development phase.",
@@ -2453,12 +2453,12 @@ function PTNTracker(){
   const ss={fontSize:11,padding:"6px 14px",borderRadius:6,cursor:"pointer",fontWeight:600,border:"1px solid",transition:"all .2s"};
 
   return(
-    <div style={{marginTop:32}}>
-      <div style={{marginBottom:16}}>
+    <div style={{marginTop:36}}>
+      <div style={{marginBottom:20}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:12}}>
           <div style={{flex:"1 1 auto"}}>
-            <h2 style={{fontSize:22,fontWeight:800,color:"#111",marginBottom:4}}>Strategic Defense Planning Tracker</h2>
-            <p style={{fontSize:12,color:"#6b7280",margin:0,lineHeight:1.5}}>PTN master plan vs. current inventory — reconstructed from open sources.</p>
+            <h2 style={{fontSize:26,fontWeight:800,color:"#111",marginBottom:6}}>Strategic Defense Planning Tracker</h2>
+            <p style={{fontSize:14,color:"#6b7280",margin:0,lineHeight:1.6}}>Prabowo's 25-year master plan (conceived 2021 as Minister of Defense). Optimum Essential Force (OEF) is the procurement framework; Perisai Trisula Nusantara / PTN (Trident Shield of the Archipelago) is the strategic architecture. Target quantities mapped against current inventory.</p>
           </div>
         </div>
         {/* Overall PTN progress bar */}
@@ -2466,22 +2466,22 @@ function PTNTracker(){
           const all=pillars.flatMap(p=>p.items);
           const stats=calcPillarStats(all);
           return(
-            <div style={{marginTop:12,background:"#f3f4f6",borderRadius:10,padding:"12px 16px"}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-                <span style={{fontSize:12,fontWeight:700,color:"#374151"}}>Overall PTN Fulfillment</span>
+            <div style={{marginTop:16,background:"#f3f4f6",borderRadius:12,padding:"16px 20px"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                <span style={{fontSize:14,fontWeight:700,color:"#374151"}}>Overall PTN Fulfillment</span>
                 <div style={{display:"flex",alignItems:"baseline",gap:8}}>
-                  <span style={{fontSize:18,fontWeight:800,color:"#C8A951"}}>{stats.pct}%</span>
-                  {stats.pctPipeline>0&&<span style={{fontSize:12,fontWeight:600,color:"#3b82f6"}}>+{stats.pctPipeline}% on order</span>}
+                  <span style={{fontSize:24,fontWeight:800,color:"#C8A951"}}>{stats.pct}%</span>
+                  {stats.pctPipeline>0&&<span style={{fontSize:14,fontWeight:600,color:"#3b82f6"}}>+{stats.pctPipeline}% on order</span>}
                 </div>
               </div>
-              <div style={{width:"100%",height:10,background:"#e5e7eb",borderRadius:5,overflow:"hidden",display:"flex"}}>
+              <div style={{width:"100%",height:14,background:"#e5e7eb",borderRadius:7,overflow:"hidden",display:"flex"}}>
                 <div style={{width:`${stats.pct}%`,minWidth:stats.pct>0?4:0,height:"100%",background:"linear-gradient(90deg,#C8A951,#b8941f)",transition:"width .5s"}}/>
                 <div style={{width:`${stats.pctPipeline}%`,height:"100%",background:"#93c5fd",transition:"width .5s"}}/>
               </div>
-              <div style={{display:"flex",justifyContent:"space-between",marginTop:6,fontSize:10,color:"#9ca3af"}}>
-                <div style={{display:"flex",gap:12}}>
-                  <span><span style={{display:"inline-block",width:8,height:8,borderRadius:2,background:"#C8A951",marginRight:4,verticalAlign:"middle"}}/>Delivered: {stats.fulfilled}</span>
-                  <span><span style={{display:"inline-block",width:8,height:8,borderRadius:2,background:"#60a5fa",marginRight:4,verticalAlign:"middle"}}/>On order: {stats.pipeline}</span>
+              <div style={{display:"flex",justifyContent:"space-between",marginTop:8,fontSize:12,color:"#9ca3af"}}>
+                <div style={{display:"flex",gap:16}}>
+                  <span><span style={{display:"inline-block",width:10,height:10,borderRadius:3,background:"#C8A951",marginRight:5,verticalAlign:"middle"}}/>Delivered: {stats.fulfilled}</span>
+                  <span><span style={{display:"inline-block",width:10,height:10,borderRadius:3,background:"#60a5fa",marginRight:5,verticalAlign:"middle"}}/>On order: {stats.pipeline}</span>
                 </div>
                 <span>Target: {stats.total}</span>
               </div>
@@ -2491,10 +2491,10 @@ function PTNTracker(){
       </div>
 
       {/* Pillar selector */}
-      <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:20}}>
-        <button onClick={()=>setPillar("overview")} style={{...ss,background:pillar==="overview"?"#111":"#fff",color:pillar==="overview"?"#fff":"#6b7280",borderColor:pillar==="overview"?"#111":"#e5e7eb"}}>Overview</button>
+      <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:24}}>
+        <button onClick={()=>setPillar("overview")} style={{...ss,padding:"8px 18px",fontSize:13,background:pillar==="overview"?"#111":"#fff",color:pillar==="overview"?"#fff":"#6b7280",borderColor:pillar==="overview"?"#111":"#e5e7eb"}}>Overview</button>
         {pillars.map(p=>(
-          <button key={p.key} onClick={()=>setPillar(p.key)} style={{...ss,background:pillar===p.key?p.color:"#fff",color:pillar===p.key?"#fff":p.color,borderColor:pillar===p.key?p.color:p.color+"40"}}>
+          <button key={p.key} onClick={()=>setPillar(p.key)} style={{...ss,padding:"8px 18px",fontSize:13,background:pillar===p.key?p.color:"#fff",color:pillar===p.key?"#fff":p.color,borderColor:pillar===p.key?p.color:p.color+"40"}}>
             {p.icon} {p.label}
           </button>
         ))}
@@ -2502,28 +2502,27 @@ function PTNTracker(){
 
       {pillar==="overview"&&<>
         {/* PTN Pillar Summary Cards — shown first */}
-        <div style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:12}}>Perisai Trisula Nusantara (PTN) — Pillar Summary</div>
-        <p style={{fontSize:11,color:"#9ca3af",marginBottom:12}}>Prabowo's 25-year master plan (conceived 2021 as DefMin). OEF is the procurement framework; PTN is the strategic architecture. Target quantities mapped against current inventory.</p>
-        <div style={{display:"flex",gap:12,flexWrap:"wrap",marginBottom:24}}>
+        <div style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:16}}>Perisai Trisula Nusantara (PTN) — Pillar Summary</div>
+        <div style={{display:"flex",gap:16,flexWrap:"wrap",marginBottom:28}}>
           {pillars.map(p=>{
             const stats=calcPillarStats(p.items);
             return(
-              <div key={p.key} onClick={()=>setPillar(p.key)} style={{flex:"1 1 160px",background:"#fff",border:"2px solid "+p.color+"20",borderRadius:12,padding:18,cursor:"pointer",transition:"all .2s",borderLeft:`4px solid ${p.color}`}}>
-                <div style={{fontSize:24,marginBottom:4}}>{p.icon}</div>
-                <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:2}}>{p.name}</div>
-                <div style={{fontSize:10,color:"#9ca3af",marginBottom:12}}>{p.label}</div>
-                <div style={{display:"flex",gap:8}}>
+              <div key={p.key} onClick={()=>setPillar(p.key)} style={{flex:"1 1 180px",background:"#fff",border:"2px solid "+p.color+"20",borderRadius:14,padding:22,cursor:"pointer",transition:"all .2s",borderLeft:`5px solid ${p.color}`}}>
+                <div style={{fontSize:28,marginBottom:6}}>{p.icon}</div>
+                <div style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:3}}>{p.name}</div>
+                <div style={{fontSize:12,color:"#9ca3af",marginBottom:14}}>{p.label}</div>
+                <div style={{display:"flex",gap:10}}>
                   <div>
-                    <div style={{fontSize:22,fontWeight:800,color:p.color}}>{stats.pct}%</div>
-                    <div style={{fontSize:9,color:"#9ca3af"}}>delivered</div>
-                    {stats.pctPipeline>0&&<div style={{fontSize:9,color:"#3b82f6",fontWeight:600}}>+{stats.pctPipeline}% ordered</div>}
+                    <div style={{fontSize:26,fontWeight:800,color:p.color}}>{stats.pct}%</div>
+                    <div style={{fontSize:11,color:"#9ca3af"}}>delivered</div>
+                    {stats.pctPipeline>0&&<div style={{fontSize:11,color:"#3b82f6",fontWeight:600}}>+{stats.pctPipeline}% ordered</div>}
                   </div>
                   <div style={{flex:1}}>
-                    <div style={{height:8,background:"#f3f4f6",borderRadius:4,overflow:"hidden",marginTop:8,display:"flex"}}>
+                    <div style={{height:10,background:"#f3f4f6",borderRadius:5,overflow:"hidden",marginTop:10,display:"flex"}}>
                       <div style={{height:"100%",width:`${stats.pct}%`,background:p.color,transition:"width .5s"}}/>
                       <div style={{height:"100%",width:`${stats.pctPipeline}%`,background:p.color+"50",transition:"width .5s"}}/>
                     </div>
-                    <div style={{fontSize:9,color:"#9ca3af",marginTop:2}}>{stats.fulfilled.toLocaleString()} delivered / {stats.pipeline.toLocaleString()} on order / {stats.total.toLocaleString()} target</div>
+                    <div style={{fontSize:11,color:"#9ca3af",marginTop:4}}>{stats.fulfilled.toLocaleString()} delivered / {stats.pipeline.toLocaleString()} on order / {stats.total.toLocaleString()} target</div>
                   </div>
                 </div>
               </div>
@@ -2532,8 +2531,8 @@ function PTNTracker(){
         </div>
 
         {/* Key gaps callout */}
-        <div style={{background:"#fef2f2",border:"1px solid #fecaca",borderRadius:12,padding:18,marginBottom:24}}>
-          <div style={{fontSize:12,fontWeight:700,color:"#dc2626",marginBottom:8}}>Critical Gaps — PTN vs Current Inventory</div>
+        <div style={{background:"#fef2f2",border:"1px solid #fecaca",borderRadius:14,padding:22,marginBottom:28}}>
+          <div style={{fontSize:14,fontWeight:700,color:"#dc2626",marginBottom:10}}>Critical Gaps — PTN vs Current Inventory</div>
           <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
             {[
               {label:"F-15 Heavy Fighters",gap:"36 units — Boeing withdrew from pursuit (2026). No replacement announced",severity:"high"},
@@ -2543,22 +2542,22 @@ function PTNTracker(){
               {label:"AWACS",gap:"0 of 1 — $800M budgeted, platform TBD",severity:"high"},
               {label:"N219 Light Transport",gap:"0 of 10 — program delays at PT DI",severity:"low"},
             ].map(g=>(
-              <div key={g.label} style={{flex:"1 1 160px",padding:"10px 12px",borderRadius:8,background:"#fff",border:`1px solid ${g.severity==="high"?"#fca5a5":g.severity==="med"?"#fde68a":"#d1d5db"}`}}>
-                <div style={{fontSize:11,fontWeight:700,color:"#111"}}>{g.label}</div>
-                <div style={{fontSize:10,color:"#6b7280",marginTop:2}}>{g.gap}</div>
+              <div key={g.label} style={{flex:"1 1 180px",padding:"14px 16px",borderRadius:10,background:"#fff",border:`1px solid ${g.severity==="high"?"#fca5a5":g.severity==="med"?"#fde68a":"#d1d5db"}`}}>
+                <div style={{fontSize:14,fontWeight:700,color:"#111"}}>{g.label}</div>
+                <div style={{fontSize:12,color:"#6b7280",marginTop:4,lineHeight:1.5}}>{g.gap}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* MEF Achievement — moved to bottom */}
-        <div style={{background:"#1a1a1a",borderRadius:12,padding:24,marginBottom:24}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+        <div style={{background:"#1a1a1a",borderRadius:14,padding:28,marginBottom:28}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
             <div>
-              <div style={{fontSize:14,fontWeight:700,color:"#fff"}}>Minimum Essential Force (MEF) — Historical Achievement</div>
-              <div style={{fontSize:11,color:"#6b7280"}}>Phases I–III (2010–2024) — concluded, succeeded by OEF. Source: Kemhan Dirjen Renhan, Jun 2023</div>
+              <div style={{fontSize:16,fontWeight:700,color:"#fff"}}>Minimum Essential Force (MEF) — Historical Achievement</div>
+              <div style={{fontSize:13,color:"#6b7280"}}>Phases I–III (2010–2024) — concluded, succeeded by OEF. Source: Kemhan Dirjen Renhan, Jun 2023</div>
             </div>
-            <button onClick={()=>setShowMef(!showMef)} style={{background:"transparent",border:"1px solid #333",color:"#9ca3af",padding:"4px 12px",borderRadius:6,cursor:"pointer",fontSize:10,fontWeight:600}}>{showMef?"Hide":"Show"} Detail</button>
+            <button onClick={()=>setShowMef(!showMef)} style={{background:"transparent",border:"1px solid #333",color:"#9ca3af",padding:"6px 16px",borderRadius:6,cursor:"pointer",fontSize:12,fontWeight:600}}>{showMef?"Hide":"Show"} Detail</button>
           </div>
 
           {/* Phase bars */}
@@ -2611,26 +2610,26 @@ function PTNTracker(){
         const data=PTN_DATA[pillar];
         return(
           <div>
-            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
-              <span style={{fontSize:32}}>{p.icon}</span>
+            <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:16}}>
+              <span style={{fontSize:40}}>{p.icon}</span>
               <div>
-                <div style={{fontSize:18,fontWeight:800,color:"#111"}}>{data.name}</div>
-                <div style={{fontSize:12,color:"#9ca3af"}}>{data.label}</div>
+                <div style={{fontSize:22,fontWeight:800,color:"#111"}}>{data.name}</div>
+                <div style={{fontSize:14,color:"#9ca3af"}}>{data.label}</div>
               </div>
             </div>
 
             {/* Pillar narrative — key developments since 2023 */}
-            {pillarNarratives[pillar]&&<div style={{background:"#f0f9ff",border:"1px solid #bae6fd",borderRadius:8,padding:"12px 16px",marginBottom:20,fontSize:12,color:"#0c4a6e",lineHeight:1.7}}>
+            {pillarNarratives[pillar]&&<div style={{background:"#f0f9ff",border:"1px solid #bae6fd",borderRadius:10,padding:"16px 20px",marginBottom:24,fontSize:14,color:"#0c4a6e",lineHeight:1.8}}>
               <strong style={{color:"#0369a1"}}>Key developments:</strong> {pillarNarratives[pillar]}
             </div>}
 
             {/* Items table */}
             <div style={{overflowX:"auto"}}>
-              <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+              <table style={{width:"100%",borderCollapse:"collapse",fontSize:14}}>
                 <thead>
                   <tr style={{borderBottom:"2px solid #e5e7eb"}}>
                     {["System","PTN Target","In Database","Gap","Status","Origin","Notes"].map(h=>(
-                      <th key={h} style={{padding:"10px 12px",textAlign:"left",fontSize:10,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>{h}</th>
+                      <th key={h} style={{padding:"12px 14px",textAlign:"left",fontSize:11,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -2644,21 +2643,21 @@ function PTNTracker(){
                     const pct=target>0?Math.min(100,Math.round((inv/target)*100)):null;
                     return(
                       <tr key={i} style={{borderBottom:"1px solid #f3f4f6",background:i%2===0?"#fff":"#fafafa"}}>
-                        <td style={{padding:"10px 12px",fontWeight:600,color:"#111"}}>
+                        <td style={{padding:"12px 14px",fontWeight:600,color:"#111",fontSize:14}}>
                           {it.system}
-                          {dbSys&&<span style={{fontSize:8,color:p.color,marginLeft:6,background:p.color+"15",padding:"1px 5px",borderRadius:4}}>in inventory</span>}
+                          {dbSys&&<span style={{fontSize:10,color:p.color,marginLeft:6,background:p.color+"15",padding:"2px 6px",borderRadius:4}}>in inventory</span>}
                         </td>
-                        <td style={{padding:"10px 12px",fontWeight:800,color:p.color,fontSize:14}}>{target>0?target.toLocaleString():"—"}</td>
-                        <td style={{padding:"10px 12px"}}>
-                          {dbSys?<span style={{fontWeight:700,color:"#111"}}>{inv.toLocaleString()}</span>:<span style={{color:"#d1d5db"}}>—</span>}
-                          {pct!==null&&<div style={{height:3,background:"#f3f4f6",borderRadius:2,marginTop:4,width:60}}>
+                        <td style={{padding:"12px 14px",fontWeight:800,color:p.color,fontSize:16}}>{target>0?target.toLocaleString():"—"}</td>
+                        <td style={{padding:"12px 14px"}}>
+                          {dbSys?<span style={{fontWeight:700,color:"#111",fontSize:14}}>{inv.toLocaleString()}</span>:<span style={{color:"#d1d5db"}}>—</span>}
+                          {pct!==null&&<div style={{height:4,background:"#f3f4f6",borderRadius:2,marginTop:5,width:70}}>
                             <div style={{height:"100%",width:`${pct}%`,background:pct>=80?"#22c55e":pct>=50?"#f97316":"#ef4444",borderRadius:2}}/>
                           </div>}
                         </td>
-                        <td style={{padding:"10px 12px",fontWeight:700,color:gap===0?"#22c55e":gap===null?"#d1d5db":"#ef4444"}}>{gap!==null?(gap===0?"✓ Met":"-"+gap.toLocaleString()):"—"}</td>
-                        <td style={{padding:"10px 12px"}}><Badge t={it.status} c={SC[it.status]||"#64748b"}/></td>
-                        <td style={{padding:"10px 12px",color:"#6b7280",fontSize:11}}>{it.origin}</td>
-                        <td style={{padding:"10px 12px",color:"#9ca3af",fontSize:10,maxWidth:200}}>{it.note||"—"}</td>
+                        <td style={{padding:"12px 14px",fontWeight:700,fontSize:14,color:gap===0?"#22c55e":gap===null?"#d1d5db":"#ef4444"}}>{gap!==null?(gap===0?"✓ Met":"-"+gap.toLocaleString()):"—"}</td>
+                        <td style={{padding:"12px 14px"}}><Badge t={it.status} c={SC[it.status]||"#64748b"}/></td>
+                        <td style={{padding:"12px 14px",color:"#6b7280",fontSize:13}}>{it.origin}</td>
+                        <td style={{padding:"12px 14px",color:"#9ca3af",fontSize:12,maxWidth:240}}>{it.note||"—"}</td>
                       </tr>
                     );
                   })}
@@ -2724,25 +2723,25 @@ function App(){
   return(
     <div style={{fontFamily:"'DM Sans','Helvetica Neue',Arial,sans-serif",background:"#fafafa",color:"#374151",minHeight:"100vh"}}>
       {/* Header */}
-      <div style={{background:"#1a1a1a",borderBottom:"1px solid #333",padding:"20px 16px 16px"}}>
+      <div style={{background:"#1a1a1a",borderBottom:"1px solid #333",padding:"28px 24px 20px"}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
           <div>
-            <div style={{fontSize:12,letterSpacing:2,color:GOLD,fontWeight:800,textTransform:"uppercase",marginBottom:4}}>Laboratorium Indonesia 2045</div>
-            <h1 style={{fontSize:26,fontWeight:900,color:"#fff",margin:0,letterSpacing:"-.5px",lineHeight:1.2}}>Indonesia Weapon Systems Database</h1>
+            <div style={{fontSize:13,letterSpacing:3,color:GOLD,fontWeight:800,textTransform:"uppercase",marginBottom:6}}>Laboratorium Indonesia 2045</div>
+            <h1 style={{fontSize:32,fontWeight:900,color:"#fff",margin:0,letterSpacing:"-.5px",lineHeight:1.2}}>Indonesia Weapon Systems Database</h1>
           </div>
-          <div style={{fontSize:10,color:"#999",textAlign:"right"}}>
+          <div style={{fontSize:11,color:"#999",textAlign:"right"}}>
             <div style={{fontWeight:700,color:"#999"}}>Last updated</div>
-            <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>April 2026</div>
+            <div style={{fontSize:15,fontWeight:800,color:"#fff"}}>April 2026</div>
           </div>
         </div>
         {/* Narrative stats */}
-        <p style={{fontSize:12,color:"rgba(255,255,255,0.5)",margin:"12px 0 0",lineHeight:1.7}}>
-          Tracking <span style={{color:"#C8A951",fontWeight:700}}>{st.t} weapon systems</span> across TNI's three branches — <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.onOrder} on order or building</span>, <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.aging} aging (≥25 yrs)</span>, <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.prabowoEra} acquired in the Prabowo era (2020+)</span> — sourced from <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.suppliers} supplier nations</span>. <span style={{color:"rgba(255,255,255,0.35)",fontSize:11}}>See the <span onClick={()=>setTab("about")} style={{color:"rgba(255,255,255,0.5)",cursor:"pointer",textDecoration:"underline",textUnderlineOffset:2}}>About</span> tab for full methodology & sources.</span>
+        <p style={{fontSize:14,color:"rgba(255,255,255,0.5)",margin:"16px 0 0",lineHeight:1.8}}>
+          Tracking <span style={{color:"#C8A951",fontWeight:700}}>{st.t} weapon systems</span> across TNI's three branches — <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.onOrder} on order or building</span>, <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.aging} aging (≥25 yrs)</span>, <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.prabowoEra} acquired in the Prabowo era (2020+)</span> — sourced from <span style={{color:"rgba(255,255,255,0.75)",fontWeight:600}}>{st.suppliers} supplier nations</span>. <span style={{color:"rgba(255,255,255,0.35)",fontSize:12}}>See the <span onClick={()=>setTab("about")} style={{color:"rgba(255,255,255,0.5)",cursor:"pointer",textDecoration:"underline",textUnderlineOffset:2}}>About</span> tab for full methodology & sources.</span>
         </p>
         {/* Tabs */}
-        <div style={{display:"flex",gap:6,marginTop:20,overflowX:"auto",WebkitOverflowScrolling:"touch",paddingBottom:8,paddingTop:4}}>
+        <div style={{display:"flex",gap:8,marginTop:24,overflowX:"auto",WebkitOverflowScrolling:"touch",paddingBottom:8,paddingTop:4}}>
           {[["ptn","Strategic Planning Tracker"],["inventory","Inventory"],["origins","Country of Origin"],["map","Base Map"],["timeline","Procurement Timeline"],["a2ad","Strategic Environment"],["about","About"]].map(([k,l])=>(
-            <button key={k} onClick={()=>setTab(k)} style={{background:tab===k?GOLD:"transparent",color:tab===k?"#fff":"rgba(255,255,255,0.6)",border:"1px solid "+(tab===k?GOLD:"rgba(255,255,255,0.15)"),borderRadius:8,padding:"10px 20px",cursor:"pointer",fontSize:13,fontWeight:600,transition:"all .2s",position:"relative",whiteSpace:"nowrap",flexShrink:0}}>
+            <button key={k} onClick={()=>setTab(k)} style={{background:tab===k?GOLD:"transparent",color:tab===k?"#fff":"rgba(255,255,255,0.6)",border:"1px solid "+(tab===k?GOLD:"rgba(255,255,255,0.15)"),borderRadius:8,padding:"12px 24px",cursor:"pointer",fontSize:14,fontWeight:600,transition:"all .2s",position:"relative",whiteSpace:"nowrap",flexShrink:0}}>
               {l}
               {k==="a2ad"&&<span style={{position:"absolute",top:-6,right:-6,background:"#ef4444",color:"#fff",fontSize:8,fontWeight:800,padding:"2px 5px",borderRadius:8,lineHeight:1,letterSpacing:.5}}>BETA</span>}
             </button>
@@ -2874,7 +2873,7 @@ function App(){
               </div>
               <div style={{display:"flex",gap:12,marginBottom:4}}>
                 <span style={{minWidth:110,fontWeight:700,color:"#111",flexShrink:0}}>2019–2024</span>
-                <span style={{color:"#6b7280"}}>Essential Force — transition period under Prabowo as DefMin (<a href="https://www.foreignpolicytalks.com/post/indonesia-s-arms-diversification-is-inevitable-but-the-approach-must-prudent" target="_blank" rel="noopener" style={{color:"#2563eb"}}>Foreign Policy Talks</a>)</span>
+                <span style={{color:"#6b7280"}}>Essential Force — transition period under Prabowo as Minister of Defense (<a href="https://www.foreignpolicytalks.com/post/indonesia-s-arms-diversification-is-inevitable-but-the-approach-must-prudent" target="_blank" rel="noopener" style={{color:"#2563eb"}}>Foreign Policy Talks</a>)</span>
               </div>
               <div style={{display:"flex",gap:12,marginBottom:4}}>
                 <span style={{minWidth:110,fontWeight:700,color:"#111",flexShrink:0}}>2021</span>
@@ -2886,7 +2885,7 @@ function App(){
               </div>
               <div style={{display:"flex",gap:12,marginBottom:4}}>
                 <span style={{minWidth:110,fontWeight:700,color:"#111",flexShrink:0}}>25 Nov 2024</span>
-                <span style={{color:"#6b7280"}}>DefMin Sjamsoeddin confirms PTN retained as framework in <a href="https://beritanasional.com/detail/87347/raker-dengan-dpr-menhan-sjafrie-bakal-perkuat-perisai-trisula-nusantara-laboratorium-pertahanan-nasional" target="_blank" rel="noopener" style={{color:"#2563eb"}}>Komisi I DPR hearing</a></span>
+                <span style={{color:"#6b7280"}}>Minister of Defense Sjamsoeddin confirms PTN retained as framework in <a href="https://beritanasional.com/detail/87347/raker-dengan-dpr-menhan-sjafrie-bakal-perkuat-perisai-trisula-nusantara-laboratorium-pertahanan-nasional" target="_blank" rel="noopener" style={{color:"#2563eb"}}>Komisi I DPR hearing</a></span>
               </div>
               <div style={{display:"flex",gap:12,marginBottom:4}}>
                 <span style={{minWidth:110,fontWeight:700,color:"#111",flexShrink:0}}>2025–2044</span>
@@ -2927,11 +2926,11 @@ function App(){
       </div>}
 
       {/* Footer */}
-      <div style={{background:"#1a1a1a",padding:"28px 32px",marginTop:20}}>
+      <div style={{background:"#1a1a1a",padding:"32px 32px",marginTop:24}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
           <div>
-            <div style={{fontSize:13,color:GOLD,fontWeight:700,letterSpacing:1}}>Laboratorium Indonesia 2045</div>
-            <div style={{fontSize:11,color:"#6b7280",marginTop:4}}>Indonesia Weapon Systems Database v0.4 — OSINT sources — Last updated: April 2026</div>
+            <div style={{fontSize:14,color:GOLD,fontWeight:700,letterSpacing:1}}>Laboratorium Indonesia 2045</div>
+            <div style={{fontSize:12,color:"#6b7280",marginTop:4}}>Indonesia Weapon Systems Database v0.4 — OSINT sources — Last updated: April 2026</div>
           </div>
           <div style={{fontSize:10,color:"#4b5563"}}>lab45.id</div>
         </div>
