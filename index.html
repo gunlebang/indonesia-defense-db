@@ -30,7 +30,7 @@ const WEAPON_SYSTEMS = [
   { id: "F16CD", name: "F-16C/D Fighting Falcon (Block 25/32+)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "United States", manufacturer: "Lockheed Martin", quantity: 23, status: "Active", era: "4th Gen", specs: { crew: "1 (C) / 2 (D)", maxSpeed: "Mach 2.0", range: "3,200 km", armament: "AIM-9, AIM-120 AMRAAM, AGM-65 Maverick, JDAM", engine: "1× P&W F100-PW-220E", introduced: 2014, note: "Ex-USAF Excess Defense Articles (EDA)" }},
   { id: "SU27", name: "Su-27SKM Flanker", category: "Fighter", subcategory: "Air Superiority", branch: "TNI AU", origin: "Russia", manufacturer: "Sukhoi", quantity: 5, status: "Active", era: "4th Gen", specs: { crew: 1, maxSpeed: "Mach 2.35", range: "3,530 km", armament: "R-27, R-73, GSh-30-1 cannon", engine: "2× Saturn AL-31F", introduced: 2003, note: "Upgraded to SKM standard" }},
   { id: "SU30", name: "Su-30MK2 Flanker-G", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "Russia", manufacturer: "Sukhoi", quantity: 11, status: "Active", era: "4th Gen", specs: { crew: 2, maxSpeed: "Mach 2.0", range: "3,000 km", armament: "R-27, R-73, R-77, Kh-31, KAB-500 PGM", engine: "2× Saturn AL-31FP", introduced: 2009, note: "Maritime strike capable, 2 upgraded from MK to MK2" }},
-  { id: "RAFALE", name: "Dassault Rafale F4", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "France", manufacturer: "Dassault Aviation", quantity: 42, status: "Delivering", era: "4.5 Gen", specs: { crew: "1 (C) / 2 (B)", maxSpeed: "Mach 1.8", range: "3,700 km", armament: "MICA, METEOR, SCALP, Exocet AM39, AASM, 30mm GIAT cannon", engine: "2× Snecma M88-2", introduced: "2026", note: "$8.1B deal (2022). 16 twin-seat + 26 single-seat. 3 delivered Feb 2026. Additional 24 under LoI (May 2025)" }},
+  { id: "RAFALE", name: "Dassault Rafale F4", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "France", manufacturer: "Dassault Aviation", quantity: 42, status: "Delivering", era: "4.5 Gen", specs: { crew: "1 (C) / 2 (B)", maxSpeed: "Mach 1.8", range: "1,100 km combat radius; 3,700 km ferry", armament: "MICA, METEOR, SCALP, Exocet AM39, AASM, 30mm GIAT cannon", engine: "2× Snecma M88-2", introduced: "2026", note: "$8.1B deal (2022). 16 twin-seat + 26 single-seat. 3 delivered Feb 2026. Additional 24 under LoI (May 2025). Combat radius 1,100 km with CFTs and typical A2G loadout; IISS cites 1,850 km hi-lo-hi (lighter config)" }},
   { id: "KAAN", name: "TAI KAAN (TF-X)", category: "Fighter", subcategory: "Stealth Multirole", branch: "TNI AU", origin: "Türkiye", manufacturer: "Turkish Aerospace Industries", quantity: 48, status: "On Order", era: "5th Gen", specs: { crew: 1, maxSpeed: "Mach 1.8+", range: "~1,100 km combat", armament: "Internal weapons bay, SDB, SOM-J (planned)", engine: "2× GE F110 (initial) / TEI TF-10000 (planned)", introduced: "TBD", note: "Contract signed July 2024. Program in development phase" }},
   { id: "KF21", name: "KAI KF-21 Boramae (IFX)", category: "Fighter", subcategory: "Multirole", branch: "TNI AU", origin: "South Korea / Indonesia", manufacturer: "Korea Aerospace Industries", quantity: "TBD (50 planned)", status: "In Development", era: "4.5 Gen", specs: { crew: "1-2", maxSpeed: "Mach 1.81", range: "2,900 km", armament: "AIM-9X, IRIS-T, Meteor, KEPD 350 (planned)", engine: "2× GE F414-GE-400K", introduced: "TBD", note: "Joint development program. Indonesia holds 20% stake (revised 2025). Formerly KF-X/IF-X" }},
   { id: "HAWK200", name: "BAE Hawk 200", category: "Fighter", subcategory: "Light Attack", branch: "TNI AU", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 22, status: "Active (aging)", era: "Light Combat", specs: { crew: 1, maxSpeed: "1,065 km/h", range: "2,520 km", armament: "AIM-9, Mk-80 bombs, ADEN 30mm cannon", engine: "1× Rolls-Royce Adour Mk 871", introduced: 1996, note: "Single-seat light attack variant" }},
@@ -44,8 +44,8 @@ const WEAPON_SYSTEMS = [
   // Helicopters (AU)
   { id: "H225M", name: "Airbus H225M Caracal", category: "Helicopter", subcategory: "Medium Transport / CSAR", branch: "TNI AU", origin: "France", manufacturer: "Airbus Helicopters / PT DI", quantity: 14, qtyDetail: "14 total across TNI AU (IISS 2025). Includes CSAR, transport, and VIP variants", status: "Active", era: "Modern", specs: { crew: 2, maxSpeed: "324 km/h", range: "857 km", armament: "Door guns, rocket pods (optional)", engine: "2× Turbomeca Makila 2A1", introduced: 2014, note: "CSAR role. 2 VIP variants ordered (2025). Some assembled locally by PT DI" }},
   // UAVs
-  { id: "ANKAS", name: "TAI Anka-S", category: "UAV", subcategory: "MALE UCAV", branch: "TNI AU", origin: "Türkiye", manufacturer: "Turkish Aerospace Industries", quantity: 12, status: "Active", era: "Modern", specs: { crew: "0 (Remote)", maxSpeed: "135 kn", range: "200+ km link range", armament: "SATCOM, EO/IR, SAR (350 kg payload)", engine: "1× Thielert Centurion 2.0S", introduced: 2025, note: "First unit inducted Sep 2025. 30hr endurance. BVLOS capable" }},
-  { id: "CH4", name: "CASC CH-4 Rainbow", category: "UAV", subcategory: "MALE UCAV", branch: "TNI AU", origin: "China", manufacturer: "CASC", quantity: 6, status: "Active", era: "Modern", specs: { crew: "0 (Remote)", maxSpeed: "235 km/h", range: "250 km data link", armament: "AR-1 missiles, FT-9 PGMs (optional)", engine: "1× Deutz diesel", introduced: 2019, note: "Showcased at HUT TNI 2019 parade" }},
+  { id: "ANKAS", name: "TAI Anka-S", category: "UAV", subcategory: "MALE UCAV", branch: "TNI AU", origin: "Türkiye", manufacturer: "Turkish Aerospace Industries", quantity: 12, status: "Active", era: "Modern", specs: { crew: "0 (Remote)", maxSpeed: "135 kn", range: "1,000 km operational radius (SATCOM BLOS); 250 km LOS", armament: "SATCOM, EO/IR, SAR, MAM-L/MAM-C smart munitions (350 kg payload)", engine: "1× TEI PD170 turboprop (diesel/JP-8)", introduced: 2025, note: "First unit arrived Lanud Supadio, Pontianak (Sep 2025). KSAU plan: Anka-S to Skadron Udara 52 at Natuna (replacing CH-4B), CH-4B pulled back to Skadron 51 at Pontianak. Anka-S variant with ViaSat VR-18C SATCOM for BLOS ops. 30hr endurance. $300M contract (Feb 2023) for 12 units + 4 GCS + training. 6 assembled locally by PT DI under ToT" }},
+  { id: "CH4", name: "CASC CH-4B Rainbow", category: "UAV", subcategory: "MALE UCAV", branch: "TNI AU", origin: "China", manufacturer: "CASC", quantity: 6, status: "Active", era: "Modern", specs: { crew: "0 (Remote)", maxSpeed: "235 km/h", range: "1,500 km operational radius (SATCOM); 250 km LOS", armament: "AR-2 air-to-surface missiles, FT-9 PGMs", engine: "1× Deutz diesel", introduced: 2019, note: "Skadron Udara 52, Natuna (current). KSAU plan: CH-4B to be pulled back to Skadron 51 at Pontianak when Anka-S takes over Natuna. SATCOM-equipped — operational range 1,500+ km per Oryx. 6 units delivered 2019. Received AR-2 missiles" }},
   // Air Defense (AU operated)
   { id: "SKYSHIELD", name: "Rheinmetall Oerlikon Skyshield", category: "Air Defense", subcategory: "SHORAD / C-RAM", branch: "TNI AU", origin: "Switzerland / Germany", manufacturer: "Rheinmetall Air Defence", quantity: 6, qtyDetail: "6 systems confirmed (IISS 2025, Kopasgat). Second batch ordered 2018", status: "Active", era: "Modern", specs: { crew: "3-5", maxSpeed: "N/A", range: "4 km effective", armament: "2× 35mm Oerlikon GDF guns, AHEAD ammo", engine: "N/A", introduced: 2012, note: "Base air defense. Second batch ordered 2018" }},
   { id: "NASAMS", name: "NASAMS II", category: "Air Defense", subcategory: "MRSAM", branch: "TNI AU", origin: "Norway / USA", manufacturer: "Kongsberg / Raytheon", quantity: "On Order", status: "On Order", era: "Modern", specs: { crew: "Multi", maxSpeed: "N/A", range: "25-40 km", armament: "AIM-120 AMRAAM (surface launched)", engine: "N/A", introduced: "TBD", note: "Medium-range SAM acquisition program" }},
@@ -92,7 +92,7 @@ const WEAPON_SYSTEMS = [
   { id: "MARTADINATA", name: "Martadinata-class (SIGMA 10514)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Netherlands", manufacturer: "Damen Schelde", quantity: 2, status: "Active", era: "Modern", specs: { crew: 122, maxSpeed: "28 kn", range: "5,000 nm", armament: "Exocet MM40 Block 3, VL MICA, Oto Melara 76mm, 2× Oerlikon 20mm, torpedo tubes", engine: "CODOE", introduced: 2017, note: "Classified as destroyers by TNI AL (PKR). Designated KRI Raden Eddy Martadinata-331 & KRI I Gusti Ngurah Rai-332" }},
   { id: "BRAWIJAYA", name: "Brawijaya-class (Fincantieri PPA Light+)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Italy", manufacturer: "Fincantieri", quantity: 2, status: "Delivering", era: "Modern", specs: { crew: "~170", maxSpeed: "31 kn", range: "6,500 nm", armament: "127mm gun, VLS for SAM, 76mm Super Rapid guns, torpedo tubes", engine: "CODLAG", introduced: 2025, note: "$1.39B (2024). KRI Brawijaya-320 commissioned Jul 2025. KRI Prabu Siliwangi-321 expected 2026. 4,912 tons — largest surface combatants" }},
   { id: "RWFRIGATE", name: "Red White Frigate (Merah Putih)", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "United Kingdom / Türkiye / Indonesia", manufacturer: "Babcock (design) / STM (combat systems) / PT PAL (build)", quantity: 2, status: "Under Construction", era: "Modern", specs: { crew: "~200", maxSpeed: "29+ kn", range: "TBD", armament: "Roketsan MİDLAS VLS (64 cells), Atmaca AShM, 2× 76mm Leonardo, Rheinmetall Millennium CIWS, torpedo tubes", engine: "CODAD", introduced: "~2027", note: "Babcock Arrowhead 140 design (UK). Turkish combat suite: STM systems integrator, Aselsan GENESIS CMS, Havelsan combat systems, Roketsan weapons. Built at PT PAL Surabaya. Keel laid Aug 2023 (Ship 1), Nov 2024 (Ship 2)" }},
-  { id: "AHMADYANI", name: "Ahmad Yani-class (ex-Van Speijk)", category: "Surface Combatant", subcategory: "Frigate", branch: "TNI AL", origin: "Netherlands", manufacturer: "Royal Schelde", quantity: 5, status: "Active (aging)", era: "Cold War", specs: { crew: 170, maxSpeed: "28.5 kn", range: "4,500 nm", armament: "Harpoon SSM, Sea Cat SAM, 76mm OTO Melara, torpedo tubes", engine: "Steam turbine", introduced: 1986, note: "Commissioned 1965-67 (Dutch), transferred 1986-89. Modernized 2010s-2020s" }},
+  { id: "AHMADYANI", name: "Ahmad Yani-class (ex-Van Speijk)", category: "Surface Combatant", subcategory: "Frigate", branch: "TNI AL", origin: "Netherlands", manufacturer: "Royal Schelde", quantity: 5, status: "Active (aging)", era: "Cold War", specs: { crew: 170, maxSpeed: "28.5 kn", range: "4,500 nm", armament: "C-802 AShM (most ships), P-800 Yakhont (KRI Oswald Siahaan-354), Mistral SAM, 76mm OTO Melara, torpedo tubes", engine: "Diesel (re-engined from steam)", introduced: 1986, note: "Commissioned 1965-67 (Dutch), transferred 1986-89. Modernized 2010s-2020s. KRI Slamet Riyadi-352 retired 2019 (used as SINKEX target 2023), 5 remain. Harpoon replaced with C-802 (most) or Yakhont (Oswald Siahaan). Some retained as UAV carrier ships per KSAL" }},
   // Corvettes
   { id: "DIPONEGORO", name: "Diponegoro-class (SIGMA 9113)", category: "Surface Combatant", subcategory: "Corvette", branch: "TNI AL", origin: "Netherlands", manufacturer: "Damen Schelde", quantity: 4, status: "Active", era: "Modern", specs: { crew: 80, maxSpeed: "28 kn", range: "3,600 nm", armament: "Exocet MM40 Block 2, Mistral SAM, Oto Melara 76mm, torpedo tubes", engine: "CODOE", introduced: 2007, note: "Multi-role corvettes. Primary surface combatants" }},
   { id: "BUNGTOMO", name: "Bung Tomo-class (ex-Nakhoda Ragam)", category: "Surface Combatant", subcategory: "Corvette", branch: "TNI AL", origin: "United Kingdom", manufacturer: "BAE Systems", quantity: 3, status: "Active", era: "Modern", base:"Koarmada II, Surabaya", deploy:"EEZ patrol, G20 Bali security 2022", specs: { crew: 80, maxSpeed: "30 kn", range: "5,000 nm", armament: "Exocet MM40, VL Seawolf SAM (removed), 76mm gun, torpedo tubes", engine: "CODOG", introduced: 2014, note: "3 ex-Brunei Nakhoda Ragam-class corvettes built by BAE Scotstoun (F2000 variant). KRI Bung Tomo-357, KRI John Lie-358, KRI Usman Harun-359. Stored 12 years before sale to Indonesia. KRI Usman Harun undergoing mid-life modernization with Thales TACTICOS CMS, SMART-S Mk2 radar, VL MICA SAM (PT LEN lead contractor)" }},
@@ -150,8 +150,10 @@ const WEAPON_SYSTEMS = [
   { id: "STARSTREAK", name: "Thales Starstreak ForceSHIELD", category: "Air Defense", subcategory: "VSHORAD", branch: "TNI AD", origin: "United Kingdom", manufacturer: "Thales UK", quantity: 9, status: "Active", era: "Modern", specs: { crew: "2-3", maxSpeed: "N/A", range: "7 km", armament: "Starstreak HVM laser-guided SAM", engine: "N/A", introduced: 2020, note: "9 ForceSHIELD systems with GM200 radar. Arhanud units. 3-dart VSHORAD" }},
   { id: "C705", name: "CASIC C-705 AShM (Shore-based)", category: "Missile", subcategory: "Coastal Defense / AShM", branch: "TNI AL", origin: "China", manufacturer: "CASIC", quantity: "Multiple batteries", status: "Active", era: "Modern", specs: { crew: "Multi", maxSpeed: "Subsonic", range: "130 km", armament: "165 kg semi-AP warhead", engine: "Turbojet", introduced: 2014, note: "Shore-launched AShM. Also on KCR-40/60. Covers strait chokepoints" }},
   { id: "EXOCET_SHORE", name: "MBDA Exocet MM40 Block 3 (Coastal)", category: "Missile", subcategory: "Coastal Defense / AShM", branch: "TNI AL", origin: "France", manufacturer: "MBDA", quantity: "On Order", status: "On Order", era: "Modern", specs: { crew: "Multi", maxSpeed: "Subsonic (high)", range: "200 km", armament: "165 kg shaped-charge warhead", engine: "Turbojet + booster", introduced: "TBD", note: "Shore-based coastal defense variant of Exocet Block 3" }},
-  { id: "CN235MPA", name: "Airbus CN-235 MPA", category: "Transport", subcategory: "Maritime Patrol / ASW", branch: "TNI AU", origin: "Spain / Indonesia", manufacturer: "Airbus / PT DI", quantity: 4, status: "Active", era: "Modern", specs: { crew: "5+", maxSpeed: "460 km/h", range: "4,000 km", armament: "Sonobuoys, torpedoes (optional), radar, FLIR", engine: "2× GE CT7-9C3", introduced: 2014, note: "Maritime patrol variant. Surface search radar, FLIR, sonobuoy dispensers" }},
-  { id: "B737", name: "Boeing 737-200 Surveiller", category: "Transport", subcategory: "Maritime ISR", branch: "TNI AU", origin: "United States", manufacturer: "Boeing", quantity: 3, status: "Active (aging)", era: "Cold War", specs: { crew: "10+", maxSpeed: "800 km/h", range: "5,000 km", armament: "None (ISR sensors, radar, FLIR)", engine: "2× P&W JT8D-17A", introduced: 1982, note: "Maritime surveillance. Skadron 5, Lanud Sultan Hasanuddin. SLAMMR radar" }},
+  { id: "YAKHONT", name: "P-800 Oniks / Yakhont (SS-N-26)", category: "Missile", subcategory: "Anti-Ship Cruise Missile (Supersonic)", branch: "TNI AL", origin: "Russia", manufacturer: "NPO Mashinostroyeniya", quantity: "~4 VLS cells", qtyDetail: "4 VLS on KRI Oswald Siahaan (354). Small consignment purchased 2007, undisclosed total stock", status: "Active", era: "Modern", base: "Koarmada II, Surabaya", deploy: "Ship-launched from KRI Oswald Siahaan (354), Ahmad Yani-class frigate", specs: { crew: "N/A", maxSpeed: "Mach 2.5", range: "300 km (high-altitude) / 120 km (sea-skimming)", armament: "200 kg HE warhead", engine: "Solid booster + kerosene ramjet", introduced: 2010, note: "Indonesia's only supersonic AShM. Purchased 2007, first test-fired Apr 2011 from KRI Oswald Siahaan in Indian Ocean — hit and sank target at 250 km. Replaced Harpoon SSM on that ship. Very limited stock on a single aging platform (1966-built hull). Ahmad Yani class retirement delayed pending frigate replacements" }},
+  { id: "NC212MPA", name: "NC-212-200 MPA (Aviocar)", category: "Transport", subcategory: "Maritime Patrol", branch: "TNI AL", origin: "Spain / Indonesia", manufacturer: "CASA (EADS) / PT DI", quantity: 3, qtyDetail: "3 MPA-configured NC-212-200 in Skadron Udara 800 (Puspenerbal). Additional ~8 transport variants across TNI AL Skadron Udara 600", status: "Active (aging)", era: "Cold War", base: "Puspenerbal, Juanda, Surabaya", deploy: "Maritime patrol, ISR, surface search (Skadron Udara 800)", specs: { crew: "4-5", maxSpeed: "370 km/h", range: "1,349 km", armament: "None (ISR sensors: Thales AMASCOS, Ocean Master radar, FLIR)", engine: "2× Garrett TPE331-10R-513C turboprop", introduced: 1996, note: "PT DI-built under CASA license. Transport variants converted to MPA 1996-2007 with Thales AMASCOS and Ocean Master Surveillance Radar. Skadron Udara 800 at Juanda handles maritime patrol. Aging but still operational — Navy exploring A-VIATOR replacement (Feb 2026). TNI AU also operates C-212 for navigator training" }},
+  { id: "CN235MPA", name: "Airbus CN-235 MPA", category: "Transport", subcategory: "Maritime Patrol / ASW", branch: "TNI AU", origin: "Spain / Indonesia", manufacturer: "Airbus / PT DI", quantity: 4, status: "Active", era: "Modern", specs: { crew: "5+", maxSpeed: "460 km/h", range: "2,000 km patrol radius", armament: "Sonobuoys, torpedoes (optional), radar, FLIR", engine: "2× GE CT7-9C3", introduced: 2014, note: "Maritime patrol variant. Surface search radar, FLIR, sonobuoy dispensers. 1 unit with Skadron 5 at Hasanuddin (Makassar), remainder at Bandung. Max ferry 4,000 km" }},
+  { id: "B737", name: "Boeing 737-200 Surveiller", category: "Transport", subcategory: "Maritime ISR", branch: "TNI AU", origin: "United States", manufacturer: "Boeing", quantity: 4, status: "Active (aging)", era: "Cold War", specs: { crew: "10+", maxSpeed: "800 km/h", range: "2,400 km operational radius", armament: "None (ISR sensors: SLAMMR radar, WESCAM MX-20HD EO/IR, FLIR)", engine: "2× P&W JT8D-17A", introduced: 1982, note: "Maritime surveillance. Skadron Udara 5, Lanud Sultan Hasanuddin, Makassar. 4 aircraft (A-7301 to A-7304). SLAMMR + MX-20HD upgrade. 3hr endurance, patrols from Sabang to Merauke. Callsign 'Camar Emas'" }},
   { id: "KCR70M", name: "KCR-70M Fast Attack Craft", category: "Surface Combatant", subcategory: "Fast Attack Craft (Missile)", branch: "TNI AL", origin: "Türkiye / Indonesia", manufacturer: "Sefine Shipyard (TAIS)", quantity: 2, status: "Under Construction", era: "Modern", specs: { crew: 55, maxSpeed: "40+ kn", range: "1,600 nm", armament: "76mm gun, SSM (likely Atmaca), 12.7mm MG, 3D radar", engine: "CODAG (2× diesel + 1× gas turbine, Kongsberg waterjet)", introduced: "~2026", note: "Keel laid Jul 2025 at Sefine Shipyard, Türkiye. First delivery expected mid-2026. 850 tonnes. Technology transfer to Indonesia included" }},
   { id: "CAKIR", name: "Roketsan Çakır Cruise Missile", category: "Missile", subcategory: "Cruise Missile (Air/Surface-launched)", branch: "TNI AL", origin: "Türkiye / Indonesia", manufacturer: "Roketsan / PT Republikorp", quantity: "On Order", status: "On Order", era: "Modern", specs: { crew: "N/A", maxSpeed: "Mach 0.75-0.85", range: "150 km (air) / 100 km (surface)", armament: "70 kg warhead (HE, thermobaric, semi-AP)", engine: "Kale KTJ-1750 turbojet", introduced: "TBD", note: "Agreement signed IDEF Jul 2025. Joint production facility in Indonesia. Technology transfer included. Air & surface launch variants" }},
   { id: "PC24", name: "Pilatus PC-24 Super Versatile Jet", category: "Transport", subcategory: "Light Transport / Trainer", branch: "TNI AU", origin: "Switzerland", manufacturer: "Pilatus Aircraft", quantity: 12, status: "On Order", era: "Modern", specs: { crew: "1-2", maxSpeed: "815 km/h", range: "3,610 km", armament: "None (transport/training)", engine: "2× Williams FJ44-4A", introduced: "TBD", note: "Contract signed Mar 2026 with PT E-System Solutions. IFR pilot training, transport, liaison. Unpaved runway capable. Option for additional aircraft" }},
@@ -196,6 +198,8 @@ const CONTRACT_VALUES = {
   "GARIB_HELO_T": "$250M loan ceiling (BAPPENAS Aug 2025)",
   "GARIB_HELO_U": "$300M loan ceiling (BAPPENAS Aug 2025)",
   "MOGAMI": "Est. ¥300B/~$2B+ (8 frigates, MHI, proposed)",
+  "YAKHONT": "~$1.2M/missile (NPO Mashinostroyeniya 2007)",
+  "NC212MPA": "N/A (PT DI license production, converted 1996-2007)",
 };
 
 const SOURCES = {
@@ -299,6 +303,8 @@ const SOURCES = {
   "GARIB_HELO_T":["Reported","BAPPENAS letter (Aug 2025), Army Recognition"],
   "GARIB_HELO_U":["Reported","BAPPENAS letter (Aug 2025), Army Recognition"],
   "MOGAMI":["Reported","Japan Times, Defense Mirror, Breaking Defense"],
+  "YAKHONT":["Confirmed","RSIS (2011), UPI/Antara (Apr 2011), Wikipedia, IISS"],
+  "NC212MPA":["Confirmed","Indomiliter (2017/2021), Naval News (Feb 2026), IISS MB 2026"],
 };
 
 const CATS=[...new Set(WEAPON_SYSTEMS.map(w=>w.category))].sort();
@@ -307,7 +313,7 @@ const ORS=[...new Set(WEAPON_SYSTEMS.map(w=>w.origin))].sort();
 const STS=[...new Set(WEAPON_SYSTEMS.map(w=>w.status))].sort();
 
 // Module-level contract years for ordering date
-const ORDER_YEARS={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014};
+const ORDER_YEARS={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"YAKHONT":2007,"NC212MPA":1996};
 
 // Condition: New Build vs Second-Hand vs Refurbished
 const getCondition=(w)=>{
@@ -343,7 +349,7 @@ function Detail({s,onClose}){
   const age = introYear ? (2026 - introYear) : null;
 
   // Determine ordering administration
-  const CONTRACT_YEARS_LOCAL = {"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014};
+  const CONTRACT_YEARS_LOCAL = {"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"YAKHONT":2007,"NC212MPA":1996};
   const orderYear = CONTRACT_YEARS_LOCAL[s.id];
   const getAdmin = (y) => { if(!y) return null; if(y<1998) return "Suharto"; if(y<2004) return "Reform Era"; if(y<2014) return "Yudhoyono (SBY)"; if(y<2024) return "Jokowi"; return "Prabowo"; };
   const admin = getAdmin(orderYear);
@@ -498,7 +504,7 @@ function OriginChart(){
   const getColor=(name)=>oColors[name]||"#94a3b8";
 
   // Contract year -> admin mapping
-  const CY={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"BELL412AU":1982,"SCORPENE":2024,"GARIBALDI":2024};
+  const CY={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"BELL412AU":1982,"SCORPENE":2024,"GARIBALDI":2024,"YAKHONT":2007,"NC212MPA":1996};
   const getAdmin=(y)=>{if(!y)return "Unknown";if(y<1998)return "Suharto";if(y<2004)return "Reform Era";if(y<2014)return "SBY";if(y<2024)return "Jokowi";return "Prabowo";};
 
   // Build Sankey data with both count and value weighting
@@ -1672,8 +1678,8 @@ const SYSTEM_BASES = {
   "CN295": ["Lanud Husein Sastranegara, Bandung", "Lanud Halim Perdanakusuma, Jakarta"],
   "H225M": ["Lanud Atang Sendjaja, Bogor", "Lanud Halim Perdanakusuma, Jakarta"],
   "SUPERPUMA": ["Lanud Atang Sendjaja, Bogor"],
-  "ANKAS": ["Lanud Sultan Hasanuddin, Makassar"],
-  "CH4": ["Lanud Sultan Hasanuddin, Makassar"],
+  "ANKAS": ["Lanud Supadio, Pontianak", "Lanud Ranai, Natuna"],
+  "CH4": ["Lanud Supadio, Pontianak", "Lanud Ranai, Natuna"],
   "TB2": [],
   "SKYSHIELD": ["Lanud Halim Perdanakusuma, Jakarta", "Lanud Iswahjudi, Madiun"],
   "NASAMS": [],
@@ -1718,11 +1724,11 @@ const SYSTEM_BASES = {
   "MARTADINATA": ["Koarmada II, Surabaya"],
   "BRAWIJAYA": ["Koarmada I, Tanjungpinang"],
   "RWFRIGATE": ["PT PAL, Surabaya"],
-  "AHMADYANI": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya"],
-  "DIPONEGORO": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya"],
-  "FATAHILLAH": ["Koarmada II, Surabaya"],
-  "KCR60": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya"],
-  "KCR40": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya"],
+  "AHMADYANI": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya", "Koarmada III, Sorong"],
+  "DIPONEGORO": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya", "Koarmada III, Sorong"],
+  "FATAHILLAH": ["Koarmada II, Surabaya", "Koarmada III, Sorong"],
+  "KCR60": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya", "Koarmada III, Sorong"],
+  "KCR40": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya", "Koarmada III, Sorong"],
   "MAKASSAR": ["Koarmada II, Surabaya", "Koarmada III, Sorong"],
   "PATTIMURA": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya", "Koarmada III, Sorong"],
   "BUNGTOMO": ["Koarmada II, Surabaya"],
@@ -1731,7 +1737,7 @@ const SYSTEM_BASES = {
   "KLEWANG": ["Koarmada II, Surabaya"],
   "GARIBALDI": [],
   "ISTIF": [],
-  "ATMACA": ["Koarmada II, Surabaya"],
+  "ATMACA": ["Koarmada II, Surabaya", "Koarmada III, Sorong"],
   "RM70": ["Brigif Marinir 1, Surabaya"],
   "BMP3F": ["Brigif Marinir 1, Surabaya", "Brigif Marinir 2, Jakarta"],
   "BVP2": ["Brigif Marinir 1, Surabaya"],
@@ -1744,7 +1750,7 @@ const SYSTEM_BASES = {
   "STARSTREAK": ["Arhanud, Malang"],
   "C705": ["Koarmada I, Tanjungpinang", "Koarmada II, Surabaya", "Brigif Marinir 1, Surabaya"],
   "EXOCET_SHORE": [],
-  "CN235MPA": ["Lanud Husein Sastranegara, Bandung"],
+  "CN235MPA": ["Lanud Husein Sastranegara, Bandung", "Lanud Sultan Hasanuddin, Makassar"],
   "B737": ["Lanud Sultan Hasanuddin, Makassar"],
   "KCR70M": [],
   "CAKIR": [],
@@ -1756,6 +1762,8 @@ const SYSTEM_BASES = {
   "GARIB_HELO_T": [],
   "GARIB_HELO_U": [],
   "MOGAMI": [],
+  "YAKHONT": ["Koarmada II, Surabaya", "Koarmada III, Sorong"],
+  "NC212MPA": ["Puspenerbal, Juanda"],
 };
 
 // Combat radius in km (from base, round-trip unless noted)
@@ -1766,33 +1774,33 @@ const SYSTEM_BASES = {
 // Missiles/artillery/radar: one-way max effective range (no return trip)
 const COMBAT_RADIUS = {
   // Fighters (combat radius, hi-lo-hi profile with typical combat load)
-  "F16AM": { radius: 550, label: "F-16A/B combat radius (hi-lo-hi)", color: "#3b82f6" },
-  "F16CD": { radius: 550, label: "F-16C/D combat radius (hi-lo-hi)", color: "#3b82f6" },
-  "SU27": { radius: 750, label: "Su-27SKM combat radius", color: "#3b82f6" },
-  "SU30": { radius: 800, label: "Su-30MK2 combat radius", color: "#3b82f6" },
-  "RAFALE": { radius: 1100, label: "Rafale F4 combat radius (w/ CFTs)", color: "#3b82f6" },
-  "HAWK200": { radius: 400, label: "Hawk 200 combat radius (loaded)", color: "#3b82f6" },
-  "T50I": { radius: 370, label: "T-50i combat radius (light attack)", color: "#60a5fa" },
-  "EMB314": { radius: 550, label: "Super Tucano combat radius (COIN)", color: "#60a5fa" },
-  "M346FA": { radius: 600, label: "M-346FA combat radius (light attack)", color: "#60a5fa" },
-  "KAAN": { radius: 1100, label: "KAAN combat radius (estimated)", color: "#3b82f6" },
-  "KF21": { radius: 900, label: "KF-21 combat radius (estimated)", color: "#3b82f6" },
+  "F16AM": { radius: 550, ferry: 1600, label: "F-16A/B combat radius (hi-lo-hi)", ferryLabel: "F-16A/B ferry range", color: "#3b82f6" },
+  "F16CD": { radius: 550, ferry: 1600, label: "F-16C/D combat radius (hi-lo-hi)", ferryLabel: "F-16C/D ferry range", color: "#3b82f6" },
+  "SU27": { radius: 750, ferry: 1765, label: "Su-27SKM combat radius", ferryLabel: "Su-27SKM ferry range", color: "#3b82f6" },
+  "SU30": { radius: 800, ferry: 1500, label: "Su-30MK2 combat radius", ferryLabel: "Su-30MK2 ferry range", color: "#3b82f6" },
+  "RAFALE": { radius: 1100, ferry: 1850, label: "Rafale F4 combat radius (w/ CFTs)", ferryLabel: "Rafale F4 ferry range", color: "#3b82f6" },
+  "HAWK200": { radius: 400, ferry: 1260, label: "Hawk 200 combat radius (loaded)", ferryLabel: "Hawk 200 ferry range", color: "#3b82f6" },
+  "T50I": { radius: 370, ferry: 925, label: "T-50i combat radius (light attack)", ferryLabel: "T-50i ferry range", color: "#60a5fa" },
+  "EMB314": { radius: 550, ferry: 1330, label: "Super Tucano combat radius (COIN)", ferryLabel: "Super Tucano ferry/self-deploy", color: "#60a5fa" },
+  "M346FA": { radius: 600, ferry: 945, label: "M-346FA combat radius (light attack)", ferryLabel: "M-346FA ferry range", color: "#60a5fa" },
+  "KAAN": { radius: 1100, ferry: 1750, label: "KAAN combat radius (estimated)", ferryLabel: "KAAN ferry range (est.)", color: "#3b82f6" },
+  "KF21": { radius: 900, ferry: 1450, label: "KF-21 combat radius (estimated)", ferryLabel: "KF-21 ferry range (est.)", color: "#3b82f6" },
   // Attack Helicopters (combat radius = one-way mission + engagement + return)
-  "APACHE": { radius: 180, label: "AH-64E Apache combat radius", color: "#dc2626" },
-  "MI35": { radius: 200, label: "Mi-35P Hind combat radius", color: "#dc2626" },
+  "APACHE": { radius: 180, ferry: 476, label: "AH-64E Apache combat radius", ferryLabel: "AH-64E self-deploy range", color: "#dc2626" },
+  "MI35": { radius: 200, ferry: 460, label: "Mi-35P Hind combat radius", ferryLabel: "Mi-35P self-deploy range", color: "#dc2626" },
   // Utility/Transport Helicopters (operational radius, not ferry range)
-  "BELL412": { radius: 250, label: "Bell 412EP operational radius", color: "#f97316" },
-  "BLACKHAWK": { radius: 220, label: "S-70L Black Hawk operational radius", color: "#f97316" },
-  "MI17": { radius: 210, label: "Mi-17V5 operational radius", color: "#f97316" },
-  "FENNEC": { radius: 250, label: "AS550 Fennec scout radius", color: "#f97316" },
-  "BO105": { radius: 210, label: "Bo-105 operational radius", color: "#f97316" },
-  "BELL205": { radius: 190, label: "Bell 205A operational radius", color: "#f97316" },
-  "H225M": { radius: 320, label: "H225M Caracal CSAR radius", color: "#f97316" },
-  "AS565": { radius: 330, label: "AS565 Panther shipborne radius", color: "#f97316" },
-  "SUPERPUMA": { radius: 310, label: "Super Puma operational radius", color: "#f97316" },
+  "BELL412": { radius: 250, ferry: 672, label: "Bell 412EP operational radius", ferryLabel: "Bell 412EP ferry range", color: "#f97316" },
+  "BLACKHAWK": { radius: 220, ferry: 590, label: "S-70L Black Hawk operational radius", ferryLabel: "S-70L ferry range", color: "#f97316" },
+  "MI17": { radius: 210, ferry: 580, label: "Mi-17V5 operational radius", ferryLabel: "Mi-17V5 ferry range", color: "#f97316" },
+  "FENNEC": { radius: 250, ferry: 660, label: "AS550 Fennec scout radius", ferryLabel: "AS550 ferry range", color: "#f97316" },
+  "BO105": { radius: 210, ferry: 575, label: "Bo-105 operational radius", ferryLabel: "Bo-105 ferry range", color: "#f97316" },
+  "BELL205": { radius: 190, ferry: 510, label: "Bell 205A operational radius", ferryLabel: "Bell 205A ferry range", color: "#f97316" },
+  "H225M": { radius: 320, ferry: 857, label: "H225M Caracal CSAR radius", ferryLabel: "H225M ferry range", color: "#f97316" },
+  "AS565": { radius: 330, ferry: 875, label: "AS565 Panther shipborne radius", ferryLabel: "AS565 ferry range", color: "#f97316" },
+  "SUPERPUMA": { radius: 310, ferry: 842, label: "Super Puma operational radius", ferryLabel: "Super Puma ferry range", color: "#f97316" },
   // UAVs — SATCOM-linked (TB3/Akinci) use operational loiter radius, not ferry
-  "TB3": { radius: 300, label: "TB3 SATCOM operational radius", color: "#10b981" },
-  "AKINCI": { radius: 400, label: "Akıncı SATCOM operational radius", color: "#10b981" },
+  "TB3": { radius: 300, ferry: 1800, label: "TB3 SATCOM operational radius", ferryLabel: "TB3 max endurance radius", color: "#10b981" },
+  "AKINCI": { radius: 400, ferry: 3250, label: "Akıncı SATCOM operational radius", ferryLabel: "Akıncı max endurance radius", color: "#10b981" },
   // Missiles (one-way range, no return)
   "KHAN": { radius: 280, label: "Khan SRBM range", color: "#ef4444" },
   "BORA": { radius: 280, label: "Bora SRBM range", color: "#ef4444" },
@@ -1822,31 +1830,38 @@ const COMBAT_RADIUS = {
   "AR325": { radius: 470, label: "AR-325 Commander range", color: "#164e63" },
   "GM200": { radius: 250, label: "Ground Master 200 surveillance", color: "#22d3ee" },
   // UAVs (data link range, not ferry range)
-  "ANKAS": { radius: 200, label: "Anka-S link range", color: "#10b981" },
-  "CH4": { radius: 250, label: "CH-4 link range", color: "#10b981" },
-  "TB2": { radius: 150, label: "TB2 link range", color: "#10b981" },
+  "ANKAS": { radius: 1000, ferry: 3000, label: "Anka-S SATCOM operational radius", ferryLabel: "Anka-S max endurance radius (30hr)", color: "#10b981" },
+  "CH4": { radius: 1500, ferry: 3500, label: "CH-4B SATCOM operational radius", ferryLabel: "CH-4B max endurance radius", color: "#10b981" },
+  "TB2": { radius: 150, ferry: 750, label: "TB2 link range", ferryLabel: "TB2 max endurance radius", color: "#10b981" },
   // Submarines — patrol radius: max range ~11,000nm (Cakra) / ~13,000nm (Nagapasa) at 8kt
   // Formula: (range_nm × 1.852 × 0.30) — 30% factor for transit/station/return + snorkel cycling
-  "CAKRA": { radius: 1500, label: "Cakra patrol radius (8kt, 2-wk station)", color: "#6366f1" },
-  "NAGAPASA": { radius: 2000, label: "Nagapasa patrol radius (8kt, 3-wk station)", color: "#818cf8" },
+  "CAKRA": { radius: 1500, ferry: 7593, label: "Cakra patrol radius (8kt, 2-wk station)", ferryLabel: "Cakra deployment radius (8,200 nm snorkel)", color: "#6366f1" },
+  "NAGAPASA": { radius: 2000, ferry: 9260, label: "Nagapasa patrol radius (8kt, 3-wk station)", ferryLabel: "Nagapasa deployment radius (10,000 nm snorkel)", color: "#818cf8" },
   // Frigates — patrol radius: range at 18kt economical speed
   // Formula: (range_nm × 1.852 × 0.33) — 33% factor for transit/patrol/return
-  "MARTADINATA": { radius: 1350, label: "Martadinata patrol (18kt, 14-day cycle)", color: "#64748b" },
-  "BRAWIJAYA": { radius: 1500, label: "Brawijaya patrol (18kt, 14-day cycle)", color: "#64748b" },
-  "AHMADYANI": { radius: 1100, label: "Ahmad Yani patrol (aging, 14-day cycle)", color: "#94a3b8" },
+  // Ferry = deployment radius: (range_nm × 1.852 × 0.50) — half max range (sail out + return, no extended station)
+  "MARTADINATA": { radius: 1350, ferry: 4630, label: "Martadinata patrol (18kt, 14-day cycle)", ferryLabel: "Martadinata deployment radius (5,000 nm max)", color: "#64748b" },
+  "BRAWIJAYA": { radius: 1500, ferry: 6019, label: "Brawijaya patrol (18kt, 14-day cycle)", ferryLabel: "Brawijaya deployment radius (6,500 nm max)", color: "#64748b" },
+  "AHMADYANI": { radius: 1100, ferry: 4167, label: "Ahmad Yani patrol (aging, 14-day cycle)", ferryLabel: "Ahmad Yani deployment radius (4,500 nm max)", color: "#94a3b8" },
   // Corvettes — shorter endurance, EEZ patrol
   // Formula: (range_nm × 1.852 × 0.33)
-  "DIPONEGORO": { radius: 900, label: "Diponegoro patrol (18kt, 10-day cycle)", color: "#64748b" },
-  "FATAHILLAH": { radius: 800, label: "Fatahillah patrol (aging, 10-day cycle)", color: "#94a3b8" },
-  "BUNGTOMO": { radius: 1000, label: "Bung Tomo patrol (18kt, 10-day cycle)", color: "#64748b" },
-  "BUNGKARNO": { radius: 900, label: "Bung Karno patrol (18kt, 10-day cycle)", color: "#64748b" },
-  "PATTIMURA": { radius: 500, label: "Pattimura patrol (aging, 7-day cycle)", color: "#94a3b8" },
+  "DIPONEGORO": { radius: 900, ferry: 3334, label: "Diponegoro patrol (18kt, 10-day cycle)", ferryLabel: "Diponegoro deployment radius (3,600 nm max)", color: "#64748b" },
+  "FATAHILLAH": { radius: 800, ferry: 3797, label: "Fatahillah patrol (aging, 10-day cycle)", ferryLabel: "Fatahillah deployment radius (4,100 nm max)", color: "#94a3b8" },
+  "BUNGTOMO": { radius: 1000, ferry: 4630, label: "Bung Tomo patrol (18kt, 10-day cycle)", ferryLabel: "Bung Tomo deployment radius (5,000 nm max)", color: "#64748b" },
+  "BUNGKARNO": { radius: 900, ferry: 3704, label: "Bung Karno patrol (18kt, 10-day cycle)", ferryLabel: "Bung Karno deployment radius (4,000 nm max)", color: "#64748b" },
+  "PATTIMURA": { radius: 500, ferry: 1852, label: "Pattimura patrol (aging, 7-day cycle)", ferryLabel: "Pattimura deployment radius (2,000 nm max)", color: "#94a3b8" },
   // FAC — sprint sortie: high-speed dash out, brief loiter, return
   // Formula: (range_nm × 1.852 × 0.25) — 25% for sprint profile
-  "KCR60": { radius: 400, label: "KCR-60 sortie radius (sprint)", color: "#475569" },
-  "KCR40": { radius: 300, label: "KCR-40 sortie radius (sprint)", color: "#475569" },
+  "KCR60": { radius: 400, ferry: 2315, label: "KCR-60 sortie radius (sprint)", ferryLabel: "KCR-60 deployment radius (2,500 nm max)", color: "#475569" },
+  "KCR40": { radius: 300, ferry: 1667, label: "KCR-40 sortie radius (sprint)", ferryLabel: "KCR-40 deployment radius (1,800 nm max)", color: "#475569" },
   // LPD — amphibious deployment, economical speed
-  "MAKASSAR": { radius: 1500, label: "Makassar LPD deployment (14kt)", color: "#64748b" },
+  "MAKASSAR": { radius: 1500, ferry: 6019, label: "Makassar LPD deployment (14kt)", ferryLabel: "Makassar LPD max deployment (6,500 nm)", color: "#64748b" },
+  // ISR / MPA (operational patrol radius — accounts for transit + loiter + return)
+  "B737": { radius: 1200, ferry: 2400, label: "B-737 Surveiller patrol radius", ferryLabel: "B-737 max operational range", color: "#0ea5e9" },
+  "CN235MPA": { radius: 2000, ferry: 4000, label: "CN-235 MPA patrol radius", ferryLabel: "CN-235 MPA max ferry range", color: "#0ea5e9" },
+  "NC212MPA": { radius: 675, ferry: 1349, label: "NC-212 MPA patrol radius", ferryLabel: "NC-212 MPA max range", color: "#0ea5e9" },
+  // Ship-launched missile (one-way range from carrier vessel)
+  "YAKHONT": { radius: 120, label: "Yakhont sea-skimming range", color: "#dc2626" },
 };
 
 const PLANNER_CATS = ["Fighters","Radars","Surface Combatants","Submarines","UAVs"];
@@ -1874,7 +1889,7 @@ const PLANNER_AIRCRAFT = [
   // UAVs
   {id:"TB3",name:"Bayraktar TB3",radius:300,status:"On Order (60)",tier:30,cat:"UAVs",note:"MALE UCAV. Ship-capable (short takeoff). SATCOM link. 60 units via PT Republikorp. Operational radius limited by data link."},
   {id:"AKINCI",name:"Bayraktar Ak\u0131nc\u0131",radius:400,status:"On Order (9)",tier:30,cat:"UAVs",note:"HALE UCAV. Twin-engine, 24hr endurance. SATCOM. 9 units via PT Republikorp. Heaviest combat drone ordered."},
-  {id:"ANKAS_NEW",name:"Anka-S (expand)",radius:200,status:"Active (12)",tier:30,cat:"UAVs",note:"Currently at Makassar. Could deploy to additional forward bases for ISR coverage."},
+  {id:"ANKAS_NEW",name:"Anka-S (expand)",radius:1000,status:"Active (12)",tier:30,cat:"UAVs",note:"Currently at Pontianak (Supadio). SATCOM BLOS — 1,000 km operational radius with 30hr endurance. Explore additional forward bases for ISR coverage."},
         ];
 
 
@@ -1944,7 +1959,8 @@ function BaseMap() {
   const [viewBox, setViewBox] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [panOffset, setPanOffset] = useState([0, 0]);
-  const [showRadius, setShowRadius] = useState(null); // null = off, or category string
+  const [showRadius, setShowRadius] = useState(new Set()); // Set of active category strings
+  const [radiusMode, setRadiusMode] = useState("combat"); // "combat" or "ferry"
   const [radiusCategory, setRadiusCategory] = useState("Fighters");
   const [selectedWeapon, setSelectedWeapon] = useState(null);
   const [showALKI, setShowALKI] = useState(true);
@@ -2035,10 +2051,11 @@ function BaseMap() {
     "Fighters": ["F16AM","F16CD","SU27","SU30","RAFALE","KAAN","KF21","HAWK200","T50I","EMB314","M346FA"],
     "Attack Helicopters": ["APACHE","MI35"],
     "Utility Helicopters": ["BELL412","BLACKHAWK","MI17","FENNEC","BO105","BELL205","H225M","AS565","SUPERPUMA"],
-    "Missiles": ["KHAN","BORA","ASTROS","ATMACA","C705","EXOCET_SHORE","BRAHMOS"],
+    "Missiles": ["KHAN","BORA","ASTROS","ATMACA","C705","EXOCET_SHORE","BRAHMOS","YAKHONT"],
     "Ground Defense": ["SKYSHIELD","NASAMS","MISTRAL","QW3","HISARO","SIPER","STARSTREAK","CAESAR","M109","KH179","RM70"],
-    "Radar": ["MASTERT","TRS2215","AR325","GM200"],
+    "Radar": ["MASTERT","TRS2215","AR325","GM200","GM400"],
     "UAVs": ["ANKAS","CH4","TB2","TB3","AKINCI"],
+    "ISR / MPA": ["B737","CN235MPA","NC212MPA"],
     "Submarines": ["CAKRA","NAGAPASA"],
     "Combatants": ["MARTADINATA","BRAWIJAYA","AHMADYANI","DIPONEGORO","FATAHILLAH","BUNGTOMO","BUNGKARNO","MAKASSAR"],
     "Patrol Ships": ["PATTIMURA","KCR60","KCR40"],
@@ -2046,29 +2063,32 @@ function BaseMap() {
 
   // Compute radius circles for the selected category
   const radiusRings = useMemo(() => {
-    if (!showRadius) return [];
-    const sysIds = radiusCategories[showRadius] || [];
+    if (showRadius.size === 0) return [];
+    const sysIds = [];
+    showRadius.forEach(cat => { (radiusCategories[cat] || []).forEach(id => { if (!sysIds.includes(id)) sysIds.push(id); }); });
     const rings = [];
     sysIds.forEach(sysId => {
       const cr = COMBAT_RADIUS[sysId];
       if (!cr) return;
+      const useRadius = (radiusMode === "ferry" && cr.ferry) ? cr.ferry : cr.radius;
+      const useLabel = (radiusMode === "ferry" && cr.ferryLabel) ? cr.ferryLabel : cr.label;
       const bases = SYSTEM_BASES[sysId] || [];
       bases.forEach(baseName => {
         const coord = BASE_COORDS[baseName];
         if (!coord) return;
         const latRad = coord[0] * Math.PI / 180;
         const kmPerDeg = 111.32 * Math.cos(latRad);
-        const degRadius = cr.radius / kmPerDeg;
+        const degRadius = useRadius / kmPerDeg;
         const center = projection([coord[1], coord[0]]);
         const edge = projection([coord[1] + degRadius, coord[0]]);
         if (!center || !edge) return;
         const pxRadius = Math.max(Math.abs(edge[0] - center[0]), 18);
         const isMinClamped = Math.abs(edge[0] - center[0]) < 18;
-        rings.push({ cx: center[0], cy: center[1], r: pxRadius, color: cr.color, label: cr.label, baseName, sysId, radiusKm: cr.radius, clamped: isMinClamped });
+        rings.push({ cx: center[0], cy: center[1], r: pxRadius, color: cr.color, label: useLabel, baseName, sysId, radiusKm: useRadius, clamped: isMinClamped });
       });
     });
     return rings;
-  }, [showRadius, projection]);
+  }, [showRadius, radiusMode, projection]);
 
   // Single weapon radius ring (when clicking a weapon in the detail panel)
   const weaponRing = useMemo(() => {
@@ -2093,7 +2113,7 @@ function BaseMap() {
       "GM400":470,"MASTERT":444,"GM200":250,
       "RWFRIGATE":1350,"BRAWIJAYA":1500,"ISTIF":1350,"KCR70M":350,"GARIBALDI":2000,
       "SCORPENE":2000,"NAGAPASA_NEW":2000,
-      "TB3":300,"AKINCI":400,"ANKAS_NEW":200};
+      "TB3":300,"AKINCI":400,"ANKAS_NEW":1000};
     // Build coords dynamically - find the base in PLANNER_BASES data
     // (duplicated here for useMemo to access outside the IIFE)
     const ALL_PLANNER_COORDS = {
@@ -2132,6 +2152,20 @@ function BaseMap() {
     const pxRadius = Math.abs(edge[0] - center[0]);
     return { cx: center[0], cy: center[1], r: pxRadius, radiusKm: radius, color: "#f59e0b", label: plannerAircraft + " from " + plannerBase.replace(/, .*/,"") };
   }, [plannerAircraft, plannerBase, projection]);
+
+  // Planner derived state — lifted to component level so both control panel & map can access
+  const plannerSelectedAC = useMemo(() => PLANNER_AIRCRAFT.find(a=>a.id===plannerAircraft) || null, [plannerAircraft]);
+  const plannerEligibleBases = useMemo(() => {
+    if (!plannerSelectedAC) return [];
+    const t = plannerSelectedAC.tier;
+    return PLANNER_BASES.filter(b => {
+      if (t <= 3) return b.tiers.some(bt => bt <= 3 && bt >= t);
+      if (t === 22) return b.tiers.includes(22);
+      return b.tiers.includes(t);
+    });
+  }, [plannerSelectedAC]);
+  const plannerSelectedBase = useMemo(() => plannerBase ? PLANNER_BASES.find(b=>b.name===plannerBase) : null, [plannerBase]);
+  const plannerFilteredAC = useMemo(() => PLANNER_AIRCRAFT.filter(a=>a.cat===plannerCat), [plannerCat]);
 
   // Command groupings for connection lines
   const COMMAND_GROUPS = {
@@ -2235,23 +2269,27 @@ function BaseMap() {
       <div style={{ background: "linear-gradient(135deg, #111827 0%, #0f172a 100%)", borderRadius: 10, padding: "14px 20px", marginBottom: 12, border: "1px solid #C8A95130", boxShadow: "0 2px 12px rgba(200,169,81,0.08)" }}>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
           <span style={{ fontSize: 12, color: "#C8A951", fontWeight: 700, marginRight: 8, letterSpacing: "1px", textTransform: "uppercase", borderRight: "2px solid #C8A95140", paddingRight: 12 }}>{"⊕"} Range Rings</span>
+          {[["combat","Combat"],["ferry","Ferry / Max"]].map(([m,l])=>(
+            <button key={m} onClick={()=>setRadiusMode(m)} style={{padding:"6px 12px",borderRadius:16,fontSize:11,fontWeight:700,cursor:"pointer",border:radiusMode===m?"1px solid #f59e0b":"1px solid #374151",background:radiusMode===m?"#f59e0b20":"#111827",color:radiusMode===m?"#f59e0b":"#64748b",marginRight:m==="ferry"?8:0,transition:"all .2s"}}>{l}</button>
+          ))}
+          <span style={{width:1,height:20,background:"#374151",marginRight:8}}/>
           {Object.keys(radiusCategories).map(cat => (
-            <button key={cat} onClick={() => { setShowRadius(showRadius === cat ? null : cat); setSelectedWeapon(null); }}
+            <button key={cat} onClick={() => { setShowRadius(prev => { const next = new Set(prev); if (next.has(cat)) next.delete(cat); else next.add(cat); return next; }); setSelectedWeapon(null); }}
               style={{
                 padding: "8px 18px", borderRadius: 20, fontSize: 12, fontWeight: 700, cursor: "pointer",
-                border: showRadius === cat ? "1px solid #C8A951" : "1px solid #374151",
-                background: showRadius === cat ? "#C8A95120" : "#1f2937",
-                color: showRadius === cat ? "#C8A951" : "#9ca3af",
+                border: showRadius.has(cat) ? "1px solid #C8A951" : "1px solid #374151",
+                background: showRadius.has(cat) ? "#C8A95120" : "#1f2937",
+                color: showRadius.has(cat) ? "#C8A951" : "#9ca3af",
                 letterSpacing: ".4px", transition: "all .2s",
-                boxShadow: showRadius === cat ? "0 0 8px rgba(200,169,81,0.2)" : "none",
+                boxShadow: showRadius.has(cat) ? "0 0 8px rgba(200,169,81,0.2)" : "none",
               }}>{cat}</button>
           ))}
         </div>
-        {showRadius && <div style={{ fontSize: 11, color: "#6b8bb5", marginTop: 10, paddingTop: 10, borderTop: "1px solid #1e3a5f" }}>
-          Showing {radiusRings.length} range ring{radiusRings.length !== 1 ? "s" : ""} — theoretical max from basing{radiusRings.some(r => r.clamped) ? " (short-range enlarged for visibility)" : ""}
+        {showRadius.size > 0 && <div style={{ fontSize: 11, color: "#6b8bb5", marginTop: 10, paddingTop: 10, borderTop: "1px solid #1e3a5f" }}>
+          Showing {radiusRings.length} {radiusMode === "ferry" ? "ferry/max" : "combat"} range ring{radiusRings.length !== 1 ? "s" : ""} across {showRadius.size} categor{showRadius.size !== 1 ? "ies" : "y"}{radiusRings.some(r => r.clamped) ? " (short-range enlarged for visibility)" : ""}
         </div>}
-        {!showRadius && <div style={{ fontSize: 11, color: "#4a5568", marginTop: 8, fontStyle: "italic" }}>
-          Select a category to overlay range circles on the map. Or click a weapon in a base detail panel.
+        {showRadius.size === 0 && <div style={{ fontSize: 11, color: "#4a5568", marginTop: 8, fontStyle: "italic" }}>
+          Select one or more categories to overlay range circles. Or click a weapon in a base detail panel.
         </div>}
         {/* Strategic overlays - always on */}
         <div style={{ display: "flex", gap: 12, marginTop: 12, paddingTop: 12, borderTop: "1px solid #1e3a5f", alignItems: "center", fontSize: 11 }}>
@@ -2593,10 +2631,10 @@ function BaseMap() {
       {baseMapMode==="planner"&&<>
       {/* Deployment Planner */}
       {(()=>{
-        const selectedAC = PLANNER_AIRCRAFT.find(a=>a.id===plannerAircraft);
-        const eligibleBases = selectedAC ? PLANNER_BASES.filter(b=>{const t=selectedAC.tier;if(t<=3)return b.tiers.some(bt=>bt<=3&&bt>=t);if(t===22)return b.tiers.includes(22);return b.tiers.includes(t);}) : [];
-        const selectedBs = plannerBase ? PLANNER_BASES.find(b=>b.name===plannerBase) : null;
-        const filteredAC = PLANNER_AIRCRAFT.filter(a=>a.cat===plannerCat);
+        const selectedAC = plannerSelectedAC;
+        const eligibleBases = plannerEligibleBases;
+        const selectedBs = plannerSelectedBase;
+        const filteredAC = plannerFilteredAC;
 
         return(
         <div style={{marginTop:32,background:"linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)",borderRadius:14,padding:24,border:"1px solid #334155"}}>
@@ -2684,7 +2722,7 @@ function BaseMap() {
 
           {/* Eligible base markers — only show bases matching selected system tier */}
           {(()=>{
-            const allBases = eligibleBases.length > 0 ? eligibleBases : PLANNER_BASES;
+            const allBases = plannerEligibleBases.length > 0 ? plannerEligibleBases : PLANNER_BASES;
             return allBases.map((b)=>{
               const pt=projection([b.coords[1],b.coords[0]]);
               if(!pt)return null;
@@ -2693,7 +2731,7 @@ function BaseMap() {
               const isPlanned=b.planned;
               const isNaval=b.tiers.includes(20)||b.tiers.includes(21);
               const isRadar=b.tiers.includes(10);
-              const isEligible=eligibleBases.includes(b);
+              const isEligible=plannerEligibleBases.includes(b);
               const dotColor=isToll?"#10b981":isNaval?"#3b82f6":isRadar?"#06b6d4":"#f59e0b";
               return(
                 <g key={b.name} onClick={()=>{if(isEligible)setPlannerBase(isSel?null:b.name);}} style={{cursor:isEligible?"pointer":"default"}}>
@@ -2769,11 +2807,11 @@ function A2ADView() {
   // A2/AD layer definitions
   const layers = {
     outer: { label: "Outer Layer", desc: "Long-range detection & deterrence", color: "#3b82f6",
-      systems: ["SU27","SU30","RAFALE","F16AM","F16CD","CAKRA","NAGAPASA","MASTERT","TRS2215","AR325","GM400","B737","CN235MPA"] },
+      systems: ["SU27","SU30","RAFALE","F16AM","F16CD","CAKRA","NAGAPASA","MASTERT","TRS2215","AR325","GM400","B737","CN235MPA","NC212MPA"] },
     middle: { label: "Middle Layer", desc: "Area denial & surface control", color: "#10b981",
       systems: ["MARTADINATA","BRAWIJAYA","AHMADYANI","DIPONEGORO","ANKAS","CH4","NASAMS","SIPER","HISARO","KHAN","BORA"] },
     inner: { label: "Inner Layer", desc: "Point defense & coastal denial", color: "#ef4444",
-      systems: ["C705","EXOCET_SHORE","BRAHMOS","ATMACA","KCR60","KCR40","SKYSHIELD","MISTRAL","QW3","STARSTREAK","CAESAR","ASTROS"] },
+      systems: ["C705","EXOCET_SHORE","BRAHMOS","ATMACA","YAKHONT","KCR60","KCR40","SKYSHIELD","MISTRAL","QW3","STARSTREAK","CAESAR","ASTROS"] },
   };
 
   // System type classification for visual differentiation
@@ -2782,10 +2820,10 @@ function A2ADView() {
     const radars = ["MASTERT","TRS2215","AR325","GM200","GM400"];
     const subs = ["CAKRA","NAGAPASA"];
     const ships = ["MARTADINATA","BRAWIJAYA","AHMADYANI","DIPONEGORO","KCR60","KCR40"];
-    const missiles = ["KHAN","BORA","ASTROS","C705","EXOCET_SHORE","ATMACA"];
+    const missiles = ["KHAN","BORA","ASTROS","C705","EXOCET_SHORE","ATMACA","YAKHONT"];
     const airdef = ["SKYSHIELD","NASAMS","MISTRAL","QW3","HISARO","SIPER","STARSTREAK"];
     const uavs = ["ANKAS","CH4","TB2"];
-    const isr = ["B737","CN235MPA"];
+    const isr = ["B737","CN235MPA","NC212MPA"];
     if (fighters.includes(sysId)) return "fighter";
     if (radars.includes(sysId)) return "radar";
     if (subs.includes(sysId)) return "submarine";
@@ -2804,7 +2842,7 @@ function A2ADView() {
     ship:      { color: "#64748b", dash: "6,3",   fillOp: 0.05, strokeW: 0.8, label: "Surface Combatant" },
     missile:   { color: "#ef4444", dash: "none",  fillOp: 0.10, strokeW: 1.5, label: "Missile Range" },
     airdef:    { color: "#a855f7", dash: "3,2",   fillOp: 0.06, strokeW: 0.7, label: "Air Defense" },
-    uav:       { color: "#10b981", dash: "4,4",   fillOp: 0.04, strokeW: 0.6, label: "UAV Link Range" },
+    uav:       { color: "#10b981", dash: "4,4",   fillOp: 0.04, strokeW: 0.6, label: "UAV SATCOM Range" },
     isr:       { color: "#0ea5e9", dash: "10,5",  fillOp: 0.03, strokeW: 0.5, label: "ISR Patrol" },
     other:     { color: "#9ca3af", dash: "3,3",   fillOp: 0.05, strokeW: 0.6, label: "Other" },
   };
