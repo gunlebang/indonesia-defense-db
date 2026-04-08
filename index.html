@@ -164,6 +164,27 @@ const WEAPON_SYSTEMS = [
   { id: "GARIB_HELO_T", name: "Carrier Transport Helicopters (TBD)", category: "Helicopter", subcategory: "Medium Transport (Naval)", branch: "TNI AL", origin: "TBD", manufacturer: "TBD", quantity: "TBD", status: "Under Negotiation", era: "Modern", specs: { crew: "TBD", maxSpeed: "TBD", range: "TBD", armament: "TBD", engine: "TBD", introduced: "TBD", note: "BAPPENAS approved $250M foreign loan ceiling (Aug 2025) for transport helicopters to operate from Garibaldi carrier. Type not yet disclosed — likely AW101 or similar. Part of Garibaldi acquisition package" }},
   { id: "GARIB_HELO_U", name: "Carrier Utility Helicopters (TBD)", category: "Helicopter", subcategory: "Naval Utility", branch: "TNI AL", origin: "TBD", manufacturer: "TBD", quantity: "TBD", status: "Under Negotiation", era: "Modern", specs: { crew: "TBD", maxSpeed: "TBD", range: "TBD", armament: "TBD", engine: "TBD", introduced: "TBD", note: "BAPPENAS approved $300M foreign loan ceiling (Aug 2025) for utility helicopters to operate from Garibaldi carrier. Type not yet disclosed. Part of Garibaldi acquisition package" }},
   { id: "MOGAMI", name: "Mogami-class (Upgraded FFM) Frigate", category: "Surface Combatant", subcategory: "Guided-Missile Frigate", branch: "TNI AL", origin: "Japan / Indonesia", manufacturer: "Mitsubishi Heavy Industries / PT PAL", quantity: "4+4 (proposed)", status: "Under Negotiation", era: "Modern", specs: { crew: "~90", maxSpeed: "30+ kn", range: "N/A", armament: "Mk 45 127mm gun, VLS (ESSM/Type 12 AShM), torpedoes, helicopter", engine: "CODAG (MT30 gas turbine + MAN diesels)", introduced: "TBD", note: "Japan proposed ¥300B (~$2B+) deal: 4 built in Japan + 4 at PT PAL. Negotiations since Mar 2021. Resumed under Prabowo. Financing stalled — Indonesian law requires 10-20% upfront. Also discussing Soryu-class submarine transfer. No contract signed" }},
+
+  // ===== RETIRED / DECOMMISSIONED SYSTEMS =====
+  // Fighters (TNI AU, retired)
+  { id: "P51", name: "P-51D Mustang", category: "Fighter", subcategory: "COIN/Fighter", branch: "TNI AU", origin: "United States", manufacturer: "North American Aviation", quantity: 7, status: "Retired", era: "WWII", specs: { crew: 1, maxSpeed: "703 km/h", range: "2,655 km", armament: "6× .50 cal MG, bombs, rockets", engine: "1× Packard V-1650-7 Merlin", introduced: 1950, retired: 1979, note: "Ex-Dutch/RAAF. Used in DI/TII operations. Based Laha (Ambon), later Hasanuddin. 7 P-51Ds per 75 Tahun TNI" }},
+  { id: "MIG15", name: "MiG-15 Fagot", category: "Fighter", subcategory: "Jet Fighter", branch: "TNI AU", origin: "Soviet Union", manufacturer: "Mikoyan-Gurevich", quantity: 20, status: "Retired", era: "1st Gen Jet", specs: { crew: 1, maxSpeed: "1,075 km/h", range: "1,200 km", armament: "1× 37mm + 2× 23mm cannon", engine: "1× Klimov VK-1", introduced: 1961, retired: 1970, note: "Part of massive Soviet arms package ($1.5B credit). Grounded after 1965 coup — spare parts embargo" }},
+  { id: "MIG17", name: "MiG-17F Fresco", category: "Fighter", subcategory: "Jet Fighter", branch: "TNI AU", origin: "Soviet Union", manufacturer: "Mikoyan-Gurevich", quantity: 30, status: "Retired", era: "1st Gen Jet", specs: { crew: 1, maxSpeed: "1,145 km/h", range: "1,160 km", armament: "1× 37mm + 2× 23mm cannon", engine: "1× Klimov VK-1F", introduced: 1961, retired: 1970, note: "40 MiG-17F/PF on three airfields: Morotai, Amahai, Letfuan. Used in Trikora (West Papua) operations. Grounded post-1965" }},
+  { id: "MIG19", name: "MiG-19S Farmer", category: "Fighter", subcategory: "Jet Fighter", branch: "TNI AU", origin: "Soviet Union", manufacturer: "Mikoyan-Gurevich", quantity: 20, status: "Retired", era: "2nd Gen Jet", specs: { crew: 1, maxSpeed: "1,452 km/h", range: "1,390 km", armament: "3× 30mm NR-30 cannon, rockets", engine: "2× Tumansky RD-9B", introduced: 1961, retired: 1970, note: "Skadron 12, Lanud Kemayoran. Grounded post-1965 Soviet embargo" }},
+  { id: "MIG21", name: "MiG-21F-13 Fishbed", category: "Fighter", subcategory: "Interceptor", branch: "TNI AU", origin: "Soviet Union", manufacturer: "Mikoyan-Gurevich", quantity: 22, status: "Retired", era: "3rd Gen Jet", specs: { crew: 1, maxSpeed: "2,175 km/h", range: "1,580 km", armament: "1× 30mm cannon, K-13 AAM, rockets", engine: "1× Tumansky R-11F-300", introduced: 1962, retired: 1979, note: "Skadron 14, Lanud Iswahyudi. Some traded to US for F-5E/T-33 in 1973. Last operated ~1979" }},
+  { id: "SABRE", name: "CAC Sabre (F-86)", category: "Fighter", subcategory: "Jet Fighter", branch: "TNI AU", origin: "Australia", manufacturer: "Commonwealth Aircraft Corporation", quantity: 23, status: "Retired", era: "2nd Gen Jet", specs: { crew: 1, maxSpeed: "1,091 km/h", range: "1,530 km", armament: "2× 30mm ADEN cannon, bombs, rockets", engine: "1× Rolls-Royce Avon 26", introduced: 1973, retired: 1982, note: "Ex-RAAF. Program Garuda Bangkit 1971. Pakistan AF trained Indonesian pilots. Replaced MiG-21s" }},
+  { id: "F5E", name: "F-5E/F Tiger II", category: "Fighter", subcategory: "Light Fighter", branch: "TNI AU", origin: "United States", manufacturer: "Northrop", quantity: 16, status: "Retired", era: "3rd Gen Jet", specs: { crew: "1 (E) / 2 (F)", maxSpeed: "1,700 km/h", range: "3,700 km (ferry)", armament: "2× 20mm M39A2, AIM-9 Sidewinder, bombs", engine: "2× GE J85-GE-21B", introduced: 1980, retired: 2003, note: "16 F-5E/F via FMS. First modern Western fighters. Replaced by F-16. Retired early 2000s" }},
+  { id: "A4", name: "A-4E/TA-4 Skyhawk", category: "Fighter", subcategory: "Attack Jet", branch: "TNI AU", origin: "United States / Israel", manufacturer: "Douglas / IAI (refurbished)", quantity: 30, status: "Retired", era: "Attack Jet", specs: { crew: "1 (A-4E) / 2 (TA-4)", maxSpeed: "1,077 km/h", range: "3,307 km (ferry)", armament: "2× 20mm cannon, bombs, rockets, Sidewinder", engine: "1× P&W J52-P-8A", introduced: 1982, retired: 2003, note: "Acquired covertly from Israel (1979) and later US. Skadron 11, Hasanuddin. Used in Timor Timur operations. Call sign 'Thunder'" }},
+  { id: "OV10", name: "OV-10F Bronco", category: "Fighter", subcategory: "COIN/FAC", branch: "TNI AU", origin: "United States", manufacturer: "Rockwell International", quantity: 16, status: "Retired", era: "COIN", specs: { crew: 2, maxSpeed: "452 km/h", range: "2,300 km (ferry)", armament: "4× 7.62mm MG, rockets, bombs, gun pods", engine: "2× Garrett T76-G-420/421", introduced: 1976, retired: 2004, note: "Counter-insurgency/forward air control. Used extensively in Timor and Aceh operations" }},
+  // Bombers (TNI AU, all retired)
+  { id: "B25", name: "B-25 Mitchell", category: "Bomber", subcategory: "Medium Bomber", branch: "TNI AU", origin: "United States", manufacturer: "North American Aviation", quantity: 18, status: "Retired", era: "WWII", specs: { crew: 5, maxSpeed: "438 km/h", range: "2,173 km", armament: "12× .50 cal MG, 2,700 kg bombs", engine: "2× Wright R-2600-92", introduced: 1950, retired: 1979, note: "Ex-Dutch KNIL. Based Lanud Andir. Used in DI/TII ops (Gunung Galunggung 1951). Last WWII bomber in Indonesian service" }},
+  { id: "TU16", name: "Tu-16KS Badger", category: "Bomber", subcategory: "Strategic Bomber", branch: "TNI AU", origin: "Soviet Union", manufacturer: "Tupolev", quantity: 25, status: "Retired", era: "Cold War Bomber", specs: { crew: 7, maxSpeed: "1,050 km/h", range: "7,200 km", armament: "7× 23mm cannon, KS-1 Komet anti-ship missiles, bombs", engine: "2× Mikulin AM-3M-500", introduced: 1961, retired: 1970, note: "Skadron 41/42, Iswahyudi. Soviet-supplied. Indonesia's only strategic bomber. Anti-ship missile capable. Grounded post-1965. 'Tergolek tanpa daya' per AU history" }},
+  { id: "IL28", name: "Il-28 Beagle", category: "Bomber", subcategory: "Tactical Bomber", branch: "TNI AU", origin: "Soviet Union", manufacturer: "Ilyushin", quantity: 26, status: "Retired", era: "Cold War Bomber", specs: { crew: 3, maxSpeed: "902 km/h", range: "2,180 km", armament: "4× 23mm cannon, 3,000 kg bombs", engine: "2× Klimov VK-1A", introduced: 1961, retired: 1970, note: "Used in Op Kilat II (DI/TII Sulawesi 1964). Tactical strike role. Grounded post-1965" }},
+  // Naval (TNI AL, retired)
+  { id: "SVERDLOV", name: "KRI Irian (ex-Ordzhonikidze, Sverdlov-class)", category: "Surface Combatant", subcategory: "Heavy Cruiser", branch: "TNI AL", origin: "Soviet Union", manufacturer: "Baltic Shipyard (Admiralty)", quantity: 1, status: "Retired", era: "Cold War", specs: { crew: 1270, maxSpeed: "33.5 kn", range: "9,000 nm", armament: "12× 152mm, 12× 100mm, 32× 37mm AA guns", engine: "Steam turbines (110,000 shp)", introduced: 1962, retired: 1972, note: "14,000-ton cruiser. Largest warship ever operated by Indonesia or any SE Asian navy. Transferred for Trikora (West Papua) show of force. Decommissioned due to maintenance costs" }},
+  { id: "WHISKEY", name: "Whiskey-class submarines", category: "Submarine", subcategory: "Diesel-Electric Submarine", branch: "TNI AL", origin: "Soviet Union", manufacturer: "Various Soviet yards", quantity: 12, status: "Retired", era: "Cold War", specs: { crew: 54, maxSpeed: "13.1 kn (submerged)", range: "8,580 nm (surfaced)", armament: "6× 533mm torpedo tubes (12 torpedoes)", engine: "Diesel-electric", introduced: 1962, retired: 1990, note: "12 submarines — largest Indonesian sub fleet ever. Part of Soviet arms package. Progressively retired due to age/lack of spares. Last decommissioned ~1990" }},
+  // Helicopters (retired)
+  { id: "MI4", name: "Mi-4 Hound", category: "Helicopter", subcategory: "Utility Helicopter", branch: "TNI AD", origin: "Soviet Union", manufacturer: "Mil Moscow Helicopter Plant", quantity: 15, status: "Retired", era: "Cold War", specs: { crew: 2, maxSpeed: "185 km/h", range: "400 km", armament: "Optional MG, rockets", engine: "1× Shvetsov ASh-82V", introduced: 1960, retired: 1975, note: "Soviet-supplied. Used in Trikora and DI/TII operations. Replaced by Western types after 1965" }},
 ];
 
 const CONTRACT_VALUES = {
@@ -305,6 +326,21 @@ const SOURCES = {
   "MOGAMI":["Reported","Japan Times, Defense Mirror, Breaking Defense"],
   "YAKHONT":["Confirmed","RSIS (2011), UPI/Antara (Apr 2011), Wikipedia, IISS"],
   "NC212MPA":["Confirmed","Indomiliter (2017/2021), Naval News (Feb 2026), IISS MB 2026"],
+  "P51":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "MIG15":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "MIG17":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "MIG19":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "MIG21":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "SABRE":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "F5E":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "A4":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "OV10":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "B25":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "TU16":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "IL28":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "SVERDLOV":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "WHISKEY":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
+  "MI4":["Historical","75 Tahun TNI (CSIS 2020), SIPRI Arms Transfer Database"],
 };
 
 const CATS=[...new Set(WEAPON_SYSTEMS.map(w=>w.category))].sort();
@@ -313,11 +349,12 @@ const ORS=[...new Set(WEAPON_SYSTEMS.map(w=>w.origin))].sort();
 const STS=[...new Set(WEAPON_SYSTEMS.map(w=>w.status))].sort();
 
 // Module-level contract years for ordering date
-const ORDER_YEARS={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"YAKHONT":2007,"NC212MPA":1996};
+const ORDER_YEARS={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"YAKHONT":2007,"NC212MPA":1996,"P51":1950,"MIG15":1961,"MIG17":1961,"MIG19":1961,"MIG21":1962,"SABRE":1971,"F5E":1978,"A4":1979,"OV10":1976,"B25":1950,"TU16":1961,"IL28":1961,"SVERDLOV":1962,"WHISKEY":1962,"MI4":1960};
 
 // Condition: New Build vs Second-Hand vs Refurbished
 const getCondition=(w)=>{
   const n=(w.specs.note||"").toLowerCase()+(w.name||"").toLowerCase();
+  if(w.status==="Retired")return "Second-Hand";
   if(n.includes("ex-")||n.includes("excess defense")||n.includes("eda")||n.includes("transferred")||n.includes("used a/c")||n.includes("decommissioned")||n.includes("ex ")||n.includes("stored 12 year"))return "Second-Hand";
   if(n.includes("refurbish")||n.includes("moderniz")||n.includes("upgraded")||n.includes("emlu")||n.includes("retrofit"))return "Refurbished";
   if(["On Order","Under Construction","In Development","Under Negotiation","Delivering","Active / Producing"].includes(w.status))return "New Build";
@@ -332,7 +369,7 @@ const getCondition=(w)=>{
 const COND_COLORS={"New Build":"#059669","New Build (aging)":"#ca8a04","Second-Hand":"#f97316","Refurbished":"#8b5cf6"};
 const CONDS=["New Build","New Build (aging)","Second-Hand","Refurbished"];
 
-const SC={"Active":"#16a34a","Active (aging)":"#ca8a04","Delivering":"#2563eb","On Order":"#ea580c","Under Construction":"#9333ea","In Development":"#64748b","Under Negotiation":"#ec4899","Active / Producing":"#059669","Cancelled":"#ef4444","Concept":"#6b7280","Under Procurement":"#d97706","PTN Target Only":"#9ca3af"};
+const SC={"Active":"#16a34a","Active (aging)":"#ca8a04","Delivering":"#2563eb","On Order":"#ea580c","Under Construction":"#9333ea","In Development":"#64748b","Under Negotiation":"#ec4899","Active / Producing":"#059669","Cancelled":"#ef4444","Concept":"#6b7280","Under Procurement":"#d97706","PTN Target Only":"#9ca3af","Retired":"#78716c"};
 const BCo={"TNI AU":"#2563eb","TNI AD":"#16a34a","TNI AL":"#64748b",};
 const GOLD="#C43E2A";
 
@@ -344,16 +381,18 @@ function Detail({s,onClose}){
   const bases = SYSTEM_BASES[s.id] || [];
   const cr = COMBAT_RADIUS[s.id];
   const isAging = s.status.includes("aging");
+  const isRetired = s.status === "Retired";
   const introMatch = String(sp.introduced || "").match(/(\d{4})/);
   const introYear = introMatch ? parseInt(introMatch[0]) : null;
-  const age = introYear ? (2026 - introYear) : null;
+  const retiredYear = sp.retired || null;
+  const age = introYear ? (isRetired && retiredYear ? (retiredYear - introYear) : (2026 - introYear)) : null;
 
   // Determine ordering administration
-  const CONTRACT_YEARS_LOCAL = {"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"YAKHONT":2007,"NC212MPA":1996};
+  const CONTRACT_YEARS_LOCAL = {"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"YAKHONT":2007,"NC212MPA":1996,"P51":1950,"MIG15":1961,"MIG17":1961,"MIG19":1961,"MIG21":1962,"SABRE":1971,"F5E":1978,"A4":1979,"OV10":1976,"B25":1950,"TU16":1961,"IL28":1961,"SVERDLOV":1962,"WHISKEY":1962,"MI4":1960};
   const orderYear = CONTRACT_YEARS_LOCAL[s.id];
-  const getAdmin = (y) => { if(!y) return null; if(y<1998) return "Suharto"; if(y<2004) return "Reform Era"; if(y<2014) return "Yudhoyono (SBY)"; if(y<2024) return "Jokowi"; return "Prabowo"; };
+  const getAdmin = (y) => { if(!y) return null; if(y<1966) return "Soekarno"; if(y<1998) return "Suharto"; if(y<2004) return "Reform Era"; if(y<2014) return "Yudhoyono (SBY)"; if(y<2024) return "Jokowi"; return "Prabowo"; };
   const admin = getAdmin(orderYear);
-  const adminColor = {"Suharto":"#ca8a04","Reform Era":"#6b7280","Yudhoyono (SBY)":"#2563eb","Jokowi":"#dc2626","Prabowo":"#38bdf8"};
+  const adminColor = {"Soekarno":"#059669","Suharto":"#ca8a04","Reform Era":"#6b7280","Yudhoyono (SBY)":"#2563eb","Jokowi":"#dc2626","Prabowo":"#38bdf8"};
 
   return(
     <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}} onClick={onClose}>
@@ -386,10 +425,10 @@ function Detail({s,onClose}){
               <div style={{fontSize:16,fontWeight:800,color:adminColor[admin]}}>{orderYear}</div>
               <div style={{fontSize:9,color:adminColor[admin]}}>{admin} era</div>
             </div>}
-            {introYear && <div style={{flex:"1 1 100px",padding:"10px 12px",borderRadius:8,background:"#f9fafb",border:"1px solid #e5e7eb"}}>
-              <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>Delivered</div>
-              <div style={{fontSize:16,fontWeight:800,color:"#111"}}>{introYear}</div>
-              {age && <div style={{fontSize:9,color:isAging?"#f59e0b":"#6b7280"}}>{age} years in service{isAging?" ⚠":""}</div>}
+            {introYear && <div style={{flex:"1 1 100px",padding:"10px 12px",borderRadius:8,background:isRetired?"#78716c08":"#f9fafb",border:isRetired?"1px solid #78716c20":"1px solid #e5e7eb"}}>
+              <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>{isRetired ? "In Service" : "Delivered"}</div>
+              <div style={{fontSize:16,fontWeight:800,color:isRetired?"#78716c":"#111"}}>{isRetired && retiredYear ? `${introYear}–${retiredYear}` : introYear}</div>
+              {age && <div style={{fontSize:9,color:isRetired?"#78716c":isAging?"#f59e0b":"#6b7280"}}>{age} years {isRetired ? "of service" : "in service"}{isAging?" ⚠":""}</div>}
             </div>}
             <div style={{flex:"1 1 100px",padding:"10px 12px",borderRadius:8,background:"#f9fafb",border:"1px solid #e5e7eb"}}>
               <div style={{fontSize:9,color:"#9ca3af",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>Quantity</div>
@@ -497,15 +536,15 @@ function OriginChart(){
   };
 
   // Alliance bloc classification
-  const BLOC_MAP={"United States":"NATO","France":"NATO","United Kingdom":"NATO","Germany":"NATO","Netherlands":"NATO","Italy":"NATO","Spain":"NATO","Norway":"NATO","Czechia":"NATO","Canada":"NATO","Türkiye":"NATO","Europe":"NATO","Austria":"Neutral","Switzerland":"Neutral","Indonesia":"Domestic","India":"BRICS","Brazil":"BRICS","Russia":"BRICS","China":"BRICS","South Korea":"US Ally (non-NATO)","Japan":"US Ally (non-NATO)","Australia":"US Ally (non-NATO)","Israel":"US Ally (non-NATO)","TBD":"NATO"};
+  const BLOC_MAP={"United States":"NATO","France":"NATO","United Kingdom":"NATO","Germany":"NATO","Netherlands":"NATO","Italy":"NATO","Spain":"NATO","Norway":"NATO","Czechia":"NATO","Canada":"NATO","Türkiye":"NATO","Europe":"NATO","Austria":"Neutral","Switzerland":"Neutral","Indonesia":"Domestic","India":"BRICS","Brazil":"BRICS","Russia":"BRICS","China":"BRICS","Soviet Union":"BRICS","South Korea":"US Ally (non-NATO)","Japan":"US Ally (non-NATO)","Australia":"US Ally (non-NATO)","Israel":"US Ally (non-NATO)","TBD":"NATO"};
   const BLOC_COLORS={"NATO":"#3b82f6","US Ally (non-NATO)":"#8b5cf6","BRICS":"#f59e0b","Neutral":"#94a3b8","Domestic":"#dc2626"};
-  const ADMIN_COLORS={"Suharto":"#ca8a04","Reform Era":"#6b7280","SBY":"#2563eb","Jokowi":"#dc2626","Prabowo":"#38bdf8"};
-  const oColors={"United States":"#3b82f6","France":"#ef4444","Türkiye":"#f97316","South Korea":"#8b5cf6","Russia":"#64748b","Germany":"#fbbf24","United Kingdom":"#14b8a6","Indonesia":"#dc2626","Italy":"#22c55e","India":"#ec4899","Europe":"#6366f1","Netherlands":"#0ea5e9","Brazil":"#84cc16","China":"#f43f5e","Czechia":"#a855f7","Sweden":"#06b6d4","Switzerland":"#10b981","Japan":"#f59e0b","Canada":"#6366f1","Spain":"#e11d48","Israel":"#0d9488","Norway":"#64748b","Austria":"#94a3b8","TBD":"#94a3b8"};
+  const ADMIN_COLORS={"Soekarno":"#059669","Suharto":"#ca8a04","Reform Era":"#6b7280","SBY":"#2563eb","Jokowi":"#dc2626","Prabowo":"#38bdf8"};
+  const oColors={"United States":"#3b82f6","France":"#ef4444","Türkiye":"#f97316","South Korea":"#8b5cf6","Russia":"#64748b","Germany":"#fbbf24","United Kingdom":"#14b8a6","Indonesia":"#dc2626","Italy":"#22c55e","India":"#ec4899","Europe":"#6366f1","Netherlands":"#0ea5e9","Brazil":"#84cc16","China":"#f43f5e","Czechia":"#a855f7","Sweden":"#06b6d4","Switzerland":"#10b981","Japan":"#f59e0b","Canada":"#6366f1","Spain":"#e11d48","Israel":"#0d9488","Norway":"#64748b","Austria":"#94a3b8","Soviet Union":"#b91c1c","Australia":"#15803d","TBD":"#94a3b8"};
   const getColor=(name)=>oColors[name]||"#94a3b8";
 
   // Contract year -> admin mapping
-  const CY={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"BELL412AU":1982,"SCORPENE":2024,"GARIBALDI":2024,"YAKHONT":2007,"NC212MPA":1996};
-  const getAdmin=(y)=>{if(!y)return "Unknown";if(y<1998)return "Suharto";if(y<2004)return "Reform Era";if(y<2014)return "SBY";if(y<2024)return "Jokowi";return "Prabowo";};
+  const CY={"F16AM":1986,"HAWK109":1978,"HAWK200":1993,"C130H":1975,"BO105":1976,"AMX13":1960,"PATTIMURA":1993,"CAKRA":1977,"MANDAU":1977,"SUPERPUMA":1983,"BMP3F":1998,"BVP2":1994,"M109":1982,"KH179":1989,"TRS2215":1980,"AR325":1983,"SU27":1997,"SU30":2003,"MI35":2003,"MAKASSAR":2003,"BELL412":1982,"B737":1982,"AMX10PAC":1990,"AHMADYANI":1980,"FATAHILLAH":1975,"F16CD":2011,"NAGAPASA":2011,"DIPONEGORO":2005,"CN295":2005,"APACHE":2013,"T50I":2011,"ASTROS":2012,"CAESAR":2012,"USMANHARUN":2009,"H225M":2012,"MARTADINATA":2012,"FENNEC":2012,"SKYSHIELD":2006,"MISTRAL":2012,"PANDUR":2012,"MASTERT":2010,"LEO2":2012,"LEO2RI":2012,"MARDER":2012,"BUNGTOMO":2004,"KCR60":2014,"KCR40":2014,"EMB314":2010,"C705":2010,"QW3":2008,"STARSTREAK":2012,"GM200":2012,"CN235MPA":2012,"AS565":2004,"HARIMAU":2015,"CH4":2014,"MAUNG":2019,"KLEWANG":2018,"KF21":2016,"BUNGKARNO":2021,"RWFRIGATE":2021,"RAFALE":2022,"A400M":2022,"ANKAS":2022,"KHAN":2022,"HISARO":2022,"SIPER":2022,"BORA":2022,"C130J":2020,"NASAMS":2023,"BLACKHAWK":2023,"GM400":2023,"SCORPENE":2024,"BRAWIJAYA":2024,"GARIBALDI":2024,"ATMACA":2024,"A330MRTT":2024,"EXOCET_SHORE":2024,"KCR70M":2024,"PTPAL_AUV":2024,"KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,"PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"ANOA":2010,"BADAK":2014,"KOMODO":2012,"MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"RM70":2014,"BELL412AU":1982,"SCORPENE":2024,"GARIBALDI":2024,"YAKHONT":2007,"NC212MPA":1996,"P51":1950,"MIG15":1961,"MIG17":1961,"MIG19":1961,"MIG21":1962,"SABRE":1971,"F5E":1978,"A4":1979,"OV10":1976,"B25":1950,"TU16":1961,"IL28":1961,"SVERDLOV":1962,"WHISKEY":1962,"MI4":1960};
+  const getAdmin=(y)=>{if(!y)return "Unknown";if(y<1966)return "Soekarno";if(y<1998)return "Suharto";if(y<2004)return "Reform Era";if(y<2014)return "SBY";if(y<2024)return "Jokowi";return "Prabowo";};
 
   // Build Sankey data with both count and value weighting
   const sankeyData = useMemo(()=>{
@@ -544,7 +583,7 @@ function OriginChart(){
     const mkEntries=(m,mv)=>Object.entries(m).map(([k,c])=>[k,c,mv[k]||0]).sort((a,b)=>b[1]-a[1]);
     const blocs=mkEntries(blocMap,blocMapV);
     const origins=mkEntries(oMap,oMapV);
-    const admins=[["Suharto",aMap["Suharto"]||0,aMapV["Suharto"]||0],["Reform Era",aMap["Reform Era"]||0,aMapV["Reform Era"]||0],["SBY",aMap["SBY"]||0,aMapV["SBY"]||0],["Jokowi",aMap["Jokowi"]||0,aMapV["Jokowi"]||0],["Prabowo",aMap["Prabowo"]||0,aMapV["Prabowo"]||0],["Unknown",aMap["Unknown"]||0,aMapV["Unknown"]||0]].filter(([,c])=>c>0);
+    const admins=[["Soekarno",aMap["Soekarno"]||0,aMapV["Soekarno"]||0],["Suharto",aMap["Suharto"]||0,aMapV["Suharto"]||0],["Reform Era",aMap["Reform Era"]||0,aMapV["Reform Era"]||0],["SBY",aMap["SBY"]||0,aMapV["SBY"]||0],["Jokowi",aMap["Jokowi"]||0,aMapV["Jokowi"]||0],["Prabowo",aMap["Prabowo"]||0,aMapV["Prabowo"]||0],["Unknown",aMap["Unknown"]||0,aMapV["Unknown"]||0]].filter(([,c])=>c>0);
     const branches=Object.entries(brMap).map(([k,c])=>[k,c,brMapV[k]||0]).sort((a,b)=>b[1]-a[1]);
 
     return {blocs,origins,admins,branches,flowBO,flowOA,flowAB,flowOBr,flowBrA,flowBOv,flowOAv,flowABv,flowOBrv,flowBrAv,sysMap,totalValue,valuedCount};
@@ -555,7 +594,10 @@ function OriginChart(){
   const totalWeight=isValMode?sankeyData.totalValue:totalSystems;
 
   // Layout: 4 columns
-  const W=1100,H=Math.max(620,sankeyData.origins.length*34+100);
+  // Compute H based on actual node count for the active dimension pair
+  const baseH=Math.max(620,sankeyData.origins.length*34+100,sankeyData.branches.length*80+100);
+  const H=isValMode?Math.max(baseH,900):baseH;
+  const W=1100;
   const nodeW=90;
   const colX=[0, 200, 520, 780];
   const PAD=5,MIN_H=6;
@@ -756,8 +798,8 @@ ${svgData}`],{type:"image/svg+xml;charset=utf-8"});
             ↓ Download PNG
           </button>
         </div>
-        <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:"16px 8px",overflowX:"auto",overflowY:sankeyZoom<100?"auto":"visible",WebkitOverflowScrolling:"touch",position:"relative",maxHeight:sankeyZoom<100?"none":"none"}}>
-          <div style={{minWidth:500,transform:`scale(${sankeyZoom/100})`,transformOrigin:"top left",width:`${10000/sankeyZoom}%`,transition:"transform .2s"}}>
+        <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:"16px 8px",overflowX:"auto",overflowY:"auto",WebkitOverflowScrolling:"touch",position:"relative"}}>
+          <div style={{minWidth:400,width:`${sankeyZoom}%`,transition:"width .2s ease"}}>
           {/* Column headers */}
           <div style={{display:"flex",padding:"0 12px",marginBottom:8,gap:0}}>
             <span style={{width:"50%",fontSize:12,fontWeight:700,color:"#111",letterSpacing:1,textTransform:"uppercase",textAlign:"center"}}>{({bloc:"Alliance Bloc",country:"Country",branch:"Branch",admin:"Administration",category:"Platform Category"})[sankeyOrder.split("_")[0]]||"Country"}</span>
@@ -829,7 +871,10 @@ ${svgData}`],{type:"image/svg+xml;charset=utf-8"});
             const flows=flowObj;
             
             const sW=800,sCol=[160,600];
-            const sH=Math.max(H,400);
+            // Compute actual needed height from positions
+            const leftMaxY = left.pos.length > 0 ? Math.max(...left.pos.map(p => p.y + p.h)) : 0;
+            const rightMaxY = right.pos.length > 0 ? Math.max(...right.pos.map(p => p.y + p.h)) : 0;
+            const sH=Math.max(H, leftMaxY + 40, rightMaxY + 40, 400);
             const svgEl=(
               <svg ref={sankeyRef} viewBox={`0 0 ${sW} ${sH}`} style={{width:"100%",height:"auto",minHeight:350}}>
                 {renderPaths(flows,left.pos,right.pos,sCol[0],sCol[1],(ln)=>left.color(ln))}
@@ -1084,8 +1129,8 @@ ${svgData}`],{type:"image/svg+xml;charset=utf-8"});
         const countries=[...new Set(sys.components.map(c=>c.country))];
 
         // SVG mini-Sankey
-        const svgW=800,svgH=Math.max(280,sys.components.length*36+60);
-        const colL=160,colR=580,nodeW=16;
+        const svgW=1000,svgH=Math.max(280,sys.components.length*44+60);
+        const colL=160,colR=560,nodeW=16;
         // Left: countries, Right: component roles
         const cMap={};
         sys.components.forEach(c=>{if(!cMap[c.country])cMap[c.country]=[];cMap[c.country].push(c);});
@@ -1105,9 +1150,9 @@ ${svgData}`],{type:"image/svg+xml;charset=utf-8"});
         // Position components on right
         let ry=30;
         const rPos=compList.map(c=>{
-          const h=28;
+          const h=32;
           const pos={...c,y:ry,h};
-          ry+=h+gap;
+          ry+=h+gap+2;
           return pos;
         });
 
@@ -1173,11 +1218,11 @@ ${svgData}`],{type:"image/svg+xml;charset=utf-8"});
                 {rPos.map((comp,i)=>(
                   <g key={i}>
                     <rect x={colR} y={comp.y} width={nodeW} height={comp.h} rx={4} fill={getCC(comp.country)} opacity={comp.critical?0.85:0.4}/>
-                    <text x={colR+nodeW+10} y={comp.y+comp.h/2} fontSize={12} fontWeight={comp.critical?700:400} fill={comp.critical?"#111":"#6b7280"} dominantBaseline="middle">
+                    <text x={colR+nodeW+10} y={comp.y+comp.h/2-5} fontSize={13} fontWeight={comp.critical?700:500} fill={comp.critical?"#111":"#374151"} dominantBaseline="middle">
                       {comp.role}
                       {comp.critical&&<tspan fill="#dc2626" fontSize={9} fontWeight={800}> ●</tspan>}
                     </text>
-                    <text x={svgW-10} y={comp.y+comp.h/2} textAnchor="end" fontSize={10} fill="#9ca3af" dominantBaseline="middle">{comp.supplier}</text>
+                    <text x={colR+nodeW+10} y={comp.y+comp.h/2+10} fontSize={10} fill="#9ca3af" dominantBaseline="middle">{comp.supplier}</text>
                   </g>
                 ))}
               </svg>
@@ -1335,33 +1380,40 @@ function Timeline(){
     "KAAN":2025,"TB2":2025,"TB3":2025,"AKINCI":2025,"M346FA":2025,"ISTIF":2025,"CAKIR":2025,
     "PC24":2026,"PC21":2026,"BRAHMOS":2026,"FREMM":2021,"MAESTRALE":2021,"GARIB_HELO_T":2025,"GARIB_HELO_U":2025,"MOGAMI":2021,"RM70":2014,
     "ANOA":2010,"BADAK":2014,"KOMODO":2012,
-    "MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,
+    "MI17":2007,"JAVELIN":2016,"SCORPION90":1984,"BELL205":1975,"YAKHONT":2007,"NC212MPA":1996,
+    // Retired systems
+    "P51":1950,"B25":1950,"MI4":1960,
+    "MIG15":1961,"MIG17":1961,"MIG19":1961,"TU16":1961,"IL28":1961,
+    "MIG21":1962,"SVERDLOV":1962,"WHISKEY":1962,
+    "SABRE":1971,"OV10":1976,"F5E":1978,"A4":1979,
   };
 
   const GROUPS = [
-    { label: "Fighters", ids: ["F16AM","F16CD","SU27","SU30","RAFALE","KAAN","KF21","HAWK200","EMB314","M346FA"] },
-    { label: "Trainers", ids: ["HAWK109","T50I","PC21","PC24"] },
-    { label: "Transport & ISR", ids: ["C130H","C130J","CN295","A400M","A330MRTT","CN235MPA","B737"] },
+    { label: "Fighters", ids: ["KAAN","RAFALE","KF21","SU30","SU27","F16CD","F16AM","F5E","MIG21","HAWK200","M346FA","A4","MIG19","SABRE","MIG17","MIG15","OV10","EMB314","P51"] },
+    { label: "Bombers", ids: ["TU16","IL28","B25"] },
+    { label: "Trainers", ids: ["T50I","PC24","PC21","HAWK109"] },
+    { label: "Transport & ISR", ids: ["A330MRTT","A400M","C130J","CN295","CN235MPA","NC212MPA","C130H","B737"] },
     { label: "Attack Helicopters", ids: ["APACHE","MI35"] },
-    { label: "Utility Helicopters", ids: ["H225M","BELL412","BELL205","MI17","SUPERPUMA","BO105","FENNEC","BLACKHAWK","AS565","GARIB_HELO_T","GARIB_HELO_U"] },
-    { label: "UAVs", ids: ["ANKAS","CH4","TB2","PTPAL_AUV"] },
-    { label: "Frigates", ids: ["AHMADYANI","MARTADINATA","BRAWIJAYA","RWFRIGATE","ISTIF","GARIBALDI","FREMM","MAESTRALE","MOGAMI"] },
-    { label: "Corvettes", ids: ["DIPONEGORO","FATAHILLAH","BUNGTOMO","BUNGKARNO","PATTIMURA"] },
-    { label: "Fast Attack Craft", ids: ["KCR60","KCR40","MANDAU","KLEWANG","KCR70M"] },
+    { label: "Utility Helicopters", ids: ["BLACKHAWK","H225M","MI17","BELL412","SUPERPUMA","FENNEC","AS565","BELL205","BO105","MI4","GARIB_HELO_T","GARIB_HELO_U"] },
+    { label: "UAVs", ids: ["AKINCI","TB3","TB2","ANKAS","CH4","PTPAL_AUV"] },
+    { label: "Frigates & Capital Ships", ids: ["BRAWIJAYA","RWFRIGATE","ISTIF","MOGAMI","FREMM","MARTADINATA","MAESTRALE","GARIBALDI","AHMADYANI","SVERDLOV"] },
+    { label: "Corvettes", ids: ["BUNGKARNO","DIPONEGORO","BUNGTOMO","FATAHILLAH","PATTIMURA"] },
+    { label: "Fast Attack Craft", ids: ["KCR70M","KLEWANG","KCR60","KCR40","MANDAU"] },
     { label: "Amphibious", ids: ["MAKASSAR"] },
-    { label: "Submarines", ids: ["CAKRA","NAGAPASA","SCORPENE"] },
-    { label: "Missiles & Launchers", ids: ["KHAN","BORA","ASTROS","ATMACA","C705","EXOCET_SHORE","BRAHMOS","CAKIR"] },
-    { label: "Air Defense", ids: ["SKYSHIELD","NASAMS","MISTRAL","QW3","HISARO","SIPER","STARSTREAK"] },
-    { label: "Radar", ids: ["MASTERT","TRS2215","AR325","GM200","GM400"] },
+    { label: "Submarines", ids: ["SCORPENE","NAGAPASA","CAKRA","WHISKEY"] },
+    { label: "Missiles & Launchers", ids: ["BRAHMOS","CAKIR","ATMACA","KHAN","BORA","EXOCET_SHORE","ASTROS","YAKHONT","C705"] },
+    { label: "Air Defense", ids: ["SIPER","NASAMS","HISARO","SKYSHIELD","MISTRAL","STARSTREAK","QW3"] },
+    { label: "Radar", ids: ["GM400","GM200","MASTERT","TRS2215","AR325"] },
     { label: "Main Battle Tanks", ids: ["LEO2","LEO2RI"] },
-    { label: "Medium & Light Tanks", ids: ["HARIMAU","AMX13","SCORPION90","AMX10PAC"] },
-    { label: "IFVs & APCs", ids: ["MARDER","PANDUR","BMP3F","BVP2","ANOA","BADAK","KOMODO","MAUNG"] },
-    { label: "Artillery", ids: ["CAESAR","M109","KH179","RM70"] },
+    { label: "Medium & Light Tanks", ids: ["HARIMAU","AMX10PAC","SCORPION90","AMX13"] },
+    { label: "IFVs & APCs", ids: ["PANDUR","MARDER","BMP3F","BVP2","ANOA","BADAK","KOMODO","MAUNG"] },
+    { label: "Artillery", ids: ["CAESAR","KH179","M109","RM70"] },
     { label: "Anti-Tank", ids: ["JAVELIN"] },
   ];
 
   const admins = [
-    { name: "Suharto", start: 1960, end: 1998, color: "#eab30835", textColor: "#ca8a04" },
+    { name: "Soekarno", start: 1945, end: 1966, color: "#05966918", textColor: "#059669" },
+    { name: "Suharto", start: 1966, end: 1998, color: "#eab30835", textColor: "#ca8a04" },
     { name: "Reform Era", start: 1998, end: 2004, color: "#6b728028", textColor: "#6b7280" },
     { name: "Yudhoyono (SBY)", start: 2004, end: 2014, color: "#3b82f628", textColor: "#2563eb" },
     { name: "Jokowi", start: 2014, end: 2024, color: "#ef444428", textColor: "#dc2626" },
@@ -1374,7 +1426,7 @@ function Timeline(){
     return m;
   }, []);
 
-  const minY = 1960, maxY = 2030;
+  const minY = 1945, maxY = 2030;
   const pctX = (year) => ((year - minY) / (maxY - minY)) * 100;
 
   // Build rows: group label rows + system rows
@@ -1387,8 +1439,12 @@ function Timeline(){
         const cy = CONTRACT_YEARS[id];
         if (!w || !cy) return null;
         const introMatch = String(w.specs.introduced || "").match(/\d{4}/);
-        return { type: "system", id, w, cy, introYear: introMatch ? parseInt(introMatch[0]) : null };
-      }).filter(Boolean).sort((a, b) => a.cy - b.cy);
+        const introYear = introMatch ? parseInt(introMatch[0]) : null;
+        const retiredYear = w.specs.retired || null;
+        const isRetired = w.status === "Retired";
+        return { type: "system", id, w, cy, introYear, retiredYear, isRetired };
+      }).filter(Boolean);
+      // Keep GROUPS order (technology tier) — do NOT re-sort by cy
       items.forEach(item => result.push(item));
     });
     return result;
@@ -1471,6 +1527,7 @@ function Timeline(){
         <span style={{ marginLeft: 12, fontSize: 11, color: "#9ca3af" }}>●</span>
         <span style={{ fontSize: 11, color: "#9ca3af" }}> contract year</span>
         <span style={{ fontSize: 11, color: "#C8A951", marginLeft: 8 }}>→ delivery</span>
+        <span style={{ fontSize: 11, color: "#78716c", marginLeft: 8 }}>┄ retired service life</span>
         <span style={{ fontSize: 11, color: "#f59e0b", marginLeft: 8 }}>⊘ no delivery date</span>
       </div>
 
@@ -1502,7 +1559,7 @@ function Timeline(){
             </div>
           ))}
           {/* Decade markers */}
-          {[1960,1970,1980,1990,2000,2010,2020,2030].map(d => (
+          {[1950,1960,1970,1980,1990,2000,2010,2020,2030].map(d => (
             <div key={d} style={{ position: "absolute", left: `${pctX(d)}%`, top: 16, bottom: 0, borderLeft: "1px dashed #d1d5db40", zIndex: 0 }}>
               <span style={{ position: "absolute", top: 0, left: 4, fontSize: 11, color: "#9ca3af", fontWeight: 600 }}>{d}</span>
             </div>
@@ -1516,18 +1573,62 @@ function Timeline(){
                 return null;
               } else {
                 const c = BCo[row.w.branch] || "#64748b";
-                const admin = admins.find(a => row.cy >= a.start && row.cy < a.end);
-                const ac = admin ? admin.textColor : "#6b7280";
                 const isStalled = !row.introYear && row.cy < 2025;
                 const isTBD = !row.introYear;
-                const cv = CONTRACT_VALUES[row.id];
-                const el = <div key={row.id} style={{ position: "absolute", left: `${pctX(row.cy)}%`, top: y, height: rowH, display: "flex", alignItems: "center", gap: 4, zIndex: 1 }}>
-                  <div style={{ width: 7, height: 7, borderRadius: 4, background: c, flexShrink: 0, border: "1.5px solid #fff", boxShadow: "0 1px 2px rgba(0,0,0,.12)" }} />
-                  <span style={{ fontSize: 11, color: isStalled ? "#f59e0b" : "#374151", fontWeight: 500, whiteSpace: "nowrap" }}>{row.w.name.split("(")[0].trim()}</span>
-                  {row.introYear && row.introYear !== row.cy && (
-                    <span style={{ fontSize: 10, color: "#C8A951", fontWeight: 500 }}>{" \u2192 "}{row.introYear}</span>
+                const isRetired = row.isRetired;
+                const startYear = row.introYear || null;
+                const endYear = isRetired ? row.retiredYear : null;
+                const barStartPct = (isRetired && startYear) ? pctX(startYear) : null;
+                const barEndPct = (isRetired && endYear) ? pctX(Math.min(endYear, maxY)) : null;
+                const barWidthPct = (barStartPct !== null && barEndPct !== null) ? (barEndPct - barStartPct) : 0;
+
+                const el = <div key={row.id} style={{ position: "absolute", left: 0, right: 0, top: y, height: rowH, zIndex: 1 }}>
+                  {/* Lifespan bar — retired systems only */}
+                  {isRetired && barWidthPct > 0 && (
+                    <div style={{
+                      position: "absolute",
+                      left: `${barStartPct}%`,
+                      width: `${barWidthPct}%`,
+                      top: rowH / 2 - 5,
+                      height: 10,
+                      background: c + "18",
+                      border: `1px dashed ${c}50`,
+                      borderRadius: 3,
+                    }} />
                   )}
-                  {isTBD && <span style={{ fontSize: 10, color: "#f59e0b", fontWeight: 500 }}>{" \u2298"}</span>}
+                  {/* Contract year dot */}
+                  <div style={{
+                    position: "absolute",
+                    left: `${pctX(row.cy)}%`,
+                    top: rowH / 2 - 4,
+                    width: 7,
+                    height: 7,
+                    borderRadius: 4,
+                    background: c,
+                    border: "1.5px solid #fff",
+                    boxShadow: "0 1px 2px rgba(0,0,0,.12)",
+                    zIndex: 2,
+                    marginLeft: -3,
+                  }} />
+                  {/* Label */}
+                  <span style={{
+                    position: "absolute",
+                    left: `${pctX(row.cy) + 1}%`,
+                    top: 0,
+                    height: rowH,
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: 11,
+                    color: isRetired ? "#9ca3af" : (isStalled ? "#f59e0b" : "#374151"),
+                    fontWeight: 500,
+                    whiteSpace: "nowrap",
+                    fontStyle: isRetired ? "italic" : "normal",
+                  }}>
+                    {row.w.name.split("(")[0].trim()}
+                    {isRetired && startYear && <span style={{ fontSize: 10, color: "#9ca3af", marginLeft: 4 }}>{startYear}–{row.retiredYear}</span>}
+                    {!isRetired && startYear && startYear !== row.cy && <span style={{ fontSize: 10, color: "#C8A951", marginLeft: 4 }}>{"\u2192 "}{startYear}</span>}
+                    {isTBD && <span style={{ fontSize: 10, color: "#f59e0b", fontWeight: 500 }}>{" \u2298"}</span>}
+                  </span>
                 </div>;
                 y += rowH;
                 return el;
@@ -3650,7 +3751,7 @@ function App(){
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
           <div>
             <div style={{fontSize:14,color:GOLD,fontWeight:700,letterSpacing:1}}>Laboratorium Indonesia 2045</div>
-            <div style={{fontSize:12,color:"#6b7280",marginTop:4}}>Indonesia Weapon Systems Database v0.4 — OSINT sources — Last updated: April 2026</div>
+            <div style={{fontSize:12,color:"#6b7280",marginTop:4}}>Indonesia Weapon Systems Database v0.5.1 — OSINT sources — Last updated: April 2026</div>
           </div>
           <div style={{fontSize:10,color:"#4b5563"}}>lab45.id</div>
         </div>
