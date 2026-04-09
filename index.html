@@ -1424,9 +1424,6 @@ function Timeline(){
     return m;
   }, []);
 
-  const minY = 1945, maxY = 2030;
-  const pctX = (year) => ((year - minY) / (maxY - minY)) * 100;
-
   // Build rows: group label rows + system rows
   const rows = useMemo(() => {
     const result = [];
@@ -1449,27 +1446,41 @@ function Timeline(){
   }, [sysMap]);
 
   const [tlBranch, setTlBranch] = useState("All");
+  const [tlYearFrom, setTlYearFrom] = useState(1945);
+  const [tlYearTo, setTlYearTo] = useState(2030);
 
-  // Filter rows by branch
+  const minY = tlYearFrom, maxY = tlYearTo;
+  const pctX = (year) => ((year - minY) / (maxY - minY)) * 100;
+
+  // Filter rows by branch AND year range
   const filteredRows = useMemo(() => {
-    if (tlBranch === "All") return rows;
-    return rows.filter(r => {
-      if (r.type === "group") return true; // keep group headers
-      return r.w.branch === tlBranch;
-    }).filter((r, i, arr) => {
-      // Remove empty group headers (no systems after them)
+    let filtered = rows;
+    if (tlBranch !== "All") {
+      filtered = filtered.filter(r => {
+        if (r.type === "group") return true;
+        return r.w.branch === tlBranch;
+      });
+    }
+    // Filter by year range
+    filtered = filtered.filter(r => {
+      if (r.type === "group") return true;
+      return r.cy >= tlYearFrom && r.cy <= tlYearTo;
+    });
+    // Remove empty group headers
+    filtered = filtered.filter((r, i, arr) => {
       if (r.type === "group") {
         const next = arr[i + 1];
         return next && next.type === "system";
       }
       return true;
     });
-  }, [rows, tlBranch]);
+    return filtered;
+  }, [rows, tlBranch, tlYearFrom, tlYearTo]);
 
   // Admin summary stats
   const adminStats = useMemo(() => {
-    const allSystems = rows.filter(r => r.type === "system" && (tlBranch === "All" || r.w.branch === tlBranch));
-    return admins.map(a => {
+    const allSystems = rows.filter(r => r.type === "system" && (tlBranch === "All" || r.w.branch === tlBranch) && r.cy >= tlYearFrom && r.cy <= tlYearTo);
+    return admins.filter(a => a.end > tlYearFrom && a.start < tlYearTo).map(a => {
       const systems = allSystems.filter(r => r.cy >= a.start && r.cy < a.end);
       // Sum known contract values
       let knownValue = 0;
@@ -1483,7 +1494,7 @@ function Timeline(){
       });
       return { ...a, count: systems.length, knownValue: hasValue ? knownValue : null, stalled: systems.filter(r => !r.introYear).length };
     });
-  }, [rows, tlBranch]);
+  }, [rows, tlBranch, tlYearFrom, tlYearTo]);
 
   const rowH = 22;
   const groupH = 28;
@@ -1511,9 +1522,9 @@ function Timeline(){
         ))}
       </div>
 
-      {/* Branch filter + legend */}
+      {/* Branch filter + year range + legend */}
       <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
-        <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600 }}>Filter:</span>
+        <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600 }}>Branch:</span>
         {["All", "TNI AU", "TNI AD", "TNI AL"].map(b => (
           <button key={b} onClick={() => setTlBranch(b)} style={{
             padding: "5px 14px", borderRadius: 12, fontSize: 12, fontWeight: 600, cursor: "pointer",
@@ -1522,7 +1533,22 @@ function Timeline(){
             color: tlBranch === b ? (b === "All" ? "#C8A951" : BCo[b]) : "#6b7280",
           }}>{b}</button>
         ))}
-        <span style={{ marginLeft: 12, fontSize: 11, color: "#9ca3af" }}>●</span>
+        <span style={{ width: 1, height: 20, background: "#e5e7eb", margin: "0 4px" }} />
+        <span style={{ fontSize: 12, color: "#6b7280", fontWeight: 600 }}>Years:</span>
+        <select value={tlYearFrom} onChange={e => { const v = parseInt(e.target.value); setTlYearFrom(v); if (v >= tlYearTo) setTlYearTo(Math.min(v + 10, 2030)); }}
+          style={{ padding: "4px 8px", borderRadius: 8, fontSize: 12, fontWeight: 600, border: "1px solid #e5e7eb", color: "#374151", background: "#fff", cursor: "pointer" }}>
+          {Array.from({length: 2030 - 1945 + 1}, (_, i) => 1945 + i).filter(y => y < tlYearTo).map(y => <option key={y} value={y}>{y}</option>)}
+        </select>
+        <span style={{ fontSize: 12, color: "#9ca3af" }}>to</span>
+        <select value={tlYearTo} onChange={e => { const v = parseInt(e.target.value); setTlYearTo(v); if (v <= tlYearFrom) setTlYearFrom(Math.max(v - 10, 1945)); }}
+          style={{ padding: "4px 8px", borderRadius: 8, fontSize: 12, fontWeight: 600, border: "1px solid #e5e7eb", color: "#374151", background: "#fff", cursor: "pointer" }}>
+          {Array.from({length: 2030 - 1945 + 1}, (_, i) => 1945 + i).filter(y => y > tlYearFrom).map(y => <option key={y} value={y}>{y}</option>)}
+        </select>
+        {(tlYearFrom !== 1945 || tlYearTo !== 2030) && <button onClick={() => { setTlYearFrom(1945); setTlYearTo(2030); }}
+          style={{ padding: "4px 10px", borderRadius: 8, fontSize: 11, fontWeight: 600, cursor: "pointer", border: "1px solid #e5e7eb", background: "#f9fafb", color: "#6b7280" }}>Reset</button>}
+      </div>
+      <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
+        <span style={{ fontSize: 11, color: "#9ca3af" }}>●</span>
         <span style={{ fontSize: 11, color: "#9ca3af" }}> contract year</span>
         <span style={{ fontSize: 11, color: "#C8A951", marginLeft: 8 }}>→ delivery</span>
         <span style={{ fontSize: 11, color: "#78716c", marginLeft: 8 }}>┄ retired service life</span>
@@ -1551,13 +1577,17 @@ function Timeline(){
         <div style={{ overflowX: "auto", paddingBottom: 8 }}>
         <div style={{ position: "relative", minWidth: 950, height: totalH }}>
           {/* Admin era bands */}
-          {admins.map(a => (
-            <div key={a.name} style={{ position: "absolute", left: `${pctX(a.start)}%`, width: `${pctX(a.end) - pctX(a.start)}%`, top: 0, bottom: 0, background: a.color, borderLeft: `2px solid ${a.textColor}30` }}>
+          {admins.filter(a => a.end > minY && a.start < maxY).map(a => {
+            const clampStart = Math.max(a.start, minY);
+            const clampEnd = Math.min(a.end, maxY);
+            return (
+            <div key={a.name} style={{ position: "absolute", left: `${pctX(clampStart)}%`, width: `${pctX(clampEnd) - pctX(clampStart)}%`, top: 0, bottom: 0, background: a.color, borderLeft: clampStart > minY ? `2px solid ${a.textColor}30` : "none" }}>
               <span style={{ position: "absolute", top: 2, left: 6, fontSize: 13, color: a.textColor, fontWeight: 800, opacity: 0.85, letterSpacing: ".3px" }}>{a.name}</span>
             </div>
-          ))}
+            );
+          })}
           {/* Decade markers */}
-          {[1950,1960,1970,1980,1990,2000,2010,2020,2030].map(d => (
+          {Array.from({length: Math.ceil((maxY - minY) / 10) + 1}, (_, i) => Math.floor(minY / 10) * 10 + i * 10).filter(d => d >= minY && d <= maxY).map(d => (
             <div key={d} style={{ position: "absolute", left: `${pctX(d)}%`, top: 16, bottom: 0, borderLeft: "1px dashed #d1d5db40", zIndex: 0 }}>
               <span style={{ position: "absolute", top: 0, left: 4, fontSize: 11, color: "#9ca3af", fontWeight: 600 }}>{d}</span>
             </div>
