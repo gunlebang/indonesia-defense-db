@@ -623,9 +623,7 @@ function OriginChart(){
     return computePositions(sankeyData.admins,25+(availH-totalH)/2);
   },[sankeyData,sankeyWeight]);
   const brPos=useMemo(()=>{
-    const tw=totalWeight||1;
-    const totalH=sankeyData.branches.reduce((s,[,c,,v])=>{const w=isValMode?(v||0):c;return s+Math.max(MIN_H,(w/tw)*availH-PAD)+PAD;},0);
-    return computePositions(sankeyData.branches,25+(availH-totalH)/2);
+    return computePositions(sankeyData.branches);
   },[sankeyData,sankeyWeight]);
 
   // Generic path renderer for any pair of columns
@@ -1965,8 +1963,9 @@ const COMBAT_RADIUS = {
   "YAKHONT": { radius: 120, label: "Yakhont sea-skimming range", color: "#dc2626" },
 };
 
-const PLANNER_CATS = ["Fighters","Radars","Surface Combatants","Submarines","UAVs"];
+const PLANNER_CATS = ["Fighters","Theatre Air Defence","AEW&C","Maritime Patrol","Long-Range Strike","Radars","Surface Combatants","Submarines","UAVs","Heavy-Lift Helos"];
 const PLANNER_AIRCRAFT = [
+  // ── TNI INVENTORY / ON ORDER ──
   // Fighters
   {id:"RAFALE",name:"Dassault Rafale F4",radius:1100,status:"Delivering (3 of 42)",tier:1,cat:"Fighters",note:"First 3 delivered 2026. Requires 2,400m+ runway, hardened shelters, jet fuel infrastructure."},
   {id:"KAAN",name:"TAI KAAN",radius:1100,status:"On Order (48)",tier:1,cat:"Fighters",note:"Contract signed 2025. First delivery ~2029. Requires 2,500m+ runway. GE F110 engines (US export-controlled)."},
@@ -1991,6 +1990,57 @@ const PLANNER_AIRCRAFT = [
   {id:"TB3",name:"Bayraktar TB3",radius:300,status:"On Order (60)",tier:30,cat:"UAVs",note:"MALE UCAV. Ship-capable (short takeoff). SATCOM link. 60 units via PT Republikorp. Operational radius limited by data link."},
   {id:"AKINCI",name:"Bayraktar Ak\u0131nc\u0131",radius:400,status:"On Order (9)",tier:30,cat:"UAVs",note:"HALE UCAV. Twin-engine, 24hr endurance. SATCOM. 9 units via PT Republikorp. Heaviest combat drone ordered."},
   {id:"ANKAS_NEW",name:"Anka-S (expand)",radius:1000,status:"Active (12)",tier:30,cat:"UAVs",note:"Currently at Pontianak (Supadio). SATCOM BLOS — 1,000 km operational radius with 30hr endurance. Explore additional forward bases for ISR coverage."},
+
+  // ── ASPIRATIONAL / WHAT-IF ──
+  // Destroyers / AAW Surface Combatants (Indonesia has zero destroyer-class vessels)
+  {id:"ASP_BURKE",name:"Arleigh Burke Flight III",radius:1800,status:"Aspirational",tier:22,cat:"Surface Combatants",aspirational:true,origin:"United States",note:"Gold standard DDG. ~9,800t. SPY-6(V)1 AESA, 96-cell VLS, SM-2/SM-6/SM-3 BMD capable. Defines blue-water air defence benchmark. Would require massive FMS pipeline."},
+  {id:"ASP_SEJONG",name:"Sejong the Great Batch II (KDX-III)",radius:2000,status:"Aspirational",tier:22,cat:"Surface Combatants",aspirational:true,origin:"South Korea",note:"Korean Aegis DDG. ~11,000t. 128-cell K-VLS. DSME already built Nagapasa submarines — existing shipbuilding relationship. Heaviest option."},
+  {id:"ASP_052DL",name:"Type 052DL Destroyer",radius:1500,status:"Aspirational",tier:22,cat:"Surface Combatants",aspirational:true,origin:"China",note:"PLAN's workhorse. ~7,500t. Type 346B AESA, 64-cell universal VLS, HHQ-9B (200 km). Most mass-produced modern DDG globally. Politically difficult."},
+  {id:"ASP_KOLKATA",name:"Kolkata-class (Project 15A)",radius:1400,status:"Aspirational",tier:22,cat:"Surface Combatants",aspirational:true,origin:"India",note:"Indian DDG. ~7,500t. BrahMos AShM (Indonesia already buying BrahMos). Barak-8 LRSAM. India defence relationship deepening under BIMSTEC."},
+  {id:"ASP_TF2000",name:"TF-2000 AAW Frigate",radius:1500,status:"Aspirational",tier:22,cat:"Surface Combatants",aspirational:true,origin:"T\u00fcrkiye",note:"Under construction. ~7,000t. CAFRAD AESA, Akya torpedo, Turkish combat suite. Natural extension of existing STM/Aselsan ecosystem."},
+
+  // Theatre Air Defence / BMD
+  {id:"ASP_THAAD",name:"THAAD",radius:200,status:"Aspirational",tier:40,cat:"Theatre Air Defence",aspirational:true,origin:"United States",note:"Theatre High Altitude Area Defence. Intercepts MRBM/IRBM at 150-200 km altitude. Upper-tier BMD layer. Deployed by US, UAE, South Korea, Israel."},
+  {id:"ASP_PATRIOT",name:"Patriot PAC-3 MSE",radius:70,status:"Aspirational",tier:40,cat:"Theatre Air Defence",aspirational:true,origin:"United States",note:"Benchmark area air defence. Intercepts aircraft, cruise missiles, short-range ballistic missiles. ~70 km range. Lower-tier BMD. Realistic given US FMS relationship."},
+  {id:"ASP_S400",name:"S-400 Triumf",radius:400,status:"Aspirational",tier:40,cat:"Theatre Air Defence",aspirational:true,origin:"Russia",note:"Longest-range option. 40N6 missile reaches ~400 km. Politically toxic post-Ukraine (CAATSA sanctions risk). Capability reference point."},
+  {id:"ASP_SAMPT",name:"SAMP/T Aster 30",radius:120,status:"Aspirational",tier:40,cat:"Theatre Air Defence",aspirational:true,origin:"France / Italy",note:"NATO alternative. MBDA Aster 30 missile, 120 km range. Integrates with Rafale ecosystem (MBDA/Thales). France is now Indonesia's biggest arms supplier."},
+  {id:"ASP_FK3",name:"FK-3 (export HQ-9B)",radius:200,status:"Aspirational",tier:40,cat:"Theatre Air Defence",aspirational:true,origin:"China",note:"S-300 derivative. ~200 km range. Exported to Pakistan, Serbia. More affordable than Patriot. Political cost."},
+  {id:"ASP_KMSAM",name:"KM-SAM Cheongung II",radius:40,status:"Aspirational",tier:40,cat:"Theatre Air Defence",aspirational:true,origin:"South Korea",note:"Medium-long range SAM. LIG Nex1. Already exported (UAE). Korean defence ties deepening. Would complement NASAMS at medium tier."},
+
+  // AEW&C (Indonesia has zero airborne early warning — Rafales fight blind beyond horizon)
+  {id:"ASP_E7",name:"E-7A Wedgetail",radius:3000,status:"Aspirational",tier:1,cat:"AEW\u0026C",aspirational:true,origin:"United States / Australia",note:"MESA AESA radar on 737 platform. 360\u00b0 coverage, 400+ km detection. NATO standard. Ordered by US, UK, NATO. Needs 2,400m+ runway."},
+  {id:"ASP_GLOBALEYE",name:"Saab GlobalEye",radius:3000,status:"Aspirational",tier:1,cat:"AEW\u0026C",aspirational:true,origin:"Sweden",note:"Swing-role: AEW&C + maritime surveillance + SIGINT on single Bombardier Global 6000 airframe. Erieye ER AESA. Non-aligned supplier. Smaller crew than E-7."},
+  {id:"ASP_G550CAEW",name:"G550 CAEW (Eitam)",radius:2500,status:"Aspirational",tier:1,cat:"AEW\u0026C",aspirational:true,origin:"Italy / Israel",note:"EL/W-2085 conformal AESA on Gulfstream G550. Compact, proven (Italy, Singapore). Leonardo/IAI. Smaller fleet requirement than 737-based."},
+  {id:"ASP_KJ500",name:"KJ-500",radius:2500,status:"Aspirational",tier:1,cat:"AEW\u0026C",aspirational:true,origin:"China",note:"PLAAF's current AEW&C. Shaanxi Y-9 platform with AESA rotodome. Chinese benchmark — would never happen politically but sets reference."},
+
+  // Maritime Patrol / ASW (current MPA: 3x NC-212 with 1980s sensors — inadequate for world's largest archipelagic EEZ)
+  {id:"ASP_P8",name:"P-8A Poseidon",radius:2200,status:"Aspirational",tier:1,cat:"Maritime Patrol",aspirational:true,origin:"United States",note:"Gold standard MPA. Boeing 737-800ERX. Sonobuoys, torpedoes, Harpoon AShM. India operates 12+. Realistic given US relationship."},
+  {id:"ASP_P1",name:"Kawasaki P-1",radius:2500,status:"Aspirational",tier:1,cat:"Maritime Patrol",aspirational:true,origin:"Japan",note:"JMSDF's indigenous 4-engine MPA. Could pair with Mogami frigate negotiations as package deal. HPS-106 AESA radar."},
+  {id:"ASP_ATR72MPA",name:"ATR 72-600 MPA (MELTEM-3)",radius:1000,status:"Aspirational",tier:2,cat:"Maritime Patrol",aspirational:true,origin:"T\u00fcrkiye / Italy",note:"TAI/Leonardo integration. ASELFLIR, sonobuoys, lightweight torpedo. Affordable turboprop MPA. Fits Turkish ecosystem."},
+  {id:"ASP_C295MPA",name:"C-295 Persuader MPA",radius:1500,status:"Aspirational",tier:2,cat:"Maritime Patrol",aspirational:true,origin:"Spain (Airbus)",note:"Airbus/PT DI already produce CN-295 in Bandung — MPA variant has immediate Transfer of Technology pathway. Fully Integrated Tactical System."},
+  {id:"ASP_Y8Q",name:"Y-8Q (KQ-200) MPA",radius:2000,status:"Aspirational",tier:1,cat:"Maritime Patrol",aspirational:true,origin:"China",note:"PLAN's primary MPA. Shaanxi Y-8 platform. MAD boom, sonobuoy dispensers, search radar. Chinese benchmark."},
+
+  // Long-Range Precision Strike (current longest: BrahMos 290 km. No LACM capability)
+  {id:"ASP_SCALP",name:"SCALP-EG / Storm Shadow",radius:560,status:"Aspirational",tier:40,cat:"Long-Range Strike",aspirational:true,origin:"France / United Kingdom",note:"Air-launched cruise missile, already Rafale-integrated. MBDA. 560 km range. The obvious 'buy the missile for the jet you already have' choice. Stealth profile, BROACH warhead."},
+  {id:"ASP_TOMAHAWK",name:"Tomahawk Block V",radius:1600,status:"Aspirational",tier:40,cat:"Long-Range Strike",aspirational:true,origin:"United States",note:"Ship/ground-launched LACM. ~1,600 km range. The benchmark for theatre strike. Block V adds maritime moving target capability. Would require VLS-equipped surface combatants."},
+  {id:"ASP_TAURUS",name:"Taurus KEPD 350",radius:500,status:"Aspirational",tier:40,cat:"Long-Range Strike",aspirational:true,origin:"Germany / Sweden",note:"Air-launched cruise missile. 500 km range. MEPHISTO tandem penetrator warhead for hardened targets. Saab/MBDA joint venture. Non-US/non-French alternative."},
+  {id:"ASP_SOM",name:"Roketsan SOM / SOM-J",radius:250,status:"Aspirational",tier:40,cat:"Long-Range Strike",aspirational:true,origin:"T\u00fcrkiye",note:"Air-launched cruise missile. ~250 km range. Already in Turkish ecosystem — could integrate with KAAN. SOM-J variant for internal bays."},
+  {id:"ASP_CJ20",name:"CJ-20 (export DF-10A)",radius:1500,status:"Aspirational",tier:40,cat:"Long-Range Strike",aspirational:true,origin:"China",note:"Ground-launched LACM. ~1,500 km range. Chinese equivalent of Tomahawk. Political reference point for non-aligned LACM option."},
+
+  // Heavy-Lift Helicopters (Indonesia has zero heavy-lift — critical gap for 17,000-island HADR and amphibious ops)
+  {id:"ASP_CHINOOK",name:"CH-47F Chinook",radius:370,status:"Aspirational",tier:3,cat:"Heavy-Lift Helos",aspirational:true,origin:"United States",note:"Gold standard. 12,700 kg payload. Tandem rotor. Already operated by Australia, Japan, South Korea, India. CH-47F is the latest block."},
+  {id:"ASP_MI26",name:"Mi-26T2V",radius:400,status:"Aspirational",tier:3,cat:"Heavy-Lift Helos",aspirational:true,origin:"Russia",note:"Heaviest production helicopter in the world. 20,000 kg payload — can carry light armoured vehicles internally. Unique capability tier for volcanic eruption response, HADR."},
+  {id:"ASP_Z20",name:"Z-20",radius:300,status:"Aspirational",tier:3,cat:"Heavy-Lift Helos",aspirational:true,origin:"China",note:"Black Hawk class medium-lift. ~5,000 kg payload. PLAGF's standard utility. Export variant emerging."},
+  {id:"ASP_AW101",name:"AW101 Merlin",radius:500,status:"Aspirational",tier:3,cat:"Heavy-Lift Helos",aspirational:true,origin:"Italy / United Kingdom",note:"Leonardo. 5,400 kg payload. Could dual-role with Garibaldi carrier — AW101 is the standard NATO carrier ASW/utility helicopter. Already naval-certified."},
+
+  // Advanced Submarines
+  {id:"ASP_TAIGEI",name:"Taigei-class SSK",radius:2500,status:"Aspirational",tier:21,cat:"Submarines",aspirational:true,origin:"Japan",note:"JMSDF's newest SSK. Li-ion batteries (like Scorp\u00e8ne). Could piggyback on Mogami negotiations. Successor to Soryu. Very quiet."},
+  {id:"ASP_218SG",name:"Type 218SG (Invincible-class)",radius:2200,status:"Aspirational",tier:21,cat:"Submarines",aspirational:true,origin:"Germany",note:"thyssenkrupp Marine Systems. Fuel cell AIP. Built for Singapore — proven in tropical waters. HDW lineage (same yard that built Cakra/Nagapasa)."},
+  {id:"ASP_039C",name:"Type 039C Yuan-class",radius:2000,status:"Aspirational",tier:21,cat:"Submarines",aspirational:true,origin:"China",note:"PLAN's backbone SSK. Stirling AIP engine. Very quiet. 18+ built. Export variant S26T ordered by Thailand."},
+
+  // Armed UCAV (aspirational tier above TB3/Akıncı)
+  {id:"ASP_WLII",name:"Wing Loong II",radius:1500,status:"Aspirational",tier:30,cat:"UAVs",aspirational:true,origin:"China",note:"CAIG MALE UCAV. ~40hr endurance, 4,800 km ferry. AR-1/AR-2 missiles, LS-6 bombs. Widely exported: UAE, Saudi, Pakistan, Egypt."},
+  {id:"ASP_AKSUNGUR",name:"TAI Aksungur",radius:1200,status:"Aspirational",tier:30,cat:"UAVs",aspirational:true,origin:"T\u00fcrkiye",note:"Twin-engine MALE. 50+ hr endurance. Heavier payload than Ak\u0131nc\u0131. Torpedo-capable ASW variant tested — useful for archipelagic maritime patrol. Fits existing TAI ecosystem."},
         ];
 
 
@@ -2071,6 +2121,7 @@ function BaseMap() {
   const [plannerBase, setPlannerBase] = useState(null);
   const [baseMapMode, setBaseMapMode] = useState("current"); // "current" or "planner"
   const [plannerCat, setPlannerCat] = useState("Fighters");
+  const [plannerShowAspi, setPlannerShowAspi] = useState(false);
 
   const mapW = 960, mapH = 540;
 
@@ -2214,7 +2265,15 @@ function BaseMap() {
       "GM400":470,"MASTERT":444,"GM200":250,
       "RWFRIGATE":1350,"BRAWIJAYA":1500,"ISTIF":1350,"KCR70M":350,"GARIBALDI":2000,
       "SCORPENE":2000,"NAGAPASA_NEW":2000,
-      "TB3":300,"AKINCI":400,"ANKAS_NEW":1000};
+      "TB3":300,"AKINCI":400,"ANKAS_NEW":1000,
+      "ASP_BURKE":1800,"ASP_SEJONG":2000,"ASP_052DL":1500,"ASP_KOLKATA":1400,"ASP_TF2000":1500,
+      "ASP_THAAD":200,"ASP_PATRIOT":70,"ASP_S400":400,"ASP_SAMPT":120,"ASP_FK3":200,"ASP_KMSAM":40,
+      "ASP_E7":3000,"ASP_GLOBALEYE":3000,"ASP_G550CAEW":2500,"ASP_KJ500":2500,
+      "ASP_P8":2200,"ASP_P1":2500,"ASP_ATR72MPA":1000,"ASP_C295MPA":1500,"ASP_Y8Q":2000,
+      "ASP_SCALP":560,"ASP_TOMAHAWK":1600,"ASP_TAURUS":500,"ASP_SOM":250,"ASP_CJ20":1500,
+      "ASP_CHINOOK":370,"ASP_MI26":400,"ASP_Z20":300,"ASP_AW101":500,
+      "ASP_TAIGEI":2500,"ASP_218SG":2200,"ASP_039C":2000,
+      "ASP_WLII":1500,"ASP_AKSUNGUR":1200};
     // Build coords dynamically - find the base in PLANNER_BASES data
     // (duplicated here for useMemo to access outside the IIFE)
     const ALL_PLANNER_COORDS = {
@@ -2251,7 +2310,9 @@ function BaseMap() {
     const edge = projection([coord[1] + degRadius, coord[0]]);
     if (!center || !edge) return null;
     const pxRadius = Math.abs(edge[0] - center[0]);
-    return { cx: center[0], cy: center[1], r: pxRadius, radiusKm: radius, color: "#f59e0b", label: plannerAircraft + " from " + plannerBase.replace(/, .*/,"") };
+    const isAspi = (PLANNER_AIRCRAFT.find(a=>a.id===plannerAircraft)||{}).aspirational;
+    const ringColor = isAspi ? "#06b6d4" : "#f59e0b";
+    return { cx: center[0], cy: center[1], r: pxRadius, radiusKm: radius, color: ringColor, label: plannerAircraft + " from " + plannerBase.replace(/, .*/,""), aspirational: isAspi };
   }, [plannerAircraft, plannerBase, projection]);
 
   // Planner derived state — lifted to component level so both control panel & map can access
@@ -2261,12 +2322,13 @@ function BaseMap() {
     const t = plannerSelectedAC.tier;
     return PLANNER_BASES.filter(b => {
       if (t <= 3) return b.tiers.some(bt => bt <= 3 && bt >= t);
+      if (t === 40) return b.tiers.some(bt => bt !== 21); // air defence / strike: anywhere except sub-only
       if (t === 22) return b.tiers.includes(22);
       return b.tiers.includes(t);
     });
   }, [plannerSelectedAC]);
   const plannerSelectedBase = useMemo(() => plannerBase ? PLANNER_BASES.find(b=>b.name===plannerBase) : null, [plannerBase]);
-  const plannerFilteredAC = useMemo(() => PLANNER_AIRCRAFT.filter(a=>a.cat===plannerCat), [plannerCat]);
+  const plannerFilteredAC = useMemo(() => PLANNER_AIRCRAFT.filter(a=>a.cat===plannerCat && (plannerShowAspi || !a.aspirational)), [plannerCat, plannerShowAspi]);
 
   // Command groupings for connection lines
   const COMMAND_GROUPS = {
@@ -2396,7 +2458,9 @@ function BaseMap() {
         <div style={{ display: "flex", gap: 12, marginTop: 12, paddingTop: 12, borderTop: "1px solid #1e3a5f", alignItems: "center", fontSize: 11 }}>
           <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{width:12,height:2,background:"#f59e0b",display:"inline-block"}}/>  <span style={{color:"#f59e0b"}}>ALKI Sea Lanes</span></span>
           <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{width:12,height:2,background:"#3b82f6",display:"inline-block",borderTop:"1px dashed #3b82f6"}}/>  <span style={{color:"#3b82f6"}}>EEZ Boundary</span></span>
-          <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{width:8,height:8,background:"#ef4444",display:"inline-block",clipPath:"polygon(50% 0%, 0% 35%, 20% 100%, 80% 100%, 100% 35%)"}}/>  <span style={{color:"#ef4444"}}>Potential Flashpoints</span></span>
+          <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span>{"\uD83D\uDCA5"}</span> <span style={{color:"#ef4444"}}>Potential Flashpoints</span></span>
+          <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span>{"\u2694\uFE0F"}</span> <span style={{color:"#fbbf24"}}>Border Disputes</span></span>
+          <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span>{"\u26CF\uFE0F"}</span> <span style={{color:"#f97316"}}>Mining Sites (amphibious-vulnerable)</span></span>
           <span style={{ color: "#64748b", fontStyle: "italic", fontSize: 10, marginLeft: 8, borderLeft: "1px solid #334155", paddingLeft: 8 }}>ALKI routes & EEZ boundary are approximate — work in progress</span>
         </div>
       </div>
@@ -2522,20 +2586,52 @@ function BaseMap() {
             return p?<text key={`sea-${i}`} x={p[0]} y={p[1]} textAnchor="middle" fill="#1e3a5f" fontSize={size||7} fontWeight="600" fontStyle="italic" opacity="0.5" letterSpacing="2" style={{pointerEvents:"none"}}>{name}</text>:null;
           })}
 
-          {/* Potential flashpoints (red star-bursts per IISS map) */}
+          {/* Potential flashpoints (💥) */}
           {[
-            [107,7],       // SCS / Natuna
-            [121,5.5],     // South Philippines / Sulu Sea
-            [134,1.5],     // North of West Papua / Pacific
-            [131,-10.5],   // Timor Sea / Arafura
-            [115,-12],     // Indian Ocean south
-            [104,-8],      // Sunda Strait / Indian Ocean
-          ].map(([lon,lat],i)=>{
-            const p=projection([lon,lat]);
+            {coords:[107,7],label:"SCS / Natuna"},
+            {coords:[121,5.5],label:"Sulu Sea"},
+            {coords:[134,1.5],label:"N. Papua / Pacific"},
+            {coords:[131,-10.5],label:"Timor Sea"},
+            {coords:[115,-12],label:"Indian Ocean S."},
+            {coords:[104,-8],label:"Sunda Strait"},
+          ].map((fp,i)=>{
+            const p=projection(fp.coords);
             if(!p)return null;
-            const s=6;
-            const pts=Array.from({length:8},(_,k)=>{const a=k*Math.PI/4-Math.PI/2;const r=k%2===0?s:s*0.5;return`${p[0]+r*Math.cos(a)},${p[1]+r*Math.sin(a)}`;}).join(" ");
-            return <polygon key={`fp-${i}`} points={pts} fill="#dc2626" opacity="0.85" stroke="#7f1d1d" strokeWidth="0.5"/>;
+            return <g key={`fp-${i}`}>
+              <text x={p[0]} y={p[1]+5} textAnchor="middle" fontSize="18" opacity="0.85" style={{cursor:"default"}}>{"\uD83D\uDCA5"}</text>
+            </g>;
+          })}
+
+          {/* Historical border disputes (⚔️) */}
+          {[
+            {coords:[108.0,5.5],label:"North Natuna Sea",desc:"vs China (coast guard standoffs)"},
+            {coords:[118.4,2.15],label:"Ambalat Block",desc:"vs Malaysia (maritime boundary)"},
+            {coords:[118.63,4.11],label:"Sipadan & Ligitan",desc:"vs Malaysia (ICJ 2002 — ruled for MY)"},
+          ].map((bd,i)=>{
+            const p=projection(bd.coords);
+            if(!p)return null;
+            return <g key={`bd-${i}`}>
+              <text x={p[0]} y={p[1]+5} textAnchor="middle" fontSize="17" opacity="0.9" style={{cursor:"default"}}>{"\u2694\uFE0F"}</text>
+              <text x={p[0]+12} y={p[1]+2} fontSize="7" fill="#fbbf24" fontWeight="600" opacity="0.85">{bd.label}</text>
+              <text x={p[0]+12} y={p[1]+9} fontSize="5.5" fill="#94a3b8" opacity="0.7">{bd.desc}</text>
+            </g>;
+          })}
+
+          {/* Key mining sites (⛏️) — amphibious vulnerability per LAB45 analysis */}
+          {[
+            {coords:[106.1,-2.1],label:"Bangka Belitung",desc:"Tin — highly favorable landing",tier:"high"},
+            {coords:[104.6,1.05],label:"Bintan",desc:"Bauxite — highly favorable landing",tier:"high"},
+            {coords:[109.9,-1.8],label:"Ketapang",desc:"Bauxite — highly favorable landing",tier:"high"},
+            {coords:[128.0,0.4],label:"Halmahera (Weda Bay)",desc:"Nickel — moderately favorable",tier:"mid"},
+            {coords:[121.6,-4.0],label:"Kolaka / Konawe",desc:"Nickel — moderately favorable",tier:"mid"},
+          ].map((ms,i)=>{
+            const p=projection(ms.coords);
+            if(!p)return null;
+            return <g key={`mine-${i}`}>
+              <text x={p[0]} y={p[1]+5} textAnchor="middle" fontSize="18" opacity={ms.tier==="high"?0.9:0.75} style={{cursor:"default"}}>{"\u26CF\uFE0F"}</text>
+              <text x={p[0]+11} y={p[1]+2} fontSize="6.5" fill={ms.tier==="high"?"#f97316":"#d97706"} fontWeight="600" opacity="0.85">{ms.label}</text>
+              <text x={p[0]+11} y={p[1]+9} fontSize="5" fill="#94a3b8" opacity="0.7">{ms.desc}</text>
+            </g>;
           })}
 
           {/* Radius rings overlay */}
@@ -2580,7 +2676,7 @@ function BaseMap() {
             const isSelected = sel && sel.name === b.name;
             const isHovered = hov === i;
             const c = BCo[b.primaryBranch] || "#64748b";
-            const baseR = isSelected ? 8 : isHovered ? 7 : Math.min(4 + b.systems.length * 0.5, 8);
+            const baseR = isSelected ? 10 : isHovered ? 9 : Math.min(5.5 + b.systems.length * 0.6, 10);
             const r = baseR / Math.sqrt(zoomLevel); // shrink dots when zoomed in
             return (
               <g key={b.name}
@@ -2589,12 +2685,12 @@ function BaseMap() {
                 onClick={(e) => { e.stopPropagation(); setSelectedBase(isSelected ? null : b); setSelectedWeapon(null); }}
                 style={{ cursor: "pointer" }}>
                 {/* Pulse ring for selected */}
-                {isSelected && <circle cx={b.x} cy={b.y} r={14 / Math.sqrt(zoomLevel)} fill="none" stroke="#C8A951" strokeWidth={1.5 / Math.sqrt(zoomLevel)} opacity="0.6">
-                  <animate attributeName="r" from={10 / Math.sqrt(zoomLevel)} to={20 / Math.sqrt(zoomLevel)} dur="1.5s" repeatCount="indefinite" />
+                {isSelected && <circle cx={b.x} cy={b.y} r={18 / Math.sqrt(zoomLevel)} fill="none" stroke="#C8A951" strokeWidth={1.5 / Math.sqrt(zoomLevel)} opacity="0.6">
+                  <animate attributeName="r" from={12 / Math.sqrt(zoomLevel)} to={24 / Math.sqrt(zoomLevel)} dur="1.5s" repeatCount="indefinite" />
                   <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" repeatCount="indefinite" />
                 </circle>}
                 {/* Outer glow */}
-                <circle cx={b.x} cy={b.y} r={r + 2 / Math.sqrt(zoomLevel)} fill={c} opacity="0.15" filter="url(#dotGlow)" />
+                <circle cx={b.x} cy={b.y} r={r + 3 / Math.sqrt(zoomLevel)} fill={c} opacity="0.15" filter="url(#dotGlow)" />
                 {/* Main dot */}
                 <circle cx={b.x} cy={b.y} r={r} fill={c} stroke={isSelected ? "#C8A951" : "#fff"} strokeWidth={(isSelected ? 2.5 : 1.5) / Math.sqrt(zoomLevel)}
                   opacity={isSelected ? 1 : isHovered ? 1 : 0.85}
@@ -2602,7 +2698,7 @@ function BaseMap() {
                 {/* System count label */}
                 {(isHovered || isSelected) && b.systems.length > 1 && (
                   <text x={b.x} y={b.y + 1} textAnchor="middle" dominantBaseline="middle"
-                    fill="#fff" fontSize={8 / Math.sqrt(zoomLevel)} fontWeight="700" style={{ pointerEvents: "none" }}>
+                    fill="#fff" fontSize={9 / Math.sqrt(zoomLevel)} fontWeight="700" style={{ pointerEvents: "none" }}>
                     {b.systems.length}
                   </text>
                 )}
@@ -2742,15 +2838,20 @@ function BaseMap() {
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
             <div>
               <div style={{fontSize:18,fontWeight:800,color:"#fff",marginBottom:4}}>Deployment Planner <span style={{fontSize:8,fontWeight:800,color:"#fff",background:"#f59e0b",padding:"2px 6px",borderRadius:6,marginLeft:8,verticalAlign:"middle"}}>BETA</span></div>
-              <div style={{fontSize:13,color:"#94a3b8"}}>Explore basing options for incoming systems. Select a category and platform, then click an eligible base to visualize coverage.</div>
+              <div style={{fontSize:13,color:"#94a3b8"}}>Explore basing options for incoming systems. Enable <span style={{color:"#06b6d4",fontWeight:600}}>What-If Mode</span> to test world-class platforms Indonesia doesn't yet operate.</div>
             </div>
           </div>
 
-          {/* Category tabs */}
-          <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap"}}>
-            {PLANNER_CATS.map(cat=>(
+          {/* Category tabs + aspirational toggle */}
+          <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap",alignItems:"center"}}>
+            {PLANNER_CATS.filter(cat => plannerShowAspi || !["Theatre Air Defence","AEW\u0026C","Maritime Patrol","Long-Range Strike","Heavy-Lift Helos"].includes(cat) || PLANNER_AIRCRAFT.some(a=>a.cat===cat&&!a.aspirational)).map(cat=>(
               <button key={cat} onClick={()=>{setPlannerCat(cat);setPlannerAircraft(null);setPlannerBase(null);}} style={{padding:"8px 16px",borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",border:"1px solid",background:plannerCat===cat?"#f59e0b":"rgba(255,255,255,0.05)",color:plannerCat===cat?"#111":"#94a3b8",borderColor:plannerCat===cat?"#f59e0b":"rgba(255,255,255,0.15)"}}>{cat}</button>
             ))}
+            <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}>
+              <button onClick={()=>{setPlannerShowAspi(!plannerShowAspi);setPlannerAircraft(null);setPlannerBase(null);}} style={{padding:"8px 16px",borderRadius:6,fontSize:11,fontWeight:700,cursor:"pointer",border:"1px solid",letterSpacing:".3px",background:plannerShowAspi?"rgba(6,182,212,0.15)":"rgba(255,255,255,0.03)",color:plannerShowAspi?"#06b6d4":"#64748b",borderColor:plannerShowAspi?"#06b6d4":"rgba(255,255,255,0.1)"}}>
+                {plannerShowAspi?"\u2713 ":""}WHAT-IF MODE
+              </button>
+            </div>
           </div>
 
           {/* Aircraft selector */}
@@ -2758,14 +2859,19 @@ function BaseMap() {
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(260px,100%),1fr))",gap:8,marginBottom:20}}>
             {filteredAC.map(ac=>{
               const isSel=plannerAircraft===ac.id;
+              const isAspi=ac.aspirational;
+              const accentColor=isAspi?"#06b6d4":"#f59e0b";
               return(
-                <div key={ac.id} onClick={()=>{setPlannerAircraft(isSel?null:ac.id);setPlannerBase(null);}} style={{padding:"12px 14px",borderRadius:10,cursor:"pointer",background:isSel?"rgba(245,158,11,0.15)":"rgba(255,255,255,0.05)",border:`1px solid ${isSel?"#f59e0b":"rgba(255,255,255,0.1)"}`,transition:"all .2s"}}>
+                <div key={ac.id} onClick={()=>{setPlannerAircraft(isSel?null:ac.id);setPlannerBase(null);}} style={{padding:"12px 14px",borderRadius:10,cursor:"pointer",background:isSel?(isAspi?"rgba(6,182,212,0.15)":"rgba(245,158,11,0.15)"):"rgba(255,255,255,0.05)",border:`1px ${isAspi?"dashed":"solid"} ${isSel?accentColor:"rgba(255,255,255,0.1)"}`,transition:"all .2s"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                    <span style={{fontSize:14,fontWeight:700,color:isSel?"#f59e0b":"#e2e8f0"}}>{ac.name}</span>
-                    <span style={{fontSize:10,fontWeight:600,color:"#94a3b8",background:"rgba(255,255,255,0.1)",padding:"2px 8px",borderRadius:4}}>{ac.radius} km</span>
+                    <span style={{fontSize:14,fontWeight:700,color:isSel?accentColor:"#e2e8f0"}}>{isAspi&&"\u25c7 "}{ac.name}</span>
+                    <span style={{fontSize:10,fontWeight:600,color:isAspi?"#06b6d4":"#94a3b8",background:isAspi?"rgba(6,182,212,0.1)":"rgba(255,255,255,0.1)",padding:"2px 8px",borderRadius:4}}>{ac.radius} km</span>
                   </div>
-                  <div style={{fontSize:11,color:isSel?"#fbbf24":"#64748b",marginTop:4}}>{ac.status}</div>
-                  {isSel&&<div style={{fontSize:11,color:"#94a3b8",marginTop:6,lineHeight:1.5,paddingTop:6,borderTop:"1px solid rgba(255,255,255,0.1)"}}>{ac.note}</div>}
+                  <div style={{display:"flex",gap:6,marginTop:4,alignItems:"center"}}>
+                    <span style={{fontSize:11,color:isSel?(isAspi?"#67e8f9":"#fbbf24"):"#64748b"}}>{ac.status}</span>
+                    {isAspi&&ac.origin&&<span style={{fontSize:9,fontWeight:600,color:"#06b6d4",background:"rgba(6,182,212,0.1)",padding:"1px 6px",borderRadius:3}}>{ac.origin}</span>}
+                  </div>
+                  {isSel&&<div style={{fontSize:11,color:"#94a3b8",marginTop:6,lineHeight:1.5,paddingTop:6,borderTop:`1px solid ${isAspi?"rgba(6,182,212,0.2)":"rgba(255,255,255,0.1)"}`}}>{ac.note}</div>}
                 </div>
               );
             })}
@@ -2797,8 +2903,9 @@ function BaseMap() {
             </div>
 
             {/* Result */}
-            {selectedBs&&<div style={{background:"rgba(245,158,11,0.1)",border:"1px solid rgba(245,158,11,0.3)",borderRadius:10,padding:"14px 18px"}}>
-              <div style={{fontSize:14,fontWeight:700,color:"#f59e0b",marginBottom:4}}>{selectedAC.name} from {selectedBs.name.replace(/, .*/,"")}</div>
+            {selectedBs&&<div style={{background:selectedAC.aspirational?"rgba(6,182,212,0.1)":"rgba(245,158,11,0.1)",border:`1px solid ${selectedAC.aspirational?"rgba(6,182,212,0.3)":"rgba(245,158,11,0.3)"}`,borderRadius:10,padding:"14px 18px"}}>
+              {selectedAC.aspirational&&<div style={{fontSize:9,fontWeight:800,color:"#06b6d4",letterSpacing:1.5,textTransform:"uppercase",marginBottom:4}}>WHAT-IF SCENARIO</div>}
+              <div style={{fontSize:14,fontWeight:700,color:selectedAC.aspirational?"#06b6d4":"#f59e0b",marginBottom:4}}>{selectedAC.name} from {selectedBs.name.replace(/, .*/,"")}</div>
               <div style={{fontSize:13,color:"#e2e8f0",lineHeight:1.6}}>
                 {plannerCat==="Radars"?"Detection":"Coverage"} radius: <strong>{selectedAC.radius} km</strong> • {selectedBs.runway!=="N/A"?`Runway: ${selectedBs.runway} • `:""}Region: {selectedBs.region}
                 {selectedBs.tollRoad&&<span style={{color:"#10b981",fontWeight:600}}> • Toll road dispersal strip</span>}
@@ -2806,7 +2913,7 @@ function BaseMap() {
             </div>}
           </>}
 
-          <div style={{fontSize:10,color:"#475569",marginTop:12}}>Base eligibility based on runway length and infrastructure requirements. Toll road strips per KSAU Marshal Tonny Harjono's stated goal of one operational strip per province. Terpeka section tested Feb 2026.</div>
+          <div style={{fontSize:10,color:"#475569",marginTop:12}}>Base eligibility based on runway length and infrastructure requirements. {plannerShowAspi&&<span style={{color:"#06b6d4"}}>What-If platforms are curated world-class systems not yet in TNI inventory — for force design exploration only. </span>}Toll road strips per KSAU Marshal Tonny Harjono's stated goal of one operational strip per province.</div>
         </div>
         );
       })()}
@@ -2849,10 +2956,10 @@ function BaseMap() {
 
           {/* Planner radius ring */}
           {plannerRingData&&<g>
-            <circle cx={plannerRingData.cx} cy={plannerRingData.cy} r={plannerRingData.r} fill="#f59e0b" fillOpacity="0.08" stroke="#f59e0b" strokeWidth="2" strokeDasharray="8,4" opacity="0.9"/>
-            <circle cx={plannerRingData.cx} cy={plannerRingData.cy} r={plannerRingData.r*0.5} fill="none" stroke="#f59e0b" strokeWidth="0.5" strokeDasharray="3,5" opacity="0.3"/>
-            <text x={plannerRingData.cx} y={plannerRingData.cy-plannerRingData.r-6} textAnchor="middle" fill="#f59e0b" fontSize="8" fontWeight="700" opacity="0.95">{plannerRingData.label}</text>
-            <text x={plannerRingData.cx+plannerRingData.r+4} y={plannerRingData.cy+3} fill="#f59e0b" fontSize="7" opacity="0.7">{plannerRingData.radiusKm} km</text>
+            <circle cx={plannerRingData.cx} cy={plannerRingData.cy} r={plannerRingData.r} fill={plannerRingData.color} fillOpacity="0.08" stroke={plannerRingData.color} strokeWidth="2" strokeDasharray={plannerRingData.aspirational?"4,4":"8,4"} opacity="0.9"/>
+            <circle cx={plannerRingData.cx} cy={plannerRingData.cy} r={plannerRingData.r*0.5} fill="none" stroke={plannerRingData.color} strokeWidth="0.5" strokeDasharray="3,5" opacity="0.3"/>
+            <text x={plannerRingData.cx} y={plannerRingData.cy-plannerRingData.r-6} textAnchor="middle" fill={plannerRingData.color} fontSize="8" fontWeight="700" opacity="0.95">{plannerRingData.aspirational?"[WHAT-IF] ":""}{plannerRingData.label}</text>
+            <text x={plannerRingData.cx+plannerRingData.r+4} y={plannerRingData.cy+3} fill={plannerRingData.color} fontSize="7" opacity="0.7">{plannerRingData.radiusKm} km</text>
           </g>}
         </svg>
         {!plannerAircraft&&<div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",color:"#475569",fontSize:14,fontWeight:600,textAlign:"center",pointerEvents:"none"}}>Select a system below to begin</div>}
@@ -3084,6 +3191,48 @@ function A2ADView() {
               opacity="0.7" />;
           })}
 
+          {/* Potential flashpoints (💥) */}
+          {[
+            {coords:[107,7]},{coords:[121,5.5]},{coords:[134,1.5]},
+            {coords:[131,-10.5]},{coords:[115,-12]},{coords:[104,-8]},
+          ].map((fp,i)=>{
+            const p=projection(fp.coords);
+            if(!p)return null;
+            return <text key={`a2fp-${i}`} x={p[0]} y={p[1]+5} textAnchor="middle" fontSize="18" opacity="0.85" style={{cursor:"default"}}>{"\uD83D\uDCA5"}</text>;
+          })}
+
+          {/* Historical border disputes (⚔️) */}
+          {[
+            {coords:[108.0,5.5],label:"North Natuna Sea",desc:"vs China"},
+            {coords:[118.4,2.15],label:"Ambalat",desc:"vs Malaysia"},
+            {coords:[118.63,4.11],label:"Sipadan & Ligitan",desc:"vs Malaysia"},
+          ].map((bd,i)=>{
+            const p=projection(bd.coords);
+            if(!p)return null;
+            return <g key={`a2bd-${i}`}>
+              <text x={p[0]} y={p[1]+5} textAnchor="middle" fontSize="17" opacity="0.9">{"\u2694\uFE0F"}</text>
+              <text x={p[0]+12} y={p[1]+2} fontSize="6.5" fill="#fbbf24" fontWeight="600" opacity="0.8">{bd.label}</text>
+              <text x={p[0]+12} y={p[1]+8} fontSize="5" fill="#94a3b8" opacity="0.6">{bd.desc}</text>
+            </g>;
+          })}
+
+          {/* Key mining sites (⛏️) */}
+          {[
+            {coords:[106.1,-2.1],label:"Bangka Belitung",desc:"Tin",tier:"high"},
+            {coords:[104.6,1.05],label:"Bintan",desc:"Bauxite",tier:"high"},
+            {coords:[109.9,-1.8],label:"Ketapang",desc:"Bauxite",tier:"high"},
+            {coords:[128.0,0.4],label:"Halmahera",desc:"Nickel",tier:"mid"},
+            {coords:[121.6,-4.0],label:"Kolaka",desc:"Nickel",tier:"mid"},
+          ].map((ms,i)=>{
+            const p=projection(ms.coords);
+            if(!p)return null;
+            return <g key={`a2mine-${i}`}>
+              <text x={p[0]} y={p[1]+5} textAnchor="middle" fontSize="18" opacity={ms.tier==="high"?0.9:0.75}>{"\u26CF\uFE0F"}</text>
+              <text x={p[0]+11} y={p[1]+2} fontSize="6" fill={ms.tier==="high"?"#f97316":"#d97706"} fontWeight="600" opacity="0.8">{ms.label}</text>
+              <text x={p[0]+11} y={p[1]+8} fontSize="4.5" fill="#94a3b8" opacity="0.6">{ms.desc}</text>
+            </g>;
+          })}
+
           {/* Labels */}
           <text x="30" y="28" fill="#1e3a5f" fontSize="9" fontWeight="600" letterSpacing="2">INDIAN OCEAN</text>
           <text x={mapW - 120} y={mapH - 15} fill="#1e3a5f" fontSize="9" fontWeight="600" letterSpacing="2">PACIFIC OCEAN</text>
@@ -3102,6 +3251,13 @@ function A2ADView() {
             <span style={{ color: "#374151", fontWeight: 500 }}>{ts.label}</span>
           </div>
         ))}
+      </div>
+
+      {/* Map markers legend */}
+      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 6, padding: "6px 12px", background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 10 }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span>{"\uD83D\uDCA5"}</span> <span style={{color:"#ef4444",fontWeight:500}}>Potential Flashpoints</span></span>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span>{"\u2694\uFE0F"}</span> <span style={{color:"#fbbf24",fontWeight:500}}>Border Disputes</span></span>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span>{"\u26CF\uFE0F"}</span> <span style={{color:"#f97316",fontWeight:500}}>Mining Sites (amphibious-vulnerable)</span></span>
       </div>
 
       {/* Layer analysis narrative */}
@@ -3682,6 +3838,27 @@ function App(){
                 ))}
               </div>
               <p style={{margin:0}}><strong>Limitations:</strong> The Indonesian government has not released a detailed PTN or OEF procurement plan. All target figures should be treated as analytical estimates, not confirmed government targets. Some items (e.g. mortars, classified missile deliveries) have unknown inventory counts — these show as zero delivered, which likely understates actual fulfillment. This tracker is updated periodically and may not reflect the most recent developments.</p>
+            </div>
+          </div>
+
+          <div style={{background:"#fff",borderRadius:12,border:"1px solid #e5e7eb",padding:28,marginBottom:20}}>
+            <div style={{fontSize:17,fontWeight:700,color:"#111",marginBottom:10}}>Map Markers</div>
+            <div style={{fontSize:14,color:"#374151",lineHeight:1.8}}>
+              <p style={{marginBottom:12}}>The Base Map and Strategic Environment (A2/AD) map use the following overlay markers:</p>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(280px,100%),1fr))",gap:8,marginBottom:12}}>
+                <div style={{display:"flex",gap:10,alignItems:"flex-start",padding:"10px 12px",background:"#fef2f2",borderRadius:8,border:"1px solid #fecaca"}}>
+                  <span style={{fontSize:20,flexShrink:0}}>{"\uD83D\uDCA5"}</span>
+                  <div><div style={{fontSize:13,fontWeight:700,color:"#991b1b"}}>Potential Flashpoints</div><div style={{fontSize:12,color:"#991b1b",opacity:0.8}}>Regions of elevated strategic tension or where military incidents are plausible. Based on IISS regional assessments.</div></div>
+                </div>
+                <div style={{display:"flex",gap:10,alignItems:"flex-start",padding:"10px 12px",background:"#fffbeb",borderRadius:8,border:"1px solid #fde68a"}}>
+                  <span style={{fontSize:20,flexShrink:0}}>{"\u2694\uFE0F"}</span>
+                  <div><div style={{fontSize:13,fontWeight:700,color:"#92400e"}}>Historical Border Disputes</div><div style={{fontSize:12,color:"#92400e",opacity:0.8}}>Locations of past or ongoing territorial/maritime disputes with neighboring states: North Natuna Sea (China), Ambalat (Malaysia), Sipadan & Ligitan (Malaysia, ICJ 2002).</div></div>
+                </div>
+                <div style={{display:"flex",gap:10,alignItems:"flex-start",padding:"10px 12px",background:"#fff7ed",borderRadius:8,border:"1px solid #fed7aa"}}>
+                  <span style={{fontSize:20,flexShrink:0}}>{"\u26CF\uFE0F"}</span>
+                  <div><div style={{fontSize:13,fontWeight:700,color:"#9a3412"}}>Mining Sites (Amphibious-Vulnerable)</div><div style={{fontSize:12,color:"#9a3412",opacity:0.8}}>Key mining regions with coastal topography favorable for amphibious landing operations. Assessed for beach gradient, surf zone, and vehicle trafficability. Commodities: tin (Bangka Belitung), bauxite (Bintan, Ketapang), nickel (Halmahera, Kolaka).</div></div>
+                </div>
+              </div>
             </div>
           </div>
 
