@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yonif TP vs A2/AD — Opportunity Cost | LAB45</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C8A951; --gold-dim: #8a7035; --gold-bg: rgba(200,169,81,0.07);
+  --red: #C0392B; --red-dim: #7a2218; --red-bg: rgba(192,57,43,0.08);
+  --teal: #1ABC9C; --teal-dim: #0d7a63; --teal-bg: rgba(26,188,156,0.07);
+  --bg: #0a0c10; --bg2: #0f1218; --bg3: #141820; --bg4: #1a2030;
+  --border: #1e2535; --border2: #252d40;
+  --text: #e8eaf0; --text-dim: #6b7a9a; --text-mid: #9aa5c0;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --display: 'Bebas Neue', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:15px; font-weight:400; min-height:100vh; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image: linear-gradient(rgba(200,169,81,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(200,169,81,0.025) 1px, transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
+
+/* HEADER */
+header { position:relative; z-index:10; padding:16px 28px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:rgba(10,12,16,0.95); backdrop-filter:blur(10px); }
+.lab-badge { font-family:var(--mono); font-size:10px; font-weight:600; color:var(--gold); letter-spacing:0.15em; text-transform:uppercase; border:1px solid var(--gold-dim); padding:3px 8px; background:var(--gold-bg); }
+.header-title { font-family:var(--display); font-size:19px; font-weight:400; color:var(--text); letter-spacing:0.06em; margin-left:14px; }
+.header-title span { color:var(--gold); }
+.header-meta { font-family:var(--mono); font-size:10px; color:var(--text-dim); letter-spacing:0.1em; }
+
+/* LAYOUT */
+.app { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto 1fr; min-height:calc(100vh - 49px); }
+.scale-fullwidth { grid-column:1 / -1; border-bottom:1px solid var(--border); }
+.panel { padding:20px 24px; border-right:1px solid var(--border); overflow-y:auto; max-height:calc(100vh - 49px - var(--scale-h, 200px)); }
+.panel:last-child { border-right:none; }
+.panel-header { display:flex; align-items:center; gap:10px; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+.panel-icon { width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:12px; border:1px solid; flex-shrink:0; }
+.panel-icon.red { border-color:var(--red-dim); background:var(--red-bg); color:var(--red); }
+.panel-icon.teal { border-color:var(--teal-dim); background:var(--teal-bg); color:var(--teal); }
+.panel-label h2 { font-family:var(--display); font-size:17px; font-weight:400; letter-spacing:0.08em; text-transform:uppercase; }
+.panel-label p { font-size:12px; color:var(--text-dim); margin-top:1px; }
+
+/* SECTION LABEL */
+.sec { font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dim); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.sec::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* SLIDER */
+.ctrl-group { margin-bottom:16px; }
+.ctrl-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+.ctrl-name { font-size:14px; color:var(--text-mid); }
+.ctrl-val { font-family:var(--mono); font-size:16px; font-weight:600; color:var(--gold); }
+input[type=range] { width:100%; height:5px; background:var(--bg4); outline:none; -webkit-appearance:none; cursor:pointer; border-radius:3px; border:1px solid var(--border2); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; background:var(--gold); border:3px solid var(--bg); border-radius:50%; cursor:pointer; box-shadow:0 0 0 2px rgba(200,169,81,0.3); transition:box-shadow .15s; }
+input[type=range]:hover::-webkit-slider-thumb { box-shadow:0 0 0 5px rgba(200,169,81,0.25); }
+.slider-labels { display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--text-dim); margin-top:3px; }
+
+/* TIER SELECTOR */
+.tier-sel { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:16px; }
+.tier-btn { padding:12px 6px; background:var(--bg3); border:2px solid var(--border2); color:var(--text-mid); font-family:var(--mono); font-size:12px; cursor:pointer; transition:all 0.15s; text-align:center; letter-spacing:0.04em; border-radius:3px; }
+.tier-btn.active { background:rgba(200,169,81,0.18); border-color:var(--gold); color:var(--gold); font-weight:700; box-shadow:0 0 10px rgba(200,169,81,0.15); }
+.tier-btn:hover:not(.active) { border-color:#4a5a6a; color:var(--text); background:var(--bg4); }
+
+/* COST BOXES */
+.cost-box { background:var(--bg2); border:1px solid var(--border); padding:14px; margin-bottom:12px; }
+.cost-row { display:flex; justify-content:space-between; align-items:baseline; padding:5px 0; border-bottom:1px solid var(--border); }
+.cost-row:last-child { border-bottom:none; }
+.cost-label { font-size:13px; color:var(--text-mid); }
+.cost-label.sm { font-size:12px; color:var(--text-dim); }
+.cost-amt { font-family:var(--mono); font-size:13px; font-weight:600; }
+.c-red { color:var(--red); } .c-gold { color:var(--gold); } .c-orange { color:#e67e22; } .c-teal { color:var(--teal); } .c-text { color:var(--text); }
+
+.total-box { padding:16px; margin-bottom:12px; text-align:center; }
+.total-box.red { background:linear-gradient(135deg,rgba(192,57,43,0.14),rgba(192,57,43,0.04)); border:1px solid rgba(192,57,43,0.3); }
+.total-box.teal { background:linear-gradient(135deg,rgba(26,188,156,0.14),rgba(26,188,156,0.04)); border:1px solid rgba(26,188,156,0.3); }
+.total-lbl { font-family:var(--mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:6px; }
+.total-lbl.red { color:var(--red); } .total-lbl.teal { color:var(--teal); }
+.total-val { font-family:var(--display); font-size:44px; font-weight:400; line-height:1; letter-spacing:0.02em; }
+.total-val.red { color:var(--red); } .total-val.teal { color:var(--teal); }
+.total-sub { font-size:12px; color:var(--text-dim); margin-top:5px; }
+
+/* YEAR TABLE */
+.yr-table { width:100%; border-collapse:collapse; margin-bottom:12px; font-size:13px; }
+.yr-table th { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); padding:5px 6px; text-align:right; border-bottom:1px solid var(--border); }
+.yr-table th:first-child { text-align:left; }
+.yr-table td { font-family:var(--mono); padding:5px 6px; text-align:right; border-bottom:1px solid var(--border); color:var(--text-mid); }
+.yr-table td:first-child { text-align:left; color:var(--gold); font-weight:600; }
+.yr-table tr.total-row td { border-bottom:none; color:var(--text); font-weight:600; background:rgba(200,169,81,0.04); }
+
+/* BURDEN */
+.burden-box { background:rgba(192,57,43,0.06); border:1px solid rgba(192,57,43,0.2); padding:12px; margin-bottom:12px; }
+.burden-lbl { font-family:var(--mono); font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--red); margin-bottom:6px; }
+.burden-val { font-family:var(--display); font-size:28px; font-weight:400; color:#e74c3c; letter-spacing:0.02em; }
+.burden-desc { font-size:12px; color:var(--text-dim); margin-top:4px; line-height:1.5; }
+
+/* COST DETAIL CARD */
+.detail-card { border:1px solid var(--border); background:var(--bg2); margin-bottom:12px; }
+.detail-card-header { background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border); padding:7px 12px; font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+.detail-card-header.setup { color:#e67e22; }
+.detail-card-header.ops { color:var(--red); }
+.detail-cols { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+.detail-col { padding:10px 12px; }
+.detail-col:first-child { border-right:1px solid var(--border); }
+.detail-col-title { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; padding-bottom:5px; border-bottom:1px solid var(--border); }
+.detail-col-title.setup { color:#e67e22; }
+.detail-col-title.ops { color:var(--red); }
+.detail-line { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px; gap:6px; }
+.detail-line-label { font-size:12px; color:var(--text-dim); line-height:1.4; flex:1; }
+.detail-line-val { font-family:var(--mono); font-size:12px; font-weight:600; white-space:nowrap; }
+.detail-line-val.setup { color:#e67e22; }
+.detail-line-val.ops { color:var(--red); }
+.detail-total-row { display:flex; justify-content:space-between; align-items:baseline; padding-top:6px; margin-top:4px; border-top:1px solid var(--border2); }
+.detail-total-label { font-size:10px; font-weight:600; color:var(--text-mid); }
+.detail-total-val { font-family:var(--display); font-size:16px; font-weight:400; letter-spacing:0.03em; }
+.detail-total-val.setup { color:#e67e22; }
+.detail-total-val.ops { color:var(--red); }
+.detail-flag { font-size:10px; color:var(--text-dim); font-style:italic; margin-top:3px; line-height:1.4; }
+
+/* SUMMARY BOXES */
+.sumbox-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; margin-bottom:12px; }
+.sumbox { padding:10px 10px; text-align:center; border:1px solid; }
+.sumbox.setup { background:rgba(230,126,34,0.08); border-color:rgba(230,126,34,0.3); }
+.sumbox.ops { background:rgba(192,57,43,0.1); border-color:rgba(192,57,43,0.35); }
+.sumbox.compare { background:rgba(26,188,156,0.08); border-color:rgba(26,188,156,0.3); }
+.sumbox-lbl { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:4px; }
+.sumbox.setup .sumbox-lbl { color:#e67e22; }
+.sumbox.ops .sumbox-lbl { color:var(--red); }
+.sumbox.compare .sumbox-lbl { color:var(--teal); }
+.sumbox-val { font-family:var(--display); font-size:17px; font-weight:400; line-height:1.1; letter-spacing:0.03em; }
+.sumbox.setup .sumbox-val { color:#e67e22; }
+.sumbox.ops .sumbox-val { color:var(--red); }
+.sumbox.compare .sumbox-val { color:var(--teal); }
+.sumbox-sub { font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.3; }
+.caveat p { font-size:12px; color:var(--text-dim); line-height:1.5; }
+.caveat p strong { color:var(--gold); }
+
+/* ── SCALE / TIMBANGAN — FULL WIDTH ── */
+.scale-wrap { background:var(--bg2); padding:14px 20px 10px; display:flex; flex-direction:column; align-items:stretch; }
+.scale-body { display:flex; align-items:center; gap:0; }
+.scale-side { width:200px; flex-shrink:0; padding:0 16px; display:flex; flex-direction:column; justify-content:center; }
+.scale-side.left { text-align:right; border-right:1px solid var(--border); }
+.scale-side.right { text-align:left; border-left:1px solid var(--border); }
+.scale-side-label { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:4px; }
+.scale-side-label.red { color:var(--red); }
+.scale-side-label.teal { color:var(--teal); }
+.scale-side-val { font-family:var(--display); font-size:30px; font-weight:400; line-height:1; margin-bottom:3px; letter-spacing:0.03em; }
+.scale-side-val.red { color:var(--red); }
+.scale-side-val.teal { color:var(--teal); }
+.scale-side-sub { font-size:11px; color:var(--text-dim); line-height:1.4; }
+.scale-side-legend { margin-top:10px; display:flex; flex-direction:column; gap:3px; }
+.scale-side.left .scale-side-legend { align-items:flex-end; }
+.scale-side.right .scale-side-legend { align-items:flex-start; }
+.scale-legend-item { display:flex; align-items:center; gap:4px; font-family:var(--mono); font-size:10px; color:var(--text-dim); }
+.scale-legend-dot { width:8px; height:8px; flex-shrink:0; }
+.scale-svg-wrap { flex:1; min-width:0; }
+.scale-svg-wrap svg { overflow:visible; width:100%; display:block; }
+.scale-verdict-wrap { text-align:center; margin-top:8px; }
+.scale-verdict { font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:0.08em; padding:8px 24px; border:1px solid; display:inline-block; border-radius:2px; }
+
+/* ── COMPACT CHART ── */
+.chart-area-compact { display:grid; grid-template-columns:1fr 28px 1fr; gap:0; align-items:end; }
+.mode-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-bottom:14px; }
+.mode-btn { padding:12px 8px; background:var(--bg3); border:2px solid var(--border2); color:var(--text-mid); font-family:var(--display); font-size:14px; font-weight:400; cursor:pointer; transition:all 0.15s; text-align:center; letter-spacing:0.05em; border-radius:3px; }
+.mode-btn.active { background:rgba(26,188,156,0.15); border-color:var(--teal); color:var(--teal); box-shadow:0 0 12px rgba(26,188,156,0.12); }
+.mode-btn:hover:not(.active) { border-color:#4a5a6a; color:var(--text); background:var(--bg4); }
+
+/* SCENARIO SUB-TABS */
+.scen-bar { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; margin-bottom:14px; }
+.scen-tab { padding:10px 6px; background:var(--bg3); border:2px solid var(--border2); color:var(--text-mid); font-family:var(--mono); font-size:11px; cursor:pointer; transition:all 0.15s; text-align:center; letter-spacing:0.04em; line-height:1.6; border-radius:3px; }
+.scen-tab.active { background:rgba(26,188,156,0.15); border-color:var(--teal); color:var(--teal); font-weight:700; box-shadow:0 0 10px rgba(26,188,156,0.1); }
+.scen-tab:hover:not(.active) { border-color:#4a5a6a; color:var(--text); background:var(--bg4); }
+
+/* SCENARIO DESC */
+.scen-desc { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--teal-dim); padding:10px 12px; margin-bottom:14px; }
+.scen-title { font-family:var(--mono); font-size:10px; font-weight:600; color:var(--teal); letter-spacing:0.1em; margin-bottom:3px; }
+.scen-body { font-size:14px; color:var(--text-mid); line-height:1.6; }
+.scen-gap { font-size:12px; color:var(--text-dim); margin-top:5px; padding-top:5px; border-top:1px solid var(--border); line-height:1.5; }
+.scen-gap strong { color:#e67e22; }
+
+/* CAPABILITY ITEMS */
+.cap-item { border:2px solid var(--border); margin-bottom:6px; transition:all 0.15s; border-radius:3px; }
+.cap-item.sel { border-color:var(--teal); background:rgba(26,188,156,0.06); box-shadow:0 0 10px rgba(26,188,156,0.08); }
+.cap-item:hover:not(.sel) { border-color:#4a5a6a; background:rgba(255,255,255,0.02); }
+.cap-hdr { display:flex; align-items:center; gap:10px; padding:12px 12px; cursor:pointer; user-select:none; transition:background .15s; }
+.cap-chk { width:18px; height:18px; border:2px solid var(--border2); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--teal); transition:all 0.15s; border-radius:2px; }
+.cap-item.sel .cap-chk { background:var(--teal); border-color:var(--teal); color:var(--bg); font-weight:700; }
+.cap-info { flex:1; }
+.cap-name { font-size:14px; font-weight:500; color:var(--text); }
+.cap-meta { display:flex; gap:5px; margin-top:2px; flex-wrap:wrap; }
+.ctag { font-family:var(--mono); font-size:10px; padding:1px 5px; border:1px solid; letter-spacing:0.04em; }
+.tag-outer { border-color:#1a4a6b; color:#4a9eca; background:rgba(74,158,202,0.08); }
+.tag-middle { border-color:#1a5a2b; color:#4aca7a; background:rgba(74,202,122,0.08); }
+.tag-inner { border-color:#5a1a1a; color:#ca4a4a; background:rgba(202,74,74,0.08); }
+.tag-confirmed { border-color:var(--teal-dim); color:var(--teal); background:rgba(26,188,156,0.06); }
+.tag-negotiating { border-color:#5a4a0a; color:#c8a931; background:rgba(200,169,49,0.06); }
+.tag-whatif { border-color:#3a2a5a; color:#8a6aca; background:rgba(138,106,202,0.08); }
+.cap-price { font-family:var(--mono); font-size:14px; font-weight:600; color:var(--teal); white-space:nowrap; }
+.cap-qty { display:none; align-items:center; gap:8px; padding:0 10px 9px; }
+.cap-item.sel .cap-qty { display:flex; }
+.qty-lbl { font-size:12px; color:var(--text-dim); flex:1; }
+.qty-ctrl { display:flex; align-items:center; gap:5px; }
+.qty-btn { width:26px; height:26px; background:var(--bg4); border:2px solid var(--border2); color:var(--text-mid); font-size:15px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; border-radius:3px; }
+.qty-btn:hover { background:var(--teal-bg); border-color:var(--teal-dim); color:var(--teal); }
+.qty-num { font-family:var(--mono); font-size:14px; font-weight:600; color:var(--teal); min-width:22px; text-align:center; }
+
+/* STACKED BAR CHART */
+.chart-wrap { margin-bottom:14px; }
+.chart-title { font-family:var(--mono); font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
+.chart-area { display:grid; grid-template-columns:1fr 40px 1fr; gap:0; align-items:end; }
+.chart-col { display:flex; flex-direction:column; align-items:center; }
+.chart-col-label { font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-bottom:6px; text-align:center; line-height:1.4; }
+.bar-container { width:100%; display:flex; flex-direction:column-reverse; min-height:20px; }
+.bar-seg { width:100%; transition:height 0.4s ease; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; min-height:0; }
+.bar-seg-label { font-family:var(--mono); font-size:8px; font-weight:600; color:rgba(255,255,255,0.85); text-align:center; padding:0 3px; line-height:1.3; pointer-events:none; }
+.chart-divider { display:flex; align-items:center; justify-content:center; padding-bottom:20px; }
+.chart-divider span { font-family:var(--mono); font-size:9px; color:var(--text-dim); writing-mode:vertical-rl; letter-spacing:0.1em; }
+.bar-total-label { font-family:var(--display); font-size:16px; font-weight:400; margin-top:6px; text-align:center; letter-spacing:0.04em; }
+.bar-total-label.red { color:var(--red); }
+.bar-total-label.teal { color:var(--teal); }
+.bar-sublabel { font-size:11px; color:var(--text-dim); text-align:center; margin-top:2px; }
+
+/* COMP INSIGHT */
+.comp-insight { background:var(--bg2); border:1px solid var(--border); padding:12px; margin-bottom:12px; font-size:13px; color:var(--text-dim); line-height:1.6; }
+.comp-insight strong { color:var(--gold); }
+
+/* TOTALS ROW */
+.a2ad-total-box { background:linear-gradient(135deg,rgba(26,188,156,0.14),rgba(26,188,156,0.04)); border:1px solid rgba(26,188,156,0.3); padding:14px; margin-bottom:12px; text-align:center; }
+
+
+.spacer { height:4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;">
+    <div class="lab-badge">LAB45</div>
+    <div class="header-title" style="margin-left:14px;">Yonif TP vs A2/AD — <span>Opportunity Cost Calculator</span></div>
+  </div>
+  <div class="header-meta">INDONESIA DEFENSE ANALYSIS · v2.0 · 2025–2029</div>
+</header>
+
+<div class="app">
+
+<!-- ══════════════════════════════════════
+     FULL-WIDTH TIMBANGAN
+══════════════════════════════════════ -->
+<div class="scale-fullwidth" id="scale-section">
+  <div class="scale-wrap">
+    <div class="scale-body">
+
+      <!-- LEFT SIDE — Yonif TP -->
+      <div class="scale-side left">
+        <div class="scale-side-label red">TOTAL PROGRAM YONIF TP</div>
+        <div class="scale-side-val red" id="scale-val-ytp">—</div>
+        <div class="scale-side-sub">sunk 2025 + forward 2025–2029</div>
+        <div class="scale-side-legend">
+          <div class="scale-legend-item">
+            <span style="font-size:9px;color:var(--text-dim);" id="scale-ops-val">—</span>
+            <div class="scale-legend-dot" style="background:rgba(192,57,43,0.9);"></div>
+            <span>Ops (fwd)</span>
+          </div>
+          <div class="scale-legend-item">
+            <span style="font-size:9px;color:var(--text-dim);" id="scale-setup-val">—</span>
+            <div class="scale-legend-dot" style="background:rgba(230,126,34,0.9);"></div>
+            <span>Setup (fwd)</span>
+          </div>
+          <div class="scale-legend-item">
+            <span style="font-size:9px;color:var(--text-dim);" id="scale-sunk-val">—</span>
+            <div class="scale-legend-dot" style="background:rgba(90,90,110,0.9);"></div>
+            <span>Sunk 2025 ⚠est.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SVG TIMBANGAN (pure scale, no labels) -->
+      <div class="scale-svg-wrap">
+        <svg id="scale-svg" viewBox="0 0 460 160" xmlns="http://www.w3.org/2000/svg">
+          <!-- Fulcrum -->
+          <polygon points="230,134 216,150 244,150" fill="#2a3040"/>
+          <rect x="225" y="116" width="10" height="20" fill="#2a3040"/>
+          <!-- Pivot -->
+          <circle cx="230" cy="114" r="6" fill="#C8A951"/>
+
+          <!-- Beam group — rotates around pivot 230,114 -->
+          <g id="scale-beam-g" style="transform-origin:230px 114px; transition:transform 0.7s cubic-bezier(.34,1.4,.64,1);">
+            <rect x="50" y="110" width="360" height="8" rx="4" fill="#2a3040"/>
+            <!-- Chain left -->
+            <line x1="110" y1="114" x2="110" y2="86" stroke="#3a4560" stroke-width="2" stroke-dasharray="3,2"/>
+            <!-- Chain right -->
+            <line x1="350" y1="114" x2="350" y2="86" stroke="#3a4560" stroke-width="2" stroke-dasharray="3,2"/>
+            <!-- Pan left -->
+            <ellipse cx="110" cy="86" rx="60" ry="9" fill="#1a0a0a" stroke="#C0392B" stroke-width="1.5"/>
+            <!-- Pan right -->
+            <ellipse cx="350" cy="86" rx="60" ry="9" fill="#091a17" stroke="#1ABC9C" stroke-width="1.5"/>
+          </g>
+
+          <!-- Stacking blocks — outside beam-g, wrapped in translateY groups -->
+          <!-- Left pan group -->
+          <g id="blk-left-g" style="transition:transform 0.7s cubic-bezier(.34,1.4,.64,1);">
+            <!-- Sunk cost block (darkest, bottom) -->
+            <rect id="blk-l-sunk" x="52" y="86" width="116" height="0"
+              fill="rgba(90,90,110,0.85)" stroke="rgba(120,120,150,0.9)" stroke-width="1"
+              style="transition:height 0.6s ease, y 0.6s ease;"/>
+            <text id="blk-l-sunk-lbl" x="110" y="0" text-anchor="middle"
+              font-family="'IBM Plex Mono',monospace" font-size="8" fill="rgba(255,255,255,0.8)" style="pointer-events:none;"></text>
+            <rect id="blk-l-setup" x="52" y="86" width="116" height="0"
+              fill="rgba(230,126,34,0.82)" stroke="rgba(230,126,34,0.95)" stroke-width="1"
+              style="transition:height 0.6s ease, y 0.6s ease;"/>
+            <rect id="blk-l-ops" x="52" y="86" width="116" height="0"
+              fill="rgba(192,57,43,0.82)" stroke="rgba(192,57,43,0.95)" stroke-width="1"
+              style="transition:height 0.6s ease, y 0.6s ease;"/>
+            <text id="blk-l-setup-lbl" x="110" y="0" text-anchor="middle"
+              font-family="'IBM Plex Mono',monospace" font-size="8" fill="rgba(255,255,255,0.9)" style="pointer-events:none;"></text>
+            <text id="blk-l-ops-lbl" x="110" y="0" text-anchor="middle"
+              font-family="'IBM Plex Mono',monospace" font-size="8" fill="rgba(255,255,255,0.9)" style="pointer-events:none;"></text>
+          </g>
+          <!-- Right pan group -->
+          <g id="blk-right-g" style="transition:transform 0.7s cubic-bezier(.34,1.4,.64,1);">
+            <rect id="blk-r-a2ad" x="292" y="86" width="116" height="0"
+              fill="rgba(26,188,156,0.65)" stroke="rgba(26,188,156,0.9)" stroke-width="1"
+              style="transition:height 0.6s ease, y 0.6s ease;"/>
+            <text id="blk-r-a2ad-lbl" x="350" y="0" text-anchor="middle"
+              font-family="'IBM Plex Mono',monospace" font-size="8" fill="rgba(255,255,255,0.9)" style="pointer-events:none;"></text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- RIGHT SIDE — A2/AD -->
+      <div class="scale-side right">
+        <div class="scale-side-label teal">A2/AD PORTFOLIO</div>
+        <div class="scale-side-val teal" id="scale-val-a2ad">—</div>
+        <div class="scale-side-sub" id="scale-sub-a2ad">pilih sistem di panel kanan</div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;" id="scale-mode-label">—</div>
+          <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--teal);" id="scale-scen-label">—</div>
+        </div>
+        <div class="scale-side-legend" id="scale-r-legend" style="margin-top:10px;">
+          <div class="scale-legend-item">
+            <div class="scale-legend-dot" style="background:rgba(26,188,156,0.8);"></div>
+            <span>A2/AD portfolio</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end scale-body -->
+
+    <div class="scale-verdict-wrap">
+      <span class="scale-verdict" id="scale-verdict" style="color:var(--text-dim);border-color:var(--border);">—</span>
+    </div>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-header">
+    <div class="panel-icon red">⬛</div>
+    <div class="panel-label">
+      <h2>Yonif TP — Program Cost</h2>
+      <p>Batalyon Infanteri Teritorial Pembangunan 2025–2029</p>
+    </div>
+  </div>
+
+  <div class="sec">Parameter Program</div>
+  <div style="display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:start;margin-bottom:8px;">
+    <!-- LEFT: two sliders stacked -->
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+          <span style="font-size:10px;color:var(--text-mid);">Target Batalyon</span>
+          <span style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--gold);" id="bn-val">518</span>
+        </div>
+        <input type="range" id="bn-slider" min="518" max="750" value="518" step="1" oninput="update()">
+        <div class="slider-labels"><span>518 (Kab/Kota)</span><span>750 (Menhan)</span></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+          <span style="font-size:10px;color:var(--text-mid);">Setup Infrastruktur/Bn</span>
+          <span style="font-family:var(--mono);font-size:13px;font-weight:700;color:#e67e22;" id="setup-val">Rp40M</span>
+        </div>
+        <input type="range" id="setup-slider" min="40" max="100" value="40" step="5" oninput="updateSetup()">
+        <div class="slider-labels"><span>Rp40M (LKPP)</span><span>Rp100M (maks)</span></div>
+      </div>
+    </div>
+    <!-- RIGHT: tier buttons -->
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);letter-spacing:.1em;margin-bottom:3px;">PERSONEL/BN</div>
+      <button class="tier-btn" id="t400" onclick="setTier(400)" style="padding:8px 4px;font-size:11px;">400<br><span style="font-size:8px;opacity:0.7">Konservatif</span></button>
+      <button class="tier-btn active" id="t700" onclick="setTier(700)" style="padding:8px 4px;font-size:11px;">700<br><span style="font-size:8px;opacity:0.7">Papua Bench†</span></button>
+      <button class="tier-btn" id="t1000" onclick="setTier(1000)" style="padding:8px 4px;font-size:11px;">1.000<br><span style="font-size:8px;opacity:0.7">Maksimal</span></button>
+    </div>
+  </div>
+  <div style="font-size:9px;color:var(--text-dim);margin-bottom:10px;line-height:1.5;">
+    † 700 dibulatkan dari 691 (benchmark Yonarmed Papua, Kompas 2025). Setup = infrastruktur fisik saja; peralatan organik tidak dimodelkan (tidak ada data publik). Sumber LKPP/Kemhan: YTP 856 Nagan Raya Rp40,05M; YTP Kuningan Rp38,92M.
+  </div>
+
+  <div class="total-box red">
+    <div class="total-lbl red">Total Biaya 2025–2029</div>
+    <div class="total-val red" id="grand-total">—</div>
+    <div class="total-sub" id="grand-total-sub">—</div>
+  </div>
+
+  <div style="background:rgba(100,100,120,0.08);border:1px solid rgba(150,150,180,0.2);border-left:3px solid #6b7a9a;padding:12px 14px;margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+      <span style="font-family:var(--mono);font-size:9px;color:#6b7a9a;letter-spacing:.12em;text-transform:uppercase;">Estimasi Sunk Cost 2025</span>
+      <span style="font-family:var(--display);font-size:20px;font-weight:400;letter-spacing:.03em;color:#9aa5c0;" id="sunk-total">—</span>
+    </div>
+    <div style="display:flex;gap:16px;margin-bottom:6px;">
+      <div><span style="font-size:9px;color:var(--text-dim);">Setup: </span><span style="font-family:var(--mono);font-size:10px;color:#9aa5c0;" id="sunk-setup">—</span></div>
+      <div><span style="font-size:9px;color:var(--text-dim);">Ops: </span><span style="font-family:var(--mono);font-size:10px;color:#9aa5c0;" id="sunk-ops">—</span></div>
+    </div>
+    <div style="font-size:9px;color:var(--text-dim);line-height:1.5;">
+      ⚠ Estimasi editorial LAB45 — tidak ada data resmi Kemhan. Setup = 50% dari slider setup (asumsi campuran tenda/menumpang/baru). Ops dihitung dari 100 bn ×5 bln + 55 bn ×2 bln rata-rata di 2025. Sumber timeline: TNI AD (Agt 2025) + Menhan RDP DPR (Nov 2025).
+    </div>
+  </div>
+
+  <div style="background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.2);border-left:3px solid rgba(192,57,43,0.5);padding:12px 14px;margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <span style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:.1em;text-transform:uppercase;">Total Program (Sunk + 2025–2029)</span>
+      <span style="font-family:var(--display);font-size:22px;font-weight:400;letter-spacing:.03em;color:#e74c3c;" id="total-program">—</span>
+    </div>
+    <div style="font-size:9px;color:var(--text-dim);margin-top:4px;">Digunakan sebagai pembanding di timbangan</div>
+  </div>
+
+  <!-- rincian cost-box removed -->
+
+  <!-- breakdown card removed -->
+
+  <div class="sec">Proyeksi Per Tahun</div>
+  <table class="yr-table">
+    <thead><tr><th>Tahun</th><th>Kum. Bn</th><th>Setup</th><th>Ops/Th</th><th>Total/Th</th></tr></thead>
+    <tbody id="yr-tbody"></tbody>
+  </table>
+
+  <div class="sec">Beban Permanen Pasca-2029</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.2);padding:10px 14px;margin-bottom:12px;">
+    <span style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:.1em;">▲ RECURRING / TAHUN — SELAMANYA</span>
+    <span style="font-family:var(--display);font-size:20px;font-weight:400;letter-spacing:.03em;color:#e74c3c;" id="annual-burden">—</span>
+  </div>
+
+  <div class="caveat"><p><strong>Metodologi:</strong> Ops cost proxy dari gaji Pangdam XII/Tanjungpura (Rp5M/prajurit/bulan). Setup: infrastruktur fisik saja — dua kontrak LKPP/Kemhan menunjukkan kisaran Rp38,9–40,3M untuk konstruksi fasilitas Yonif TP (SPSE Kemhan, 2024–2025). Peralatan organik tidak dimodelkan karena tidak ada data pengadaan publik. Angka total setup per batalyon belum dipublikasikan secara resmi oleh Kemhan.</p></div>
+  <div class="spacer"></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     RIGHT PANEL — A2/AD
+══════════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-header">
+    <div class="panel-icon teal">◈</div>
+    <div class="panel-label">
+      <h2>A2/AD — Opportunity Cost</h2>
+      <p>Apa yang bisa dibangun dengan anggaran yang sama?</p>
+    </div>
+  </div>
+
+  <!-- INSIGHT -->
+  <div class="comp-insight" id="comp-insight">Pilih capability items untuk melihat perbandingan.</div>
+
+  <!-- MODE SELECTOR -->
+  <div class="sec">Mode Analisis</div>
+  <div class="mode-bar">
+    <button class="mode-btn active" id="m-scenario" onclick="setMode('scenario')">📍 Scenario-Based</button>
+    <button class="mode-btn" id="m-gap" onclick="setMode('gap')">⚠ Capability Gap</button>
+    <button class="mode-btn" id="m-custom" onclick="setMode('custom')">✏ Custom</button>
+    <button class="mode-btn" id="m-ptn" onclick="setMode('ptn')">🛡 PTN Gap Funding</button>
+  </div>
+
+  <!-- SCENARIO SUB-TABS (only shown in scenario mode) -->
+  <div id="scen-bar-wrap">
+    <div class="sec">Skenario Operasional</div>
+    <div class="scen-bar">
+      <button class="scen-tab active" id="sc-natuna" onclick="setScenario('natuna')">🌊<br>Natuna<br>Grey Zone</button>
+      <button class="scen-tab" id="sc-alki-fon" onclick="setScenario('alki-fon')">🚢<br>ALKI<br>FoN</button>
+      <button class="scen-tab" id="sc-alki-neu" onclick="setScenario('alki-neu')">⚓<br>ALKI<br>Neutrality</button>
+      <button class="scen-tab" id="sc-amphibious" onclick="setScenario('amphibious')">🏝<br>Amphibious<br>Pulau Terluar</button>
+      <button class="scen-tab" id="sc-airspace" onclick="setScenario('airspace')">✈<br>Pelanggaran<br>Udara</button>
+    </div>
+    <div class="scen-desc" id="scen-desc">
+      <div class="scen-title" id="scen-title">—</div>
+      <div class="scen-body" id="scen-body">—</div>
+      <div class="scen-gap" id="scen-gap">—</div>
+    </div>
+  </div>
+
+  <!-- MODE DESC (gap/custom) -->
+  <div id="mode-desc-wrap" style="display:none;">
+    <div class="scen-desc">
+      <div class="scen-title" id="mode-desc-title">—</div>
+      <div class="scen-body" id="mode-desc-body">—</div>
+    </div>
+  </div>
+
+  <!-- PTN GAP FUNDING (mode=ptn only) -->
+  <div id="ptn-wrap" style="display:none;">
+    <div id="ptn-kpi-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:14px;"></div>
+    <div class="sec">Gap PTN per Pilar</div>
+    <div id="ptn-pillar-bar-wrap" style="margin-bottom:14px;">
+      <div style="display:flex;height:26px;overflow:hidden;background:var(--bg4);margin-bottom:4px;" id="ptn-pillar-bar"></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;" id="ptn-pillar-legend"></div>
+    </div>
+    <div class="sec">Cakupan Anggaran Yonif TP</div>
+    <div id="ptn-coverage-wrap" style="margin-bottom:14px;">
+      <div style="position:relative;height:26px;background:var(--bg4);overflow:hidden;" id="ptn-coverage-bar-outer">
+        <div id="ptn-coverage-bar-fill" style="height:100%;transition:width .4s ease;"></div>
+        <div id="ptn-coverage-bar-label" style="position:absolute;top:50%;transform:translateY(-50%);right:8px;font-family:var(--mono);font-size:9px;color:rgba(255,255,255,0.6);"></div>
+      </div>
+      <div id="ptn-coverage-insight" style="background:rgba(26,188,156,0.06);border:1px solid rgba(26,188,156,0.15);border-left:3px solid var(--teal-dim);padding:10px 12px;margin-top:8px;font-size:10px;color:var(--text-mid);line-height:1.6;"></div>
+    </div>
+    <div class="sec">Rincian Item Gap</div>
+    <div id="ptn-item-list" style="margin-bottom:10px;"></div>
+    <div class="caveat"><p><strong>Sumber gap:</strong> PTN Tracker LAB45 vs IISS Military Balance 2026 + SIPRI ATD. Harga est. berdasarkan kontrak publik terdekat. <strong style="color:var(--gold)">★ KAAN</strong> est. $200M/unit ($10B ÷ 48). <strong style="color:var(--gold)">★ SRBM Khan</strong> nilai kontrak tidak dipublikasikan — benchmark BrahMos/HIMARS.</p></div>
+  </div>
+
+  <!-- CAPABILITY LIST -->
+  <div class="sec" id="cap-list-sec">Sistem Senjata</div>
+  <div id="cap-list"></div>
+
+  <!-- COMPACT BAR CHART -->
+  <div class="sec" id="chart-sec">Perbandingan Visual</div>
+  <div class="chart-wrap" id="chart-wrap">
+    <div class="chart-title">Alokasi Anggaran: Yonif TP vs A2/AD Portfolio</div>
+    <div class="chart-area-compact">
+      <div class="chart-col">
+        <div class="chart-col-label">Yonif TP<br>2025–2029</div>
+        <div class="bar-container" id="bar-ytp" style="height:160px;"></div>
+        <div class="bar-total-label red" id="chart-ytp-total">—</div>
+        <div class="bar-sublabel">setup + ops kumulatif</div>
+      </div>
+      <div class="chart-divider-compact"><span>ATAU</span></div>
+      <div class="chart-col">
+        <div class="chart-col-label">A2/AD<br>Portfolio</div>
+        <div class="bar-container" id="bar-a2ad" style="height:160px;"></div>
+        <div class="bar-total-label teal" id="chart-a2ad-total">—</div>
+        <div class="bar-sublabel" id="chart-a2ad-sub">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="caveat"><p><strong>Tier:</strong> <span style="color:var(--teal)">■ Confirmed</span> = kontrak aktif · <span style="color:#c8a931">■ Negotiating</span> = proses/LOI · <span style="color:#8a6aca">■ What-If</span> = kebutuhan analitis</p></div>
+  <div class="caveat"><p><strong>Fighter:</strong> F-16, Rafale, KAAN tidak dimasukkan sebagai line item karena sudah dalam procurement. Dalam A2/AD, fighter berperan sebagai intercept/identifikasi — pelengkap radar dan SAM, bukan pengganti.</p></div>
+  <div class="spacer"></div>
+</div>
+
+</div><!-- end .app -->
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════
+const IDR_PER_USD = 17100;
+
+// ═══════════════════════════════════════════════════
+// PTN GAP DATA
+// ═══════════════════════════════════════════════════
+const PTN_PILLARS = [
+  {
+    key:'dirga', label:'Perisai Dirga', icon:'✈', color:'#8a6aca',
+    items:[
+      { sys:'KAAN Fighter',          qty:48, priceUSD:200,  unit:'pesawat',   status:'ordered',
+        note:'Dipesan Jun 2025, pengiriman mulai 2028. Menggantikan F-15 (batal Feb 2026) + Mirage (batal). Est. $200M/unit berdasarkan total kontrak $10B ÷ 48 unit.' },
+      { sys:'AEW&C',                 qty:2,  priceUSD:200,  unit:'pesawat',   status:'negotiating',
+        note:'Framework Agreement PTDI-Havelsan Feb 2025. Ceiling Kemenkeu $400M untuk 2 airframe (basis CN-235). PTN target 4 unit ideal; 2 unit prioritas.' },
+      { sys:'Radar GCI Tambahan',    qty:12, priceUSD:27,   unit:'instalasi', status:'partial',
+        note:'12 node tersisa dari target 37 Satrad. Sebagian dalam pengiriman (GM400α, ReUNION, MASTER-T). Est. $27M/node (GM400α benchmark).' },
+    ]
+  },
+  {
+    key:'samudra', label:'Perisai Samudra', icon:'⚓', color:'#1a7a9a',
+    items:[
+      { sys:'Red White Frigate',     qty:10, priceUSD:120,  unit:'unit',      status:'gap',
+        note:'2 unit dalam konstruksi (Babcock/PT PAL, $1.39B). PTN target 12 total. Est. $120M/unit berdasarkan SIGMA-class comparable.' },
+      { sys:'Kapal Selam Taktis',    qty:3,  priceUSD:1000, unit:'unit',      status:'gap',
+        note:'4 dimiliki (1× Type 209 + 3× Nagapasa). PTN target 7 total. $1B/unit = Scorpène Evolved benchmark (kontrak Naval Group Jul 2025).' },
+      { sys:'DSRV (Rescue Sub)',     qty:2,  priceUSD:60,   unit:'unit',      status:'gap',
+        note:'0 dimiliki. PTN target 2 unit. Est. $60M/unit (DSRV SRV-F benchmark). Tidak ada kontrak.' },
+      { sys:'BrahMos Battery',       qty:5,  priceUSD:450,  unit:'battery',   status:'negotiating',
+        note:'3 battery on order (MoD Mar 2026). PTN target 8 total. $450M/battery dari CAPS benchmark (MoD confirmation Mar 2026).' },
+    ]
+  },
+  {
+    key:'darat', label:'Perisai Darat', icon:'🛡', color:'#2e7d32',
+    items:[
+      { sys:'Leopard 2 MBT',         qty:11, priceUSD:15,   unit:'unit',      status:'gap',
+        note:'~103 dimiliki (61× Leo 2A4 + 42× 2RI). PTN target 114. Est. $15M/unit (refurbished 2A4 benchmark).' },
+      { sys:'AMX-13 Pengganti',      qty:45, priceUSD:5,    unit:'unit',      status:'gap',
+        note:'275 dimiliki, sebagian aging >50 tahun. PTN target 320. Est. $5M/unit (upgrade/replace).' },
+      { sys:'SRBM Battery (Khan)',   qty:4,  priceUSD:125,  unit:'battery',   status:'partial', caveat:true,
+        note:'4 battery diterima Sep 2025 (batch 1). Batch 2 (early 2026). PTN target 8. Est. $125M/battery — nilai kontrak TIDAK dipublikasikan; benchmark BrahMos/HIMARS.' },
+      { sys:'UAV Sistem',            qty:45, priceUSD:25,   unit:'sistem',    status:'gap',
+        note:'~20 unit dari berbagai tipe (TB2, Heron, MALE domestik). PTN target 65 sistem. Est. $25M/sistem (TB2 Bayraktar class benchmark).' },
+    ]
+  }
+];
+
+// Status color/label mapping
+const PTN_STATUS = {
+  ordered:      { label:'Dipesan',     color:'#1ABC9C' },
+  negotiating:  { label:'Proses/LOI',  color:'#C8A951' },
+  partial:      { label:'Sebagian',    color:'#e67e22' },
+  gap:          { label:'Belum ada',   color:'#C0392B' },
+};
+
+// System colors for stacked bar
+const CAP_COLORS = {
+  gm400:       '#1a6b9a',
+  retia:       '#2196b0',
+  aewc:        '#0e9688',
+  scorpene:    '#1a7a5a',
+  sub_add:     '#2e7d32',
+  ashm:        '#b71c1c',
+  brahmos:     '#c62828',
+  nasams:      '#6a1b9a',
+  mpa:         '#4527a0',
+  mine_lay:    '#37474f',
+  mine_mcm:    '#546e7a',
+};
+
+// ═══════════════════════════════════════════════════
+// CAPABILITY DEFINITIONS
+// ═══════════════════════════════════════════════════
+const CAPS = [
+  { id:'gm400',    name:'GCI Radar GM400α Tambahan (Thales)', layer:'middle', tier:'confirmed',
+    priceUSD:27, unit:'unit', min:1, max:20, defaultQty:12,
+    note:'12 unit tambahan untuk menutup gap target 32 Satrad TNI AU (di luar 13 unit yang sudah dikontrak). Coverage: ALKI entry/exit, flashpoint, kota strategis.' },
+  { id:'retia',    name:'GCI Radar Retia RL-3DL Tambahan (Ceko)', layer:'middle', tier:'confirmed',
+    priceUSD:17, unit:'unit', min:1, max:20, defaultQty:12,
+    note:'12 unit sudah dikontrak. Interoperable dengan GM400α. AESA, ~480-500km range, NATO-compliant. Tambahan untuk gap lanjutan.' },
+  { id:'aewc',     name:'AEW&C (PTDI-Havelsan, basis CN-235)', layer:'outer', tier:'negotiating',
+    priceUSD:400, unit:'paket 2 unit', min:1, max:3, defaultQty:1,
+    note:'Framework Agreement PTDI-Havelsan Feb 2025. Ceiling Kemenkeu $800M untuk 2 airframe. 4 unit ideal untuk 3 zona: Barat, Tengah, Timur.' },
+  { id:'scorpene', name:'Scorpène Evolved (kapal selam)', layer:'outer', tier:'confirmed',
+    priceUSD:1000, unit:'unit', min:1, max:8, defaultQty:2,
+    note:'Kontrak Naval Group, Juli 2025 — 2 unit dibangun di PT PAL. Gap total: butuh 12, punya 4. 2 unit lagi = prioritas ALKI Barat.' },
+  { id:'sub_add',  name:'Kapal Selam SSK Tambahan (What-If)', layer:'outer', tier:'whatif',
+    priceUSD:1000, unit:'unit', min:1, max:8, defaultQty:4,
+    note:'What-If. Di luar Scorpène yang sudah kontrak. Target: 12 kapal selam total. 4 unit untuk coverage 3 ALKI + patroli Natuna.' },
+  { id:'brahmos',  name:'BrahMos Coastal Battery', layer:'inner', tier:'negotiating',
+    priceUSD:450, unit:'battery', min:1, max:6, defaultQty:2,
+    note:'MoD spokesperson Maret 2026. Kontrak belum ditandatangani. 2 battery: Natuna (flashpoint aktif) + satu chokepoint ALKI kritis. Range ~290-350km, Mach 2.8.' },
+  { id:'ashm',     name:'Land-based AShM Network (What-If)', layer:'inner', tier:'whatif',
+    priceUSD:450, unit:'battery', min:1, max:9, defaultQty:6,
+    note:'What-If. Indonesia ZERO saat ini — satu-satunya di kawasan tanpa coastal AShM darat. 6 battery untuk CP1 Malacca, CP2 Natuna, CP3 Makassar, CP7 Ombai-Wetar, CP8 Lombok, CP9 Sunda.' },
+  { id:'nasams',   name:'NASAMS Battery Tambahan (What-If)', layer:'middle', tier:'whatif',
+    priceUSD:240, unit:'battery', min:1, max:8, defaultQty:6,
+    note:'What-If. Indonesia punya 1 sistem/2 battery di Jakarta. 6 battery tambahan: IKN/Nusantara, Surabaya, Makassar, Balikpapan, Medan, Manado.' },
+  { id:'mpa',      name:'C-295 MPA (Maritime Patrol Aircraft)', layer:'middle', tier:'whatif',
+    priceUSD:65, unit:'unit', min:1, max:12, defaultQty:8,
+    note:'What-If. CN-235 MPA (8 unit) sudah tua dan insufficient untuk EEZ 3.25 juta km². 8 unit C-295: 2/ALKI = 6, + Natuna + Papua.' },
+  { id:'mine_lay', name:'Mine Warfare Package (Laying)', layer:'inner', tier:'whatif',
+    priceUSD:100, unit:'paket/minefield', min:1, max:6, defaultQty:3,
+    note:'What-If. Doktrin TNI AL historis andalkan naval mines di "strategic funnels". 3 paket untuk Sunda, Lombok, Ombai-Wetar. Pricing: LOW CONFIDENCE (~$50-150M/minefield program).' },
+  { id:'mine_mcm', name:'Mine Countermeasures (MCM Upgrade)', layer:'middle', tier:'whatif',
+    priceUSD:150, unit:'vessel', min:1, max:6, defaultQty:3,
+    note:'What-If. MCM fleet Indonesia ageing (Pulau Rote, Fani, Rengat). 3 kapal MCM modern untuk memastikan Indonesia bisa sweep ranjau pihak lain di ALKI.' },
+  { id:'rwf',      name:'Red White Frigate (Merah Putih Class)', layer:'middle', tier:'negotiating',
+    priceUSD:120, unit:'unit', min:1, max:6, defaultQty:2,
+    note:'2 unit dalam konstruksi di PT PAL (Babcock SIGMA-based, $1.39B total). PTN target: 12. $120M/unit est. dari kontrak PT PAL 2024. Peran di ALKI: surface presence/constabulary FoN enforcement dan naval gunfire support di pulau terluar. Bukan kapal selam — visible deterrence yang berbeda secara eskalasi.' },
+];
+
+// ═══════════════════════════════════════════════════
+// SCENARIO / MODE DEFINITIONS
+// ═══════════════════════════════════════════════════
+const SCENARIOS = {
+  'natuna': {
+    title: 'NATUNA GREY ZONE',
+    body: 'Kapal CCG dan maritime militia China beroperasi di ZEE Natuna Utara — "grey zone" di mana respons diplomatik sulit dan militer berisiko eskalasi. Insiden 2019 (54 kapal) dan 2023 (CCG 5302/5402, 12 hari) menunjukkan Bakamla dan TNI AL tidak mampu memaksakan withdrawal.',
+    gap: '<strong>Gap kritis:</strong> Tidak ada coastal AShM yang bisa mengancam kapal permukaan dari darat. Radar blind spot di Natuna Utara. Tidak ada kapal selam cukup untuk deterrence patrol berkelanjutan.',
+    presel: { gm400:4, retia:4, scorpene:2, brahmos:2, ashm:2, mpa:4 }
+  },
+  'alki-fon': {
+    title: 'ALKI — FREEDOM OF NAVIGATION',
+    body: 'Indonesia sebagai SLOC guarantor: memastikan ALKI I (Karimata), II (Lombok-Makassar), III (Banda-Ombai-Wetar) tetap bebas dan terbuka untuk semua pengguna sah, sambil memiliki kemampuan mengidentifikasi dan mencegah penggunaan tidak sah atau operasi ISR terselubung.',
+    gap: '<strong>Gap kritis:</strong> Tidak ada integrated sensor network di ALKI. Kemampuan subsurface monitoring nyaris nol. MPA CN-235 tidak cukup untuk coverage 3 ALKI + laut terbuka. <strong>Catatan frigate:</strong> kapal selam menjamin deterrence bawah air; frigat/surface combatant diperlukan terpisah untuk constabulary presence yang visible — sinyal eskalasi yang berbeda dan saling melengkapi.',
+    presel: { gm400:6, retia:4, scorpene:2, sub_add:4, ashm:3, mpa:6, aewc:1, rwf:2 }
+  },
+  'alki-neu': {
+    title: 'ALKI — NEUTRALITY ENFORCEMENT',
+    body: 'Dalam skenario konflik US-China, Indonesia memerlukan kemampuan menutup ALKI secara sementara untuk mempertahankan status non-belligerent. Preseden: penutupan Sunda-Lombok 1988 untuk latihan tembak. Tantangan: legalitas, capability enforcement, dan risiko menjadi inadvertent belligerent. Mine-laying membutuhkan kapal cepat (KCR-class atau dedicated minelayer) — bukan frigate — untuk rapid barrier deployment di chokepoint sempit Sunda, Lombok, Ombai-Wetar.',
+    gap: '<strong>Gap kritis:</strong> Sea mine adalah instrumen denial paling efektif tapi Indonesia tidak punya platform minelayer yang dedicated. KRI Pulau Rengat (minelayer) sudah sangat tua. Coastal AShM dan kapal selam dibutuhkan untuk credible threat. Tanpa AEW&C, enforcement di Ombai-Wetar tidak mungkin. MCM organik wajib ada agar Indonesia bisa sweep minefield sendiri pasca-konflik.',
+    presel: { mine_lay:3, mine_mcm:2, ashm:4, brahmos:2, scorpene:2, sub_add:4, aewc:2 }
+  },
+  'amphibious': {
+    title: 'AMPHIBIOUS / PULAU TERLUAR',
+    body: 'Potensi pendudukan atau operasi terhadap pulau terluar: Natuna Besar, Morotai, Rote, Miangas. Nilai strategis tinggi, pertahanan tipis. Pola "island hopping" dalam doktrin PLA dan peningkatan aktivitas di LCS menjadikan skenario ini non-trivial. Frigat diperlukan untuk naval gunfire support dan sea control selama operasi re-seizure — kapal selam tidak cocok untuk close-in fire support.',
+    gap: '<strong>Gap kritis:</strong> Tidak ada coastal missile battery yang bisa menjangkau laut dari pulau terluar. Tidak ada SAM jarak menengah di luar Jawa. Amphibious response capability TNI AL terbatas. Surface combatant (frigat) dibutuhkan untuk escort dan fire support — peran yang tidak bisa digantikan kapal selam.',
+    presel: { ashm:6, brahmos:2, nasams:3, scorpene:2, sub_add:2, mpa:4, rwf:1 }
+  },
+  'airspace': {
+    title: 'PELANGGARAN UDARA — BAWEAN PRECEDENT',
+    body: 'Insiden Bawean (3 Juli 2003): 5 F/A-18 Hornet US Navy masuk wilayah udara Indonesia tanpa clearance, tidak komunikasi ATC, melakukan manuver tempur di jalur sipil. Deteksi pertama dari pesawat sipil — BUKAN radar militer. 2 F-16 TNI AU dikunci oleh Hornet sebelum berhasil intercept. Catatan: fighter (F-16, Rafale, KAAN) diasumsikan tersedia — gap di skenario ini bukan jumlah airframe tapi detection window dan scramble coordination. Tanpa radar GCI yang menutup seluruh wilayah dan AEW&C untuk beyond-horizon detection, airframe sebanyak apapun tidak akan cukup responsif.',
+    gap: '<strong>Gap yang ditunjukkan Bawean:</strong> Radar GCI tidak menutup seluruh wilayah (target 37, punya ~25). Tidak ada AEW&C untuk deteksi beyond-horizon. Scramble time bergantung pada satu skadron di Iswahjudi — tidak ada dispersal base readiness yang memadai di luar Jawa.',
+    presel: { gm400:8, retia:6, aewc:2, nasams:4 }
+  },
+};
+
+const GAP_PRESEL = {
+  gm400: 12, retia: 0, aewc: 2, scorpene: 2, sub_add: 4,
+  brahmos: 2, ashm: 6, nasams: 6, mpa: 8, mine_lay: 3, mine_mcm: 3, rwf: 2
+};
+
+const MODE_DESCS = {
+  gap: {
+    title: 'CAPABILITY GAP — FASE PRIORITAS (LAB45 / IISS)',
+    body: 'Fase 1 (Fondasi): berdasarkan "Contingent Capabilities" (Laksmana, IISS Feb 2026) dan "Building Blocks" (IISS Mar 2026) — sistem yang diidentifikasi sebagai "genuine zero" atau "critically insufficient": radar GCI, AEW&C, C4ISR, MPA. Fase 2 (Penguatan Laut): LAB45 analytical sequencing berdasarkan IISS Military Balance 2026 + SIPRI ATD — kapal selam, AShM, frigate. Fase 3 (Proyeksi): LAB45 construct berdasarkan Laksmana, 75 Tahun TNI (CSIS 2020) — mine warfare, SAM jarak jauh. Pre-selection mencerminkan Fase 1 + Fase 2 prioritas.'
+  },
+  custom: {
+    title: 'CUSTOM / FREE PICK',
+    body: 'Pilih sistem sendiri tanpa pre-selection. Semua sistem tersedia dengan quantity default 1. Gunakan tombol +/− untuk menyesuaikan jumlah.'
+  }
+};
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let S = {
+  bnTarget: 518,
+  personnel: 700,
+  setupCostM: 40,
+  mode: 'scenario',
+  scenario: 'natuna',
+  selected: {},   // id -> bool
+  quantities: {}, // id -> int
+};
+
+CAPS.forEach(c => { S.quantities[c.id] = c.defaultQty; });
+
+// ═══════════════════════════════════════════════════
+// CALCULATIONS
+// ═══════════════════════════════════════════════════
+function opsRateMilliarPerBnPerYr() {
+  if (S.personnel <= 400) return 25;
+  if (S.personnel <= 700) return 42;
+  return 60;
+}
+
+function calcYTP() {
+  const target = S.bnTarget, existing = 155;
+  const newBn = Math.max(0, target - existing);
+  const opsRate = opsRateMilliarPerBnPerYr();
+  const newPerYr = newBn / 4;
+  const years = [2025,2026,2027,2028,2029];
+  const rows = [];
+  let cumBn = existing;
+  for (let i=0;i<years.length;i++) {
+    const formed = i===0 ? 0 : Math.round(newPerYr);
+    cumBn += formed;
+    const setupPer = S.setupCostM;
+    const setup = formed * setupPer;
+    // 2025 ops = 0: covered by sunk cost (155 existing bn, ~5-7 bulan)
+    // Forward ops starts 2026 to avoid double-counting with sunk
+    const ops = i===0 ? 0 : cumBn * opsRate;
+    rows.push({ yr:years[i], formed, cumBn, setup, ops, total: setup+ops });
+  }
+  const totalSetup = rows.reduce((s,r)=>s+r.setup,0);
+  const setupPerBn = S.setupCostM;
+  const totalPerm = target * setupPerBn;
+  const totalOps = rows.reduce((s,r)=>s+r.ops,0);
+  const grandTotal = totalSetup + totalOps;
+  const annualBurden = target * opsRate;
+  return { rows, totalSetup, totalPerm, totalOps, grandTotal, annualBurden, newBn };
+}
+
+
+function calcSunkCost() {
+  // Sunk cost estimasi 2025 (periode persiapan + operasional awal)
+  // Timeline: 100 bn diresmikan Agt 2025 (~5 bln ops di 2025)
+  //           55 bn tambahan Nov 2025 (~2 bln ops di 2025)
+  // Setup: 50% dari slider setupCostM (heterogen: tenda/menumpang/baru)
+  // SEMUA ANGKA INI ADALAH ESTIMASI EDITORIAL LAB45 — tidak ada data resmi Kemhan
+  const EXISTING = 155;
+  const BATCH1   = 100;  // diresmikan Agt 2025
+  const BATCH2   = EXISTING - BATCH1; // ~55 bn, Nov 2025
+  const opsRate  = opsRateMilliarPerBnPerYr(); // miliar/bn/year
+  const setupPct = 0.5;  // asumsi: 50% dari forward setup rate
+
+  // Ops sunk (miliar)
+  const opsBatch1 = BATCH1 * opsRate * (5/12);  // ~5 bulan
+  const opsBatch2 = BATCH2 * opsRate * (2/12);  // ~2 bulan
+  const totalOps  = opsBatch1 + opsBatch2;
+
+  // Setup sunk (miliar): 50% dari slider, applied ke semua 155
+  const setupPerBn = S.setupCostM * setupPct;
+  const totalSetup = EXISTING * setupPerBn;
+
+  const totalSunk  = totalSetup + totalOps; // miliar
+  return {
+    totalSunkT: totalSunk / 1000,  // triliun
+    setupT:     totalSetup / 1000,
+    opsT:       totalOps / 1000,
+    setupPctUsed: setupPct,
+    setupPerBn,
+  };
+}
+function calcA2AD() {
+  let total = 0;
+  const breakdown = [];
+  CAPS.forEach(cap => {
+    if (!S.selected[cap.id]) return;
+    const qty = S.quantities[cap.id] || cap.defaultQty;
+    const val = cap.priceUSD * qty;
+    total += val;
+    breakdown.push({ id:cap.id, name:cap.name, val, qty });
+  });
+  return { total, breakdown };
+}
+
+// ═══════════════════════════════════════════════════
+// FORMAT HELPERS
+// ═══════════════════════════════════════════════════
+function fIDR(triliun) {
+  if (Math.abs(triliun) >= 1000) return `Rp${(triliun/1000).toFixed(1)}K T`;
+  return `Rp${triliun.toFixed(1)}T`;
+}
+function fUSD(m) {
+  if (m >= 1000) return `$${(m/1000).toFixed(1)}B`;
+  return `$${m.toFixed(0)}M`;
+}
+function idrToUSD_M(triliun) { return (triliun * 1e12) / IDR_PER_USD / 1e6; }
+function usdToIDR_T(m) { return (m * 1e6 * IDR_PER_USD) / 1e12; }
+
+// ═══════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════
+function renderYrTable(rows) {
+  const milliarToT = v => fIDR(v/1000);
+  document.getElementById('yr-tbody').innerHTML =
+    rows.map(r => `<tr>
+      <td>${r.yr}</td>
+      <td>${r.cumBn}</td>
+      <td>${r.setup>0 ? milliarToT(r.setup) : '—'}</td>
+      <td>${milliarToT(r.ops)}</td>
+      <td>${milliarToT(r.total)}</td>
+    </tr>`).join('') +
+    `<tr class="total-row">
+      <td>TOTAL</td><td>—</td><td>—</td><td>—</td>
+      <td id="yr-grand">—</td>
+    </tr>`;
+}
+
+// ═══════════════════════════════════════════════════
+// TIMBANGAN / SCALE ANIMATION
+// ═══════════════════════════════════════════════════
+function renderScale(ytpT, a2adUSD, ytpSetupT, ytpOpsT, sunkT) {
+  const a2adT = usdToIDR_T(a2adUSD);
+  sunkT = sunkT || 0;
+
+  // ── HTML side panel labels ──
+  document.getElementById('scale-val-ytp').textContent  = fIDR(ytpT);
+  document.getElementById('scale-val-a2ad').textContent = a2adUSD > 0 ? fIDR(a2adT) : '\u2014';
+  document.getElementById('scale-sub-a2ad').textContent = a2adUSD > 0
+    ? '\u2248 ' + fUSD(a2adUSD)
+    : 'pilih sistem di panel kanan';
+  const setupValEl = document.getElementById('scale-setup-val');
+  const opsValEl   = document.getElementById('scale-ops-val');
+  if (setupValEl) setupValEl.textContent = fIDR(ytpSetupT);
+  if (opsValEl)   opsValEl.textContent   = fIDR(ytpOpsT);
+  const sunkValEl = document.getElementById('scale-sunk-val');
+  if (sunkValEl) sunkValEl.textContent = sunkT > 0 ? fIDR(sunkT) : '—';
+
+  // ── Stacking blocks: sunk (dark, bottom) + setup (orange) + ops (red, top) ──
+  const PAN_BASE = 86;
+  const MAX_H    = 72;
+  const maxSide  = Math.max(ytpT, a2adT, 0.01);
+
+  const sunkH  = sunkT > 0 ? Math.max(2, (sunkT  / maxSide) * MAX_H) : 0;
+  const setupH = Math.max(2, (ytpSetupT / maxSide) * MAX_H);
+  const opsH   = Math.max(2, (ytpOpsT   / maxSide) * MAX_H);
+  const totalLH = sunkH + setupH + opsH;
+
+  // Sunk block (bottom)
+  const sunkEl = document.getElementById('blk-l-sunk');
+  if (sunkEl) { sunkEl.setAttribute('height', sunkH); sunkEl.setAttribute('y', PAN_BASE - sunkH); }
+  const sunkLbl = document.getElementById('blk-l-sunk-lbl');
+  if (sunkLbl) { sunkLbl.setAttribute('y', PAN_BASE - sunkH/2 + 3); sunkLbl.textContent = sunkH > 14 ? fIDR(sunkT) : ''; }
+
+  // Setup block (above sunk)
+  const setupEl = document.getElementById('blk-l-setup');
+  setupEl.setAttribute('height', setupH);
+  setupEl.setAttribute('y', PAN_BASE - sunkH - setupH);
+
+  const opsEl = document.getElementById('blk-l-ops');
+  opsEl.setAttribute('height', opsH);
+  opsEl.setAttribute('y', PAN_BASE - totalLH);
+
+  const setupLbl = document.getElementById('blk-l-setup-lbl');
+  setupLbl.setAttribute('y', PAN_BASE - sunkH - setupH/2 + 3);
+  setupLbl.textContent = setupH > 14 ? fIDR(ytpSetupT) : '';
+
+  const opsLbl = document.getElementById('blk-l-ops-lbl');
+  opsLbl.setAttribute('y', PAN_BASE - sunkH - setupH - opsH/2 + 3);
+  opsLbl.textContent = opsH > 14 ? fIDR(ytpOpsT) : '';
+
+  // Right: A2/AD single block
+  const rH = a2adUSD > 0 ? Math.max(3, (a2adT / maxSide) * MAX_H) : 0;
+  const rEl = document.getElementById('blk-r-a2ad');
+  if (rEl) { rEl.setAttribute('height', rH); rEl.setAttribute('y', PAN_BASE - rH); }
+  const rLbl = document.getElementById('blk-r-a2ad-lbl');
+  rLbl.setAttribute('y', PAN_BASE - rH/2 + 3);
+  rLbl.textContent = rH > 14 ? fIDR(a2adT) : '';
+
+  // ── Beam tilt ──
+  let tiltDeg = 0;
+  if (a2adUSD > 0) {
+    const ratio = ytpT / a2adT;
+    tiltDeg = -Math.min(15, Math.max(-15, (ratio - 1) * 9));
+  }
+  document.getElementById('scale-beam-g').style.transform = `rotate(${tiltDeg}deg)`;
+
+  // ── Pan vertical offset (Opsi A) — translateY on wrapper groups ──
+  // SVG arm length from pivot(230) to pan(110 or 350) = 120px
+  const ARM = 120;
+  const tiltRad = (tiltDeg * Math.PI) / 180;
+  const panOffset = Math.sin(tiltRad) * ARM; // negative = left DOWN
+  const leftDY  = -panOffset;  // left group moves DOWN when panOffset negative
+  const rightDY =  panOffset;  // right group moves UP when panOffset negative
+
+  const leftG  = document.getElementById('blk-left-g');
+  const rightG = document.getElementById('blk-right-g');
+  if (leftG)  leftG.style.transform  = `translateY(${leftDY}px)`;
+  if (rightG) rightG.style.transform = `translateY(${rightDY}px)`;
+
+  // Block y positions — sunk-aware, group translateY handles pan tilt offset
+  if (sunkEl) { sunkEl.setAttribute('y', PAN_BASE - sunkH); }
+  setupEl.setAttribute('y', PAN_BASE - sunkH - setupH);
+  opsEl.setAttribute('y', PAN_BASE - totalLH);
+  if (sunkLbl) sunkLbl.setAttribute('y', PAN_BASE - sunkH/2 + 3);
+  setupLbl.setAttribute('y', PAN_BASE - sunkH - setupH/2 + 3);
+  opsLbl.setAttribute('y', PAN_BASE - sunkH - setupH - opsH/2 + 3);
+  rLbl.setAttribute('y', PAN_BASE - rH/2 + 3);
+
+  // ── Mode / scenario labels on right panel ──
+  const modeNames = { scenario:'Scenario-Based', gap:'Capability Gap', custom:'Custom Builder', ptn:'PTN Gap Funding' };
+  const modeLbl = document.getElementById('scale-mode-label');
+  const scenLbl = document.getElementById('scale-scen-label');
+  if (modeLbl) modeLbl.textContent = modeNames[S.mode] || S.mode;
+  if (scenLbl) {
+    if (S.mode === 'scenario' && S.scenario) {
+      const scData = { natuna:'Natuna Grey Zone', 'alki-fon':'ALKI — FoN', 'alki-neu':'ALKI — Neutrality', amphibious:'Amphibious / Pulau Terluar', airspace:'Pelanggaran Udara' };
+      scenLbl.textContent = scData[S.scenario] || S.scenario;
+      scenLbl.style.display = '';
+    } else if (S.mode === 'gap') {
+      scenLbl.textContent = 'Fase Prioritas (LAB45/IISS)';
+      scenLbl.style.display = '';
+    } else if (S.mode === 'ptn') {
+      scenLbl.textContent = 'PTN Gap vs Yonif TP';
+      scenLbl.style.display = '';
+    } else {
+      scenLbl.textContent = 'Free Pick';
+      scenLbl.style.display = '';
+    }
+  }
+
+  // ── Verdict ──
+  let verdict = '', verdictColor = 'var(--text-dim)', verdictBorder = 'var(--border)';
+  if (a2adUSD > 0) {
+    const ratio = ytpT / a2adT;
+    if (ratio >= 2) {
+      verdict = `Yonif TP ${ratio.toFixed(1)}\u00d7 lebih besar dari A2/AD portfolio yang dipilih`;
+      verdictColor = 'var(--red)'; verdictBorder = 'rgba(192,57,43,0.45)';
+    } else if (ratio > 1.05) {
+      verdict = `Yonif TP melebihi portfolio A2/AD sebesar ${fIDR(ytpT - a2adT)}`;
+      verdictColor = '#e67e22'; verdictBorder = 'rgba(230,126,34,0.45)';
+    } else if (ratio >= 0.95) {
+      verdict = `Setara \u2014 selisih hanya ${fIDR(Math.abs(ytpT - a2adT))}`;
+      verdictColor = 'var(--gold)'; verdictBorder = 'rgba(200,169,81,0.45)';
+    } else {
+      verdict = `A2/AD portfolio (${fIDR(a2adT)}) melebihi Yonif TP \u2014 kurangi item atau jadwalkan bertahap`;
+      verdictColor = 'var(--teal)'; verdictBorder = 'rgba(26,188,156,0.45)';
+    }
+  } else {
+    verdict = 'Pilih sistem A2/AD untuk melihat perbandingan';
+  }
+  const vEl = document.getElementById('scale-verdict');
+  vEl.textContent       = verdict;
+  vEl.style.color       = verdictColor;
+  vEl.style.borderColor = verdictBorder;
+
+  // Hide in PTN mode
+  document.getElementById('scale-section').style.display = S.mode === 'ptn' ? 'none' : '';
+}
+
+// ═══════════════════════════════════════════════════
+// COST DETAIL CARD RENDER
+// ═══════════════════════════════════════════════════
+function renderCostDetail(ytp, a2adUSD) {
+  const opsRate  = opsRateMilliarPerBnPerYr(); // miliar/bn/year
+  const pers     = S.personnel;
+  const target   = S.bnTarget;
+
+  // Per-battalion setup breakdown (miliar)
+  const infraM   = S.setupCostM;  // full slider value = infra only
+  const peralM   = null;             // peralatan organik: tidak dimodelkan (no public data)
+  const setupTot = S.setupCostM;
+
+  // Per-battalion ops breakdown (miliar/year)
+  // Gaji proxy: Rp5M/prajurit/bulan × pers × 12 bulan = miliar
+  const gajiM    = (pers * 5 * 12) / 1000;
+  // Maintenance: residual — whatever opsRate doesn't explain via gaji
+  // For all tiers the model is calibrated so opsRate ≈ gajiM
+  // We flag a ~10-15% maintenance estimate separately as rough
+  const maintM   = Math.round(opsRate * 0.15);
+  const opsFromGaji = Math.round(gajiM);
+
+  const fM = v => `Rp${v.toFixed(0)}M`;
+
+  // Summary box totals (triliun)
+  const setupTotalT   = (target * setupTot) / 1000;
+  const annualBurdenT = (target * opsRate)  / 1000;
+  const a2adT         = usdToIDR_T(a2adUSD);
+
+  // Update section label
+  const snl = document.getElementById('summary-bn-label'); if(snl) snl.textContent = `${target}`;
+
+  // Detail card HTML
+  const _cdc=document.getElementById('cost-detail-card'); if(_cdc) _cdc.innerHTML = `
+    <div class="detail-card">
+      <div class="detail-cols">
+        <div class="detail-col">
+          <div class="detail-col-title setup">💰 Setup Infrastruktur (Sekali)</div>
+          <div class="detail-line">
+            <span class="detail-line-label">Konstruksi fasilitas & infrastruktur<br><span style="font-size:9px;opacity:0.7">gedung, utilitas, jalan internal markas</span></span>
+            <span class="detail-line-val setup">${fM(infraM)}</span>
+          </div>
+          <div class="detail-line" style="opacity:0.5;">
+            <span class="detail-line-label">Peralatan organik<br><span style="font-size:9px;opacity:0.7">(pertanian, medis, zeni, senjata organik)</span></span>
+            <span class="detail-line-val" style="color:var(--text-dim);font-style:italic;">tidak dimodelkan</span>
+          </div>
+          <div class="detail-total-row">
+            <span class="detail-total-label">Total setup/bn (infra saja)</span>
+            <span class="detail-total-val setup">${fM(setupTot)}</span>
+          </div>
+          <div class="detail-flag">Sumber: 2 kontrak LKPP/Kemhan — YTP 856 Nagan Raya (Rp40,05M) dan YTP Kuningan (Rp38,92M). Peralatan organik tidak dimodelkan: tidak ada data pengadaan publik yang tersedia.</div>
+        </div>
+        <div class="detail-col">
+          <div class="detail-col-title ops">🔄 Operasional (Per Tahun)</div>
+          <div class="detail-line">
+            <span class="detail-line-label">Gaji, tunjangan, makan, asrama<br><span style="font-size:9px;opacity:0.7">proxy Rp5M/prajurit/bulan × ${pers.toLocaleString()}</span></span>
+            <span class="detail-line-val ops">${fM(opsFromGaji)}M</span>
+          </div>
+          <div class="detail-line">
+            <span class="detail-line-label">Pemeliharaan & operasional<br><span style="font-size:9px;opacity:0.7">est. ~15% total ops — LOW CONFIDENCE</span></span>
+            <span class="detail-line-val ops">~${fM(maintM)}M</span>
+          </div>
+          <div class="detail-total-row">
+            <span class="detail-total-label">Total ops/bn/tahun</span>
+            <span class="detail-total-val ops">${fM(opsRate)}M</span>
+          </div>
+          <div class="detail-flag">Proxy dari gaji Pangdam XII/Tanjungpura. Belum termasuk anggaran kapasitasi, latihan lapangan, dan depresiasi alutsista.</div>
+        </div>
+      </div>
+    </div>`;
+
+  // Summary boxes
+  const csb = document.getElementById('cost-summary-boxes'); if(csb) { csb.innerHTML = `
+    <div class="sumbox-row">
+      <div class="sumbox setup">
+        <div class="sumbox-lbl">${target} Bn — Setup</div>
+        <div class="sumbox-val">${fIDR(setupTotalT)}</div>
+        <div class="sumbox-sub">sekali bayar</div>
+      </div>
+      <div class="sumbox ops">
+        <div class="sumbox-lbl">${target} Bn — Ops/Tahun</div>
+        <div class="sumbox-val">${fIDR(annualBurdenT)}</div>
+        <div class="sumbox-sub">permanen, setiap tahun</div>
+      </div>
+      <div class="sumbox compare">
+        <div class="sumbox-lbl">A2/AD Portfolio Aktif</div>
+        <div class="sumbox-val">${a2adUSD > 0 ? fIDR(a2adT) : '—'}</div>
+        <div class="sumbox-sub">${a2adUSD > 0 ? 'dari panel kanan' : 'pilih sistem →'}</div>
+      </div>
+    </div>`; }
+}
+
+// ═══════════════════════════════════════════════════
+function renderCapList() {
+  document.getElementById('cap-list').innerHTML = CAPS.map(cap => {
+    const sel = !!S.selected[cap.id];
+    const qty = S.quantities[cap.id] || cap.defaultQty;
+    const totalP = fUSD(cap.priceUSD * qty);
+    const unitP = fUSD(cap.priceUSD);
+    const layLbl = {outer:'Outer',middle:'Middle',inner:'Inner'}[cap.layer];
+    const tierLbl = {confirmed:'Confirmed',negotiating:'Negotiating',whatif:'What-If'}[cap.tier];
+    return `<div class="cap-item${sel?' sel':''}" id="ci-${cap.id}">
+      <div class="cap-hdr" onclick="toggleCap('${cap.id}')">
+        <div class="cap-chk">${sel?'✓':''}</div>
+        <div class="cap-info">
+          <div class="cap-name">${cap.name}</div>
+          <div class="cap-meta">
+            <span class="ctag tag-${cap.layer}">${layLbl}</span>
+            <span class="ctag tag-${cap.tier}">${tierLbl}</span>
+          </div>
+        </div>
+        <div class="cap-price">${sel ? totalP : unitP+'/'+cap.unit}</div>
+      </div>
+      <div class="cap-qty">
+        <span class="qty-lbl">${qty} ${cap.unit} × ${unitP} = <strong style="color:var(--teal)">${totalP}</strong><br>
+          <span style="font-size:9px;opacity:0.7">${cap.note}</span>
+        </span>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty('${cap.id}',-1)">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" onclick="changeQty('${cap.id}',+1)">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderBarChart(ytpMilliar, a2adBreakdown) {
+  // YTP bar: setup (orange) + ops (red)
+  const ytpOpsMilliar = ytpMilliar.totalOps;
+  const ytpSetupMilliar = ytpMilliar.totalSetup;
+  const ytpTotalMilliar = ytpMilliar.grandTotal;
+  const ytpTotalUSD = idrToUSD_M(ytpTotalMilliar/1000);
+  const a2adTotalUSD = a2adBreakdown.total;
+
+  const maxUSD = Math.max(ytpTotalUSD, a2adTotalUSD, 1);
+  const BAR_H = 160; // px total height
+
+  // YTP bar
+  const ytpPct = Math.min(1, ytpTotalUSD / maxUSD);
+  const ytpH = Math.max(20, ytpPct * BAR_H);
+  const opsFrac = ytpOpsMilliar / ytpTotalMilliar;
+  const setupFrac = ytpSetupMilliar / ytpTotalMilliar;
+
+  const opsH = Math.round(ytpH * opsFrac);
+  const setupH = ytpH - opsH;
+
+  document.getElementById('bar-ytp').innerHTML = `
+    <div class="bar-seg" style="height:${opsH}px; background:#b71c1c;">
+      ${opsH > 20 ? `<span class="bar-seg-label">Gaji/Ops<br>${fIDR(ytpOpsMilliar/1000)}</span>` : ''}
+    </div>
+    <div class="bar-seg" style="height:${setupH}px; background:#e67e22;">
+      ${setupH > 16 ? `<span class="bar-seg-label">Setup<br>${fIDR(ytpSetupMilliar/1000)}</span>` : ''}
+    </div>
+  `;
+  const _cyt=document.getElementById('chart-ytp-total'); if(_cyt) _cyt.textContent=fIDR(ytpTotalMilliar/1000);
+
+  // A2AD bar
+  if (a2adBreakdown.breakdown.length === 0) {
+    document.getElementById('bar-a2ad').innerHTML = `<div style="width:100%;height:4px;background:var(--border2);"></div>`;
+    const _cat0=document.getElementById('chart-a2ad-total'); if(_cat0) _cat0.textContent='—';
+    const _cas0=document.getElementById('chart-a2ad-sub'); if(_cas0) _cas0.textContent='Pilih sistem di atas';
+    return;
+  }
+
+  const a2adPct = Math.min(1, a2adTotalUSD / maxUSD);
+  const a2adH = Math.max(20, a2adPct * BAR_H);
+  const segHtml = a2adBreakdown.breakdown.map(seg => {
+    const frac = seg.val / a2adTotalUSD;
+    const sh = Math.max(2, Math.round(a2adH * frac));
+    const col = CAP_COLORS[seg.id] || '#1a7a9a';
+    const shortName = seg.name.split('(')[0].trim().replace('Tambahan','').replace('What-If','').trim();
+    return `<div class="bar-seg" style="height:${sh}px; background:${col};">
+      ${sh > 18 ? `<span class="bar-seg-label">${shortName}<br>${fUSD(seg.val)}</span>` : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('bar-a2ad').innerHTML = segHtml;
+  const _cat1=document.getElementById('chart-a2ad-total'); if(_cat1) _cat1.textContent=fUSD(a2adTotalUSD);
+  const nSel = a2adBreakdown.breakdown.length;
+  const _cas1=document.getElementById('chart-a2ad-sub'); if(_cas1) _cas1.textContent=`${nSel} sistem · ≈ ${fIDR(usdToIDR_T(a2adTotalUSD))}`; }
+
+// ═══════════════════════════════════════════════════
+// MAIN UPDATE
+// ═══════════════════════════════════════════════════
+function update() {
+  S.bnTarget = parseInt(document.getElementById('bn-slider').value);
+  document.getElementById('bn-val').textContent = S.bnTarget;
+
+  const ytp = calcYTP();
+  const a2ad = calcA2AD();
+
+  const grandT = ytp.grandTotal / 1000;
+  const grandUSD = idrToUSD_M(grandT);
+  const burdenT = ytp.annualBurden / 1000;
+
+  // Sunk cost
+  const sunk = calcSunkCost();
+  const totalProgramT = grandT + sunk.totalSunkT;
+  const totalProgramUSD = idrToUSD_M(totalProgramT);
+
+  // Left panel
+  document.getElementById('grand-total').textContent = fIDR(grandT);
+  document.getElementById('grand-total-sub').textContent = `≈ ${fUSD(grandUSD)} · IDR ${IDR_PER_USD.toLocaleString()}/USD`;
+  document.getElementById('sunk-total').textContent = fIDR(sunk.totalSunkT);
+  document.getElementById('sunk-setup').textContent = fIDR(sunk.setupT);
+  document.getElementById('sunk-ops').textContent   = fIDR(sunk.opsT);
+  document.getElementById('total-program').textContent = fIDR(totalProgramT);
+  const _nb=document.getElementById('new-bn'); if(_nb) _nb.textContent=`${ytp.newBn} unit`;
+  const _pc=document.getElementById('perm-cost'); if(_pc) _pc.textContent=fIDR(ytp.totalPerm/1000);
+  const _ot=document.getElementById('ops-total'); if(_ot) _ot.textContent=fIDR(ytp.totalOps/1000);
+  renderYrTable(ytp.rows);
+  setTimeout(() => {
+    const el = document.getElementById('yr-grand');
+    if (el) el.textContent = fIDR(grandT);
+  }, 0);
+  document.getElementById('annual-burden').textContent = `${fIDR(burdenT)}/tahun`;
+  const _bd=document.getElementById('burden-desc'); if(_bd) _bd.textContent=`Setiap tahun pasca-2029: ${S.bnTarget} batalyon × ${S.personnel} prajurit × Rp5M/bulan × 12 = ${fIDR(burdenT)} — berulang selamanya.`;
+
+  // Chart
+  renderBarChart(ytp, a2ad);
+
+  // Insight
+  const a2adUSD = a2ad.total;
+  let insight = '';
+  if (a2adUSD > 0) {
+    const ratio = totalProgramUSD / a2adUSD;
+    if (ratio >= 2) {
+      insight = `Total Program Yonif TP (termasuk sunk cost 2025) adalah <strong>${ratio.toFixed(1)}× lebih besar</strong> dari portfolio A2/AD yang dipilih.`;
+    } else if (ratio >= 1) {
+      insight = `Total Program Yonif TP (${fUSD(totalProgramUSD)}) <strong>melebihi</strong> portfolio A2/AD (${fUSD(a2adUSD)}). Selisih ${fUSD(totalProgramUSD - a2adUSD)}.`;
+    } else {
+      insight = `Portfolio A2/AD (${fUSD(a2adUSD)}) melebihi total program Yonif TP (${fUSD(totalProgramUSD)}).`;
+    }
+    insight += ` <em style="color:var(--text-dim);font-size:10px;">Catatan: biaya Yonif TP bersifat <strong style="color:#e74c3c">permanen dan berulang</strong>; A2/AD sebagian besar investasi satu kali. Sunk cost 2025 adalah estimasi editorial LAB45 — tidak ada data resmi.</em>`;
+  } else {
+    insight = 'Pilih capability items untuk melihat perbandingan.';
+  }
+  document.getElementById('comp-insight').innerHTML = insight;
+
+  // Status bar
+
+  // Timbangan + cost detail — timbangan uses totalProgramT
+  const setupT = ytp.totalSetup / 1000;  // forward setup: new battalions only (excludes existing 155)
+  const opsT   = ytp.totalOps  / 1000;
+  renderScale(totalProgramT, a2ad.total, setupT, opsT, sunk.totalSunkT);
+  renderCostDetail(ytp, a2ad.total);
+
+  // PTN mode
+  if (S.mode === 'ptn') {
+    renderPTN(grandUSD, grandT);
+  }
+
+  renderCapList();
+}
+
+// ═══════════════════════════════════════════════════
+// PTN GAP RENDER
+// ═══════════════════════════════════════════════════
+function renderPTN(grandUSD, grandT) {
+  const idr = IDR_PER_USD;
+
+  // Compute pillar totals
+  const pillarsCalc = PTN_PILLARS.map(p => {
+    const totalUSD = p.items.reduce((s,it) => s + it.qty * it.priceUSD * 1e6, 0);
+    const totalT   = totalUSD * idr / 1e12;
+    return { ...p, totalUSD, totalT };
+  });
+  const grandGapUSD = pillarsCalc.reduce((s,p) => s + p.totalUSD, 0);
+  const grandGapT   = grandGapUSD * idr / 1e12;
+
+  // KAAN subtotal (to compute gap-without-KAAN)
+  const kaanT = 48 * 200e6 * idr / 1e12;
+  const gapNoKaanT  = grandGapT - kaanT;
+  const coverage    = (grandT / grandGapT) * 100;
+  const coverageNoK = (grandT / gapNoKaanT) * 100;
+
+  // KPI row
+  const kpiData = [
+    { lbl:'Total Gap PTN',    val: fIDR(grandGapT),         color:'#8a6aca' },
+    { lbl:'Anggaran Yonif TP', val: fIDR(grandT),           color:'var(--red)' },
+    { lbl:'Cakupan',          val: `${Math.round(coverage)}%`, color: coverage>=100?'var(--teal)':'var(--gold)' },
+  ];
+  document.getElementById('ptn-kpi-row').innerHTML = kpiData.map(k =>
+    `<div style="background:var(--bg2);border:1px solid var(--border);padding:10px 12px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">${k.lbl}</div>
+      <div style="font-family:var(--display);font-size:15px;font-weight:800;color:${k.color};">${k.val}</div>
+    </div>`
+  ).join('');
+
+  // Pillar bar
+  const pillarBar = document.getElementById('ptn-pillar-bar');
+  pillarBar.innerHTML = pillarsCalc.map(p => {
+    const pct = (p.totalT / grandGapT) * 100;
+    return `<div style="width:${pct}%;background:${p.color};height:100%;border-right:2px solid var(--bg);" title="${p.label}: ${fIDR(p.totalT)}"></div>`;
+  }).join('');
+
+  document.getElementById('ptn-pillar-legend').innerHTML = pillarsCalc.map(p =>
+    `<div style="display:flex;align-items:center;gap:4px;">
+      <div style="width:9px;height:9px;border-radius:1px;background:${p.color};flex-shrink:0;"></div>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">${p.icon} ${p.label.split(' ')[1]} ${fIDR(p.totalT)}</span>
+    </div>`
+  ).join('');
+
+  // Coverage bar
+  const fillPct = Math.min(coverage, 100);
+  const barFill = document.getElementById('ptn-coverage-bar-fill');
+  barFill.style.width = `${fillPct}%`;
+  barFill.style.background = coverage >= 100 ? 'var(--teal)' : `linear-gradient(90deg, var(--red) 0%, #e67e22 100%)`;
+  document.getElementById('ptn-coverage-bar-label').textContent = `YonifTP: ${fIDR(grandT)} / Gap PTN: ${fIDR(grandGapT)}`;
+
+  // Insight
+  let insightHtml;
+  if (coverage >= 100) {
+    insightHtml = `Anggaran Yonif TP (${fIDR(grandT)}) <strong style="color:var(--teal)">melebihi total gap PTN</strong> (${fIDR(grandGapT)}). Surplus ${fIDR(grandT - grandGapT)}.`;
+  } else {
+    insightHtml = `Anggaran Yonif TP menutup <strong style="color:var(--gold)">${Math.round(coverage)}%</strong> dari total gap PTN (${fIDR(grandGapT)}). `;
+    if (coverageNoK >= 100) {
+      insightHtml += `Tanpa KAAN (sudah dipesan, financing ongoing), gap tersisa hanya <strong style="color:var(--teal)">${fIDR(gapNoKaanT)}</strong> — dapat ditutup <strong style="color:var(--teal)">sepenuhnya</strong> dengan sisa ${fIDR(grandT - gapNoKaanT)}.`;
+    } else {
+      insightHtml += `Tanpa KAAN, gap tersisa <strong>${fIDR(gapNoKaanT)}</strong> (${Math.round(coverageNoK)}% coverage).`;
+    }
+    insightHtml += ` <em style="color:var(--text-dim);">Catatan: biaya Yonif TP bersifat <strong style="color:var(--red)">permanen dan berulang</strong>; alutsista PTN adalah investasi satu kali dengan nilai residual.</em>`;
+  }
+  document.getElementById('ptn-coverage-insight').innerHTML = insightHtml;
+
+  // Item list
+  const listEl = document.getElementById('ptn-item-list');
+  let html = '';
+  pillarsCalc.forEach(p => {
+    html += `<div style="font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${p.color};padding:6px 0 4px;border-bottom:1px solid ${p.color}33;margin-bottom:6px;">${p.icon} ${p.label}</div>`;
+    p.items.forEach(it => {
+      const itT = it.qty * it.priceUSD * idr * 1e6 / 1e12;
+      const st  = PTN_STATUS[it.status];
+      html += `<div style="border:1px solid var(--border);margin-bottom:4px;padding:8px 10px;background:var(--bg2);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <span style="font-size:11px;font-weight:500;color:var(--text);flex:1;">${it.sys}</span>
+          ${it.caveat ? `<span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border:1px solid #5a4a0a;color:#c8a931;background:rgba(200,169,49,0.06);letter-spacing:0.04em;">nilai TBC</span>` : ''}
+          <span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border:1px solid ${st.color}44;color:${st.color};background:${st.color}11;letter-spacing:0.04em;">${st.label}</span>
+          <span style="font-family:var(--mono);font-size:12px;font-weight:600;color:${p.color};white-space:nowrap;">${fIDR(itT)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span style="font-size:10px;color:var(--text-dim);">${it.qty}× @ $${it.priceUSD}M/${it.unit} · ${fUSD(it.qty * it.priceUSD * 1e6)}</span>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">${((itT/grandGapT)*100).toFixed(1)}% dari total gap</span>
+        </div>
+        <div style="font-size:9px;color:var(--text-dim);margin-top:4px;padding-top:4px;border-top:1px solid var(--border);line-height:1.5;">${it.note}</div>
+      </div>`;
+    });
+  });
+  listEl.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════
+// INTERACTION HANDLERS
+// ═══════════════════════════════════════════════════
+function setTier(p) {
+  S.personnel = p;
+  [400,700,1000].forEach(t => {
+    const el = document.getElementById(`t${t}`);
+    if (el) el.classList.toggle('active', t===p);
+  });
+  update();
+}
+
+function updateSetup() {
+  const sl = document.getElementById('setup-slider');
+  if (!sl) return;
+  S.setupCostM = parseInt(sl.value);
+  const valEl = document.getElementById('setup-val');
+  if (valEl) valEl.textContent = `Rp${S.setupCostM}M`;
+  const lbl = document.getElementById('setup-cost-label');
+  if (lbl) lbl.textContent = `Setup kumulatif (Rp${S.setupCostM}M/bn)`;
+  update();
+}
+
+function setMode(mode) {
+  S.mode = mode;
+  // Reset selections
+  S.selected = {};
+  CAPS.forEach(c => { S.quantities[c.id] = c.defaultQty; });
+
+  // Mode button states
+  ['scenario','gap','custom','ptn'].forEach(m => {
+    document.getElementById(`m-${m}`).classList.toggle('active', m===mode);
+  });
+
+  const scenWrap    = document.getElementById('scen-bar-wrap');
+  const modeWrap    = document.getElementById('mode-desc-wrap');
+  const ptnWrap     = document.getElementById('ptn-wrap');
+  const capListSec  = document.getElementById('cap-list-sec');
+  const capList     = document.getElementById('cap-list');
+  const chartWrap   = document.querySelector('.chart-wrap');
+  const insight     = document.getElementById('comp-insight');
+
+  // Default: show cap-list / chart / insight
+  [capListSec, capList, chartWrap, insight].forEach(el => { if(el) el.style.display = ''; });
+  const chartSec = document.getElementById('chart-sec');
+  if (chartSec) chartSec.style.display = '';
+  ptnWrap.style.display = 'none';
+
+  if (mode === 'scenario') {
+    scenWrap.style.display = '';
+    modeWrap.style.display = 'none';
+    applyScenario(S.scenario);
+  } else if (mode === 'gap') {
+    scenWrap.style.display = 'none';
+    modeWrap.style.display = '';
+    document.getElementById('mode-desc-title').textContent = MODE_DESCS.gap.title;
+    document.getElementById('mode-desc-body').textContent = MODE_DESCS.gap.body;
+    Object.entries(GAP_PRESEL).forEach(([id, qty]) => {
+      if (qty > 0) { S.selected[id] = true; S.quantities[id] = qty; }
+    });
+    update();
+  } else if (mode === 'ptn') {
+    scenWrap.style.display = 'none';
+    modeWrap.style.display = 'none';
+    ptnWrap.style.display = '';
+    // Hide cap-list, chart, insight — PTN has its own layout
+    [capListSec, capList, chartWrap, insight].forEach(el => { if(el) el.style.display = 'none'; });
+    const chartSecEl = document.getElementById('chart-sec');
+    const chartWrapEl = document.getElementById('chart-wrap');
+    if (chartSecEl) chartSecEl.style.display = 'none';
+    if (chartWrapEl) chartWrapEl.style.display = 'none';
+    update();
+  } else {
+    // custom
+    scenWrap.style.display = 'none';
+    modeWrap.style.display = '';
+    document.getElementById('mode-desc-title').textContent = MODE_DESCS.custom.title;
+    document.getElementById('mode-desc-body').textContent = MODE_DESCS.custom.body;
+    CAPS.forEach(c => { S.quantities[c.id] = 1; });
+    update();
+  }
+}
+
+function setScenario(sc) {
+  S.scenario = sc;
+  // Reset
+  S.selected = {};
+  CAPS.forEach(c => { S.quantities[c.id] = c.defaultQty; });
+
+  // Update tab active
+  Object.keys(SCENARIOS).forEach(k => {
+    const el = document.getElementById('sc-'+k);
+    if (el) el.classList.toggle('active', k===sc);
+  });
+
+  applyScenario(sc);
+}
+
+function applyScenario(sc) {
+  const data = SCENARIOS[sc];
+  if (!data) return;
+
+  document.getElementById('scen-title').textContent = data.title;
+  document.getElementById('scen-body').textContent = data.body;
+  document.getElementById('scen-gap').innerHTML = data.gap;
+
+  // Reset and apply presel
+  S.selected = {};
+  CAPS.forEach(c => { S.quantities[c.id] = c.defaultQty; });
+  Object.entries(data.presel).forEach(([id, qty]) => {
+    S.selected[id] = true;
+    S.quantities[id] = qty;
+  });
+  update();
+}
+
+function toggleCap(id) {
+  S.selected[id] = !S.selected[id];
+  if (!S.selected[id]) delete S.selected[id];
+  update();
+}
+
+function changeQty(id, delta) {
+  const cap = CAPS.find(c => c.id === id);
+  if (!cap) return;
+  const cur = S.quantities[id] || cap.defaultQty;
+  S.quantities[id] = Math.max(cap.min, Math.min(cap.max, cur + delta));
+  update();
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+applyScenario('natuna');
+</script>
+</body>
+</html>
