@@ -513,29 +513,15 @@ input[type=range]:hover::-webkit-slider-thumb { box-shadow:0 0 0 5px rgba(200,16
   <div class="sec" id="cap-list-sec">Sistem Senjata</div>
   <div id="cap-list"></div>
 
-  <!-- COMPACT BAR CHART -->
-  <div class="sec" id="chart-sec">Perbandingan Visual</div>
-  <div class="chart-wrap" id="chart-wrap">
-    <div class="chart-title">Alokasi Anggaran: Yonif TP vs A2/AD Portfolio</div>
-    <div class="chart-area-compact">
-      <div class="chart-col">
-        <div class="chart-col-label">Yonif TP<br>2025–2029</div>
-        <div class="bar-container" id="bar-ytp" style="height:160px;"></div>
-        <div class="bar-total-label red" id="chart-ytp-total">—</div>
-        <div class="bar-sublabel">setup + ops kumulatif</div>
-      </div>
-      <div class="chart-divider-compact"><span>ATAU</span></div>
-      <div class="chart-col">
-        <div class="chart-col-label">A2/AD<br>Portfolio</div>
-        <div class="bar-container" id="bar-a2ad" style="height:160px;"></div>
-        <div class="bar-total-label teal" id="chart-a2ad-total">—</div>
-        <div class="bar-sublabel" id="chart-a2ad-sub">—</div>
-      </div>
-    </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--teal-dim);padding:14px 16px;margin-bottom:8px;">
+    <div style="font-family:var(--mono);font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">Metodologi &amp; Sumber Harga</div>
+    <p style="font-size:12px;color:var(--text-mid);line-height:1.7;margin-bottom:10px;">Harga per unit atau per <em>battery</em> bersumber dari: (1) kontrak pengadaan publik yang telah ditandatangani atau dikonfirmasi pejabat Kemhan/MoD; (2) pernyataan resmi pemerintah di hadapan DPR atau dalam siaran pers; (3) SIPRI Arms Transfers Database; atau (4) <em>benchmark</em> sistem setara apabila tidak ada data kontrak yang tersedia. Semua harga dalam dolar Amerika Serikat (USD), menggunakan kurs Rp17.100/USD. Harga yang ditampilkan adalah biaya per unit/<em>battery</em> — bukan biaya program keseluruhan, dan belum mencakup stok amunisi, <em>Integrated Logistic Support</em> (ILS), serta <em>Performance-Based Logistics</em> (PBL).</p>
+    <div style="font-family:var(--mono);font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">Tingkat Kepastian (*Tier*)</div>
+    <p style="font-size:12px;color:var(--text-mid);line-height:1.7;margin-bottom:6px;"><span style="color:var(--teal);font-weight:600;">■ Confirmed (Terkonfirmasi)</span> — Kontrak telah ditandatangani atau pengiriman sedang berlangsung. Harga berdasarkan nilai kontrak yang dipublikasikan. Contoh: Scorpène Evolved (kontrak Naval Group, Juli 2025), GM400α (kontrak Thales/PT Len).</p>
+    <p style="font-size:12px;color:var(--text-mid);line-height:1.7;margin-bottom:6px;"><span style="color:#c8a931;font-weight:600;">■ Negotiating (Dalam Proses)</span> — <em>Letter of Intent</em> (LoI) atau nota kesepahaman telah ditandatangani, namun kontrak definitif belum ada. Harga merupakan estimasi berdasarkan pernyataan pejabat atau <em>benchmark</em> pasar. Contoh: BrahMos (pernyataan Kemhan Maret 2026, kontrak belum ditandatangani), Frigat Merah Putih ke-3 dst.</p>
+    <p style="font-size:12px;color:var(--text-mid);line-height:1.7;margin-bottom:6px;"><span style="color:#8a6aca;font-weight:600;">■ What-If (Hipotetis)</span> — Tidak ada proses pengadaan yang sedang berjalan. Sistem dimasukkan semata-mata sebagai referensi analitis untuk menggambarkan kesenjangan kapabilitas yang belum ditangani. Harga merupakan estimasi kasar berdasarkan <em>benchmark</em> sistem setara di pasar global.</p>
+    <p style="font-size:12px;color:var(--text-dim);line-height:1.7;margin-top:8px;border-top:1px solid var(--border);padding-top:8px;"><strong>⚠ Stok rudal:</strong> Harga sistem rudal (BrahMos, <em>AShM</em>, NASAMS) hanya mencakup <em>launcher</em> dan sistem kendali. Stok rudal operasional, amunisi latihan, dan biaya pemeliharaan jangka panjang belum termasuk — dan dapat menambah biaya signifikan tanpa data publik yang tersedia. <strong>Pesawat tempur</strong> (F-16, Rafale, KAAN) tidak dimasukkan sebagai pos tersendiri karena sudah dalam proses pengadaan. Dalam konteks A2/AD, pesawat tempur berperan sebagai pencegat dan pengidentifikasi — pelengkap radar dan SAM, bukan penggantinya.</p>
   </div>
-
-  <div class="caveat"><p><strong>Tier:</strong> <span style="color:var(--teal)">■ Confirmed</span> = kontrak aktif · <span style="color:#c8a931">■ Negotiating</span> = proses/LOI · <span style="color:#8a6aca">■ What-If</span> = kebutuhan analitis</p></div>
-  <div class="caveat"><p><strong>Fighter:</strong> F-16, Rafale, KAAN tidak dimasukkan sebagai line item karena sudah dalam procurement. Dalam A2/AD, fighter berperan sebagai intercept/identifikasi — pelengkap radar dan SAM, bukan pengganti.</p></div>
   <div class="spacer"></div>
 </div>
 
@@ -634,25 +620,25 @@ const CAPS = [
     note:'What-If. Di luar Scorpène yang sudah kontrak. Target: 12 kapal selam total. 4 unit untuk coverage 3 ALKI + patroli Natuna.' },
   { id:'brahmos',  name:'BrahMos Coastal Battery', layer:'inner', tier:'negotiating',
     priceUSD:450, unit:'battery', min:1, max:6, defaultQty:2,
-    note:'MoD spokesperson Maret 2026. Kontrak belum ditandatangani. 2 battery: Natuna (flashpoint aktif) + satu chokepoint ALKI kritis. Range ~290-350km, Mach 2.8.' },
+    note:'Juru bicara Kemhan, Maret 2026. Kontrak belum ditandatangani. 2 *battery*: Natuna dan satu *chokepoint* ALKI utama. Jangkauan ~290–350 km, kecepatan Mach 2,8. ⚠ Catatan: harga *battery* belum mencakup stok rudal operasional. Estimasi stok minimum (~9 rudal per *battery*) dapat menambah biaya $22–27 juta per *battery* — tidak ada data publik yang tersedia.' },
   { id:'ashm',     name:'Land-based AShM Network (What-If)', layer:'inner', tier:'whatif',
     priceUSD:450, unit:'battery', min:1, max:9, defaultQty:6,
-    note:'What-If. Indonesia ZERO saat ini — satu-satunya di kawasan tanpa coastal AShM darat. 6 battery untuk CP1 Malacca, CP2 Natuna, CP3 Makassar, CP7 Ombai-Wetar, CP8 Lombok, CP9 Sunda.' },
+    note:'What-If. Indonesia satu-satunya negara di kawasan tanpa jaringan rudal *anti-kapal* berbasis darat. 6 *battery* mencakup sejumlah *chokepoint* utama: Selat Malaka, Natuna, Makassar, Ombai-Wetar, Lombok, dan Sunda. ⚠ Harga per *battery* belum mencakup stok rudal operasional.' },
   { id:'nasams',   name:'NASAMS Battery Tambahan (What-If)', layer:'middle', tier:'whatif',
     priceUSD:240, unit:'battery', min:1, max:8, defaultQty:6,
-    note:'What-If. Indonesia punya 1 sistem/2 battery di Jakarta. 6 battery tambahan: IKN/Nusantara, Surabaya, Makassar, Balikpapan, Medan, Manado.' },
+    note:'What-If. Indonesia saat ini hanya memiliki 1 sistem (2 *battery*) di Jakarta. 6 *battery* tambahan diperlukan untuk melindungi: IKN/Nusantara, Surabaya, Makassar, Balikpapan, Medan, dan Manado.' },
   { id:'mpa',      name:'C-295 MPA (Maritime Patrol Aircraft)', layer:'middle', tier:'whatif',
     priceUSD:65, unit:'unit', min:1, max:12, defaultQty:8,
-    note:'What-If. CN-235 MPA (8 unit) sudah tua dan insufficient untuk EEZ 3.25 juta km². 8 unit C-295: 2/ALKI = 6, + Natuna + Papua.' },
+    note:'What-If. Armada CN-235 *MPA* (8 unit) sudah tua dan tidak memadai untuk mengawasi EEZ seluas 3,25 juta km². Kebutuhan: 6 unit untuk tiga ALKI (2 per jalur) ditambah 1 unit masing-masing untuk Natuna dan Papua.' },
   { id:'mine_lay', name:'Mine Warfare Package (Laying)', layer:'inner', tier:'whatif',
     priceUSD:100, unit:'paket/minefield', min:1, max:6, defaultQty:3,
-    note:'What-If. Doktrin TNI AL historis andalkan naval mines di "strategic funnels". 3 paket untuk Sunda, Lombok, Ombai-Wetar. Pricing: LOW CONFIDENCE (~$50-150M/minefield program).' },
+    note:'What-If. Doktrin TNI AL secara historis mengandalkan ranjau laut di jalur-jalur sempit strategis. 3 paket untuk Selat Sunda, Lombok, dan Ombai-Wetar. Estimasi harga SANGAT TIDAK PASTI (~$50–150 juta per program *minefield*).' },
   { id:'mine_mcm', name:'Mine Countermeasures (MCM Upgrade)', layer:'middle', tier:'whatif',
     priceUSD:150, unit:'vessel', min:1, max:6, defaultQty:3,
-    note:'What-If. MCM fleet Indonesia ageing (Pulau Rote, Fani, Rengat). 3 kapal MCM modern untuk memastikan Indonesia bisa sweep ranjau pihak lain di ALKI.' },
+    note:'What-If. Armada *MCM* Indonesia sudah sangat tua (KRI Pulau Rote, Fani, Rengat). 3 kapal *MCM* modern diperlukan agar Indonesia mampu membersihkan ranjau pihak lain di jalur ALKI pasca-konflik.' },
   { id:'rwf',      name:'Red White Frigate (Merah Putih Class)', layer:'middle', tier:'negotiating',
     priceUSD:120, unit:'unit', min:1, max:6, defaultQty:2,
-    note:'2 unit dalam konstruksi di PT PAL (Babcock SIGMA-based, $1.39B total). PTN target: 12. $120M/unit est. dari kontrak PT PAL 2024. Peran di ALKI: surface presence/constabulary FoN enforcement dan naval gunfire support di pulau terluar. Bukan kapal selam — visible deterrence yang berbeda secara eskalasi.' },
+    note:'2 unit dalam konstruksi di PT PAL (berbasis desain Babcock SIGMA, total $1,39 miliar). Target PTN: 12 unit. Estimasi $120 juta/unit berdasarkan kontrak PT PAL 2024. Peran di ALKI: kehadiran permukaan yang terlihat (*constabulary presence*) dan dukungan tembakan untuk pulau terluar. Berbeda dari kapal selam — keduanya saling melengkapi sebagai sinyal eskalasi yang berbeda.' },
 ];
 
 // ═══════════════════════════════════════════════════
@@ -661,32 +647,32 @@ const CAPS = [
 const SCENARIOS = {
   'natuna': {
     title: 'NATUNA GREY ZONE',
-    body: 'Kapal CCG dan maritime militia China beroperasi di ZEE Natuna Utara — "grey zone" di mana respons diplomatik sulit dan militer berisiko eskalasi. Insiden 2019 (54 kapal) dan 2023 (CCG 5302/5402, 12 hari) menunjukkan Bakamla dan TNI AL tidak mampu memaksakan withdrawal.',
-    gap: '<strong>Gap kritis:</strong> Tidak ada coastal AShM yang bisa mengancam kapal permukaan dari darat. Radar blind spot di Natuna Utara. Tidak ada kapal selam cukup untuk deterrence patrol berkelanjutan.',
-    presel: { gm400:4, retia:4, scorpene:2, brahmos:2, ashm:2, mpa:4 }
+    body: 'Kapal-kapal *China Coast Guard* dan *maritime militia* beroperasi di ZEE Natuna Utara, di zona abu-abu di mana respons diplomatik sulit dan respons militer berisiko eskalasi. Insiden 2019 (54 kapal) dan 2023 (CCG 5302/5402, 12 hari) memperlihatkan bahwa Bakamla dan TNI AL belum mampu memaksakan penarikan paksa.',
+    gap: '<strong>Kesenjangan kritis:</strong> Tidak ada rudal *anti-kapal* berbasis darat yang mampu mengancam kapal permukaan dari pantai. Terdapat titik buta radar di Natuna Utara. Jumlah kapal selam tidak mencukupi untuk patroli penangkalan yang berkelanjutan.',
+    presel: { gm400:4, retia:2, scorpene:2, brahmos:2, ashm:2, mpa:4 }
   },
   'alki-fon': {
-    title: 'ALKI — FREEDOM OF NAVIGATION',
-    body: 'Indonesia sebagai SLOC guarantor: memastikan ALKI I (Karimata), II (Lombok-Makassar), III (Banda-Ombai-Wetar) tetap bebas dan terbuka untuk semua pengguna sah, sambil memiliki kemampuan mengidentifikasi dan mencegah penggunaan tidak sah atau operasi ISR terselubung.',
-    gap: '<strong>Gap kritis:</strong> Tidak ada integrated sensor network di ALKI. Kemampuan subsurface monitoring nyaris nol. MPA CN-235 tidak cukup untuk coverage 3 ALKI + laut terbuka. <strong>Catatan frigate:</strong> kapal selam menjamin deterrence bawah air; frigat/surface combatant diperlukan terpisah untuk constabulary presence yang visible — sinyal eskalasi yang berbeda dan saling melengkapi.',
-    presel: { gm400:6, retia:4, scorpene:2, sub_add:4, ashm:3, mpa:6, aewc:1, rwf:2 }
+    title: 'ALKI — JAMINAN KEBEBASAN NAVIGASI',
+    body: 'Indonesia sebagai penjamin jalur laut (*SLOC guarantor*): memastikan ALKI I (Karimata), ALKI II (Lombok–Makassar), dan ALKI III (Banda–Ombai–Wetar) tetap terbuka untuk semua pengguna yang sah, sekaligus memiliki kemampuan mendeteksi dan mencegah penggunaan tidak sah maupun operasi *ISR* terselubung.',
+    gap: '<strong>Kesenjangan kritis:</strong> Belum ada jaringan sensor terpadu di sepanjang ALKI. Kemampuan pemantauan bawah air hampir nol. Armada CN-235 *MPA* tidak memadai untuk mencakup tiga ALKI sekaligus. Catatan: kapal selam menjamin penangkalan bawah air; frigat diperlukan secara terpisah untuk kehadiran permukaan yang terlihat — dua sinyal eskalasi yang berbeda dan saling melengkapi. BrahMos memberikan kemampuan penangkalan aktif tanpa membentuk jaringan *denial* penuh.',
+    presel: { gm400:6, retia:4, scorpene:2, sub_add:4, brahmos:2, mpa:6, aewc:1, rwf:2 }
   },
   'alki-neu': {
-    title: 'ALKI — NEUTRALITY ENFORCEMENT',
-    body: 'Dalam skenario konflik US-China, Indonesia memerlukan kemampuan menutup ALKI secara sementara untuk mempertahankan status non-belligerent. Preseden: penutupan Sunda-Lombok 1988 untuk latihan tembak. Tantangan: legalitas, capability enforcement, dan risiko menjadi inadvertent belligerent. Mine-laying membutuhkan kapal cepat (KCR-class atau dedicated minelayer) — bukan frigate — untuk rapid barrier deployment di chokepoint sempit Sunda, Lombok, Ombai-Wetar.',
-    gap: '<strong>Gap kritis:</strong> Sea mine adalah instrumen denial paling efektif tapi Indonesia tidak punya platform minelayer yang dedicated. KRI Pulau Rengat (minelayer) sudah sangat tua. Coastal AShM dan kapal selam dibutuhkan untuk credible threat. Tanpa AEW&C, enforcement di Ombai-Wetar tidak mungkin. MCM organik wajib ada agar Indonesia bisa sweep minefield sendiri pasca-konflik.',
-    presel: { mine_lay:3, mine_mcm:2, ashm:4, brahmos:2, scorpene:2, sub_add:4, aewc:2 }
+    title: 'ALKI — PENEGAKAN NETRALITAS',
+    body: 'Dalam skenario konflik antara kekuatan besar, Indonesia memerlukan kemampuan untuk menutup ALKI secara sementara demi mempertahankan status *non-belligerent*. Preseden: penutupan Selat Sunda dan Lombok tahun 1988 untuk latihan tembak. Tantangan utama meliputi aspek legalitas, kemampuan penegakan, dan risiko terseret konflik secara tidak sengaja. Penebaran ranjau membutuhkan kapal cepat — bukan frigat — untuk *rapid barrier deployment* di jalur sempit Selat Sunda, Lombok, dan Ombai-Wetar. Radar diperlukan untuk memastikan posisi semua kapal sebelum penutupan dilaksanakan.',
+    gap: '<strong>Kesenjangan kritis:</strong> Ranjau laut adalah instrumen penutupan jalur yang paling efektif, namun Indonesia tidak memiliki kapal penebar ranjau yang khusus. KRI Pulau Rengat sudah sangat tua. Rudal *anti-kapal* dan kapal selam dibutuhkan untuk ancaman yang kredibel. Tanpa *AEW&C*, penegakan di Ombai-Wetar tidak mungkin dilakukan. Kemampuan pembersihan ranjau organik wajib ada agar Indonesia bisa membersihkan jalur sendiri setelah konflik berakhir.',
+    presel: { gm400:6, retia:4, mine_lay:3, mine_mcm:2, ashm:4, brahmos:2, scorpene:2, sub_add:4, aewc:2 }
   },
   'amphibious': {
-    title: 'AMPHIBIOUS / PULAU TERLUAR',
-    body: 'Potensi pendudukan atau operasi terhadap pulau terluar: Natuna Besar, Morotai, Rote, Miangas. Nilai strategis tinggi, pertahanan tipis. Pola "island hopping" dalam doktrin PLA dan peningkatan aktivitas di LCS menjadikan skenario ini non-trivial. Frigat diperlukan untuk naval gunfire support dan sea control selama operasi re-seizure — kapal selam tidak cocok untuk close-in fire support.',
-    gap: '<strong>Gap kritis:</strong> Tidak ada coastal missile battery yang bisa menjangkau laut dari pulau terluar. Tidak ada SAM jarak menengah di luar Jawa. Amphibious response capability TNI AL terbatas. Surface combatant (frigat) dibutuhkan untuk escort dan fire support — peran yang tidak bisa digantikan kapal selam.',
-    presel: { ashm:6, brahmos:2, nasams:3, scorpene:2, sub_add:2, mpa:4, rwf:1 }
+    title: 'AMFIBI / PULAU TERLUAR',
+    body: 'Potensi pendudukan atau operasi terhadap pulau-pulau terluar: Natuna Besar, Morotai, Rote, Miangas. Nilai strategis tinggi, namun pertahanan tipis. Pola *island hopping* dalam doktrin PLA dan meningkatnya aktivitas di Laut China Selatan menjadikan skenario ini tidak bisa diabaikan. Frigat dibutuhkan untuk dukungan tembakan laut dan penguasaan perairan sekitar selama operasi pemulihan — peran yang tidak bisa dijalankan kapal selam. Radar diperlukan sebagai sistem peringatan dini di pulau-pulau terluar.',
+    gap: '<strong>Kesenjangan kritis:</strong> Tidak ada *battery* rudal pantai yang mampu menjangkau laut dari pulau terluar. Tidak ada *SAM* jarak menengah di luar Jawa. Kemampuan respons amfibi TNI AL masih sangat terbatas. Frigat dibutuhkan untuk *escort* dan dukungan tembakan — peran yang tidak bisa digantikan kapal selam.',
+    presel: { gm400:4, ashm:6, brahmos:2, nasams:3, scorpene:2, sub_add:2, mpa:4, rwf:1 }
   },
   'airspace': {
-    title: 'PELANGGARAN UDARA — BAWEAN PRECEDENT',
-    body: 'Insiden Bawean (3 Juli 2003): 5 F/A-18 Hornet US Navy masuk wilayah udara Indonesia tanpa clearance, tidak komunikasi ATC, melakukan manuver tempur di jalur sipil. Deteksi pertama dari pesawat sipil — BUKAN radar militer. 2 F-16 TNI AU dikunci oleh Hornet sebelum berhasil intercept. Catatan: fighter (F-16, Rafale, KAAN) diasumsikan tersedia — gap di skenario ini bukan jumlah airframe tapi detection window dan scramble coordination. Tanpa radar GCI yang menutup seluruh wilayah dan AEW&C untuk beyond-horizon detection, airframe sebanyak apapun tidak akan cukup responsif.',
-    gap: '<strong>Gap yang ditunjukkan Bawean:</strong> Radar GCI tidak menutup seluruh wilayah (target 37, punya ~25). Tidak ada AEW&C untuk deteksi beyond-horizon. Scramble time bergantung pada satu skadron di Iswahjudi — tidak ada dispersal base readiness yang memadai di luar Jawa.',
+    title: 'PELANGGARAN RUANG UDARA — PRESEDEN BAWEAN',
+    body: 'Insiden Bawean (3 Juli 2003): 5 pesawat F/A-18 Hornet Angkatan Laut Amerika Serikat memasuki ruang udara Indonesia tanpa izin, tidak berkomunikasi dengan ATC, dan melakukan manuver tempur di jalur penerbangan sipil. Deteksi pertama dilakukan oleh pesawat sipil — bukan radar militer. Dua F-16 TNI AU sempat dikunci senjata oleh Hornet sebelum berhasil melakukan *intercept*. Catatan: pesawat tempur (F-16, Rafale, KAAN) diasumsikan tersedia — kesenjangan di skenario ini bukan pada jumlah *airframe*, melainkan pada waktu deteksi dan koordinasi *scramble*.',
+    gap: '<strong>Kesenjangan yang ditunjukkan Bawean:</strong> Radar *GCI* tidak mencakup seluruh wilayah (target 37 instalasi, dimiliki sekitar 25). Belum ada *AEW&C* untuk deteksi melampaui cakrawala. Waktu *scramble* bergantung pada satu skadron di Iswahjudi — tidak ada kesiapan pangkalan alternatif yang memadai di luar Jawa.',
     presel: { gm400:8, retia:6, aewc:2, nasams:4 }
   },
 };
@@ -698,12 +684,12 @@ const GAP_PRESEL = {
 
 const MODE_DESCS = {
   gap: {
-    title: 'CAPABILITY GAP — FASE PRIORITAS (LAB45 / IISS)',
-    body: 'Fase 1 (Fondasi): berdasarkan "Contingent Capabilities" (Laksmana, IISS Feb 2026) dan "Building Blocks" (IISS Mar 2026) — sistem yang diidentifikasi sebagai "genuine zero" atau "critically insufficient": radar GCI, AEW&C, C4ISR, MPA. Fase 2 (Penguatan Laut): LAB45 analytical sequencing berdasarkan IISS Military Balance 2026 + SIPRI ATD — kapal selam, AShM, frigate. Fase 3 (Proyeksi): LAB45 construct berdasarkan Laksmana, 75 Tahun TNI (CSIS 2020) — mine warfare, SAM jarak jauh. Pre-selection mencerminkan Fase 1 + Fase 2 prioritas.'
+    title: 'KESENJANGAN KAPABILITAS — FASE PRIORITAS (LAB45 / IISS)',
+    body: 'Fase 1 (Fondasi): berdasarkan “Contingent Capabilities” (Laksmana, IISS Feb 2026) dan “Building Blocks” (IISS Mar 2026) — sistem yang dinilai benar-benar nol atau sangat tidak memadai: radar GCI, AEW&C, C4ISR, MPA. Fase 2 (Penguatan Laut): urutan prioritas LAB45 berdasarkan IISS Military Balance 2026 dan SIPRI ATD — kapal selam, rudal anti-kapal, frigat. Fase 3 (Proyeksi): konstruksi analitis LAB45 berdasarkan Laksmana, 75 Tahun TNI (CSIS 2020) — ranjau laut, SAM jarak jauh. Pilihan awal mencerminkan prioritas Fase 1 dan Fase 2.'
   },
   custom: {
-    title: 'CUSTOM / FREE PICK',
-    body: 'Pilih sistem sendiri tanpa pre-selection. Semua sistem tersedia dengan quantity default 1. Gunakan tombol +/− untuk menyesuaikan jumlah.'
+    title: 'KUSTOM / PILIHAN BEBAS',
+    body: 'Pilih sistem sendiri tanpa pilihan awal. Semua sistem tersedia dengan jumlah default 1. Gunakan tombol +/− untuk menyesuaikan.'
   }
 };
 
@@ -1197,7 +1183,7 @@ function update() {
   const _bd=document.getElementById('burden-desc'); if(_bd) _bd.textContent=`Setiap tahun pasca-2029: ${S.bnTarget} batalyon × ${S.personnel} prajurit × Rp5M/bulan × 12 = ${fIDR(burdenT)} — berulang selamanya.`;
 
   // Chart
-  renderBarChart(ytp, a2ad);
+  if(document.getElementById('bar-ytp')) renderBarChart(ytp, a2ad);
 
   // Insight
   const a2adUSD = a2ad.total;
@@ -1368,13 +1354,10 @@ function setMode(mode) {
   const ptnWrap     = document.getElementById('ptn-wrap');
   const capListSec  = document.getElementById('cap-list-sec');
   const capList     = document.getElementById('cap-list');
-  const chartWrap   = document.querySelector('.chart-wrap');
   const insight     = document.getElementById('comp-insight');
 
   // Default: show cap-list / chart / insight
   [capListSec, capList, chartWrap, insight].forEach(el => { if(el) el.style.display = ''; });
-  const chartSec = document.getElementById('chart-sec');
-  if (chartSec) chartSec.style.display = '';
   ptnWrap.style.display = 'none';
 
   if (mode === 'scenario') {
@@ -1396,11 +1379,7 @@ function setMode(mode) {
     ptnWrap.style.display = '';
     // Hide cap-list, chart, insight — PTN has its own layout
     [capListSec, capList, chartWrap, insight].forEach(el => { if(el) el.style.display = 'none'; });
-    const chartSecEl = document.getElementById('chart-sec');
-    const chartWrapEl = document.getElementById('chart-wrap');
-    if (chartSecEl) chartSecEl.style.display = 'none';
-    if (chartWrapEl) chartWrapEl.style.display = 'none';
-    update();
+            update();
   } else {
     // custom
     scenWrap.style.display = 'none';
