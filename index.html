@@ -8637,15 +8637,6 @@ var PLANNER_AIRCRAFT = [
   cat: "Radars",
   note: "3D AESA surveillance radar. 470 km detection. 13 units replacing aging radars at existing Satrad stations. Part of 25-radar / 30-Satrad program by 2029 (KSAU, Apr 2026)."
 }, {
-  id: "MASTERT",
-  name: "Master-T GCI (reposition)",
-  maxDeploy: 5,
-  radius: 444,
-  status: "Active (20 Satrad)",
-  tier: 10,
-  cat: "Radars",
-  note: "Current backbone of Kohanudnas network. 20 Satrad stations (KSAU, Apr 2026). To be replaced by 13 GM400α. Explore repositioning to fill gaps."
-}, {
   id: "GM200",
   name: "Ground Master 200",
   maxDeploy: 3,
@@ -8870,6 +8861,8 @@ var PLANNER_AIRCRAFT = [
   id: "ANKAS",
   name: "TAI Anka-S (current basing)",
   maxDeploy: 2,
+  defaultBases: ["Lanud Supadio, Pontianak", "Lanud Raden Sadjad, Ranai"],
+  locked: true,
   radius: 1000,
   status: "Active (12 a/c)",
   tier: 30,
@@ -8918,7 +8911,9 @@ var PLANNER_AIRCRAFT = [
 {
   id: "KHAN",
   name: "Khan SRBM (deployed)",
-  maxDeploy: 2,
+  maxDeploy: 1,
+  defaultBases: ["Yonarmed 18, Tenggarong"],
+  locked: true,
   radius: 280,
   status: "Delivering (8 launchers)",
   tier: 50,
@@ -9344,24 +9339,6 @@ var PLANNER_AIRCRAFT = [
   cat: "Coastal Missiles",
   note: "Roketsan Atmaca coastal battery. 200 km sea-skimming, GPS+INS+IIR terminal. Assigned Koarmada II (Surabaya) and Koarmada III (Sorong). Also ship-launched on frigates."
 }, {
-  id: "BORA",
-  maxDeploy: 1,
-  name: "Roketsan Bora SRBM",
-  radius: 300,
-  status: "On Order (40 missiles)",
-  tier: 50,
-  cat: "Coastal Missiles",
-  note: "Roketsan Bora SRBM. ~300 km range. 40 missiles ordered 2022 per SIPRI. Shares Khan launcher infrastructure. Extends strike depth beyond Atmaca/Exocet coastal AShM tier."
-}, {
-  id: "EXOCET_SHORE",
-  maxDeploy: 1,
-  name: "Exocet MM40 Blk 3 (Coastal)",
-  radius: 200,
-  status: "On Order",
-  tier: 50,
-  cat: "Coastal Missiles",
-  note: "MBDA Exocet MM40 Block 3 coastal defence variant. 200 km range, sea-skimming, active radar terminal. On order per SIPRI/IISS. Complements Atmaca at same range tier. Fits MBDA/Rafale supplier ecosystem."
-}, {
   id: "BRAHMOS",
   maxDeploy: 1,
   name: "BrahMos Supersonic Cruise Missile",
@@ -9379,15 +9356,6 @@ var PLANNER_AIRCRAFT = [
   tier: 50,
   cat: "Coastal Missiles",
   note: "P-800 Oniks / Yakhont (SS-N-26). Mach 2.5, 120 km sea-skimming. Very limited stock on KRI Oswald Siahaan-354. Shore battery deployment unconfirmed — shown as capability reference."
-}, {
-  id: "CM_KHAN",
-  maxDeploy: 1,
-  name: "Khan SRBM Launcher",
-  radius: 280,
-  status: "On Order (8 launchers)",
-  tier: 50,
-  cat: "Coastal Missiles",
-  note: "Roketsan Khan SRBM. ~280 km. 8 launchers ordered 2022 via CSG/Excalibur. ToT with PT Republik Roketsan Indonesia. Exact deployment classified. Indonesia’s first SRBM capability."
 }, {
   id: "CM_BORA",
   maxDeploy: 1,
@@ -10047,7 +10015,15 @@ function BaseMap() {
     _useState46 = _slicedToArray(_useState45, 2),
     plannerOpen = _useState46[0],
     setPlannerOpen = _useState46[1];
-  var _useState47 = useState(new Map()),
+  var _useState47 = useState(function() {
+    var initial = new Map();
+    PLANNER_AIRCRAFT.forEach(function(ac) {
+      if (ac.locked && ac.defaultBases) {
+        ac.defaultBases.forEach(function(base, i) { initial.set(ac.id + "#" + i, base); });
+      }
+    });
+    return initial;
+  }),
     _useState48 = _slicedToArray(_useState47, 2),
     plannerSelections = _useState48[0],
     setPlannerSelections = _useState48[1]; // Map acId -> baseName
@@ -10413,7 +10389,8 @@ function BaseMap() {
       "Koarmada I, Tanjungpinang": [0.9186, 104.4529],
       "Koarmada II, Surabaya": [-7.2575, 112.7521],
       "Brigif Marinir 1, Surabaya": [-7.2975, 112.7521],
-      "Brigif Marinir 2, Jakarta": [-6.2900, 106.8100]
+      "Brigif Marinir 2, Jakarta": [-6.2900, 106.8100],
+      "Yonarmed 18, Tenggarong": [-0.4167, 117.0000]
     };
     plannerSelections.forEach(function (baseName, instanceKey) {
       if (!baseName) return; // base not yet picked for this system
@@ -12635,7 +12612,8 @@ function BaseMap() {
         return /*#__PURE__*/React.createElement("div", {
           key: instanceKey,
           onClick: function() {
-            setPlannerSelections(function(prev) {
+            if (ac && ac.locked) return;
+          setPlannerSelections(function(prev) {
               var next = new Map(prev);
               if (next.has(instanceKey)) {
                 next.delete(instanceKey);
@@ -12671,7 +12649,7 @@ function BaseMap() {
             style: { fontSize: 11, color: isInMap ? accentColor : "#475569", fontWeight: isInMap ? 600 : 400, flex: 1 }
           }, slotLabel ? /*#__PURE__*/React.createElement("span", {
             style: { fontSize: 13, marginRight: 4, color: isInMap ? accentColor : "#374151" }
-          }, slotLabel) : null, isInMap ? (baseName ? baseName.replace(/,.*$/, "") : "pick a base ↓") : "deploy here"),
+          }, slotLabel) : null, isInMap ? (baseName ? baseName.replace(/,.*$/, "") : "pick a base ↓") : (ac && ac.locked ? "[fixed] " + (baseName || "") : "deploy here")),
           isInMap && /*#__PURE__*/React.createElement("select", {
             value: baseName || "",
             onClick: function(e) { e.stopPropagation(); },
