@@ -3908,7 +3908,7 @@ function OriginChart() {
   var _useStateAO = useState("pipeline"),
     _useStateAO2 = _slicedToArray(_useStateAO, 2),
     sankeyScope = _useStateAO2[0],
-    setSankeyScope = _useStateAO2[1]; // "active" | "pipeline" | "all"
+    setSankeyScope = _useStateAO2[1];
   var sankeyRef = useRef(null);
 
   // Parse contract value string to $B number (returns 0 if unparseable)
@@ -10056,6 +10056,10 @@ function BaseMap() {
     _useState50 = _slicedToArray(_useState49, 2),
     plannerAircraft = _useState50[0],
     setPlannerAircraft = _useState50[1];
+  var _useStateHR = useState(null),
+    _useStateHR2 = _slicedToArray(_useStateHR, 2),
+    hoveredRing = _useStateHR2[0],
+    setHoveredRing = _useStateHR2[1];
   var _useState51 = useState(null),
     _useState52 = _slicedToArray(_useState51, 2),
     plannerBase = _useState52[0],
@@ -10429,7 +10433,26 @@ function BaseMap() {
       var isAspi = (ac === null || ac === void 0 ? void 0 : ac.aspirational) || false;
       var maxD = (ac === null || ac === void 0 ? void 0 : ac.maxDeploy) || 1;
       var instanceLabel = maxD > 1 ? " ①②③④⑤".charAt(instanceIdx + 1) || (" [" + (instanceIdx + 1) + "]") : "";
-      var color = RING_COLORS[colorIdx % RING_COLORS.length];
+      var CAT_RING_COLORS = {
+        "Fighters":           "#60a5fa", // blue
+        "Attack Helicopters": "#fb923c", // orange
+        "Utility Helicopters":"#fbbf24", // yellow
+        "Missiles":           "#f87171", // red
+        "Coastal Missiles":   "#f87171", // red (same family)
+        "Ground Defense":     "#f59e0b", // amber
+        "Theatre Air Defence":"#f59e0b", // amber
+        "Radar":              "#67e8f9", // cyan
+        "Radars":             "#67e8f9", // cyan
+        "UAVs":               "#a3e635", // lime
+        "ISR / MPA":          "#34d399", // emerald
+        "Maritime Patrol":    "#34d399", // emerald
+        "Long-Range Strike":  "#e879f9", // fuchsia
+        "AEW&C":              "#c084fc", // purple
+        "Surface Combatants": "#4ade80", // green
+        "Submarines":         "#818cf8", // indigo
+        "Heavy-Lift Helos":   "#fbbf24"  // yellow
+      };
+      var color = CAT_RING_COLORS[(ac && ac.cat) || ""] || RING_COLORS[colorIdx % RING_COLORS.length];
       colorIdx++;
       rings.push({
         id: instanceKey,
@@ -12701,7 +12724,8 @@ function BaseMap() {
       var maxD = (ac && ac.maxDeploy) || 1;
       var instanceSuffixes = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"];
       var suffix = maxD > 1 ? " " + (instanceSuffixes[instanceIdx] || "[" + (instanceIdx+1) + "]") : "";
-      var color = RING_COLORS[idx % RING_COLORS.length];
+      var ringEntry = plannerRingsData.find(function(r) { return r.id === instanceKey; });
+      var color = ringEntry ? ringEntry.color : RING_COLORS[idx % RING_COLORS.length];
       return /*#__PURE__*/React.createElement("div", {
         key: instanceKey,
         style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 3, fontSize: 11 }
@@ -13027,51 +13051,46 @@ function BaseMap() {
           opacity: isSel ? 1 : 0.6
         }, b.name.replace(/Lanud |Koarmada |Kohanudnas |Lantamal |Lanal |, .*|JTTS |Trans-| \(planned\)/g, "")));
       });
-    }(), plannerRingsData.map(function (ring) {
-      return /*#__PURE__*/React.createElement("g", {
-        key: ring.id
-      }, /*#__PURE__*/React.createElement("circle", {
-        cx: ring.cx,
-        cy: ring.cy,
-        r: ring.r,
-        fill: ring.color,
-        fillOpacity: "0.07",
-        stroke: ring.color,
-        strokeWidth: ring.isAspi ? 1.5 : 2,
-        strokeDasharray: ring.isAspi ? "6,4" : "8,4",
-        opacity: "0.9"
-      }), /*#__PURE__*/React.createElement("circle", {
-        cx: ring.cx,
-        cy: ring.cy,
-        r: ring.r * 0.5,
-        fill: "none",
-        stroke: ring.color,
-        strokeWidth: "0.5",
-        strokeDasharray: "3,5",
-        opacity: "0.25"
-      }), /*#__PURE__*/React.createElement("circle", {
-        cx: ring.cx,
-        cy: ring.cy,
-        r: 3,
-        fill: ring.color,
-        stroke: "#fff",
-        strokeWidth: "1"
-      }), /*#__PURE__*/React.createElement("text", {
-        x: ring.cx,
-        y: ring.cy - ring.r - 6 < 8 ? Math.min(530, ring.cy + ring.r + 12) : ring.cy - ring.r - 6,
-        textAnchor: "middle",
-        fill: ring.color,
-        fontSize: "8",
-        fontWeight: "700",
-        opacity: "0.9"
-      }, ring.name.split(" ").slice(-2).join(" "), " / ", ring.baseName.replace(/,.*$/, "")), /*#__PURE__*/React.createElement("text", {
-        x: ring.cx + ring.r + 4,
-        y: ring.cy + 3,
-        fill: ring.color,
-        fontSize: "7",
-        opacity: "0.7"
-      }, ring.radiusKm, " km"));
-    }), [{
+    }(), function() {
+      var anyHovered = hoveredRing !== null;
+      return plannerRingsData.map(function (ring) {
+        var isHov = hoveredRing === ring.id;
+        var baseOpacity = anyHovered ? (isHov ? 1 : 0.18) : 0.55;
+        var fillOpacity = anyHovered ? (isHov ? 0.12 : 0.02) : 0.06;
+        return /*#__PURE__*/React.createElement("g", {
+          key: ring.id,
+          onMouseEnter: function() { setHoveredRing(ring.id); },
+          onMouseLeave: function() { setHoveredRing(null); },
+          style: { cursor: "pointer", transition: "opacity 0.2s" }
+        }, /*#__PURE__*/React.createElement("circle", {
+          cx: ring.cx, cy: ring.cy, r: ring.r,
+          fill: ring.color, fillOpacity: fillOpacity,
+          stroke: ring.color,
+          strokeWidth: isHov ? 2.5 : (ring.isAspi ? 1.2 : 1.5),
+          strokeDasharray: ring.isAspi ? "6,4" : "8,4",
+          opacity: baseOpacity
+        }), /*#__PURE__*/React.createElement("circle", {
+          cx: ring.cx, cy: ring.cy, r: ring.r * 0.5,
+          fill: "none", stroke: ring.color, strokeWidth: "0.5",
+          strokeDasharray: "3,5",
+          opacity: anyHovered ? (isHov ? 0.3 : 0.05) : 0.15
+        }), /*#__PURE__*/React.createElement("circle", {
+          cx: ring.cx, cy: ring.cy, r: 3,
+          fill: ring.color, stroke: "#fff", strokeWidth: "1",
+          opacity: baseOpacity
+        }), /*#__PURE__*/React.createElement("text", {
+          x: ring.cx,
+          y: ring.cy - ring.r - 6 < 8 ? Math.min(530, ring.cy + ring.r + 12) : ring.cy - ring.r - 6,
+          textAnchor: "middle", fill: ring.color,
+          fontSize: isHov ? "9" : "8", fontWeight: "700",
+          opacity: anyHovered ? (isHov ? 1 : 0.1) : 0.75
+        }, ring.name.split(" ").slice(-2).join(" "), " / ", ring.baseName.replace(/,.*$/, "")), /*#__PURE__*/React.createElement("text", {
+          x: ring.cx + ring.r + 4, y: ring.cy + 3,
+          fill: ring.color, fontSize: "7",
+          opacity: anyHovered ? (isHov ? 0.9 : 0.05) : 0.55
+        }, ring.radiusKm, " km"));
+      });
+    }(), [{
       coords: [107, 7],
       label: "SCS / Natuna"
     }, {
@@ -15707,7 +15726,7 @@ function App() {
     }
   }, "What is this?"), /*#__PURE__*/React.createElement("p", {
     style: { fontSize: 15, color: "#374151", lineHeight: 1.8, marginBottom: 8 }
-  }, "This is an OSINT tracker for TNI weapon systems, built and maintained by ", /*#__PURE__*/React.createElement("a", { href: "https://www.lab45.id", target: "_blank", rel: "noopener", style: { color: "#C8A951", fontWeight: 700 } }, "Laboratorium Indonesia 2045 (LAB 45)"), " \u2014 a Jakarta-based defense and strategic policy research institution. It currently covers ", WEAPON_SYSTEMS.length, " weapon systems drawn from ", function () {
+  }, "This is an OSINT tracker for TNI weapon systems, built and maintained by ", /*#__PURE__*/React.createElement("a", { href: "https://www.lab45.id", target: "_blank", rel: "noopener", style: { color: "#C8A951", fontWeight: 700 } }, "Laboratorium Indonesia 2045 (LAB 45)"), " \u2014 a Jakarta-based defense and strategic policy research institution. Built collaboratively between LAB45 researchers and Claude (Anthropic) by a researcher with no coding background, it is an experiment in AI-assisted policy research tooling. It currently covers ", WEAPON_SYSTEMS.length, " weapon systems drawn from ", function () {
     var s = new Set();
     WEAPON_SYSTEMS.forEach(function (w) { return w.origin.split("/").forEach(function (o) { var t = o.trim(); if (t !== "Indonesia" && t !== "TBD") s.add(t); }); });
     return s.size;
@@ -15946,6 +15965,19 @@ function App() {
       "Component data is hand-curated from IISS Military Balance 2025/2026, SIPRI, Janes, manufacturer disclosures, and defense media. Sub-tier suppliers \u2014 the companies behind the tier-1 integrators \u2014 are rarely disclosed publicly and are not fully captured here.")
   ))
 ), /*#__PURE__*/React.createElement("div", {
+    style: { background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: 28, marginBottom: 20 }
+  },
+  /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "#111", marginBottom: 10 } }, "What This Tracker Cannot Tell You"),
+  /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "#374151", lineHeight: 1.8, marginBottom: 12 } },
+    "Order-of-battle data is a floor, not a ceiling. This tracker tells you what Indonesia has signed contracts for, taken delivery of, or retired \u2014 it says nothing about whether those systems are actually ready to fight."
+  ),
+  /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "#374151", lineHeight: 1.8, marginBottom: 12 } },
+    "Weapons readiness, ammunition stocks, spare parts availability, maintenance cycles, crew proficiency, and operational tempo are all outside the scope of open-source procurement data. Indonesia operating three Nagapasa-class submarines tells you nothing about whether those submarines are armed, fully crewed, or seaworthy on any given day. In Indonesia's case, the gap between inventory and operational readiness is a known structural challenge \u2014 one that procurement numbers alone cannot capture."
+  ),
+  /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "#6b7280", lineHeight: 1.8 } },
+    "Use this tracker as a starting point for understanding Indonesia's procurement direction and supply chain dependencies \u2014 not as a readiness assessment."
+  )),
+  /*#__PURE__*/React.createElement("div", {
     style: { background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: 28, marginBottom: 20 }
   },
   /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "#111", marginBottom: 10 } }, "Map Markers"),
