@@ -3873,6 +3873,10 @@ function OriginChart() {
     _useState2 = _slicedToArray(_useState, 2),
     hovered = _useState2[0],
     setHovered = _useState2[1];
+  var _useStateMP = useState({ x: 0, y: 0 }),
+    _useStateMP2 = _slicedToArray(_useStateMP, 2),
+    mousePos = _useStateMP2[0],
+    setMousePos = _useStateMP2[1];
   var _useState3 = useState("sankey"),
     _useState4 = _slicedToArray(_useState3, 2),
     viewMode = _useState4[0],
@@ -3971,31 +3975,31 @@ function OriginChart() {
     "Prabowo": "#38bdf8"
   };
   var oColors = {
-    "United States": "#3b82f6",
-    "France": "#ef4444",
-    "Türkiye": "#f97316",
-    "South Korea": "#8b5cf6",
-    "Soviet Union / Russia": "#b91c1c",
-    "Germany": "#fbbf24",
-    "United Kingdom": "#14b8a6",
-    "Indonesia": "#dc2626",
-    "Italy": "#22c55e",
-    "India": "#ec4899",
-    "Europe": "#6366f1",
-    "Netherlands": "#0ea5e9",
-    "Brazil": "#84cc16",
-    "China": "#f43f5e",
-    "Czechia": "#a855f7",
-    "Sweden": "#06b6d4",
-    "Switzerland": "#10b981",
-    "Japan": "#f59e0b",
-    "Canada": "#6366f1",
-    "Spain": "#e11d48",
-    "Israel": "#0d9488",
-    "Norway": "#64748b",
-    "Austria": "#94a3b8",
-    "Australia": "#15803d",
-    "TBD": "#94a3b8"
+    "United States":        "#2563eb", // Stars and Stripes blue
+    "France":               "#002395", // Tricolor blue (navy)
+    "Türkiye":              "#e30a17", // Turkish red
+    "South Korea":          "#cd2e3a", // Taegukgi red
+    "Soviet Union / Russia":"#cc0000", // Soviet/Russian red
+    "Germany":              "#000000", // German black
+    "United Kingdom":       "#012169", // Union Jack navy
+    "Indonesia":            "#ce1126", // Merah Putih red
+    "Italy":                "#009246", // Italian green
+    "India":                "#ff9933", // Saffron orange
+    "Europe":               "#003399", // EU blue
+    "Netherlands":          "#ae1c28", // Dutch red
+    "Brazil":               "#009c3b", // Brazilian green
+    "China":                "#de2910", // Five-star red
+    "Czechia":              "#d7141a", // Czech red
+    "Sweden":               "#006aa7", // Swedish blue
+    "Switzerland":          "#ff0000", // Swiss red
+    "Japan":                "#bc002d", // Crimson disc
+    "Canada":               "#ff0000", // Maple leaf red
+    "Spain":                "#f1bf00", // Spanish gold
+    "Israel":               "#0038b8", // Star of David blue
+    "Norway":               "#ef2b2d", // Norwegian red
+    "Austria":              "#ed2939", // Austrian red
+    "Australia":            "#00008b", // Australian navy
+    "TBD":                  "#94a3b8"
   };
   var getColor = function getColor(name) {
     return oColors[name] || "#94a3b8";
@@ -4256,6 +4260,7 @@ function OriginChart() {
       origins: origins,
       admins: admins,
       branches: branches,
+      filteredSystems: filteredSystems,
       flowBO: flowBO,
       flowOA: flowOA,
       flowAB: flowAB,
@@ -4975,7 +4980,7 @@ function OriginChart() {
     var flowObj = {};
     var dynSysMap = {};
     var rightTotals = {};
-    WEAPON_SYSTEMS.forEach(function (w) {
+    (sankeyData.filteredSystems || WEAPON_SYSTEMS).forEach(function (w) {
       var l = getDimVal(w, leftKey);
       var r = getDimVal(w, rightKey);
       var k = l + "→" + r;
@@ -5051,6 +5056,7 @@ function OriginChart() {
     var svgEl = /*#__PURE__*/React.createElement("svg", {
       ref: sankeyRef,
       viewBox: "0 0 ".concat(sW, " ").concat(sH),
+      onMouseMove: function(e) { setMousePos({ x: e.clientX, y: e.clientY }); },
       style: {
         width: "100%",
         height: "100%",
@@ -5116,11 +5122,15 @@ function OriginChart() {
         style: {
           cursor: "pointer"
         }
+      }, /*#__PURE__*/React.createElement("clipPath", {
+        id: "clip-r-" + p.name.replace(/\s+/g, "-")
       }, /*#__PURE__*/React.createElement("rect", {
+        x: sCol[1], y: p.y, width: nodeW + 10, height: Math.max(p.h, 4)
+      })), /*#__PURE__*/React.createElement("rect", {
         x: sCol[1],
         y: p.y,
         width: nodeW + 10,
-        height: Math.max(p.h, 20),
+        height: Math.max(p.h, 4),
         rx: 3,
         fill: c,
         opacity: anyH && !isH ? 0.15 : 0.85,
@@ -5129,15 +5139,24 @@ function OriginChart() {
         }
       }), /*#__PURE__*/React.createElement("text", {
         x: sCol[1] + (nodeW + 10) / 2,
-        y: p.y + Math.max(p.h, 20) / 2,
+        y: p.y + Math.max(p.h, 4) / 2,
         textAnchor: "middle",
         fill: "#fff",
         fontSize: 14,
         fontWeight: 700,
+        dominantBaseline: "middle",
+        clipPath: "url(#clip-r-" + p.name.replace(/\s+/g, "-") + ")"
+      }, p.h >= 18 ? p.name : ""), p.h < 18 && /*#__PURE__*/React.createElement("text", {
+        x: sCol[1] - 6,
+        y: p.y + Math.max(p.h, 4) / 2,
+        textAnchor: "end",
+        fill: c,
+        fontSize: 11,
+        fontWeight: 700,
         dominantBaseline: "middle"
       }, p.name), /*#__PURE__*/React.createElement("text", {
         x: sCol[1] + nodeW + 22,
-        y: p.y + Math.max(p.h, 20) / 2,
+        y: p.y + Math.max(p.h, 4) / 2,
         fill: "#9ca3af",
         fontSize: 12,
         fontWeight: 600,
@@ -5173,8 +5192,8 @@ function OriginChart() {
       return /*#__PURE__*/React.createElement("div", {
         style: {
           position: "fixed",
-          top: 120,
-          right: 24,
+          left: Math.min(mousePos.x + 16, window.innerWidth - 320),
+          top: Math.min(mousePos.y - 10, window.innerHeight - 200),
           background: "#111",
           color: "#fff",
           padding: "14px 18px",
@@ -5226,7 +5245,7 @@ function OriginChart() {
       justifyContent: "center",
       flexWrap: "wrap"
     }
-  }, Object.entries(BLOC_COLORS).map(function (_ref35) {
+  }, sankeyOrder.startsWith("bloc") && Object.entries(BLOC_COLORS).map(function (_ref35) {
     var _ref36 = _slicedToArray(_ref35, 2),
       name = _ref36[0],
       color = _ref36[1];
@@ -7805,53 +7824,119 @@ var NEIGHBORS = {
   "Australia": [[[126.1, -32.2], [125.1, -32.7], [124.2, -33.0], [124.0, -33.5], [123.7, -33.9], [122.8, -33.9], [122.2, -34.0], [121.3, -33.8], [120.6, -33.9], [119.9, -34.0], [119.3, -34.5], [119.0, -34.5], [118.5, -34.7], [118.0, -35.1], [117.3, -35.0], [116.6, -35.0], [115.6, -34.4], [115.0, -34.2], [115.0, -33.6], [115.5, -33.5], [115.7, -33.3], [115.7, -32.9], [115.8, -32.2], [115.7, -31.6], [115.2, -30.6], [115.0, -30.0], [115.0, -29.5], [114.6, -28.8], [114.6, -28.5], [114.2, -28.1], [114.0, -27.3], [113.5, -26.5], [113.3, -26.1], [113.8, -26.5], [113.4, -25.6], [113.9, -25.9], [114.2, -26.3], [114.2, -25.8], [113.7, -25.0], [113.6, -24.7], [113.4, -24.4], [113.5, -23.8], [113.7, -23.6], [113.8, -23.1], [113.7, -22.5], [114.1, -21.8], [114.2, -22.5], [114.6, -21.8], [115.5, -21.5], [115.9, -21.1], [116.7, -20.7], [117.2, -20.6], [117.4, -20.7], [118.2, -20.4], [118.8, -20.3], [119.0, -20.0], [119.3, -20.0], [119.8, -20.0], [120.9, -19.7], [121.4, -19.2], [121.7, -18.7], [122.2, -18.2], [122.3, -17.8], [122.3, -17.3], [123.0, -16.4], [123.4, -17.3], [123.9, -17.1], [123.5, -16.6], [123.8, -16.1], [124.3, -16.3], [124.4, -15.6], [124.9, -15.1], [125.2, -14.7], [125.7, -14.5], [125.7, -14.2], [126.1, -14.3], [126.1, -14.1], [126.6, -14.0], [127.1, -13.8], [127.8, -14.3], [128.4, -14.9], [129.0, -14.9], [129.6, -15.0], [129.4, -14.4], [129.9, -13.6], [130.3, -13.4], [130.2, -13.1], [130.6, -12.5], [131.2, -12.2], [131.7, -12.3], [132.6, -12.1], [132.6, -11.6], [131.8, -11.3], [132.4, -11.1], [133.0, -11.4], [133.6, -11.8], [134.4, -12.0], [134.7, -11.9], [135.3, -12.2], [135.9, -12.0], [136.3, -12.0], [136.5, -11.9], [137.0, -12.4], [136.7, -12.9], [136.3, -13.3], [136.0, -13.3], [136.1, -13.7], [135.8, -14.2], [135.4, -14.7], [135.5, -15.0], [136.3, -15.6], [137.1, -15.9], [137.6, -16.2], [138.3, -16.8], [138.6, -16.8], [139.1, -17.1], [139.3, -17.4], [140.2, -17.7], [140.9, -17.4], [141.1, -16.8], [141.3, -16.4], [141.4, -15.8], [141.7, -15.0], [141.6, -14.6], [141.6, -14.3], [141.5, -13.7], [141.7, -12.9], [141.8, -12.7], [141.7, -12.4], [141.9, -11.9], [142.1, -11.3], [142.1, -11.0], [142.5, -10.7], [142.8, -11.2], [142.9, -11.8], [143.1, -11.9], [143.2, -12.3], [143.5, -12.8], [143.6, -13.4], [143.6, -13.8], [143.9, -14.5], [144.6, -14.2], [144.9, -14.6], [145.4, -15.0], [145.3, -15.4], [145.5, -16.3], [145.6, -16.8], [145.9, -16.9], [146.2, -17.8], [146.1, -18.3], [146.4, -19.0], [147.5, -19.5], [148.2, -20.0], [148.8, -20.4], [148.7, -20.6], [149.3, -21.3], [149.7, -22.3], [150.1, -22.1], [150.5, -22.6], [150.7, -22.4], [150.9, -23.5], [151.6, -24.1], [152.1, -24.5], [152.9, -25.3], [153.1, -26.1], [153.2, -26.6], [153.1, -27.3], [153.6, -28.1], [153.5, -29.0], [153.3, -29.5], [153.1, -30.4], [153.1, -30.9], [152.9, -31.6], [152.4, -32.6], [151.7, -33.0], [151.3, -33.8], [151.0, -34.3], [150.7, -35.2], [150.3, -35.7], [150.1, -36.4], [149.9, -37.1], [150.0, -37.4], [149.4, -37.8], [148.3, -37.8], [147.4, -38.2], [146.9, -38.6], [146.3, -39.0], [145.5, -38.6], [144.9, -38.4], [145.0, -37.9], [144.5, -38.1], [143.6, -38.8], [142.7, -38.5], [142.2, -38.4], [141.6, -38.3], [140.6, -38.0], [140.0, -37.4], [139.8, -36.6], [139.6, -36.1], [139.1, -35.7], [138.1, -35.6], [138.4, -35.1], [138.2, -34.4], [137.7, -35.1], [136.8, -35.3], [137.4, -34.7], [137.5, -34.1], [137.9, -33.6], [137.8, -32.9], [137.0, -33.8], [136.4, -34.1], [136.0, -34.9], [135.2, -34.5], [135.2, -33.9], [134.6, -33.2], [134.1, -32.8], [134.3, -32.6], [133.0, -32.0], [132.3, -32.0], [131.3, -31.5], [129.5, -31.6], [128.2, -31.9], [127.1, -32.3], [126.1, -32.2]]]
 };
 var ALKI_ROUTES = [
-// ALKI I: SCS → Karimata Strait (east of Belitung, west of Kalimantan) → Java Sea → Sunda Strait
-// Belitung east coast ~108.3E, Kalimantan west coast ~109.0E → route at ~108.7E through strait
-// Then southwest through Java Sea to Sunda Strait exit (~105.0E, -6.6S)
+// ALKI I — PP 37/2002 Lampiran I / IMO MSC.72(69): South China Sea → Natuna Sea → Karimata Strait → Java Sea → Sunda Strait → Indian Ocean
 {
   name: "ALKI I",
   desc: "SCS \u2192 Karimata Strait \u2192 Java Sea \u2192 Sunda Strait \u2192 Indian Ocean",
   color: "#f59e0b",
-  waypoints: [[108.7, 5.0], [108.7, 3.5], [108.7, 2.0], [108.7, 0.5], [108.7, -0.5], [108.7, -1.5], [108.5, -2.5], [108.0, -3.5], [107.2, -4.5], [106.5, -5.3], [105.8, -5.9], [105.2, -6.5], [104.8, -7.2]]
+  waypoints: [
+    [108.8500,  3.5833], // I-1  outer terminus South China Sea
+    [108.1667,  3.0000], // I-2  South China Sea / Natuna Sea
+    [106.2722,  0.8333], // I-3  junction with Spur IA
+    [106.7333, -0.2055], // I-4  Natuna Sea → Karimata Strait
+    [108.4500, -2.0167], // I-5  entry Karimata Strait
+    [109.3250, -2.2667], // I-6  Karimata Strait
+    [109.5500, -2.7500], // I-7  Karimata Strait southern exit
+    [109.5500, -3.7792], // I-8  western Java Sea
+    [106.9083, -5.2083], // I-9  western Java Sea
+    [106.7417, -5.2875], // I-10 western Java Sea
+    [106.4583, -5.2875], // I-11 western Java Sea
+    [106.2083, -5.2500], // I-12 approach to Sunda Strait
+    [105.7722, -5.9542], // I-13 Sunda Strait
+    [105.5542, -6.3083], // I-14 Sunda Strait
+    [104.6903, -6.4125]  // I-15 outer terminus Indian Ocean
+  ]
 },
-// ALKI IA: Singapore Strait spur connecting to ALKI I main trunk
+// ALKI IA — Spur: Singapore Strait → P. Merapas → junction I-3
 {
   name: "ALKI IA",
   desc: "Singapore Strait \u2192 Natuna Sea (spur)",
   color: "#fbbf24",
-  waypoints: [[104.0, 1.3], [105.5, 1.5], [107.0, 1.0], [108.2, 0.2], [108.7, 0.5]]
+  waypoints: [
+    [104.9167,  1.8667], // IA-1 outer terminus Singapore Strait
+    [106.2722,  0.8333]  // I-3  junction with ALKI I
+  ]
 },
-// ALKI II: Sulawesi Sea → Makassar Strait (centered ~118.5E) → Lombok Strait (~115.8E between Bali & Lombok)
-// Bali east coast ~115.7E, Lombok west coast ~116.0E → thread at ~115.85E
-// Makassar Strait centered between Kalimantan (~117E east coast) and Sulawesi (~119E west coast)
+// ALKI II — PP 37/2002 Lampiran II / IMO MSC.72(69): Sulawesi Sea → Makassar Strait → Bali/Flores Sea → Lombok Strait → Indian Ocean
 {
   name: "ALKI II",
   desc: "Sulawesi Sea \u2192 Makassar Strait \u2192 Lombok Strait \u2192 Indian Ocean",
   color: "#f59e0b",
-  waypoints: [[118.5, 4.0], [118.3, 2.5], [118.0, 1.0], [117.8, -0.5], [117.5, -2.0], [117.2, -3.5], [116.8, -5.0], [116.4, -6.5], [116.1, -7.5], [115.85, -8.4], [115.85, -9.5]]
+  waypoints: [
+    [119.5500,  0.9500], // II-1 outer terminus Sulawesi Sea
+    [119.0000,  0.0000], // II-2 Sulawesi Sea → Makassar Strait
+    [118.2833, -2.6667], // II-3 Makassar Strait
+    [118.2833, -3.7500], // II-4 Makassar Strait
+    [117.0833, -5.4667], // II-5 southern Makassar Strait
+    [116.8333, -7.0000], // II-6 Bali Sea
+    [116.0000, -8.0000], // II-7 approach Lombok Strait
+    [115.6000, -9.0167]  // II-8 outer terminus Indian Ocean
+  ]
 },
-// ALKI III: All branches share a common trunk from Pacific → Maluku Sea → Banda Sea
-// Then fork at junction point ~[127.5,-5.5] into three branches per IISS map
-// IIIA trunk + Ombai-Wetar Strait (between Alor/Timor, ~124.5E, -8.5S → exit ~122E, -10S)
+// ALKI IIIA — PP 37/2002 Lampiran IIIA / IMO MSC.72(69): Pacific → Maluku Sea → Seram Sea → Banda Sea → Ombai Strait → Sawu Sea → Indian Ocean
 {
   name: "ALKI IIIA",
   desc: "Pacific \u2192 Maluku Sea \u2192 Banda Sea \u2192 Ombai Strait \u2192 Indian Ocean",
   color: "#fb923c",
-  waypoints: [[131.0, 3.0], [129.5, 1.5], [128.5, 0.0], [127.8, -1.5], [127.5, -3.0], [127.3, -4.5], [126.8, -5.5], [126.0, -6.5], [125.2, -7.5], [124.5, -8.3], [123.5, -9.2], [122.5, -10.0]]
+  waypoints: [
+    [127.6750,  3.4500], // IIIA-1  outer terminus Pacific
+    [126.9583,  1.6667], // IIIA-2  junction spur IIIE
+    [126.9000,  1.2000], // IIIA-3  Maluku Sea
+    [126.3333,  0.1500], // IIIA-4  Maluku Sea near equator
+    [127.0333, -1.8833], // IIIA-5  Maluku Sea → Seram Sea
+    [126.5000, -2.6167], // IIIA-6  Seram Sea
+    [125.5000, -2.8833], // IIIA-7  Seram Sea → western Banda Sea
+    [125.5000, -3.3333], // IIIA-8  junction spurs IIIB & IIIC
+    [125.3333, -8.4167], // IIIA-9  approach Ombai Strait
+    [123.5667, -9.0500], // IIIA-10 Ombai Strait
+    [122.9167, -9.3833], // IIIA-11 junction spur IIID
+    [121.3000,-10.2000], // IIIA-12 Sawu Sea
+    [120.7625,-10.7417]  // IIIA-13 outer terminus Indian Ocean
+  ]
 },
-// IIIB: Fork from shared trunk at ~[127.3,-4.5] → Leti Strait (~127.5E, -8.2S → exit south)
+// ALKI IIIB — Spur: IIIA-8 → Banda Sea → Leti Strait → Timor Sea
 {
   name: "ALKI IIIB",
-  desc: "Pacific \u2192 Maluku Sea \u2192 Banda Sea \u2192 Leti Strait \u2192 Indian Ocean",
+  desc: "Banda Sea \u2192 Leti Strait \u2192 Timor Sea (spur — suspended near Timor-Leste border)",
   color: "#fb923c",
-  waypoints: [[127.3, -4.5], [127.5, -5.5], [127.8, -6.5], [127.8, -7.5], [127.6, -8.2], [127.5, -9.0]]
+  waypoints: [
+    [125.5000, -3.3333], // IIIA-8 junction
+    [125.6667, -4.0000], // IIIB-1 Banda Sea (also junction IIIC)
+    [127.5500, -8.5167]  // IIIB-2 outer terminus Timor Sea
+  ]
 },
-// IIIC: Fork from shared trunk at ~[127.3,-4.5] → southeast through Arafura Sea
+// ALKI IIIC — Spur: IIIA-8 → IIIB-1 → Arafura Sea
 {
   name: "ALKI IIIC",
-  desc: "Pacific \u2192 Maluku Sea \u2192 Banda Sea \u2192 Arafura Sea",
+  desc: "Banda Sea \u2192 Arafura Sea (spur)",
   color: "#fb923c",
-  waypoints: [[127.3, -4.5], [128.0, -5.0], [129.0, -5.5], [130.5, -6.0], [132.0, -6.5], [133.5, -7.0]]
+  waypoints: [
+    [125.5000, -3.3333], // IIIA-8 junction
+    [125.6667, -4.0000], // IIIB-1 junction
+    [131.7500, -6.1667], // IIIC-1 eastern Banda Sea
+    [132.5833, -6.7333]  // IIIC-2 outer terminus Arafura Sea
+  ]
+},
+// ALKI IIID — Spur: IIIA-11 → Sawu/Roti gap → Indian Ocean
+{
+  name: "ALKI IIID",
+  desc: "Sawu Sea \u2192 Indian Ocean (spur)",
+  color: "#fb923c",
+  waypoints: [
+    [122.9167, -9.3833], // IIIA-11 junction
+    [122.1833,-10.9667]  // IIID-1  outer terminus Indian Ocean
+  ]
+},
+// ALKI IIIE — Spur: IIIA-2 northward → Sulawesi Sea
+{
+  name: "ALKI IIIE",
+  desc: "Maluku Sea \u2192 Sulawesi Sea (spur)",
+  color: "#fbbf24",
+  waypoints: [
+    [126.9583,  1.6667], // IIIA-2 junction
+    [126.0167,  4.2017], // IIIE-1 northern Maluku Sea
+    [125.1733,  4.5367]  // IIIE-2 outer terminus Sulawesi Sea
+  ]
 }];
 var EEZ_BOUNDARY = [
 // Northern boundary (Aceh → Natuna → Borneo → Sulawesi Sea → Pacific)
@@ -11468,7 +11553,18 @@ function BaseMap() {
           transition: "all .2s"
         }
       }, l);
-    })), /*#__PURE__*/React.createElement("div", {
+    }), showRadius.size > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 4,
+        flexWrap: "wrap",
+        marginBottom: 8,
+        paddingBottom: 8,
+        borderBottom: "1px solid #1e3a5f"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: { fontSize: 10, fontWeight: 700, color: "#64748b", alignSelf: "center", marginRight: 2, whiteSpace: "nowrap" }
+    }, "FOCUS:"), focusChips)), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         flexDirection: "column",
@@ -12848,6 +12944,32 @@ function BaseMap() {
       fill: "#1e3a5f",
       stroke: "#475569",
       strokeWidth: "0.5"
+    }), alkiPaths.map(function (route, i) {
+      return /*#__PURE__*/React.createElement("g", {
+        key: "alki-p-".concat(i)
+      }, /*#__PURE__*/React.createElement("path", {
+        d: route.path,
+        fill: "none",
+        stroke: route.color,
+        strokeWidth: "2",
+        strokeDasharray: "10,5",
+        opacity: "0.6",
+        strokeLinecap: "round"
+      }), /*#__PURE__*/React.createElement("path", {
+        d: route.path,
+        fill: "none",
+        stroke: route.color,
+        strokeWidth: "6",
+        opacity: "0.08",
+        strokeLinecap: "round"
+      }), /*#__PURE__*/React.createElement("text", {
+        x: route.labelX + 8,
+        y: route.labelY - 6,
+        fill: route.color,
+        fontSize: "8",
+        fontWeight: "700",
+        opacity: "0.85"
+      }, route.name));
     }), function () {
       var allBases = plannerEligibleBases.length > 0 ? plannerEligibleBases : PLANNER_BASES;
       return allBases.map(function (b) {
@@ -13081,7 +13203,7 @@ function BaseMap() {
     }, "Select a base from the dropdown on each system card above"))));
   };
   var alkiLegend = /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 14px", padding: "6px 0", marginBottom: 4, fontSize: 11, color: "#6b7280" } }, /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#9ca3af", fontSize: 10 } }, "SEA LANES:"), /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 6, style: { verticalAlign: "middle", flexShrink: 0 } }, /*#__PURE__*/React.createElement("line", { x1: 0, y1: 3, x2: 22, y2: 3, stroke: "#f59e0b", strokeWidth: 2, strokeDasharray: "5,3" })), "ALKI/ASL"), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 2px" } }, "|"), /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 6, style: { verticalAlign: "middle", flexShrink: 0 } }, /*#__PURE__*/React.createElement("line", { x1: 0, y1: 3, x2: 22, y2: 3, stroke: "#3b82f6", strokeWidth: 1.5, strokeDasharray: "6,4", opacity: 0.6 })), "EEZ"));
-  var mapLegend = /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 16px", padding: "6px 0", marginBottom: 4, fontSize: 11, color: "#6b7280" } }, Object.entries(BCo).map(function (_refL) { var _refL2 = _slicedToArray(_refL, 2), bL = _refL2[0], cL = _refL2[1]; return /*#__PURE__*/React.createElement("div", { key: bL, style: { display: "flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("span", { style: { width: 8, height: 8, borderRadius: 4, background: cL, flexShrink: 0, display: "inline-block" } }), bL); }), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 4px" } }, "|"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCA5 Flashpoints"), /*#__PURE__*/React.createElement("span", null, "\u2694\uFE0F Border disputes"), /*#__PURE__*/React.createElement("span", null, "\u26CF\uFE0F Mining sites"), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 4px" } }, "|"), /*#__PURE__*/React.createElement("span", { style: { fontSize: 10, color: "#6b7280" } }, /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#ef4444", marginRight: 3, verticalAlign: "middle" } }), "T1 Critical\u00a0", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#f59e0b", marginRight: 3, verticalAlign: "middle" } }), "T2 Significant\u00a0", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#22c55e", marginRight: 3, verticalAlign: "middle" } }), "T3 Monitored"));
+  var mapLegend = /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 16px", padding: "6px 0", marginBottom: 4, fontSize: 11, color: "#6b7280" } }, Object.entries(BCo).map(function (_refL) { var _refL2 = _slicedToArray(_refL, 2), bL = _refL2[0], cL = _refL2[1]; return /*#__PURE__*/React.createElement("div", { key: bL, style: { display: "flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("span", { style: { width: 8, height: 8, borderRadius: 4, background: cL, flexShrink: 0, display: "inline-block" } }), bL); }), /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 6, style: { verticalAlign: "middle", flexShrink: 0 } }, /*#__PURE__*/React.createElement("line", { x1: 0, y1: 3, x2: 22, y2: 3, stroke: "#f59e0b", strokeWidth: 2, strokeDasharray: "5,3" })), "ALKI/ASL"), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 4px" } }, "|"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCA5 Flashpoints"), /*#__PURE__*/React.createElement("span", null, "\u2694\uFE0F Border disputes"), /*#__PURE__*/React.createElement("span", null, "\u26CF\uFE0F Mining sites"), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 4px" } }, "|"), /*#__PURE__*/React.createElement("span", { style: { fontSize: 10, color: "#6b7280" } }, /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#ef4444", marginRight: 3, verticalAlign: "middle" } }), "T1 Critical\u00a0", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#f59e0b", marginRight: 3, verticalAlign: "middle" } }), "T2 Significant\u00a0", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#22c55e", marginRight: 3, verticalAlign: "middle" } }), "T3 Monitored"));
   return /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 8
