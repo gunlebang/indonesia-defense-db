@@ -10036,6 +10036,10 @@ function BaseMap() {
     _useStateHR2 = _slicedToArray(_useStateHR, 2),
     hoveredRing = _useStateHR2[0],
     setHoveredRing = _useStateHR2[1];
+  var _useStateHPB = useState(null),
+    _useStateHPB2 = _slicedToArray(_useStateHPB, 2),
+    hoveredPlannerBase = _useStateHPB2[0],
+    setHoveredPlannerBase = _useStateHPB2[1];
   var _useState51 = useState(null),
     _useState52 = _slicedToArray(_useState51, 2),
     plannerBase = _useState52[0],
@@ -12714,134 +12718,7 @@ function BaseMap() {
       }, (ac && ac.name) || baseId, suffix), /*#__PURE__*/React.createElement("span", {
         style: { color: baseName ? "#64748b" : "#374151" }
       }, baseName ? baseName.replace(/,.*$/, "") : "no base"));
-    })), selectedAC && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 11,
-        fontWeight: 700,
-        color: "#94a3b8",
-        letterSpacing: 1,
-        textTransform: "uppercase",
-        marginBottom: 8
-      }
-    }, "2. Select Base ", /*#__PURE__*/React.createElement("span", {
-      style: {
-        textTransform: "none",
-        fontWeight: 400,
-        letterSpacing: 0,
-        color: "#64748b"
-      }
-    }, "(", eligibleBases.length, " eligible for ", selectedAC.name, ")")), function () {
-      var typeOrder = ["Lanud Tipe A", "Lanud Tipe B", "Lanud Tipe C", "Toll Road Strip", "Lantamal Tipe A", "Lantamal Tipe B", "Lanal", "Satrad", "UAV Forward Base"];
-      var typeLabels = {
-        "Lanud Tipe A": "TNI AU — Lanud Tipe A (Major)",
-        "Lanud Tipe B": "TNI AU — Lanud Tipe B (Secondary)",
-        "Lanud Tipe C": "TNI AU — Lanud Tipe C (Forward)",
-        "Toll Road Strip": "TNI AU — Toll Road Strips",
-        "Lantamal Tipe A": "TNI AL — Lantamal Tipe A (1-star)",
-        "Lantamal Tipe B": "TNI AL — Lantamal Tipe B (Colonel)",
-        "Lanal": "TNI AL — Lanal (Forward Station)",
-        "Satrad": "TNI AU — Radar Stations (Satrad)",
-        "UAV Forward Base": "TNI AU — UAV Forward Bases"
-      };
-      var grouped = {};
-      eligibleBases.forEach(function (b) {
-        var t = b.baseType || "Other";
-        if (!grouped[t]) grouped[t] = [];
-        grouped[t].push(b);
-      });
-      return /*#__PURE__*/React.createElement("select", {
-        value: plannerBase || "",
-        onChange: function onChange(e) {
-          var v = e.target.value;
-          setPlannerBase(v || null);
-        },
-        style: {
-          width: "100%",
-          padding: "10px 12px",
-          borderRadius: 8,
-          fontSize: 13,
-          fontWeight: 500,
-          border: "1px solid #374151",
-          background: "#0f172a",
-          color: plannerBase ? "#f59e0b" : "#94a3b8",
-          cursor: "pointer",
-          marginBottom: 16,
-          appearance: "none",
-          WebkitAppearance: "none",
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "right 12px center",
-          paddingRight: 32
-        }
-      }, /*#__PURE__*/React.createElement("option", {
-        value: ""
-      }, "\u2014 select a base \u2014"), typeOrder.filter(function (t) {
-        return grouped[t] && grouped[t].length > 0;
-      }).map(function (t) {
-        return /*#__PURE__*/React.createElement("optgroup", {
-          key: t,
-          label: typeLabels[t] || t
-        }, grouped[t].map(function (b) {
-          return /*#__PURE__*/React.createElement("option", {
-            key: b.name,
-            value: b.name,
-            style: {
-              color: b.planned ? "#f59e0b" : b.tollRoad ? "#10b981" : "#e2e8f0",
-              background: "#0f172a"
-            }
-          }, b.name.replace(/Lanud |Lantamal |Lanal |Satrad |Koarmada /, ""), " ", b.planned ? "(planned)" : "", b.tollRoad ? "🛣️" : "");
-        }));
-      }));
-    }(), plannerBase && function () {
-      var b = eligibleBases.find(function (x) {
-        return x.name === plannerBase;
-      });
-      if (!b) return null;
-      return /*#__PURE__*/React.createElement("div", {
-        style: {
-          padding: "10px 12px",
-          borderRadius: 8,
-          background: "rgba(245,158,11,0.08)",
-          border: "1px solid rgba(245,158,11,0.25)",
-          marginBottom: 16,
-          fontSize: 11,
-          color: "#94a3b8",
-          lineHeight: 1.6
-        }
-      }, /*#__PURE__*/React.createElement("span", {
-        style: {
-          color: "#f59e0b",
-          fontWeight: 700
-        }
-      }, b.name.replace(/,.*$/, "")), /*#__PURE__*/React.createElement("span", {
-        style: {
-          color: "#475569",
-          marginLeft: 6
-        }
-      }, b.baseType), b.runway && b.runway !== "N/A" && /*#__PURE__*/React.createElement("span", {
-        style: {
-          marginLeft: 8,
-          color: "#64748b"
-        }
-      }, "\xB7 Runway: ", b.runway), /*#__PURE__*/React.createElement("div", {
-        style: {
-          marginTop: 3,
-          color: "#64748b"
-        }
-      }, b.current), b.planned && /*#__PURE__*/React.createElement("div", {
-        style: {
-          color: "#f59e0b",
-          marginTop: 3
-        }
-      }, "\u26A0\uFE0F Planned \u2014 not yet operational"), b.note && /*#__PURE__*/React.createElement("div", {
-        style: {
-          marginTop: 4,
-          color: "#475569",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          paddingTop: 4
-        }
-      }, b.note));
-    }(), selectedBs && /*#__PURE__*/React.createElement("div", {
+    })), selectedBs && /*#__PURE__*/React.createElement("div", {
       style: {
         background: selectedAC.aspirational ? "rgba(6,182,212,0.1)" : "rgba(245,158,11,0.1)",
         border: "1px solid ".concat(selectedAC.aspirational ? "rgba(6,182,212,0.3)" : "rgba(245,158,11,0.3)"),
@@ -12875,7 +12752,7 @@ function BaseMap() {
         color: "#10b981",
         fontWeight: 600
       }
-    }, " \u2022 Toll road dispersal strip")))))), /*#__PURE__*/React.createElement("div", {
+    }, " \u2022 Toll road dispersal strip"))))), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1,
         minWidth: 0
@@ -12988,9 +12865,12 @@ function BaseMap() {
           key: b.name,
           onClick: function onClick() {
             if (isEligible) setPlannerBase(isSel ? null : b.name);
+            setHoveredPlannerBase(hoveredPlannerBase === b.name ? null : b.name);
           },
+          onMouseEnter: function() { setHoveredPlannerBase(b.name); },
+          onMouseLeave: function() { setHoveredPlannerBase(null); },
           style: {
-            cursor: isEligible ? "pointer" : "default"
+            cursor: "pointer"
           }
         }, isSel && /*#__PURE__*/React.createElement("circle", {
           cx: pt[0],
@@ -13029,6 +12909,20 @@ function BaseMap() {
           opacity: isSel ? 1 : 0.6
         }, b.name.replace(/Lanud |Koarmada |Kohanudnas |Lantamal |Lanal |, .*|JTTS |Trans-| \(planned\)/g, "")));
       });
+    }(), hoveredPlannerBase && function() {
+      var b = PLANNER_BASES.find(function(x) { return x.name === hoveredPlannerBase; });
+      var pt = b ? projection([b.coords[1], b.coords[0]]) : null;
+      if (!b || !pt) return null;
+      var tipX = Math.min(pt[0] + 14, 820);
+      var tipY = Math.max(pt[1] - 12, 30);
+      var tipH = b.note ? 76 : 48;
+      return /*#__PURE__*/React.createElement("g", { key: "base-tip", style: { pointerEvents: "none" } },
+        /*#__PURE__*/React.createElement("rect", { x: tipX - 4, y: tipY - 18, width: 224, height: tipH, rx: 6, fill: "#0f172a", stroke: "#334155", strokeWidth: 1, opacity: 0.95 }),
+        /*#__PURE__*/React.createElement("text", { x: tipX + 4, y: tipY, fill: "#f59e0b", fontSize: 11, fontWeight: 700 }, b.name.replace(/,.*$/, "")),
+        /*#__PURE__*/React.createElement("text", { x: tipX + 4, y: tipY + 14, fill: "#64748b", fontSize: 9 }, b.baseType, b.runway && b.runway !== "N/A" ? " � " + b.runway : ""),
+        b.desc && /*#__PURE__*/React.createElement("text", { x: tipX + 4, y: tipY + 26, fill: "#94a3b8", fontSize: 9 }, b.desc.length > 36 ? b.desc.slice(0,36) + "..." : b.desc),
+        b.note && /*#__PURE__*/React.createElement("text", { x: tipX + 4, y: tipY + 42, fill: "#475569", fontSize: 8 }, b.note.slice(0,42) + (b.note.length > 42 ? "..." : ""))
+      );
     }(), function() {
       var anyHovered = hoveredRing !== null;
       return plannerRingsData.map(function (ring) {
@@ -13197,7 +13091,7 @@ function BaseMap() {
         padding: "8px 16px",
         borderRadius: 8
       }
-    }, "Select a base from the dropdown on each system card above"))));
+    }, "Click a system slot above to deploy it, then pick a base from the inline dropdown"))));
   };
   var alkiLegend = /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 14px", padding: "6px 0", marginBottom: 4, fontSize: 11, color: "#6b7280" } }, /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: "#9ca3af", fontSize: 10 } }, "SEA LANES:"), /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 6, style: { verticalAlign: "middle", flexShrink: 0 } }, /*#__PURE__*/React.createElement("line", { x1: 0, y1: 3, x2: 22, y2: 3, stroke: "#f59e0b", strokeWidth: 2, strokeDasharray: "5,3" })), "ALKI/ASL"), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 2px" } }, "|"), /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 6, style: { verticalAlign: "middle", flexShrink: 0 } }, /*#__PURE__*/React.createElement("line", { x1: 0, y1: 3, x2: 22, y2: 3, stroke: "#3b82f6", strokeWidth: 1.5, strokeDasharray: "6,4", opacity: 0.6 })), "EEZ"));
   var mapLegend = /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px 16px", padding: "6px 0", marginBottom: 4, fontSize: 11, color: "#6b7280" } }, Object.entries(BCo).map(function (_refL) { var _refL2 = _slicedToArray(_refL, 2), bL = _refL2[0], cL = _refL2[1]; return /*#__PURE__*/React.createElement("div", { key: bL, style: { display: "flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("span", { style: { width: 8, height: 8, borderRadius: 4, background: cL, flexShrink: 0, display: "inline-block" } }), bL); }), /*#__PURE__*/React.createElement("span", { style: { display: "inline-flex", alignItems: "center", gap: 5 } }, /*#__PURE__*/React.createElement("svg", { width: 22, height: 6, style: { verticalAlign: "middle", flexShrink: 0 } }, /*#__PURE__*/React.createElement("line", { x1: 0, y1: 3, x2: 22, y2: 3, stroke: "#f59e0b", strokeWidth: 2, strokeDasharray: "5,3" })), "ALKI/ASL"), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 4px" } }, "|"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCA5 Flashpoints"), /*#__PURE__*/React.createElement("span", null, "\u2694\uFE0F Border disputes"), /*#__PURE__*/React.createElement("span", null, "\u26CF\uFE0F Mining sites"), /*#__PURE__*/React.createElement("span", { style: { color: "#d1d5db", margin: "0 4px" } }, "|"), /*#__PURE__*/React.createElement("span", { style: { fontSize: 10, color: "#6b7280" } }, /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#ef4444", marginRight: 3, verticalAlign: "middle" } }), "T1 Critical\u00a0", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#f59e0b", marginRight: 3, verticalAlign: "middle" } }), "T2 Significant\u00a0", /*#__PURE__*/React.createElement("span", { style: { display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#22c55e", marginRight: 3, verticalAlign: "middle" } }), "T3 Monitored"));
