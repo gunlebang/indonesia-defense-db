@@ -472,7 +472,7 @@ var WEAPON_SYSTEMS = [
     armament: "AR-2 air-to-surface missiles, FT-9 PGMs",
     engine: "1× Deutz diesel",
     introduced: 2019,
-    note: "Skadron Udara 52, Natuna (current). KSAU plan: CH-4B to be pulled back to Skadron 51 at Pontianak when Anka-S takes over Natuna. SATCOM-equipped — operational range 1,500+ km per Oryx. 6 units delivered 2019. Received AR-2 missiles"
+    note: "Skadron Udara 52, Natuna (current); transitioning to Skadron 51, Pontianak as Anka-S takes over Natuna. Skadron 53 standing up at Lanud Anang Busra, Tarakan with IOC 2026 (Marsma Dhewo statement, IBP Apr 2026). SATCOM-equipped — operational range 1,500+ km per Oryx. 6 units delivered 2019. Received AR-2 missiles"
   }
 },
 // Air Defense (AU operated)
@@ -2936,7 +2936,7 @@ var SOURCES = {
   "BO105": ["Confirmed", "IISS MB 2026, PT DI"],
   "FENNEC": ["Confirmed", "IISS MB 2026, Airbus"],
   "AS565": ["Confirmed", "IISS MB 2026, Airbus"],
-  "CH4": ["Confirmed", "IISS MB 2026, SIPRI"],
+  "CH4": ["Confirmed", "IISS MB 2026, SIPRI; Indonesia Business Post (Apr 2026)"],
   "PTPAL_AUV": ["Reported", "PT PAL (2024), defense media"],
   "CAKRA": ["Confirmed", "IISS MB 2026, SIPRI"],
   "DIPONEGORO": ["Confirmed", "IISS MB 2026, Damen"],
@@ -7981,6 +7981,7 @@ var BASE_COORDS = {
   "Satrad 223, Balikpapan": [-1.2683, 116.8944],
   "Satrad 224, Kwandang": [0.8333, 122.3167],
   "Satrad 225, Tarakan": [3.3267, 117.5656],
+  "Lanud Anang Busra, Tarakan": [3.3267, 117.5656],
   "Yonarmed 18, Tenggarong": [-0.4167, 117.0000],
   "Puspenerbad, Pondok Cabe": [-6.3500, 106.7500],
   "Skadron 12 Penerbad, Lampung": [-4.8333, 104.4000],
@@ -8028,7 +8029,7 @@ var SYSTEM_BASES = {
   "H225M": ["Lanud Atang Sendjaja, Bogor", "Lanud Halim Perdanakusuma, Jakarta"],
   "SUPERPUMA": ["Lanud Atang Sendjaja, Bogor"],
   "ANKAS": ["Lanud Supadio, Pontianak", "Lanud Ranai, Natuna"],
-  "CH4": ["Lanud Supadio, Pontianak", "Lanud Ranai, Natuna"],
+  "CH4": ["Lanud Supadio, Pontianak", "Lanud Ranai, Natuna", "Lanud Anang Busra, Tarakan"],
   "TB2": [],
   "SKYSHIELD": ["Lanud Halim Perdanakusuma, Jakarta", "Lanud Iswahjudi, Madiun"],
   "NASAMS": [],
@@ -10366,6 +10367,7 @@ function BaseMap() {
       "Lantamal VII, Kupang": [-10.1556, 123.5806],
       "Lantamal VIII, Manado": [1.4875, 124.8453],
       "Lantamal XIII, Tarakan": [3.3000, 117.6333],
+      "Lanud Anang Busra, Tarakan": [3.3267, 117.5656],
       "Koarmada III, Sorong": [-0.8767, 131.2550],
       "Lanal Ranai, Natuna": [3.9440, 108.3876],
       "Natuna Sub Base (under construction)": [3.90, 108.35],
@@ -15164,7 +15166,7 @@ function App() {
   /* FIX 3: Tab nav with className for mobile scroll fix */
   /*#__PURE__*/React.createElement("div", {
     className: "tab-nav"
-  }, [["ptn", "Strategic Planning"], ["inventory", "Inventory"], ["origins", "Country of Origin"], ["map", "Base Map"], ["timeline", "Procurement Timeline"], ["about", "About"]].map(function (_ref63) {
+  }, [["ptn", "Strategic Planning"], ["inventory", "Inventory"], ["origins", "Country of Origin"], ["timeline", "Procurement Timeline"], ["about", "About"]].map(function (_ref63) {
     var _ref64 = _slicedToArray(_ref63, 2),
       k = _ref64[0],
       l = _ref64[1];
@@ -15556,11 +15558,7 @@ function App() {
     style: {
       padding: "24px 32px 48px"
     }
-  }, /*#__PURE__*/React.createElement(OriginChart, null)), tab === "map" && /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "24px 32px 48px"
-    }
-  }, /*#__PURE__*/React.createElement(BaseMap, null)), tab === "ptn" && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(OriginChart, null)), tab === "ptn" && /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "24px 32px 48px"
     }
@@ -15619,7 +15617,7 @@ function App() {
       gridTemplateColumns: "repeat(5,minmax(0,1fr))",
       gap: 8
     }
-  }, [["\uD83D\uDCCB", "Strategic Planning Tracker", "PTN and MEF target vs. reality across all three shields, plus C4ISR and Pagar Nusantara."], ["\uD83D\uDDC3\uFE0F", "Inventory", "Full database with status, origin, base, and procurement source for all tracked platforms."], ["\uD83C\uDF10", "Country of Origin", "Sankey diagram mapping supplier relationships by contract value."], ["\uD83D\uDDFA\uFE0F", "Base Map", "Current Deployment shows TNI bases with ALKI/EEZ overlays and range ring filtering. Deployment Simulation adds flashpoints, border disputes, 24 resource extraction sites, and multi-deployment slot planning for 80+ systems."], ["\uD83D\uDCC5", "Procurement Timeline", "All systems plotted by contract year, grouped by technology tier, with color bands for each presidential administration from Sukarno to Prabowo."]].map(function (r) {
+  }, [["\uD83D\uDCCB", "Strategic Planning Tracker", "PTN and MEF target vs. reality across all three shields, plus C4ISR and Pagar Nusantara."], ["\uD83D\uDDC3\uFE0F", "Inventory", "Full database with status, origin, base, and procurement source for all tracked platforms."], ["\uD83C\uDF10", "Country of Origin", "Sankey diagram mapping supplier relationships by contract value."], ["\uD83D\uDCC5", "Procurement Timeline", "All systems plotted by contract year, grouped by technology tier, with color bands for each presidential administration from Sukarno to Prabowo."]].map(function (r) {
     return /*#__PURE__*/React.createElement("div", { key: r[1], style: { padding: "12px 14px", background: "#f9fafb", borderRadius: 8, border: "1px solid #f3f4f6" } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 4 } }, r[0], " ", r[1]),
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#6b7280", lineHeight: 1.6 } }, r[2]));
@@ -15849,38 +15847,6 @@ function App() {
   /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "#6b7280", lineHeight: 1.8 } },
     "Use this tracker as a starting point for understanding Indonesia's procurement direction and supply chain dependencies \u2014 not as a readiness assessment."
   )),
-  /*#__PURE__*/React.createElement("div", {
-    style: { background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: 28, marginBottom: 20 }
-  },
-  /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "#111", marginBottom: 10 } }, "Map Markers"),
-  /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "#6b7280", marginBottom: 16 } }, "Three overlay types appear only in Deployment Simulation — they do not appear on Current Deployment."),
-  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } },
-      /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0, marginTop: 2 } }, "\uD83D\uDCA5"),
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 2 } }, "Potential Flashpoints"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", lineHeight: 1.6 } }, "Regions of elevated strategic tension or where incidents between naval or air forces are plausible."))),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } },
-      /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0, marginTop: 2 } }, "\u2694\uFE0F"),
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 2 } }, "Historical Border Disputes"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", lineHeight: 1.6 } }, "North Natuna Sea (China), Ambalat (Malaysia), Sipadan & Ligitan (Malaysia, ICJ 2002)."))),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } },
-      /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0, marginTop: 2 } }, "\u26CF\uFE0F"),
-      /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 2 } }, "Strategic Resource Extraction Sites"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", lineHeight: 1.6, marginBottom: 10 } }, "24 sites (oil/gas, nickel, copper/gold, bauxite, coal, tin). Click any marker for operator, significance, nearest airstrip, and ALKI exposure. Tiered by two-axis vulnerability: airborne access \u00d7 maritime/ALKI exposure."),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } },
-          [["Tier 1 \u2014 Critical", "#ef4444", "Both axes exposed \u2014 airstrip accessible AND coastal/island position with ALKI or strait access.", "Natuna Block A, Bontang LNG, Mahakam Block, Gosowong, Batu Hijau/Elang, Bangka Tin, WHW Alumina, Mempawah SGAR, KPC"],
-           ["Tier 2 \u2014 Significant", "#d97706", "One axis strongly exposed \u2014 coastal with ALKI access but limited air infrastructure, or airstrip accessible but inland.", "Tangguh LNG, Masela/Abadi, Obi Island, Gag Island, IMIP Morowali, Weda Bay/IWIP, Sorowako, Pomalaa, Martabe, Wetar Copper, Muntok Smelter, Adaro"],
-           ["Tier 3 \u2014 Monitored", "#15803d", "Neither axis strongly present \u2014 inland or highland with limited maritime approach and no functional airstrip nearby.", "Cepu/Banyu Urip, Rokan Block, Grasberg/Ertsberg"]].map(function(t) {
-            return /*#__PURE__*/React.createElement("div", { key: t[0], style: { padding: "10px 14px", borderRadius: 8, background: t[1] + "10", border: "1px solid " + t[1] + "30", marginBottom: 4 } },
-              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 4 } },
-                /*#__PURE__*/React.createElement("span", { style: { width: 8, height: 8, borderRadius: "50%", background: t[1], flexShrink: 0, display: "inline-block" } }),
-                /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: t[1] } }, t[0])),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#374151", lineHeight: 1.6, marginBottom: 4 } }, t[2]),
-              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#6b7280", fontStyle: "italic" } }, "Sites: ", t[3]));
-          })))))),
 /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#f9fafb",
