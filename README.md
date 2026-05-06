@@ -10,7 +10,7 @@ Maintained by **[LAB45 — Laboratorium Indonesia 2045](https://www.lab45.id)**.
 
 ## What it tracks
 
-- **127 weapon systems** across TNI AU, TNI AD, TNI AL, and Korps Marinir
+- **131 weapon systems** across TNI AU, TNI AD, TNI AL, and Korps Marinir
 - Procurement status, contract values, delivery timelines, and supplier nations
 - Progress against the Perisai Trisula Nusantara (PTN) modernization program and Minimum Essential Force (MEF) baselines
 - Component-level supply chain analysis and dependency risk ratings for 14 major incoming platforms
@@ -21,10 +21,9 @@ Maintained by **[LAB45 — Laboratorium Indonesia 2045](https://www.lab45.id)**.
 
 | Tab | What's inside |
 |-----|--------------|
-| **Strategic Planning** | PTN progress bars vs. MEF 2024 baseline across all three shields |
+| **Strategic Planning** | PTN progress bars vs. OEF baseline across all four shields (Dirga, Samudra, Darat, C4ISR) including Pagar Nusantara sub-components |
 | **Inventory** | Full searchable database with status, origin, base, and procurement source |
 | **Country of Origin** | Sankey diagram, bar chart, supply chain explorer, and supplier network by contract value |
-| **Base Map** | Current Deployment (ALKI/EEZ overlays) and Deployment Simulation (flashpoints, mining sites, range rings) |
 | **Procurement Timeline** | Visual timeline by technology tier and administrative era (Soekarno → Prabowo) |
 | **About** | Methodology, data sources, evidentiary standards, and supply chain dependency risk framework |
 
