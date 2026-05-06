@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indonesia Weapon Systems Database — LAB45 v0.6.2</title>
+<title>Indonesia Weapon Systems Database — LAB45 v0.6.3-public</title>
 <!-- Helvetica is a system font, no import needed -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -253,8 +253,8 @@ var WEAPON_SYSTEMS = [
   branch: "TNI AU",
   origin: "South Korea / Indonesia",
   manufacturer: "Korea Aerospace Industries",
-  quantity: "TBD (50 planned)",
-  status: "In Development",
+  quantity: "16 (preliminary, March 2026)",
+  status: "MONITORING",
   era: "4.5 Gen",
   specs: {
     crew: "1-2",
@@ -263,14 +263,29 @@ var WEAPON_SYSTEMS = [
     armament: "AIM-9X, IRIS-T, Meteor, KEPD 350 (planned)",
     engine: "2× GE F414-GE-400K",
     introduced: "TBD",
-    note: "Joint development program. Indonesia holds 20% stake (revised 2025). Formerly KF-X/IF-X"
+    note: "Joint development: Indonesia holds reduced 600B KRW (~$398M) stake (revised June 2025). 16 aircraft under preliminary export agreement March 2026 (DAPA + Kemhan/Brig. Gen. Sirait); binding contract pending H1 2026. Original IF-X plan was 48"
   }
 }, {
-  id: "HAWK200",
-  name: "BAE Hawk 200",
-  maxDeploy: 1,
+  id: "J10C",
+  name: "Chengdu J-10C \"Vigorous Dragon\"",
   category: "Fighter",
-  subcategory: "Light Attack",
+  subcategory: "Multirole",
+  branch: "TNI AU",
+  origin: "China",
+  manufacturer: "Chengdu Aircraft Industry Corporation (AVIC)",
+  quantity: 42,
+  status: "MONITORING",
+  era: "4.5 Gen",
+  specs: {
+    crew: 1,
+    maxSpeed: "Mach 1.8+",
+    range: "1,240 km combat radius",
+    armament: "PL-10 IR SRAAM, PL-12 BVRAAM, PL-15 long-range AAM, ground attack munitions",
+    engine: "1× WS-10B (Taihang) turbofan",
+    introduced: "TBD",
+    note: "Confirmed by DefMin Sjafrie 15 Oct 2025: 42 jets, $9B budget approved by MoF (Purbaya Sadewa). $1.6B first foreign loan tranche cleared by MoF per Janes; ministry letter references J-10B variant (older spec) but public discussion centers on J-10C. NO signed procurement contract per public sources as of May 2026 — budget allocation + announced intent only. AESA radar, deal includes pilot training in China + simulators + logistics. Indonesia would become 3rd J-10 operator after China and Pakistan. Status: MONITORING (no signed contract yet)."
+  }
+}, {
   branch: "TNI AU",
   origin: "United Kingdom",
   manufacturer: "BAE Systems",
@@ -288,7 +303,7 @@ var WEAPON_SYSTEMS = [
   }
 }, {
   id: "HAWK109",
-  name: "BAE Hawk Mk 109/209",
+  name: "BAE Hawk Mk.109",
   category: "Trainer",
   subcategory: "Lead-In Fighter Trainer",
   branch: "TNI AU",
@@ -306,6 +321,28 @@ var WEAPON_SYSTEMS = [
     engine: "1× Rolls-Royce Adour Mk 861",
     introduced: 1993,
     note: "Two-seat advanced trainer variant"
+  }
+}, {
+  id: "HAWK200",
+  name: "BAE Hawk Mk.209",
+  category: "Trainer",
+  subcategory: "Lead-In Fighter Trainer / Light Attack",
+  branch: "TNI AU",
+  origin: "United Kingdom",
+  manufacturer: "BAE Systems",
+  quantity: 22,
+  qtyDetail: "22 Hawk Mk.209 single-seat light attack. Mk.109 trainers counted separately under HAWK109.",
+  status: "Active (aging)",
+  era: "4th Gen",
+  base: "Skadron Udara 12, Lanud Roesmin Nurjadin, Pekanbaru",
+  specs: {
+    crew: 1,
+    maxSpeed: "1,028 km/h",
+    range: "2,530 km (ferry)",
+    armament: "30mm ADEN cannon pod, AIM-9 Sidewinder, Maverick, unguided rockets, bombs",
+    engine: "1\xd7 Rolls-Royce Adour Mk 871",
+    introduced: 1996,
+    note: "Contract 1993 (75 Tahun TNI, fn.179); delivery 1996-1998 (TNI AU official). Initial order: 8 Mk.109 + 16 Mk.209, with option for 16 additional Mk.209 (CNN Indonesia/TNI AU). Split between Skadron 12 (Pekanbaru) and Skadron 1 Elang Khatulistiwa (Pontianak). Replacement by 4.5-gen fighter planned per KSAU Yuyu Sutisna (Apr 2018). Reverse engineering for MRO underway by Depohar 30 + PT Infoglobal (2024)."
   }
 }, {
   id: "T50I",
@@ -387,7 +424,7 @@ var WEAPON_SYSTEMS = [
     armament: "None",
     engine: "4× Europrop TP400-D6",
     introduced: 2025,
-    note: "$2B contract (2017). 2 delivered as of late 2025, remaining in delivery"
+    note: "$2B contract (2017) for 5 aircraft. 2 delivered as of late 2025; remaining 3 in delivery pipeline. IISS MB 2025/2026 lists 1 active. Indonesia signed LoI for additional 4 A400M during Prabowo UK state visit Jan 2026 — not yet under signed contract. Each unit ~$150-180M flyaway. Strategic/tactical airlift, paratroop drop, MEDEVAC capable. 37-tonne payload."
   }
 }, {
   id: "CN295",
@@ -739,7 +776,28 @@ var WEAPON_SYSTEMS = [
     armament: "105mm CMI Cockerill CT-CV, coax MG",
     engine: "Caterpillar C13 (711 hp)",
     introduced: 2019,
-    note: "Joint development. Modern Medium Weight Tank. 10 delivered Feb 2024 batch. Continuing production"
+    note: "Joint development. Modern Medium Weight Tank. 18 delivered (IISS MB 2026). Continuing production at PT Pindad Bandung under FNSS technology transfer."
+  }
+}, {
+  id: "KAPLAN_APC",
+  name: "Kaplan APC (Harimau APC)",
+  category: "Armor",
+  subcategory: "Tracked Armoured Personnel Carrier",
+  branch: "TNI AD",
+  origin: "Türkiye / Indonesia",
+  manufacturer: "FNSS / PT Pindad",
+  quantity: 2,
+  qtyDetail: "2 evaluation units only — series production / formal procurement TBD",
+  status: "MONITORING",
+  era: "Modern",
+  specs: {
+    crew: "3 + 10 dismounts",
+    maxSpeed: "70+ km/h",
+    range: "TBD",
+    armament: "Modular: manned/unmanned turrets up to 30mm cannon, ATGM, 12.7mm RWS, optional 120mm mortar",
+    engine: "TBD (>22 hp/ton power-to-weight)",
+    introduced: "TBD (~end-2026)",
+    note: "30-ton tracked APC sharing chassis with Harimau MMWT. Development & Production Agreement signed 22 Oct 2024 (FNSS+PT Pindad) under main contract between PT Pindad and Indonesian MoD. Only 2 evaluation units procured: 1 built at FNSS Türkiye, 1 assembled SKD at PT Pindad Bandung. Design 2025, testing 2026, delivery end-2026. Carries 13 (3 crew + 10 dismounts). STANAG 4569 protection. Series production / formal procurement program TBD per PT Pindad rep at Indo Defence 2025. Status: MONITORING (signed only for 2 eval units)."
   }
 }, {
   id: "MARDER",
@@ -1072,7 +1130,7 @@ var WEAPON_SYSTEMS = [
     armament: "HE / penetrator warhead",
     engine: "Solid rocket motor",
     introduced: "~2024",
-    note: "Indonesia's first SRBM capability. 8 launchers ordered (Excalibur/Roketsan 2022). Exact delivery count classified. Displayed at Indo Defence 2022. ToT with Türkiye via PT Republik Roketsan Indonesia"
+    note: "Indonesia's first SRBM capability. 8 launchers ordered (Excalibur/Roketsan 2022); SIPRI lists 4 launchers as primary 2022 order. Bora SRBM payload: 40 missiles ordered 2022 per SIPRI — yields ~5 missiles per launcher (8-launcher figure) or 10 per launcher (4-launcher figure). Limited inventory depth for sustained strike. Exact delivery count classified. Displayed at Indo Defence 2022. ToT with Türkiye via PT Republik Roketsan Indonesia. Per Prabowo PTN blueprint (16 Jun 2023): Khan = 'Trisula' Indonesian designation (300 km range layer)"
   }
 },
 // ===== TNI AL - NAVY =====
@@ -1171,16 +1229,17 @@ var WEAPON_SYSTEMS = [
   origin: "Italy",
   manufacturer: "Fincantieri",
   quantity: 2,
-  status: "Delivering",
+  status: "Active (FFBNW)",
   era: "Modern",
+  base: "Koarmada II, Surabaya",
   specs: {
-    crew: "~170",
-    maxSpeed: "31 kn",
-    range: "6,500 nm",
-    armament: "127mm gun, VLS for SAM, 76mm Super Rapid guns, torpedo tubes",
+    crew: 171,
+    maxSpeed: "32 kn",
+    range: "5,000 nm",
+    armament: "127mm Oto Melara, 76mm Sovraponte, VLS for Aster 30 (FFBNW), 533mm torpedo tubes",
     engine: "CODLAG",
     introduced: 2025,
-    note: "$1.39B (2024). Two-ship class: KRI Brawijaya-320 commissioned Jul 2025, KRI Prabu Siliwangi-321 expected 2026. Both are Fincantieri PPA Light+ hulls. 4,912 tons — largest TNI AL surface combatants."
+    note: "€1.18B contract Mar 2024, ex-Italian Navy hulls (Marcantonio Colonna P433, Ruggiero di Lauria P435). Financing $1.25B European bank loan closed end-2024. KRI Brawijaya-320 delivered Jul 2025, arrived Lampung 4 Sep 2025. KRI Prabu Siliwangi-321 delivered Dec 2025, arrived Indonesia 22 Mar 2026 (transited via Cape of Good Hope, avoiding Red Sea). Both ships in PPA Light+ configuration but FFBNW — Aster 30 missile installation planned domestically. 143m, 6,250 tons full load. Largest TNI AL principal surface combatants."
   }
 }, {
   id: "RWFRIGATE",
@@ -1190,17 +1249,17 @@ var WEAPON_SYSTEMS = [
   branch: "TNI AL",
   origin: "United Kingdom / Türkiye / Indonesia",
   manufacturer: "Babcock (design) / STM (combat systems) / PT PAL (build)",
-  quantity: 2,
+  quantity: "2 (+2 LoI)",
   status: "Under Construction",
   era: "Modern",
   specs: {
     crew: "~200",
     maxSpeed: "29+ kn",
-    range: "TBD",
-    armament: "Roketsan MİDLAS VLS (64 cells), Atmaca AShM, 2× 76mm Leonardo, Rheinmetall Millennium CIWS, torpedo tubes",
+    range: "9,000 nm @ 18 kn",
+    armament: "Roketsan MİDLAS VLS (64 cells: Hisar-O 25km / SiPER 150km), Atmaca AShM, 2× 76mm Oto Melara Super Rapid, Rheinmetall Millennium 35mm CIWS, 2× 324mm torpedo tubes (MU90)",
     engine: "CODAD",
     introduced: "~2027",
-    note: "Babcock Arrowhead 140 design (UK). Turkish combat suite: STM systems integrator, Aselsan GENESIS CMS, Havelsan combat systems, Roketsan weapons. Built at PT PAL Surabaya. Keel laid Aug 2023 (Ship 1), Nov 2024 (Ship 2)"
+    note: "Babcock Arrowhead 140 design (UK), 140m, 5,996 t (or 6,625 t per AMR). Turkish combat suite via STM. Built at PT PAL Surabaya. Ship 1 KRI Balaputradewa (322) launched 18 Dec 2025; Ship 2 keel laid 15 Nov 2024. FFBNW contract for 64-cell VLS, long-range radar, torpedo, guns signed 11 Jun 2025. +2 additional ships under LoI signed 21 Jan 2026 between Babcock CEO and behalf-of-Prabowo at UK state visit; under £4B Maritime Partnership Programme (Nov 2025). Initial license agreement for the +2 to be delivered in coming months."
   }
 }, {
   id: "AHMADYANI",
@@ -1743,7 +1802,7 @@ var WEAPON_SYSTEMS = [
   origin: "United States",
   manufacturer: "Sikorsky (Lockheed Martin)",
   quantity: 24,
-  status: "On Order",
+  status: "MONITORING",
   era: "Modern",
   base: "TBD (likely Puspenerbad)",
   deploy: "N/A (ordered 2023)",
@@ -2007,6 +2066,28 @@ var WEAPON_SYSTEMS = [
     note: "COIN/light attack. Deployed to Papua. Based at Lanud Abdulrachman Saleh, Malang"
   }
 }, {
+  id: "B737VIP",
+  name: "Boeing 737 VIP Transport Fleet",
+  category: "Transport",
+  subcategory: "VIP / Passenger Transport",
+  branch: "TNI AU",
+  origin: "United States",
+  manufacturer: "Boeing",
+  quantity: 8,
+  qtyDetail: "B-737-200 (1) + B-737-400 (3) + B-737-500 (1) + B-737-800 (2) + B-737-800 BBJ (1) = 8 units. Source: IISS MB 2025/2026.",
+  status: "Active",
+  era: "Modern",
+  base: "Skadron Udara 17, Lanud Halim Perdanakusuma, Jakarta",
+  specs: {
+    crew: "2-3 pilots + cabin crew",
+    maxSpeed: "855 km/h",
+    range: "3,800-10,000 km (variant dependent)",
+    armament: "None",
+    engine: "2x CFM/P&W (variant dependent)",
+    introduced: 1993,
+    note: "Mixed fleet: 737-200 (1), -400 (3), -500 (1), -800 (2), -800 BBJ (1). Primary VIP/state transport, Skadron 17 Halim. PTN target: 10 units (+2 new, per Prabowo Jun 2023 paparan). The 737-200 Surveiller (ISR role, 3 a/c) is tracked separately under B737."
+  }
+}, {
   id: "STARSTREAK",
   name: "Thales Starstreak ForceSHIELD",
   category: "Air Defense",
@@ -2153,6 +2234,26 @@ var WEAPON_SYSTEMS = [
     engine: "2× P&W JT8D-17A",
     introduced: 1982,
     note: "Maritime surveillance. Skadron Udara 5, Lanud Sultan Hasanuddin, Makassar. 4 aircraft (A-7301 to A-7304). SLAMMR + MX-20HD upgrade. 3hr endurance, patrols from Sabang to Merauke. Callsign 'Camar Emas'"
+  }
+}, {
+  id: "AWACS",
+  name: "AWACS / AEW&C (Platform TBD)",
+  category: "Transport",
+  subcategory: "Airborne Early Warning & Control",
+  branch: "TNI AU",
+  origin: "TBD",
+  manufacturer: "TBD",
+  quantity: "TBD",
+  status: "MONITORING",
+  era: "Modern",
+  specs: {
+    crew: "TBD",
+    maxSpeed: "TBD",
+    range: "TBD",
+    armament: "N/A (ISR — AESA radar with 360° coverage, ESM, datalink)",
+    engine: "TBD",
+    introduced: "TBD",
+    note: "$800M budget allocation under PTN Pillar Dirga (per Indonesian MoD). NO platform selection as of May 2026 — candidates discussed publicly include Saab GlobalEye (Erieye ER on Bombardier Global 6000/6500), Boeing E-7A Wedgetail, Saab 2000 Erieye-ER, and Chinese KJ-500. No public RFI or formal evaluation announced by TNI AU. Indonesia currently has zero airborne early warning capability — Rafale operations beyond horizon will rely on ground-based GCI radars (GM400α + Czech Retia, partial coverage). Status: MONITORING (budget allocation only)."
   }
 }, {
   id: "KCR70M",
@@ -2346,7 +2447,7 @@ var WEAPON_SYSTEMS = [
   origin: "India",
   manufacturer: "BrahMos Aerospace (India-Russia JV)",
   quantity: "3 batteries",
-  status: "On Order",
+  status: "MONITORING",
   era: "Modern",
   specs: {
     crew: "Multi",
@@ -2366,7 +2467,7 @@ var WEAPON_SYSTEMS = [
   origin: "Italy / Indonesia",
   manufacturer: "Fincantieri / PT PAL",
   quantity: 6,
-  status: "Under Negotiation",
+  status: "Stalled (Unfunded)",
   era: "Modern",
   specs: {
     crew: "~145",
@@ -2375,7 +2476,7 @@ var WEAPON_SYSTEMS = [
     armament: "Aster 15/30 SAM, Teseo Mk-2/A AShM, 76mm guns, MU90 torpedoes, helicopter",
     engine: "CODLAG (LM2500 + electric)",
     introduced: "TBD",
-    note: "Contract signed Jun 2021 with Fincantieri for 6 new FREMM + 2 Maestrale. Financing NOT yet secured as of 2026. Some units to be built at PT PAL. Leonardo to supply CMS. Part of broader Italy-Indonesia naval cooperation"
+    note: "Contract signed 10 Jun 2021 (Fincantieri, 6 FREMM + 2 Maestrale + logistics) — never effective. Financing not approved by BAPPENAS/Kemenkeu over 5 years. Indonesia subsequently acquired 2 PPA Light+ (KRI Brawijaya, KRI Prabu Siliwangi) under Mar 2024 contract with $1.25B European bank loan financing closed end-2024 — effectively superseding the 2021 frigate Italia plan. No public revival signal as of May 2026; entry retained for historical documentation of signed-but-unfunded procurement pattern."
   }
 }, {
   id: "MAESTRALE",
@@ -2827,6 +2928,9 @@ var WEAPON_SYSTEMS = [
 var CONTRACT_VALUES = {
   "RAFALE": "$8.1B (42 aircraft, Dassault 2022)",
   "KAAN": "Undisclosed (48 aircraft, TAI 2025)",
+  "J10C": "$9B budgeted (42 aircraft, AVIC, MoF approval Oct 2025; no signed contract)",
+  "KAPLAN_APC": "Undisclosed (2 evaluation units, FNSS+PT Pindad Oct 2024)",
+  "AWACS": "$800M allocated under PTN (no contract; platform TBD)",
   "SCORPENE": "~$2B (2 subs, Naval Group 2024)",
   "BRAWIJAYA": "$1.39B (2 PPA frigates, Fincantieri 2024)",
   "ISTIF": "~$1B (2 frigates, TAIS/Qatar, DIMDEX 2026)",
@@ -2845,7 +2949,7 @@ var CONTRACT_VALUES = {
   "BLACKHAWK": "~$800M est. (24× S-70M, Lockheed Martin)",
   "NAGAPASA": "$1.02B (3 subs, DSME 2011/2019)",
   "GARIBALDI": "$1.18B (2 PPA, Fincantieri 2024)",
-  "KF21": "$450M (reduced contribution, KAI)",
+  "KF21": "Pending - 16-unit contract (IBP est. ~$4.3B, signing H1 2026); separate $398M joint dev contribution settled June 2025",
   "RWFRIGATE": "~$1B est. (2 frigates, Babcock/STM/PT PAL)",
   "NASAMS": "Undisclosed (Kongsberg/Raytheon)",
   "A330MRTT": "Undisclosed (Airbus, ordered ~2024)",
@@ -2882,8 +2986,11 @@ var CONTRACT_VALUES = {
 var SOURCES = {
   "RAFALE": ["Confirmed", "Dassault Aviation, Indonesian MoD (Jan 2026), IISS MB 2026"],
   "KAAN": ["Confirmed", "TAI, Indonesian MoD (Jun 2025)"],
+  "J10C": ["MONITORING", "DefMin Sjafrie Sjamsoeddin (15 Oct 2025), FinMin Purbaya Sadewa, Janes (J-10B loan tranche), Asia Times, Army Recognition, The Diplomat, The Aviationist (Oct 2025)"],
+  "KAPLAN_APC": ["MONITORING", "FNSS press release (22 Oct 2024 SAHA Expo), Janes (Oct 2024 + Indo Defence 2025 evaluation), Army Recognition, Joint Forces News, MilitaryLeak, Defense Post"],
+  "AWACS": ["MONITORING", "PTN budget allocation document (Pillar Dirga), Indonesian MoD; platform selection pending — no RFI or formal evaluation announced as of May 2026"],
   "SCORPENE": ["Confirmed", "Naval Group (Mar 2024), Indonesian MoD"],
-  "BRAWIJAYA": ["Confirmed", "Fincantieri (Nov 2024), USNI News"],
+  "BRAWIJAYA": ["Confirmed", "Fincantieri delivery ceremonies (Jul 2025, Dec 2025), Naval News, IISS MB 2026 R224, SIPRI 2024"],
   "GARIBALDI": ["Confirmed", "Italian MoD, Indonesian MoD (2024)"],
   "ISTIF": ["Confirmed", "TAIS/STM, DIMDEX 2026 signing"],
   "BRAHMOS": ["Confirmed", "Indonesian MoD spokesman (Mar 2026), The Diplomat"],
@@ -2902,6 +3009,8 @@ var SOURCES = {
   "BREM2": ["IISS", "IISS Military Balance 2026"],
   "VIPER40": ["IISS", "IISS Military Balance 2026"],
   "TB2": ["Reported", "Baykar (Feb 2025), defense media"],
+  "TB3": ["Confirmed", "SIPRI Arms Transfers Database, Baykar, Indonesian MoD (2024)"],
+  "AKINCI": ["Confirmed", "SIPRI Arms Transfers Database, Baykar, PT Republikorp (2024)"],
   "KHAN": ["Confirmed", "Indo Defence 2022, Excalibur Army/Roketsan"],
   "HISARO": ["Confirmed", "Indo Defence 2022, Excalibur Army/Roketsan"],
   "SIPER": ["Confirmed", "Indo Defence 2022, Excalibur Army/Roketsan"],
@@ -2909,11 +3018,11 @@ var SOURCES = {
   "ATMACA": ["Confirmed", "Roketsan (Jan 2024)"],
   "CAKIR": ["Confirmed", "Roketsan/Republikorp JV, IDEF 2025"],
   "KCR70M": ["Confirmed", "Sefine Shipyard (keel laid Jul 2025)"],
-  "RWFRIGATE": ["Confirmed", "Babcock/PT PAL, Indonesian MoD"],
+  "RWFRIGATE": ["Confirmed", "Babcock/PT PAL design license (Sep 2021), MoD contract (Apr 2020), KRI Balaputradewa launch (18 Dec 2025), +2 LoI Prabowo×Babcock (21 Jan 2026)"],
   "BLACKHAWK": ["Confirmed", "Lockheed Martin (2023), IISS MB 2026"],
   "NASAMS": ["Confirmed", "Kongsberg/Raytheon, Norwegian MoD"],
   "A330MRTT": ["Reported", "Airbus (~2024), defense media"],
-  "KF21": ["Confirmed", "KAI/DAPA, Indonesian MoD"],
+  "KF21": ["Confirmed", "KAI/DAPA, Indonesian MoD; Kemhan (Brig. Gen. Sirait, Mar 2026); Yonhap, KBS World, IBP (Mar 2026)"],
   "ANKAS": ["Confirmed", "TAI (2022), delivered 2025"],
   "F16AM": ["Confirmed", "IISS MB 2026, SIPRI, US FMS"],
   "F16CD": ["Confirmed", "IISS MB 2026, SIPRI, US FMS"],
@@ -2927,6 +3036,7 @@ var SOURCES = {
   "CN295": ["Confirmed", "IISS MB 2026, Airbus/PT DI"],
   "CN235MPA": ["Confirmed", "IISS MB 2026, Airbus/PT DI"],
   "B737": ["Confirmed", "IISS MB 2026"],
+  "B737VIP": ["Confirmed", "IISS MB 2025/2026"],
   "H225M": ["Confirmed", "IISS MB 2026, Airbus"],
   "BELL412": ["Confirmed", "IISS MB 2026, Bell/PT DI"],
   "BELL205": ["Confirmed", "IISS MB 2026"],
@@ -3043,6 +3153,7 @@ var ORDER_YEARS = _defineProperty(_defineProperty({
   "MAKASSAR": 2003,
   "BELL412": 1982,
   "B737": 1982,
+    "B737VIP": 1993,
   "AMX10PAC": 1990,
   "AHMADYANI": 1980,
   "FATAHILLAH": 1975,
@@ -3099,10 +3210,10 @@ var ORDER_YEARS = _defineProperty(_defineProperty({
   "GARIBALDI": 2024,
   "ATMACA": 2024,
   "A330MRTT": 2024,
-  "EXOCET_SHORE": 2024,
-  "KCR70M": 2024,
-  "PTPAL_AUV": 2024,
   "KAAN": 2025,
+  "J10C": 2025,
+  "KAPLAN_APC": 2024,
+  "AWACS": 2023,
   "TB2": 2025,
   "TB3": 2025,
   "AKINCI": 2025,
@@ -3157,7 +3268,7 @@ var getCondition = function getCondition(w) {
   if (w.status === "Retired") return "Second-Hand";
   if (n.includes("ex-") || n.includes("excess defense") || n.includes("eda") || n.includes("transferred") || n.includes("used a/c") || n.includes("decommissioned") || n.includes("ex ") || n.includes("stored 12 year")) return "Second-Hand";
   if (n.includes("refurbish") || n.includes("moderniz") || n.includes("upgraded") || n.includes("emlu") || n.includes("retrofit")) return "Refurbished";
-  if (["On Order", "Under Construction", "In Development", "Under Negotiation", "Delivering", "Active / Producing"].includes(w.status)) return "New Build";
+  if (["On Order", "Under Construction", "In Development", "Under Negotiation", "Delivering", "Active / Producing", "MONITORING"].includes(w.status)) return "New Build";
   if (w.status === "Active" && !w.status.includes("aging")) return "New Build";
   if (w.status.includes("aging")) {
     // Aging systems — check if originally second-hand
@@ -3186,7 +3297,8 @@ var SC = {
   "Concept": "#6b7280",
   "Under Procurement": "#d97706",
   "PTN Target Only": "#9ca3af",
-  "Retired": "#78716c"
+  "Retired": "#78716c",
+  "MONITORING": "#D97706"
 };
 var BCo = {
   "TNI AU": "#2563eb",
@@ -3200,8 +3312,10 @@ var CRIMSON = "#850D16";
 var CRIMSON_DARK = "#6B0A11";
 var Badge = function Badge(_ref) {
   var t = _ref.t,
-    c = _ref.c;
+    c = _ref.c,
+    title = _ref.title;
   return /*#__PURE__*/React.createElement("span", {
+    title: title || undefined,
     style: {
       display: "inline-block",
       padding: "3px 10px",
@@ -3254,6 +3368,7 @@ function Detail(_ref2) {
     "MAKASSAR": 2003,
     "BELL412": 1982,
     "B737": 1982,
+    "B737VIP": 1993,
     "AMX10PAC": 1990,
     "AHMADYANI": 1980,
     "FATAHILLAH": 1975,
@@ -3357,7 +3472,10 @@ function Detail(_ref2) {
     "L100": 1978,
     "H125": 2014,
     "BREM2": 1990,
-    "VIPER40": 2008
+    "VIPER40": 2008,
+    "J10C": 2025,
+    "KAPLAN_APC": 2024,
+    "AWACS": 2023
   };
   var orderYear = CONTRACT_YEARS_LOCAL[s.id];
   var getAdmin = function getAdmin(y) {
@@ -4029,6 +4147,7 @@ function OriginChart() {
     "MAKASSAR": 2003,
     "BELL412": 1982,
     "B737": 1982,
+    "B737VIP": 1993,
     "AMX10PAC": 1990,
     "AHMADYANI": 1980,
     "FATAHILLAH": 1975,
@@ -4135,7 +4254,10 @@ function OriginChart() {
     "WHISKEY": 1962,
     "MI4": 1960,
     "SIK": 2024,
-    "KEMHAN_SAT": 2023
+    "KEMHAN_SAT": 2023,
+    "J10C": 2025,
+    "KAPLAN_APC": 2024,
+    "AWACS": 2023
   }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_CY, "SCORPENE", 2024), "GARIBALDI", 2024), "YAKHONT", 2007), "NC212MPA", 1996), "P51", 1950), "MIG15", 1961), "MIG17", 1961), "MIG19", 1961), "MIG21", 1962), "SABRE", 1971), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_CY, "F5E", 1978), "A4", 1979), "OV10", 1976), "B25", 1950), "TU16", 1961), "IL28", 1961), "SVERDLOV", 1962), "WHISKEY", 1962), "MI4", 1960), "FALCON8X", 2022), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_CY, "L100", 1978), "H125", 2014), "BREM2", 1990), "VIPER40", 2008));
   var getAdmin = function getAdmin(y) {
     if (!y) return "Unknown";
@@ -4464,7 +4586,7 @@ function OriginChart() {
         origin: w.origin,
         manufacturer: w.manufacturer
       });
-      var isNew = ["On Order", "Under Construction", "In Development", "Delivering", "Under Negotiation"].includes(w.status);
+      var isNew = ["On Order", "Under Construction", "In Development", "Delivering", "Under Negotiation", "MONITORING"].includes(w.status);
       var isRetiredW = w.status === "Retired";
       if (isNew) map[o].newOrder++;else if (isRetiredW) map[o].retired++;else map[o].active++;
       if (w.status.includes("aging")) map[o].aging++;
@@ -4783,12 +4905,30 @@ function OriginChart() {
       var ctx = canvas.getContext("2d");
       var img = new Image();
       img.onload = function () {
-        canvas.width = img.width * 2;
-        canvas.height = img.height * 2;
+        var scale = 3;
+        var titleH = 60;
+        var footerH = 36;
+        var padH = titleH + footerH;
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale + padH * scale;
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.scale(2, 2);
-        ctx.drawImage(img, 0, 0);
+        ctx.scale(scale, scale);
+        // Title
+        ctx.fillStyle = "#111827";
+        ctx.font = "bold 18px DM Sans, sans-serif";
+        ctx.fillText("Indonesia Weapon Systems — Country of Origin", 24, 28);
+        // Subtitle
+        ctx.fillStyle = "#6b7280";
+        ctx.font = "12px DM Sans, sans-serif";
+        var subtitleParts = sankeyOrder.replace(/_/g, " → ").toUpperCase();
+        ctx.fillText(subtitleParts + "  |  " + (sankeyWeight === "value" ? "by contract value" : "by system count"), 24, 48);
+        // Diagram
+        ctx.drawImage(img, 0, titleH);
+        // Footer
+        ctx.fillStyle = "#9ca3af";
+        ctx.font = "10px DM Sans, sans-serif";
+        ctx.fillText("LAB45 Indonesia Weapon Systems Database · lab45.id · " + new Date().getFullYear(), 24, titleH + img.height + 22);
         var link = document.createElement("a");
         link.download = "indonesia-defense-sankey-".concat(sankeyOrder, ".png");
         link.href = canvas.toDataURL("image/png");
@@ -5043,8 +5183,8 @@ function OriginChart() {
     });
     var leftPosRaw = isValMode ? recomputePos(leftEntries) : left.pos;
     var leftPos = sankeyTopN > 0 ? leftPosRaw.slice(0, sankeyTopN) : leftPosRaw;
-    var sW = 800,
-      sCol = [160, 600];
+    var sW = 960,
+      sCol = [160, 720];
     // Compute actual needed height from positions
     var leftMaxY = leftPos.length > 0 ? Math.max.apply(Math, _toConsumableArray(leftPos.map(function (p) {
       return p.y + p.h;
@@ -5125,11 +5265,11 @@ function OriginChart() {
       }, /*#__PURE__*/React.createElement("clipPath", {
         id: "clip-r-" + p.name.replace(/\s+/g, "-")
       }, /*#__PURE__*/React.createElement("rect", {
-        x: sCol[1], y: p.y, width: nodeW + 10, height: Math.max(p.h, 4)
+        x: sCol[1], y: p.y, width: nodeW + 30, height: Math.max(p.h, 4)
       })), /*#__PURE__*/React.createElement("rect", {
         x: sCol[1],
         y: p.y,
-        width: nodeW + 10,
+        width: nodeW + 30,
         height: Math.max(p.h, 4),
         rx: 3,
         fill: c,
@@ -5138,7 +5278,7 @@ function OriginChart() {
           transition: "opacity .2s"
         }
       }), /*#__PURE__*/React.createElement("text", {
-        x: sCol[1] + (nodeW + 10) / 2,
+        x: sCol[1] + (nodeW + 30) / 2,
         y: p.y + Math.max(p.h, 4) / 2,
         textAnchor: "middle",
         fill: "#fff",
@@ -5155,7 +5295,7 @@ function OriginChart() {
         fontWeight: 700,
         dominantBaseline: "middle"
       }, p.name), /*#__PURE__*/React.createElement("text", {
-        x: sCol[1] + nodeW + 22,
+        x: sCol[1] + nodeW + 42,
         y: p.y + Math.max(p.h, 4) / 2,
         fill: "#9ca3af",
         fontSize: 12,
@@ -5459,7 +5599,7 @@ function OriginChart() {
         gap: 4
       }
     }, d.systems.map(function (s, i) {
-      var isNew = ["On Order", "Under Construction", "In Development", "Delivering", "Under Negotiation"].includes(s.status);
+      var isNew = ["On Order", "Under Construction", "In Development", "Delivering", "Under Negotiation", "MONITORING"].includes(s.status);
       return /*#__PURE__*/React.createElement("span", {
         key: i,
         style: {
@@ -6776,19 +6916,6 @@ function OriginChart() {
       value: "",
       desc: "Tatra Force chassis underpins Khan launchers, Hisar launchers, command vehicles, and support vehicles. Long history in Indonesian military — Tatra 813 used for RM-70 MLRS."
     }]
-  }, {
-    country: "Greece",
-    color: "#3b82f6",
-    count: "1 system",
-    value: "$49M",
-    keywords: "SIK · C2 Interoperability · NCW · Natuna ISMS",
-    text: "Scytalys (EFA Group) delivered the System Interoperability Kodal (SIK) — TNI's national NCW interoperability framework — in June 2024. Includes the Indonesian National Data Link Standard (INDL), Common Operational Picture (COP) across all service HQs, and an Integrated Surveillance & Monitoring Station at Natuna.",
-    partners: [{
-      name: "Scytalys S.A. (EFA Group)",
-      type: "Foreign prime",
-      value: "$49M",
-      desc: "Greek defense software company, founded 1993. Sole contractor for SIK. Delivered MIMS C2, Universal Link System (ULS), and INDL data link protocol. Offices in Greece, USA, Singapore. No known Indonesian intermediary — direct Kemhan contract."
-    }]
   }].map(function (d, i) {
     // Compute branch distribution for this country
     var countryNames = d.country === "Russia & China" ? ["Soviet Union / Russia", "Russia", "China", "Soviet Union"] : d.country === "Czech Republic (CSG Group)" ? ["Czechia", "Czech Republic", "Czechoslovakia"] : [d.country];
@@ -6998,6 +7125,7 @@ function Timeline() {
     "MAKASSAR": 2003,
     "BELL412": 1982,
     "B737": 1982,
+    "B737VIP": 1993,
     "AMX10PAC": 1990,
     "AHMADYANI": 1980,
     "FATAHILLAH": 1975,
@@ -7102,7 +7230,10 @@ function Timeline() {
     "SABRE": 1971,
     "OV10": 1976,
     "F5E": 1978,
-    "A4": 1979
+    "A4": 1979,
+    "J10C": 2025,
+    "KAPLAN_APC": 2024,
+    "AWACS": 2023
   };
   var GROUPS = [{
     label: "Fighters",
@@ -8019,7 +8150,9 @@ var SYSTEM_BASES = {
   "RAFALE": ["Lanud Roesmin Nurjadin, Pekanbaru"],
   "KAAN": [],
   "KF21": [],
-  "HAWK200": ["Lanud Supadio, Pontianak"],
+  "J10C": [],
+  "AWACS": [],
+  "HAWK200": ["Lanud Roesmin Nurjadin, Pekanbaru", "Lanud Supadio, Pontianak"],
   "HAWK109": ["Lanud Abdulrachman Saleh, Malang"],
   "T50I": ["Lanud Abdulrachman Saleh, Malang"],
   "C130H": ["Lanud Halim Perdanakusuma, Jakarta", "Lanud Abdulrachman Saleh, Malang"],
@@ -8205,6 +8338,13 @@ var COMBAT_RADIUS = {
     label: "KF-21 combat radius (estimated)",
     ferryLabel: "KF-21 ferry range (est.)",
     color: "#3b82f6"
+  },
+  "J10C": {
+    radius: 1240,
+    ferry: 2000,
+    label: "J-10C combat radius (estimated)",
+    ferryLabel: "J-10C ferry range (est.)",
+    color: "#dc2626"
   },
   // Attack Helicopters (combat radius = one-way mission + engagement + return)
   "APACHE": {
@@ -8607,7 +8747,16 @@ var PLANNER_AIRCRAFT = [
   status: "In Development",
   tier: 1,
   cat: "Fighters",
-  note: "Indonesia holds 7.5% stake. Mass production started 2026 in South Korea. Indonesian allocation TBD."
+  note: "Indonesia holds reduced 600B KRW (~$398M) stake (revised June 2025). Mass production started 2026 in South Korea. 16 aircraft under preliminary export agreement March 2026; binding contract pending H1 2026."
+}, {
+  id: "J10C",
+  name: "Chengdu J-10C",
+  maxDeploy: 3,
+  radius: 1240,
+  status: "MONITORING (42)",
+  tier: 1,
+  cat: "Fighters",
+  note: "Confirmed by DefMin 15 Oct 2025: 42 jets, $9B budget approved. NO signed contract yet. PL-15 long-range AAM compatible. Pilot training in China. Indonesia would be 3rd J-10 operator after China and Pakistan."
 }, {
   id: "M346FA",
   name: "Leonardo M-346FA",
@@ -8671,10 +8820,10 @@ var PLANNER_AIRCRAFT = [
   name: "Brawijaya PPA",
   maxDeploy: 2,
   radius: 1500,
-  status: "Delivering (2)",
+  status: "Active (2)",
   tier: 22,
   cat: "Surface Combatants",
-  note: "Fincantieri PPA Light+. First-of-class delivering 2025-2026. Patrol radius at 18kt economical speed."
+  note: "Fincantieri PPA Light+. Both ships in Indonesia: KRI Brawijaya-320 (arrived Sep 2025), KRI Prabu Siliwangi-321 (arrived Mar 2026). Patrol radius at 18kt economical speed. FFBNW — Aster 30 missile install pending."
 }, {
   id: "ISTIF",
   name: "Istif-class Frigate",
@@ -10257,6 +10406,7 @@ function BaseMap() {
       "RAFALE": 1100,
       "KAAN": 1100,
       "KF21": 900,
+      "J10C": 1240,
       "M346FA": 600,
       "EMB314": 550,
       "F16CD": 550,
@@ -13257,8 +13407,8 @@ var PTN_DATA = {
       role: "Next-gen multi-role",
       origin: "South Korea/Indonesia",
       dbId: "KF21",
-      status: "In Development",
-      note: "Indonesian share downscaled to 20%. No production contract signed."
+      status: "On Order (preliminary)",
+      note: "PTN target: 24 (per Prabowo Jun 2023 paparan). Preliminary export agreement Mar 2026 covers 16 units (DAPA + Kemhan/Brig. Gen. Sirait); binding contract pending H1 2026. Indonesian dev share reduced to 600B KRW (~$398M)."
     }, {
       system: "Mirage 2005/2009",
       ptnQty: 24,
@@ -13284,13 +13434,13 @@ var PTN_DATA = {
       status: "Active",
       note: "5 Su-27 + 11 Su-30MK2 in inventory"
     }, {
-      system: "Hawk 100/200",
+      system: "Hawk Mk.109 / Mk.209",
       ptnQty: 31,
-      role: "Light attack/Trainer",
+      role: "LIFT / Light attack",
       origin: "UK",
-      dbId: "HAWK200",
+      dbId: ["HAWK200", "HAWK109"],
       status: "Active (aging)",
-      note: "22 Hawk 200 + 7 Hawk 109 + 2 retired"
+      note: "22 Hawk Mk.209 (single-seat LIFT/light attack) + 7 Hawk Mk.109 (two-seat trainer) = 29 active per IISS MB 2025/2026. PTN target: 31. Both IISS-classified as Training Aircraft."
     }, {
       system: "T-50",
       ptnQty: 19,
@@ -13315,26 +13465,20 @@ var PTN_DATA = {
       dbId: "A400M",
       status: "Delivering"
     }, {
-      system: "CN-235",
-      ptnQty: 18,
-      role: "Tactical transport (5 new)",
-      origin: "Spain/Indonesia",
-      dbId: "CN295",
-      status: "Active"
-    }, {
-      system: "N219",
-      ptnQty: 10,
-      role: "Light transport (new)",
-      origin: "Indonesia",
-      dbId: null,
-      status: "PTN Target Only"
-    }, {
       system: "Falcon 7X / 8X",
       ptnQty: 2,
       role: "VIP/Airborne command",
       origin: "France",
-      dbId: null,
-      status: "PTN Target Only"
+      dbId: "FALCON8X",
+      status: "Active"
+    }, {
+      system: "Boeing 737 (Angkut Pimpinan)",
+      ptnQty: 10,
+      role: "VIP / state transport",
+      origin: "USA",
+      dbId: "B737VIP",
+      status: "Active",
+      note: "PTN target: 10 units (+2 baru) per Prabowo Jun 2023 paparan. Current: 8 units (IISS MB 2025/2026): 737-200 (1) + 737-400 (3) + 737-500 (1) + 737-800 (2) + 737-800 BBJ (1)."
     }]
   },
   samudra: {
@@ -13394,6 +13538,42 @@ var PTN_DATA = {
       dbId: "BRAHMOS",
       status: "On Order",
       note: "3 batteries ordered, PTN calls for 8"
+    }, {
+      system: "Orange Juku (Smart Buoys)",
+      ptnQty: null,
+      role: "Surface/subsurface monitoring",
+      origin: "Indonesia",
+      dbId: null,
+      status: "Concept (no prototype)",
+      subgroup: "Pagar Nusantara",
+      note: "Named in Prabowo PTN paparan 16 Jun 2023 as Bouy Pintar. Listed under Perisai Samudra in paparan. No prototype, no procurement contract as of May 2026."
+    }, {
+      system: "Yellow Juku (ISR Underwater Glider)",
+      ptnQty: null,
+      role: "Long-endurance ISR UUV",
+      origin: "Indonesia",
+      dbId: null,
+      status: "Concept",
+      subgroup: "Pagar Nusantara",
+      note: "Named in PTN paparan 16 Jun 2023. Specs per slide: depth 200m max, speed 4 knots, endurance 12 months. Torpedo-glider form factor, ISR/surveillance only, not armed. Distinct from KSOT (combat UUV). No procurement contract or prototype confirmed."
+    }, {
+      system: "KSOT (Kapal Selam Otonom Tanpa Awak)",
+      ptnQty: null,
+      role: "Combat autonomous submarine",
+      origin: "Indonesia",
+      dbId: "PTPAL_AUV",
+      status: "In Development (PT PAL prototype)",
+      subgroup: "Pagar Nusantara",
+      note: "Named in PTN paparan 16 Jun 2023 as KSOT/Autonomus: 20m, 6 torpedoes. PT PAL: 8 prototypes; 2nd fired 324mm torpedo Oct 2025; 8th at TNI 80th anniversary parade. PT PAL targets 30-unit production (aspiration, NOT Kemhan contract). IISS MB 2026 R293: Military Data Gathering UUV. Distinct from Yellow Juku (ISR glider)."
+    }, {
+      system: "Green Juku (Deep-water ASW Drones)",
+      ptnQty: null,
+      role: "Hunting foreign submarines",
+      origin: "Indonesia",
+      dbId: null,
+      status: "Concept (no prototype)",
+      subgroup: "Pagar Nusantara",
+      note: "Named in PTN paparan 16 Jun 2023 as wahana bawah air yang bertugas mengawasi kapal selam asing. Listed under Perisai Samudra. No prototype, no procurement contract as of May 2026."
     }]
   },
   darat: {
@@ -13402,12 +13582,12 @@ var PTN_DATA = {
     icon: "🛡",
     items: [{
       system: "Leopard MBTs",
-      ptnQty: 14,
+      ptnQty: 114,
       role: "Heavy armor",
       origin: "Germany",
       dbId: "LEO2",
       status: "Active",
-      note: "PTN target is 14 (per Prabowo speech). Current inventory: 61 Leopard 2A4 + 42 2RI + 11 engineering = 114 total. Discrepancy with other public presentations showing 114"
+      note: "PTN target: 114 (per Prabowo Jun 2023 video). Includes Leopard 2A4, 2RI, and engineering variants. Current inventory per IISS: 61 Leopard 2A4 + 42 2RI + 11 engineering = 114 total."
     }, {
       system: "AMX-13 Tanks",
       ptnQty: 320,
@@ -13432,13 +13612,29 @@ var PTN_DATA = {
       dbId: "KOMODO",
       status: "Active"
     }, {
+      system: "CN-235",
+      ptnQty: 18,
+      role: "Tactical transport / liaison",
+      origin: "Spain/Indonesia",
+      dbId: "CN295",
+      status: "Active",
+      note: "Per PTN Jun 2023 paparan: listed under Land Shield (Perisai Darat). Tactical transport and army aviation liaison role."
+    }, {
+      system: "N219",
+      ptnQty: 10,
+      role: "Light transport (new)",
+      origin: "Indonesia",
+      dbId: null,
+      status: "PTN Target Only",
+      note: "Per PTN Jun 2023 paparan: listed under Land Shield (Perisai Darat). PT DI-developed 19-seat light transport."
+    }, {
       system: "Assorted Mortar Units",
-      ptnQty: 1000,
+      ptnQty: null,
       role: "Battalion-level fire support",
       origin: "Various",
       dbId: null,
       status: "Partially Fulfilled",
-      note: "PTN target: 1,000 units across all calibers (60mm, 81mm, 120mm). TNI AD operates Pindad MO-2/MO-3 plus imported systems, but no open-source total count is available. Not tracked as individual platform in this database."
+      note: "PTN target: 12,000 units across all calibers (60mm, 81mm, 120mm) per Prabowo Jun 2023 paparan. TNI AD operates Pindad MO-2/MO-3 plus imported systems, but no open-source total count is available. Not tracked as individual platform in this database."
     }, {
       system: "Bell 412",
       ptnQty: 82,
@@ -13479,13 +13675,13 @@ var PTN_DATA = {
       status: "Delivering",
       note: "12 Anka-S + 6 CH-4 delivered. TB3 60× + Akıncı 9× + TB2 12× on order"
     }, {
-      system: "Trisula Tactical Ballistic Missiles",
+      system: "Trisula Tactical Ballistic Missiles (Khan SRBM)",
       ptnQty: 8,
       role: "300km strike radius",
       origin: "Türkiye",
       dbId: "KHAN",
       status: "Delivering",
-      note: "8 Khan SRBM launchers ordered (2022). Exact delivery count classified."
+      note: "Per Prabowo's PTN paparan (16 Jun 2023, Sespim Lemdiklat Polri): 'Indonesia balistic missile Trisula atau KHAN missile (8 unit) yang memiliki jangkauan 300 km buatan Roketsan' — 'Trisula' is Indonesian blueprint label, Khan is the actual Roketsan platform procured. 8 launchers ordered (2022), 40 Bora missiles per SIPRI (limited inventory depth). Exact delivery count classified."
     }]
   },
   c4isr: {
@@ -13497,9 +13693,9 @@ var PTN_DATA = {
       ptnQty: 1,
       role: "Airborne command & control",
       origin: "TBD",
-      dbId: null,
-      status: "Under Procurement",
-      note: "$800M budgeted per Asrena AU. Platform TBD"
+      dbId: "AWACS",
+      status: "MONITORING",
+      note: "$800M budgeted per Asrena AU (PTN Pillar Dirga). Platform selection pending — no RFI or formal evaluation announced as of May 2026."
     }, {
       system: "Radar Network Nodes",
       ptnQty: 37,
@@ -13533,34 +13729,6 @@ var PTN_DATA = {
       status: "In Development",
       note: "PT Len Industri / Thales Alenia Space. Contract signed Dec 2023. Multi-satellite EO constellation for Kemhan. Value undisclosed. Launch timeline TBC. Kemhan asset — not a TNI operational system. Interim BlackSky EO access in place."
     }]
-  },
-  pagar: {
-    name: "Pagar Nusantara",
-    label: "Autonomous Coastal Fence",
-    icon: "🌊",
-    items: [{
-      system: "Orange Juku (Smart Buoys)",
-      ptnQty: null,
-      role: "Surface/subsurface monitoring",
-      origin: "Indonesia",
-      dbId: null,
-      status: "Concept",
-      note: "Smart buoy network for maritime domain awareness"
-    }, {
-      system: "Yellow Juku (AI Autonomous Subs)",
-      ptnQty: null,
-      role: "AI-driven autonomous submarines",
-      origin: "Indonesia",
-      dbId: "PTPAL_AUV",
-      status: "In Development"
-    }, {
-      system: "Green Juku (Deep-water ASW Drones)",
-      ptnQty: null,
-      role: "Hunting foreign submarines",
-      origin: "Indonesia",
-      dbId: null,
-      status: "Concept"
-    }]
   }
 };
 function PTNTracker() {
@@ -13585,9 +13753,12 @@ function PTNTracker() {
     "RAFALE": 3,
     "KAAN": 0,
     "KF21": 0,
+    "J10C": 0,
+    "KAPLAN_APC": 0,
+    "AWACS": 0,
     "A400M": 2,
     "SCORPENE": 0,
-    "BRAWIJAYA": 1,
+    "BRAWIJAYA": 2,
     "RWFRIGATE": 0,
     "ISTIF": 0,
     "GARIBALDI": 0,
@@ -13710,10 +13881,6 @@ function PTNTracker() {
     key: "c4isr"
   }, PTN_DATA.c4isr), {}, {
     color: "#7c3aed"
-  }), _objectSpread(_objectSpread({
-    key: "pagar"
-  }, PTN_DATA.pagar), {}, {
-    color: "#0d9488"
   })];
   var ss = {
     fontSize: 11,
@@ -14493,7 +14660,7 @@ function PTNTracker() {
       active: 87,
       onOrder: 164,
       status: "surplus",
-      detail: "Active: F-16 C/D & A/B (33), Su-27/30 (16), Hawk 200 (22), Super Tucano (16). On Order: Rafale (42), KAAN (48), KF-21 (50), M-346FA (24)."
+      detail: "Active: F-16 C/D & A/B (33), Su-27/30 (16), Hawk 200 (22), Super Tucano (16). On Order: Rafale (42), KAAN (48), KF-21 (24), M-346FA (24)."
     }, {
       cat: "Trainer Aircraft",
       target: 32,
@@ -14909,11 +15076,12 @@ function App() {
     if (!gsQ || gsQ.length < 1) return [];
     var s = gsQ.toLowerCase();
     return WEAPON_SYSTEMS.filter(function(w) {
+      if (!w || !w.name) return false;
       return w.name.toLowerCase().includes(s) ||
-        w.manufacturer.toLowerCase().includes(s) ||
-        w.origin.toLowerCase().includes(s) ||
-        w.category.toLowerCase().includes(s) ||
-        w.subcategory.toLowerCase().includes(s) ||
+        (w.manufacturer || "").toLowerCase().includes(s) ||
+        (w.origin || "").toLowerCase().includes(s) ||
+        (w.category || "").toLowerCase().includes(s) ||
+        (w.subcategory || "").toLowerCase().includes(s) ||
         (w.specs && w.specs.note && w.specs.note.toLowerCase().includes(s));
     }).slice(0, 12);
   }, [gsQ]);
@@ -14927,7 +15095,7 @@ function App() {
       if (fCond !== "All" && getCondition(w) !== fCond) return false;
       if (q) {
         var s = q.toLowerCase();
-        return w.name.toLowerCase().includes(s) || w.category.toLowerCase().includes(s) || w.subcategory.toLowerCase().includes(s) || w.manufacturer.toLowerCase().includes(s) || w.origin.toLowerCase().includes(s) || w.specs.note && w.specs.note.toLowerCase().includes(s) || w.base && w.base.toLowerCase().includes(s) || w.deploy && w.deploy.toLowerCase().includes(s);
+        return (w.name || "").toLowerCase().includes(s) || (w.category || "").toLowerCase().includes(s) || (w.subcategory || "").toLowerCase().includes(s) || (w.manufacturer || "").toLowerCase().includes(s) || (w.origin || "").toLowerCase().includes(s) || w.specs.note && w.specs.note.toLowerCase().includes(s) || w.base && w.base.toLowerCase().includes(s) || w.deploy && w.deploy.toLowerCase().includes(s);
       }
       return true;
     });
@@ -14957,7 +15125,7 @@ function App() {
       return w.status.includes("aging");
     }).length;
     var onOrder = WEAPON_SYSTEMS.filter(function (w) {
-      return ["On Order", "Under Construction", "Delivering", "In Development"].includes(w.status);
+      return ["On Order", "Under Construction", "Delivering", "In Development", "MONITORING"].includes(w.status);
     }).length;
     var prabowoEra = WEAPON_SYSTEMS.filter(function (w) {
       var introStr = String(w.specs.introduced || "");
@@ -15159,7 +15327,7 @@ function App() {
     ),
     /*#__PURE__*/React.createElement("div", { style: { textAlign: "right", flexShrink: 0 } },
       /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "rgba(255,255,255,0.4)", fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" } }, "Last updated"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "#fff", marginTop: 1 } }, "April 2026")
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "#fff", marginTop: 1 } }, "May 2026")
     )
   )),
 
@@ -15520,7 +15688,8 @@ function App() {
       }
     }, /*#__PURE__*/React.createElement(Badge, {
       t: w.status,
-      c: SC[w.status] || "#64748b"
+      c: SC[w.status] || "#64748b",
+      title: w.status === "MONITORING" ? "Officially announced or budget-approved; no signed procurement contract yet" : undefined
     })), /*#__PURE__*/React.createElement("td", {
       style: {
         padding: 14
@@ -15604,7 +15773,7 @@ function App() {
     style: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 14, marginBottom: 20 }
   },
   /*#__PURE__*/React.createElement("a", {
-    href: "https://github.com/lab-45/indonesia-defense-db", target: "_blank", rel: "noopener",
+    href: "https://github.com/LAB-45/indonesia-defense-db", target: "_blank", rel: "noopener",
     style: { display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 16px", borderRadius: 8, background: "#111", color: "#fff", fontSize: 13, fontWeight: 600, textDecoration: "none" }
   },
   /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 16 16", width: 16, height: 16, style: { fill: "#fff", flexShrink: 0 } },
@@ -15672,7 +15841,7 @@ function App() {
       fontWeight: 700
     }
   }, "2021 DPR hearing"), "; first presented in detail at ", /*#__PURE__*/React.createElement("a", {
-    href: "https://www.youtube.com/watch?v=ncc37dmKsXQ",
+    href: "https://www.youtube.com/watch?v=RA9Ax7CVOPk&amp;t=3191s",
     target: "_blank",
     rel: "noopener",
     style: {
@@ -15770,7 +15939,7 @@ function App() {
       gap: 6,
       marginBottom: 12
     }
-  }, [["Active", "Operationally delivered and in service", "#16a34a"], ["Active (aging)", "In service but 25+ years old", "#ca8a04"], ["Delivering", "First units arriving, rest in pipeline", "#2563eb"], ["On Order", "Contract signed, delivery pending", "#ea580c"], ["Under Construction", "Physically being built (primarily ships)", "#9333ea"], ["In Development", "Still being designed or tested", "#64748b"], ["Under Procurement", "Budget allocated, no final contract", "#d97706"], ["Under Negotiation", "Discussions ongoing", "#ec4899"], ["Cancelled", "Program terminated", "#ef4444"], ["PTN Target Only", "Mentioned in PTN but no procurement action", "#9ca3af"]].map(function (_ref71) {
+  }, [["Active", "Operationally delivered and in service", "#16a34a"], ["Active (aging)", "In service but 25+ years old", "#ca8a04"], ["Delivering", "First units arriving, rest in pipeline", "#2563eb"], ["On Order", "Contract signed, delivery pending", "#ea580c"], ["Under Construction", "Physically being built (primarily ships)", "#9333ea"], ["In Development", "Still being designed or tested", "#64748b"], ["Under Procurement", "Budget allocated, no final contract", "#d97706"], ["Under Negotiation", "Discussions ongoing", "#ec4899"], ["MONITORING", "Officially announced or budget-approved; no signed procurement contract yet", "#D97706"], ["Stalled (Unfunded)", "Contract or LOI exists but program has no current funding pathway", "#6b7280"], ["Cancelled", "Program terminated", "#ef4444"], ["PTN Target Only", "Mentioned in PTN but no procurement action", "#9ca3af"]].map(function (_ref71) {
     var _ref72 = _slicedToArray(_ref71, 3),
       status = _ref72[0],
       desc = _ref72[1],
@@ -15847,6 +16016,38 @@ function App() {
   /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "#6b7280", lineHeight: 1.8 } },
     "Use this tracker as a starting point for understanding Indonesia's procurement direction and supply chain dependencies \u2014 not as a readiness assessment."
   )),
+  /*#__PURE__*/React.createElement("div", {
+    style: { background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: 28, marginBottom: 20 }
+  },
+  /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: "#111", marginBottom: 10 } }, "Map Markers"),
+  /*#__PURE__*/React.createElement("p", { style: { fontSize: 14, color: "#6b7280", marginBottom: 16 } }, "Three overlay types appear only in Deployment Simulation — they do not appear on Current Deployment."),
+  /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } },
+      /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0, marginTop: 2 } }, "\uD83D\uDCA5"),
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 2 } }, "Potential Flashpoints"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", lineHeight: 1.6 } }, "Regions of elevated strategic tension or where incidents between naval or air forces are plausible."))),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } },
+      /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0, marginTop: 2 } }, "\u2694\uFE0F"),
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 2 } }, "Historical Border Disputes"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", lineHeight: 1.6 } }, "North Natuna Sea (China), Ambalat (Malaysia), Sipadan & Ligitan (Malaysia, ICJ 2002)."))),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } },
+      /*#__PURE__*/React.createElement("span", { style: { fontSize: 22, lineHeight: 1, flexShrink: 0, marginTop: 2 } }, "\u26CF\uFE0F"),
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 2 } }, "Strategic Resource Extraction Sites"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", lineHeight: 1.6, marginBottom: 10 } }, "24 sites (oil/gas, nickel, copper/gold, bauxite, coal, tin). Click any marker for operator, significance, nearest airstrip, and ALKI exposure. Tiered by two-axis vulnerability: airborne access \u00d7 maritime/ALKI exposure."),
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } },
+          [["Tier 1 \u2014 Critical", "#ef4444", "Both axes exposed \u2014 airstrip accessible AND coastal/island position with ALKI or strait access.", "Natuna Block A, Bontang LNG, Mahakam Block, Gosowong, Batu Hijau/Elang, Bangka Tin, WHW Alumina, Mempawah SGAR, KPC"],
+           ["Tier 2 \u2014 Significant", "#d97706", "One axis strongly exposed \u2014 coastal with ALKI access but limited air infrastructure, or airstrip accessible but inland.", "Tangguh LNG, Masela/Abadi, Obi Island, Gag Island, IMIP Morowali, Weda Bay/IWIP, Sorowako, Pomalaa, Martabe, Wetar Copper, Muntok Smelter, Adaro"],
+           ["Tier 3 \u2014 Monitored", "#15803d", "Neither axis strongly present \u2014 inland or highland with limited maritime approach and no functional airstrip nearby.", "Cepu/Banyu Urip, Rokan Block, Grasberg/Ertsberg"]].map(function(t) {
+            return /*#__PURE__*/React.createElement("div", { key: t[0], style: { padding: "10px 14px", borderRadius: 8, background: t[1] + "10", border: "1px solid " + t[1] + "30", marginBottom: 4 } },
+              /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 4 } },
+                /*#__PURE__*/React.createElement("span", { style: { width: 8, height: 8, borderRadius: "50%", background: t[1], flexShrink: 0, display: "inline-block" } }),
+                /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: t[1] } }, t[0])),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#374151", lineHeight: 1.6, marginBottom: 4 } }, t[2]),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#6b7280", fontStyle: "italic" } }, "Sites: ", t[3]));
+          })))))),
 /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#f9fafb",
@@ -15982,7 +16183,7 @@ function App() {
   },
   /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 13, color: "rgba(255,255,255,0.55)" }
-  }, "Copyright \u00A9 2026 LAB 45 \u00A0\u00B7\u00A0 Indonesia Weapon Systems Database v0.6.2 \u00A0\u00B7\u00A0 OSINT sources")))), sel && /*#__PURE__*/React.createElement(Detail, {
+  }, "Copyright \u00A9 2026 LAB 45 \u00A0\u00B7\u00A0 Indonesia Weapon Systems Database v0.6.3-public \u00A0\u00B7\u00A0 OSINT sources")))), sel && /*#__PURE__*/React.createElement(Detail, {
     s: sel,
     onClose: function onClose() {
       setSel(null);
